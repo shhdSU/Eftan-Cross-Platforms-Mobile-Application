@@ -1,7 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import * as firebase from "firebase";
+const firebaseConfig = {
+  apiKey: "<your-api-key>",
+  authDomain: "<your-auth-domain>",
+  databaseURL: "<your-database-url>",
+  storageBucket: "<your-storage-bucket>",
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 export default function App() {
   return (
     <View style={styles.container}>
@@ -14,8 +21,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

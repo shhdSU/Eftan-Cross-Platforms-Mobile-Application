@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as firebase from "firebase";
 const firebaseConfig = {
-  apiKey: "<your-api-key>",
+an  apiKey: "AIzaSyDtSPt8lV9R-dkmkCXxCI0xNadkq9aAtUk",
   authDomain: "<your-auth-domain>",
   databaseURL: "<your-database-url>",
   storageBucket: "<your-storage-bucket>",

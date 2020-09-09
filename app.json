@@ -1,7 +1,6 @@
 {
   "expo": {
     "name": "Eftan",
-    "displayName": "Eftan",
     "slug": "Eftan",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

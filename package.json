@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.12.29",
-    "cocoapods": "0.0.0",
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
     "firebase": "7.9.0",

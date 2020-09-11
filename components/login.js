@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 
-export default class Login extends Component {
+export default class LoginScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -46,7 +46,7 @@ export default class Login extends Component {
             email: "",
             password: "",
           });
-          this.props.navigation.navigate("Dashboard");
+          props.navigation.navigate("Signup");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }

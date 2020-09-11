@@ -46,7 +46,7 @@ export default class LoginScreen extends Component {
             email: "",
             password: "",
           });
-          props.navigation.navigate("Signup");
+          this.props.navigation.navigate("Signup");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }

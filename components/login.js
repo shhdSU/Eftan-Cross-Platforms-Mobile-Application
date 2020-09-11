@@ -10,6 +10,11 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from "react-native-simple-radio-button";
 import firebase from "../database/firebase";
 
 export default class LoginScreen extends Component {

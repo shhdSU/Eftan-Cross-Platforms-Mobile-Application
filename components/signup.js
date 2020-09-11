@@ -12,8 +12,9 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 //import * as firebase from "firebase";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from "react-navigation";
 import LoginScreen from "./login";
+
 export default class SignupScreen extends Component {
   constructor() {
     super();

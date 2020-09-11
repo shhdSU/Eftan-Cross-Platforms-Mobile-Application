@@ -1,6 +1,11 @@
 // components/signup.js
-
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from "react-native-simple-radio-button";
 import React, { Component } from "react";
+//import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -11,17 +16,20 @@ import {
   ActivityIndicator,
 } from "react-native";
 import firebase from "../database/firebase";
-//import * as firebase from "firebase";
-import { NavigationContainer } from "@react-navigation/native";
+//import { SvgUri } from "react-native-svg";
+import { NavigationContainer } from "react-navigation";
 import LoginScreen from "./login";
+
 export default class SignupScreen extends Component {
   constructor() {
     super();
     this.state = {
-      displayName: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       isLoading: false,
+      userType: 1,
     };
   }
 
@@ -38,22 +46,45 @@ export default class SignupScreen extends Component {
       this.setState({
         isLoading: true,
       });
+
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
-          res.user.updateProfile({
-            displayName: this.state.displayName,
-          });
+          /* res.user.updateProfile({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,   */
+          if (this.state.userType == 1) {
+            firebase
+              .database()
+              .ref("Client/" + res.user.uid)
+              .set({
+                CFirstName: this.state.firstName,
+                CLastName: this.state.lastName,
+                Cemail: this.state.email,
+              });
+          } else {
+            firebase
+              .database()
+              .ref("GraphicDesigner/" + res.user.uid)
+              .set({
+                DFirstName: this.state.firstName,
+                DLastName: this.state.lastName,
+                DEmail: this.state.email,
+              });
+          }
+
           console.log("User registered successfully!");
           this.setState({
             isLoading: false,
-            displayName: "",
+            firstName: "",
+            lastName: "",
             email: "",
             password: "",
           });
           this.props.navigation.navigate("Login");
         })
+
         .catch((error) => this.setState({ errorMessage: error.message }));
     }
   };
@@ -70,9 +101,15 @@ export default class SignupScreen extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.inputStyle}
-          placeholder="Name"
-          value={this.state.displayName}
-          onChangeText={(val) => this.updateInputVal(val, "displayName")}
+          placeholder="First Name"
+          value={this.state.firstName}
+          onChangeText={(val) => this.updateInputVal(val, "firstName")}
+        />
+        <TextInput
+          style={styles.inputStyle}
+          placeholder="Last Name"
+          value={this.state.lastName}
+          onChangeText={(val) => this.updateInputVal(val, "lastName")}
         />
         <TextInput
           style={styles.inputStyle}
@@ -88,6 +125,18 @@ export default class SignupScreen extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
+        <View>
+          <RadioForm
+            buttonColor={"#4F3C75"}
+            color={"#4F3C75"}
+            formHorizontal={true}
+            radio_props={radio_props}
+            initial={1}
+            onPress={(value) => {
+              this.setState({ userType: value });
+            }}
+          />
+        </View>
         <Button
           color="#3740FE"
           title="Signup"
@@ -104,7 +153,10 @@ export default class SignupScreen extends Component {
     );
   }
 }
-
+var radio_props = [
+  { label: "Graphic Designer", value: 0 },
+  { label: "Client", value: 1 },
+];
 const styles = StyleSheet.create({
   container: {
     flex: 1,

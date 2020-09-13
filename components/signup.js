@@ -7,7 +7,6 @@ import RadioForm, {
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
 import {
-  Button,
   Text,
   StyleSheet,
   View,
@@ -15,6 +14,8 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
+
+import { Input, Button } from "react-native-elements";
 import firebase from "../database/firebase";
 export default class SignupScreen extends Component {
   constructor() {
@@ -82,7 +83,7 @@ export default class SignupScreen extends Component {
             email: "",
             password: "",
           });
-          this.props.navigation.navigate("Login");
+          this.props.navigation.navigate("صفحة الدخول");
         })
 
         .catch((error) => this.setState({ errorMessage: error.message }));
@@ -128,7 +129,7 @@ export default class SignupScreen extends Component {
         />
         <View>
           <RadioForm
-            labelStyle={{ position: "absolute", left: 50 }}
+            labelStyle={{ position: "relative", left: 0 }}
             selectedButtonColor={"#4F3C75"}
             buttonColor={"#4F3C75"}
             formHorizontal={true}
@@ -143,9 +144,13 @@ export default class SignupScreen extends Component {
         <Button
           color="#4F3C75"
           title="إنشـاء حساب"
-          fontFamily={"Droid Sans Arabic"}
+          titleStyle={{
+            color: "red",
+            fontSize: 16,
+          }}
+          fontfamily={"Droid Sans Arabic"}
           onPress={() => this.registerUser()}
-        ></Button>
+        />
         <Text
           style={{
             color: "#B7B7B7",
@@ -163,7 +168,7 @@ export default class SignupScreen extends Component {
               marginRight: 7,
               fontFamily: "Droid Sans Arabic",
             }}
-            onPress={() => this.props.navigation.navigate("Login")} ///change it later
+            onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
           >
             تراخيص وخصوصية الاستخدام
           </Text>
@@ -189,7 +194,7 @@ export default class SignupScreen extends Component {
 
             fontFamily: "Droid Sans Arabic",
           }}
-          onPress={() => this.props.navigation.navigate("Login")} ///change it later
+          onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
         >
           قم بتسجيل الدخول
         </Text>

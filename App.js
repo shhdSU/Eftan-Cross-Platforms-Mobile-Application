@@ -6,7 +6,7 @@ import SignupScreen from "./components/signup";
 import firebase from "../Eftan/database/firebase";
 
 const Navigation = createStackNavigator({
-  Login: { screen: LoginScreen },
-  Signup: { screen: SignupScreen },
+  "صفحة التسجيل": { screen: SignupScreen },
+  "صفحة الدخول": { screen: LoginScreen },
 });
 export default createAppContainer(Navigation);

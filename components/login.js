@@ -46,7 +46,7 @@ export default class LoginScreen extends Component {
             email: "",
             password: "",
           });
-          props.navigation.navigate("Signup");
+          props.navigation.navigate("صفحة التسجيل");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }
@@ -84,7 +84,7 @@ export default class LoginScreen extends Component {
 
         <Text
           style={styles.loginText}
-          onPress={() => this.props.navigation.navigate("Signup")}
+          onPress={() => this.props.navigation.navigate("صفحة التسجيل")}
         >
           Don't have account? Click here to signup
         </Text>

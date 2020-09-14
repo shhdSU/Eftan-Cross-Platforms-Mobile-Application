@@ -19,6 +19,7 @@ export default class LoginScreen extends Component {
       email: "",
       password: "",
       isLoading: false,
+      userType: 1,
     };
   }
 
@@ -35,6 +36,7 @@ export default class LoginScreen extends Component {
       this.setState({
         isLoading: true,
       });
+
       firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -46,7 +48,9 @@ export default class LoginScreen extends Component {
             email: "",
             password: "",
           });
-          props.navigation.navigate("Signup");
+          if (this.state.userType == 1)
+            this.props.navigation.navigate("Cprofile");
+          else this.props.navigation.navigate("gallery");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }
@@ -84,7 +88,7 @@ export default class LoginScreen extends Component {
 
         <Text
           style={styles.loginText}
-          onPress={() => this.props.navigation.navigate("Signup")}
+          onPress={() => this.props.navigation.navigate("signup")}
         >
           Don't have account? Click here to signup
         </Text>

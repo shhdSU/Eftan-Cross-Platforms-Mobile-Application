@@ -19,6 +19,7 @@ export default class LoginScreen extends Component {
       email: "",
       password: "",
       isLoading: false,
+      userType: 1,
     };
   }
 
@@ -35,6 +36,7 @@ export default class LoginScreen extends Component {
       this.setState({
         isLoading: true,
       });
+
       firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -46,7 +48,7 @@ export default class LoginScreen extends Component {
             email: "",
             password: "",
           });
-          props.navigation.navigate("صفحة التسجيل");
+          this.props.navigation.navigate("صفحة التسجيل");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }

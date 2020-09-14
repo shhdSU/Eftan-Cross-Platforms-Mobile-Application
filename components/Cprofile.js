@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import firebase from "../database/firebase";
 // view its like div in web :)
 //class LoadingScreen
-export default class gallery extends React.Component {
+export default class Cprofile extends React.Component {
   constructor() {
     super();
     this.state = {

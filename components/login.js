@@ -1,5 +1,4 @@
 // components/login.js
-
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -24,7 +23,6 @@ export default class LoginScreen extends Component {
       email: "",
       password: "",
       isLoading: false,
-      userType: 1,
     };
   }
 
@@ -35,30 +33,53 @@ export default class LoginScreen extends Component {
   };
 
   userLogin = () => {
-    if (this.state.email === "" && this.state.password === "") {
-      Alert.alert("Enter details to signin!");
-    } else {
-      this.setState({
-        isLoading: true,
-      });
+    const user = firebase.auth().currentUser.uid;
+    const { email, password } = this.state;
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log(res);
+        console.log("User logged-in successfully!");
+        this.setState({
+          isLoading: false,
+          email: "",
+          password: "",
+        });
 
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((res) => {
-          console.log(res);
-          console.log("User logged-in successfully!");
-          this.setState({
-            isLoading: false,
-            email: "",
-            password: "",
+        firebase
+          .database()
+          .ref(`Client/` + user)
+          .on("value", (snapshot) => {
+            if (snapshot.exists()) {
+              this.props.navigation.navigate("gallery");
+            }
+            console.log("مادخل جاليري");
+            return;
           });
-          if (this.state.userType == 1)
-            this.props.navigation.navigate("gallery");
-          else this.props.navigation.navigate("صفحة التسجيل");
-        })
-        .catch((error) => this.setState({ errorMessage: error.message }));
-    }
+
+        firebase
+          .database()
+          .ref(`GraphicDesigner/` + user)
+          .on("value", (snapshot) => {
+            if (snapshot.exists()) {
+              this.props.navigation.navigate("Cprofile");
+            }
+            console.log("مادخل بروفايل");
+            return;
+          });
+      })
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == "auth/weak-password") {
+          alert("The password is too weak.");
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
   };
 
   render() {

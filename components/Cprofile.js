@@ -15,7 +15,6 @@ export default class Cprofile extends React.Component {
       //  userType: 1,
     };
   }
-
   /*componentDidMount() {
     const { email, displayName } = firebase.auth().currentUser;
     this.setState({ email, displayName });
@@ -24,7 +23,7 @@ export default class Cprofile extends React.Component {
   signOutUser = () => {
     const { email, password } = this.state;
     firebase.auth().signOut();
-    this.props.navigation.navigate("تسجيل الدخول");
+    this.props.navigation.navigate("صفحة الدخول");
   };
   render() {
     return (

@@ -53,7 +53,9 @@ export default class LoginScreen extends Component {
             email: "",
             password: "",
           });
-          this.props.navigation.navigate("صفحة التسجيل");
+          if (this.state.userType == 1)
+            this.props.navigation.navigate("gallery");
+          else this.props.navigation.navigate("صفحة التسجيل");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }
@@ -71,21 +73,21 @@ export default class LoginScreen extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.inputStyle}
-          placeholder="Email"
+          placeholder="البريد الالكتروني"
           value={this.state.email}
           onChangeText={(val) => this.updateInputVal(val, "email")}
         />
         <TextInput
           style={styles.inputStyle}
-          placeholder="Password"
+          placeholder="كلمة السر"
           value={this.state.password}
           onChangeText={(val) => this.updateInputVal(val, "password")}
           maxLength={15}
           secureTextEntry={true}
         />
         <Button
-          color="#3740FE"
-          title="Signin"
+          color="#4F3C75"
+          title="تسجيل الدخول"
           onPress={() => this.userLogin()}
         />
 
@@ -93,7 +95,7 @@ export default class LoginScreen extends Component {
           style={styles.loginText}
           onPress={() => this.props.navigation.navigate("صفحة التسجيل")}
         >
-          Don't have account? Click here to signup
+          ليس لديك حساب ؟ انشاء حساب جديد
         </Text>
       </View>
     );
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   loginText: {
-    color: "#3740FE",
+    color: "#4F3C75",
     marginTop: 25,
     textAlign: "center",
   },

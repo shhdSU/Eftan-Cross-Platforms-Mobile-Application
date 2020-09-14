@@ -24,7 +24,7 @@ export default class gallery extends React.Component {
   signOutUser = () => {
     const { email, password } = this.state;
     firebase.auth().signOut();
-    this.props.navigation.navigate("Login");
+    this.props.navigation.navigate("تسجيل الدخول");
   };
   render() {
     return (

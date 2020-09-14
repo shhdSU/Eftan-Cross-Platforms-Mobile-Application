@@ -153,7 +153,7 @@ export default class SignupScreen extends Component {
             color: "red",
             fontSize: 16,
           }}
-          fontfamily={"Droid Sans Arabic"}
+          //fontfamily={"Droid Sans Arabic"}
           onPress={() => this.registerUser()}
         />
         <Text
@@ -162,7 +162,7 @@ export default class SignupScreen extends Component {
             fontSize: 11,
             textAlign: "center",
             margin: 20,
-            fontFamily: "Droid Sans Arabic",
+            //fontFamily: "Droid Sans Arabic",
           }}
         >
           بالنقر على هذا الزر أنت توافق على
@@ -171,7 +171,7 @@ export default class SignupScreen extends Component {
               color: "#4F3C75",
               fontSize: 11,
               marginRight: 7,
-              fontFamily: "Droid Sans Arabic",
+              //fontFamily: "Droid Sans Arabic",
             }}
             onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
           >
@@ -185,7 +185,7 @@ export default class SignupScreen extends Component {
             fontSize: 14,
             margin: 15,
             textAlign: "center",
-            fontFamily: "Droid Sans Arabic",
+            //fontFamily: "Droid Sans Arabic",
           }}
         >
           لديك حساب بالفعل؟
@@ -197,7 +197,7 @@ export default class SignupScreen extends Component {
             fontSize: 16,
             textAlign: "center",
 
-            fontFamily: "Droid Sans Arabic",
+            //fontFamily: "Droid Sans Arabic",
           }}
           onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
         >
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     width: "100%",
-    fontFamily: "Droid Sans Arabic",
+    //fontFamily: "Droid Sans Arabic",
     marginBottom: 15,
     paddingBottom: 15,
     alignSelf: "center",

@@ -173,7 +173,7 @@ export default class SignupScreen extends Component {
               marginRight: 7,
               fontFamily: "Droid Sans Arabic",
             }}
-            onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
+            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
           >
             تراخيص وخصوصية الاستخدام
           </Text>
@@ -202,13 +202,6 @@ export default class SignupScreen extends Component {
           onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
         >
           قم بتسجيل الدخول
-        </Text>
-
-        <Text
-          style={styles.loginText}
-          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")}
-        >
-          by clicking on "sign up", you agree on privacy privacy Policy !
         </Text>
       </View>
     );

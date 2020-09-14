@@ -14,6 +14,7 @@ import firebase from "../database/firebase";
 //import * as firebase from "firebase";
 import { NavigationContainer } from "react-navigation";
 import LoginScreen from "./login";
+import privacyPolicy from "./privacyPolicy";
 
 export default class SignupScreen extends Component {
   constructor() {
@@ -100,6 +101,13 @@ export default class SignupScreen extends Component {
           onPress={() => this.props.navigation.navigate("Login")}
         >
           Already Registered? Click here to login
+        </Text>
+
+        <Text
+          style={styles.loginText}
+          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")}
+        >
+          by clicking on "sign up", you agree on privacy privacy Policy !
         </Text>
       </View>
     );

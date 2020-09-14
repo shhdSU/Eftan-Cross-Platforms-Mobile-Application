@@ -9,8 +9,8 @@ import GalleryScreen from "./components/gallery";
 import CprofileScreen from "./components/Cprofile";
 
 const HomeStack = createStackNavigator({
-  login: { screen: LoginScreen },
-  signup: { screen: SignupScreen },
+  Login: { screen: LoginScreen },
+  Signup: { screen: SignupScreen },
   gallery: { screen: GalleryScreen },
   Cprofile: { screen: CprofileScreen },
 });

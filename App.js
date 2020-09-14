@@ -13,6 +13,7 @@ const Navigation = createStackNavigator({
   "صفحة الدخول": { screen: LoginScreen },
   gallery: { screen: GalleryScreen },
   Cprofile: { screen: CprofileScreen },
+  "سياسة الخصوصية": { screen: privacyPolicy },
 });
 
 export default createAppContainer(Navigation);

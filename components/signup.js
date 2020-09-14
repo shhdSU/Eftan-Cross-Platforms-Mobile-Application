@@ -12,10 +12,10 @@ import {
   View,
   TextInput,
   Alert,
+  Button,
   ActivityIndicator,
 } from "react-native";
 
-import { Input, Button } from "react-native-elements";
 import firebase from "../database/firebase";
 export default class SignupScreen extends Component {
   constructor() {

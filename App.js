@@ -15,4 +15,4 @@ const Navigation = createStackNavigator({
   Cprofile: { screen: CprofileScreen },
 });
 
-export default createAppContainer(HomeStack);
+export default createAppContainer(Navigation);

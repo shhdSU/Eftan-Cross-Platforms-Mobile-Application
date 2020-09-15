@@ -29,7 +29,7 @@ export default class gallery extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>مرحبا {this.state.email} !</Text>
+        <Text>مرحبا أيها العميل {this.state.email} !</Text>
         <TouchableOpacity style={{ marginTop: 32 }} onPress={this.signOutUser}>
           <Text>تسجيل الخروج</Text>
         </TouchableOpacity>

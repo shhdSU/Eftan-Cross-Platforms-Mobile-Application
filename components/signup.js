@@ -15,7 +15,7 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-
+import SvgComponenet from "./welcomeSVG";
 import firebase from "../database/firebase";
 //import * as firebase from "firebase";
 import { NavigationContainer } from "react-navigation";
@@ -106,6 +106,9 @@ export default class SignupScreen extends Component {
 
     return (
       <View style={styles.container}>
+        <Text style={{ textAlign: "left" }}>text</Text>
+
+        <SvgComponenet />
         <TextInput
           style={styles.inputStyle}
           placeholder="الاسم الأول"
@@ -134,7 +137,7 @@ export default class SignupScreen extends Component {
         />
         <View>
           <RadioForm
-            labelStyle={{ position: "relative", left: 0 }}
+            labelStyle={{ position: "relative", left: 5 }}
             selectedButtonColor={"#4F3C75"}
             buttonColor={"#4F3C75"}
             formHorizontal={true}
@@ -150,35 +153,36 @@ export default class SignupScreen extends Component {
           color="#4F3C75"
           title="إنشـاء حساب"
           titleStyle={{
-            color: "red",
             fontSize: 16,
           }}
           //fontfamily={"Droid Sans Arabic"}
           onPress={() => this.registerUser()}
         />
-        <Text
-          style={{
-            color: "#B7B7B7",
-            fontSize: 11,
-            textAlign: "center",
-            margin: 20,
-            //fontFamily: "Droid Sans Arabic",
-          }}
-        >
-          بالنقر على هذا الزر أنت توافق على
+        <Text>
           <Text
             style={{
-              color: "#4F3C75",
+              color: "#B7B7B7",
               fontSize: 11,
-              marginRight: 7,
+              textAlign: "center",
+              margin: 20,
               //fontFamily: "Droid Sans Arabic",
             }}
-            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
           >
-            تراخيص وخصوصية الاستخدام
+            بالنقر على هذا الزر أنت توافق على
+            <Text
+              style={{
+                color: "#4F3C75",
+                fontSize: 11,
+                textAlign: "center",
+                margin: 20,
+                //fontFamily: "Droid Sans Arabic",
+              }}
+              onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
+            >
+              {""} تراخيص وخصوصية الاستخدام
+            </Text>
           </Text>
         </Text>
-
         <Text
           style={{
             color: "#B7B7B7",
@@ -228,6 +232,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderColor: "#B7B7B7",
     borderBottomWidth: 1,
+    textAlign: "right",
   },
   preloader: {
     left: 0,

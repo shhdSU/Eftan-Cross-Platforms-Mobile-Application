@@ -54,8 +54,8 @@ export default class LoginScreen extends Component {
             password: "",
           });
           if (this.state.userType == 1)
-            this.props.navigation.navigate("gallery");
-          else this.props.navigation.navigate("صفحة التسجيل");
+            this.props.navigation.navigate("معرض المصمم");
+          else this.props.navigation.navigate("صفحة المصمم");
         })
         .catch((error) => this.setState({ errorMessage: error.message }));
     }

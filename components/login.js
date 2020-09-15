@@ -51,7 +51,7 @@ export default class LoginScreen extends Component {
           .ref(`Client/` + user)
           .on("value", (snapshot) => {
             if (snapshot.exists()) {
-              this.props.navigation.navigate("gallery");
+              this.props.navigation.navigate("معرض المصمم");
             }
             console.log("مادخل جاليري");
             return;
@@ -62,7 +62,7 @@ export default class LoginScreen extends Component {
           .ref(`GraphicDesigner/` + user)
           .on("value", (snapshot) => {
             if (snapshot.exists()) {
-              this.props.navigation.navigate("Cprofile");
+              this.props.navigation.navigate("صفحة المصمم");
             }
             console.log("مادخل بروفايل");
             return;

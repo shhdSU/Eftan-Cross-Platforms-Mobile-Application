@@ -33,7 +33,6 @@ export default class LoginScreen extends Component {
   };
 
   userLogin = () => {
-    const user = firebase.auth().currentUser.uid;
     const { email, password } = this.state;
     firebase
       .auth()
@@ -46,7 +45,7 @@ export default class LoginScreen extends Component {
           email: "",
           password: "",
         });
-
+        const user = firebase.auth().currentUser.uid;
         firebase
           .database()
           .ref(`Client/` + user)

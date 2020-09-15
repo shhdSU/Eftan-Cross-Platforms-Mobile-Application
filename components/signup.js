@@ -6,11 +6,13 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
+
 import {
   Text,
   StyleSheet,
   View,
   TextInput,
+  TouchableOpacity,
   Alert,
   Button,
   ActivityIndicator,
@@ -148,17 +150,32 @@ export default class SignupScreen extends Component {
             }}
           />
         </View>
-
-        <Button
-          color="#4F3C75"
-          title="إنشـاء حساب"
-          titleStyle={{
-            fontSize: 16,
-          }}
-          //fontfamily={"Droid Sans Arabic"}
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => this.registerUser()}
-        />
-        <Text>
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 16,
+
+              //fontFamily: "Droid Sans Arabic",
+            }}
+          >
+            إنشاء حساب
+          </Text>
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            color: "#B7B7B7",
+            fontSize: 11,
+            textAlign: "center",
+            margin: 20,
+            //fontFamily: "Droid Sans Arabic",
+          }}
+        >
+          بالنقر على هذا الزر أنت توافق على
           <Text
             style={{
               color: "#B7B7B7",
@@ -233,6 +250,11 @@ const styles = StyleSheet.create({
     borderColor: "#B7B7B7",
     borderBottomWidth: 1,
     textAlign: "right",
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#4F3C75",
+    padding: 10,
   },
   preloader: {
     left: 0,

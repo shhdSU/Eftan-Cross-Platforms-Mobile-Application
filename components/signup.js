@@ -108,9 +108,8 @@ export default class SignupScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: "left" }}>text</Text>
 
-        <SvgComponenet />
+        <SvgComponenet style={{top:-30}} />
         <TextInput
           style={styles.inputStyle}
           placeholder="الاسم الأول"
@@ -137,9 +136,18 @@ export default class SignupScreen extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
+        <Text style={[styles.inputStyle,{color:"#B7B7B7",top:15}]}>هل انت؟</Text>
         <View>
-          <RadioForm
-            labelStyle={{ position: "relative", left: 5 }}
+          <RadioForm 
+          style={styles.radio}
+            labelStyle={{ 
+            position: "relative", 
+            right: 5, 
+            top:0,
+            justifyContent:"center",
+            alignSelf:"center"
+           }}
+           top={300}
             selectedButtonColor={"#4F3C75"}
             buttonColor={"#4F3C75"}
             formHorizontal={true}
@@ -154,10 +162,11 @@ export default class SignupScreen extends Component {
           style={styles.button}
           onPress={() => this.registerUser()}
         >
+          
           <Text
             style={{
               color: "#FFEED6",
-              fontSize: 16,
+              fontSize: 25,
 
               //fontFamily: "Droid Sans Arabic",
             }}
@@ -166,22 +175,15 @@ export default class SignupScreen extends Component {
           </Text>
         </TouchableOpacity>
 
-        <Text
-          style={{
-            color: "#B7B7B7",
-            fontSize: 11,
-            textAlign: "center",
-            margin: 20,
-            //fontFamily: "Droid Sans Arabic",
-          }}
-        >
-          بالنقر على هذا الزر أنت توافق على
+       
+          
           <Text
             style={{
               color: "#B7B7B7",
-              fontSize: 11,
+              fontSize: 10,
               textAlign: "center",
-              margin: 20,
+
+              top:5
               //fontFamily: "Droid Sans Arabic",
             }}
           >
@@ -189,9 +191,7 @@ export default class SignupScreen extends Component {
             <Text
               style={{
                 color: "#4F3C75",
-                fontSize: 11,
-                textAlign: "center",
-                margin: 20,
+
                 //fontFamily: "Droid Sans Arabic",
               }}
               onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
@@ -199,39 +199,36 @@ export default class SignupScreen extends Component {
               {""} تراخيص وخصوصية الاستخدام
             </Text>
           </Text>
-        </Text>
+        
         <Text
-          style={{
-            color: "#B7B7B7",
-            fontSize: 14,
-            margin: 15,
-            textAlign: "center",
-            //fontFamily: "Droid Sans Arabic",
-          }}
+          style={[
+            styles.createAccount,
+            {
+              color: "#B7B7B7",
+            },
+          ]}
         >
           لديك حساب بالفعل؟
         </Text>
-
+        <Text style={styles.radioText}>
+عميل                   مصمم جرافيك
+</Text>
         <Text
-          style={{
-            color: "#4F3C75",
-            fontSize: 16,
-            textAlign: "center",
-
-            //fontFamily: "Droid Sans Arabic",
-          }}
+          style={[styles.createAccount, { color: "#4F3C75" }]}
           onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
         >
           قم بتسجيل الدخول
         </Text>
+        
       </View>
     );
   }
 }
 var radio_props = [
-  { label: "مصمم جرافيك", value: 0 },
-  { label: "عميل", value: 1 },
+  { value: 0 },
+  { value: 1 },
 ];
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -242,19 +239,34 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   inputStyle: {
+   
+    fontSize:18,
+    marginTop: 20,
     width: "100%",
-    //fontFamily: "Droid Sans Arabic",
     marginBottom: 15,
     paddingBottom: 15,
     alignSelf: "center",
-    borderColor: "#B7B7B7",
-    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
     textAlign: "right",
+    top: 10,
   },
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
     padding: 10,
+    borderRadius: 25,
+    width: 279,
+    height: 50,
+    alignSelf: "center",
+    top: 0,
+  },
+  createAccount: {
+    top: 60,
+    fontSize: 18,
+    textAlign: "center",
+    alignSelf:"center",
+    margin:-13,
   },
   preloader: {
     left: 0,
@@ -265,5 +277,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-  },
+  }, 
+  radio:{
+    top:-5,
+    left:90,
+    textAlign:"left",
+    alignItems:"flex-start",
+    justifyContent:"space-evenly"
+ },
+ radioText:{
+ fontSize:18,
+ bottom:100,
+ left:70,
+ color:"#B7B7B7",
+ }
+
 });

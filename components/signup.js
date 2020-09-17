@@ -92,8 +92,20 @@ export default class SignupScreen extends Component {
           });
           this.props.navigation.navigate("صفحة الدخول");
         })
-
-        .catch((error) => this.setState({ errorMessage: error.message }));
+        .catch(function (error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == "auth/weak-password") {
+            alert("The password is too weak.");
+          } else if (errorCode == "auth/invalid-email"){
+            alert("The email address you entered is invalid.");
+          }  else if (errorCode == "auth/email-already-in-use"){
+             alert("The email address you entered is already in use.");
+            } else{
+          console.log(error);
+            }
+        });
     }
   };
 
@@ -176,16 +188,6 @@ export default class SignupScreen extends Component {
           }}
         >
           بالنقر على هذا الزر أنت توافق على
-          <Text
-            style={{
-              color: "#B7B7B7",
-              fontSize: 11,
-              textAlign: "center",
-              margin: 20,
-              //fontFamily: "Droid Sans Arabic",
-            }}
-          >
-            بالنقر على هذا الزر أنت توافق على
             <Text
               style={{
                 color: "#4F3C75",
@@ -199,7 +201,6 @@ export default class SignupScreen extends Component {
               {""} تراخيص وخصوصية الاستخدام
             </Text>
           </Text>
-        </Text>
         <Text
           style={{
             color: "#B7B7B7",

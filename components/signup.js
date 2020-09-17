@@ -36,7 +36,6 @@ export default class SignupScreen extends Component {
       userType: 1,
     };
   }
-
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -44,6 +43,8 @@ export default class SignupScreen extends Component {
   };
 
   registerUser = () => {
+    var specialCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var numCheck = /\d/; //check whether string contains numbers
     if (
       this.state.email === "" ||
       this.state.password === "" ||
@@ -51,6 +52,16 @@ export default class SignupScreen extends Component {
       this.state.lastName === ""
     ) {
       Alert.alert("..فضلًا تأكد من إدخال جميع بياناتك");
+    } else if (
+      specialCheck.test(this.state.firstName) ||
+      specialCheck.test(this.state.lastName)
+    ) {
+      alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
+    } else if (
+      numCheck.test(this.state.firstName) ||
+      numCheck.test(this.state.lastName)
+    ) {
+      alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
     } else {
       this.setState({
         isLoading: true,
@@ -82,7 +93,7 @@ export default class SignupScreen extends Component {
                 DEmail: this.state.email,
               });
           }
-
+          firebase.getInstance().getCurrentUser().sendVerificationEmail();
           this.setState({
             isLoading: false,
             firstName: "",
@@ -98,13 +109,13 @@ export default class SignupScreen extends Component {
           var errorMessage = error.message;
           if (errorCode == "auth/weak-password") {
             alert("The password is too weak.");
-          } else if (errorCode == "auth/invalid-email"){
+          } else if (errorCode == "auth/invalid-email") {
             alert("The email address you entered is invalid.");
-          }  else if (errorCode == "auth/email-already-in-use"){
-             alert("The email address you entered is already in use.");
-            } else{
-          console.log(error);
-            }
+          } else if (errorCode == "auth/email-already-in-use") {
+            alert("The email address you entered is already in use.");
+          } else {
+            console.log(error);
+          }
         });
     }
   };
@@ -188,19 +199,19 @@ export default class SignupScreen extends Component {
           }}
         >
           بالنقر على هذا الزر أنت توافق على
-            <Text
-              style={{
-                color: "#4F3C75",
-                fontSize: 11,
-                textAlign: "center",
-                margin: 20,
-                //fontFamily: "Droid Sans Arabic",
-              }}
-              onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
-            >
-              {""} تراخيص وخصوصية الاستخدام
-            </Text>
+          <Text
+            style={{
+              color: "#4F3C75",
+              fontSize: 11,
+              textAlign: "center",
+              margin: 20,
+              //fontFamily: "Droid Sans Arabic",
+            }}
+            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
+          >
+            {""} تراخيص وخصوصية الاستخدام
           </Text>
+        </Text>
         <Text
           style={{
             color: "#B7B7B7",

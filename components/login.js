@@ -34,6 +34,7 @@ export default class LoginScreen extends Component {
 
   userLogin = () => {
     const { email, password } = this.state;
+
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -67,7 +68,16 @@ export default class LoginScreen extends Component {
             console.log("مادخل بروفايل");
             return;
           });
+
+        if (firebase.getInstance().getCurrentUser().checkIfEmailVerified()) {
+          finish();
+          console.log("logged in");
+        } else {
+          alert("نرجو التحقق من بريدك الإلكتروني");
+          FirebaseAuth.getInstance().signOut();
+        }
       })
+
       .catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;

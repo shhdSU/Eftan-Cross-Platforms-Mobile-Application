@@ -62,6 +62,12 @@ export default class SignupScreen extends Component {
       numCheck.test(this.state.lastName)
     ) {
       alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
+    } else if (
+      this.state.password.length < 8 ||
+      !specialCheck.test(this.state.password) ||
+      !numCheck.test(this.state.password)
+    ) {
+      alert("كلمة السر المدخلة ضعيفة");
     } else {
       this.setState({
         isLoading: true,
@@ -71,7 +77,9 @@ export default class SignupScreen extends Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
-          /* res.user.updateProfile({
+          firebase.auth().onAuthStateChanged(function (user) {
+            user.sendEmailVerification();
+          }); /* res.user.updateProfile({
             firstName: this.state.firstName,
             lastName: this.state.lastName,   */
           if (this.state.userType == 1) {
@@ -93,7 +101,7 @@ export default class SignupScreen extends Component {
                 DEmail: this.state.email,
               });
           }
-          firebase.getInstance().getCurrentUser().sendVerificationEmail();
+
           this.setState({
             isLoading: false,
             firstName: "",
@@ -103,19 +111,27 @@ export default class SignupScreen extends Component {
           });
           this.props.navigation.navigate("صفحة الدخول");
         })
-        .catch(function (error) {
+        .catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
-          if (errorCode == "auth/weak-password") {
-            alert("The password is too weak.");
-          } else if (errorCode == "auth/invalid-email") {
-            alert("The email address you entered is invalid.");
-          } else if (errorCode == "auth/email-already-in-use") {
-            alert("The email address you entered is already in use.");
+          if (errorCode == "auth/invalid-email") {
+            alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
+          } else if (
+            errorCode == "auth/email-already-in-use" ||
+            errorCode == "auth/email-already-exists"
+          ) {
+            alert("البريد الإلكتروني مسجل مسبقَا");
           } else {
             console.log(error);
           }
+          this.setState({
+            isLoading: false,
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+          });
         });
     }
   };

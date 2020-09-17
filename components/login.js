@@ -34,63 +34,67 @@ export default class LoginScreen extends Component {
 
   userLogin = () => {
     const { email, password } = this.state;
-
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
-        console.log(res);
-        console.log("User logged-in successfully!");
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user.emailVerified) {
+            console.log(res);
+            console.log("User logged-in successfully!");
+            this.setState({
+              isLoading: false,
+              email: "",
+              password: "",
+            });
+            const user = firebase.auth().currentUser.uid;
+            firebase
+              .database()
+              .ref(`Client/` + user)
+              .on("value", (snapshot) => {
+                if (snapshot.exists()) {
+                  this.props.navigation.navigate("معرض المصمم");
+                }
+                console.log("مادخل جاليري");
+                return;
+              });
+
+            firebase
+              .database()
+              .ref(`GraphicDesigner/` + user)
+              .on("value", (snapshot) => {
+                if (snapshot.exists()) {
+                  this.props.navigation.navigate("صفحة المصمم");
+                }
+                console.log("مادخل بروفايل");
+                return;
+              });
+          } else {
+            alert("يرجى تفعيل بريدك الإلكتروني");
+            firebase.auth().signOut;
+          }
+        });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == "auth/wrong-password") {
+          alert("نرجو إدخال كلمة السر الصحيحة");
+        } else if (errorCode == "auth/user-not-found") {
+          alert("لا يوجد حساب مسجل بهذا البريد الإلكتروني");
+        } else if (errorCode == "auth/invalid-email") {
+          alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
+        } else {
+          alert(errorMessage);
+        }
         this.setState({
           isLoading: false,
           email: "",
           password: "",
         });
-        const user = firebase.auth().currentUser.uid;
-        firebase
-          .database()
-          .ref(`Client/` + user)
-          .on("value", (snapshot) => {
-            if (snapshot.exists()) {
-              this.props.navigation.navigate("معرض المصمم");
-            }
-            console.log("مادخل جاليري");
-            return;
-          });
-
-        firebase
-          .database()
-          .ref(`GraphicDesigner/` + user)
-          .on("value", (snapshot) => {
-            if (snapshot.exists()) {
-              this.props.navigation.navigate("صفحة المصمم");
-            }
-            console.log("مادخل بروفايل");
-            return;
-          });
-
-        if (firebase.getInstance().getCurrentUser().checkIfEmailVerified()) {
-          finish();
-          console.log("logged in");
-        } else {
-          alert("نرجو التحقق من بريدك الإلكتروني");
-          FirebaseAuth.getInstance().signOut();
-        }
-      })
-
-      .catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode == "auth/weak-password") {
-          alert("The password is too weak.");
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
       });
   };
-
   render() {
     if (this.state.isLoading) {
       return (

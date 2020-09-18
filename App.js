@@ -8,6 +8,7 @@ import SignupScreen from "./components/signup";
 import GalleryScreen from "./components/gallery";
 import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
+import ForgotPassword from "./components/ForgotPassword";
 
 const Navigation = createStackNavigator(
   {
@@ -16,6 +17,7 @@ const Navigation = createStackNavigator(
     "معرض المصمم": { screen: GalleryScreen },
     "صفحة المصمم": { screen: DprofileScreen },
     "سياسة الخصوصية": { screen: privacyPolicyScreen },
+    "نسيت كلمة السر!": { screen: ForgotPassword },
   },
   { headerMode: "none" }
 );

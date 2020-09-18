@@ -128,6 +128,16 @@ export default class LoginPage extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
+        <Text
+          style={{
+            top: 110,
+            color: "#4F3C75",
+            textAlign: "left",
+          }}
+          onPress={() => this.props.navigation.navigate("نسيت كلمة السر!")}
+        >
+          نسيت كلمة المرور؟
+        </Text>
 
         <Text style={styles.loginText2}>ليس لديك حساب ؟</Text>
         <Text

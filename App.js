@@ -9,12 +9,15 @@ import GalleryScreen from "./components/gallery";
 import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
 
-const Navigation = createStackNavigator({
-  "صفحة الدخول": { screen: LoginScreen },
-  "صفحة التسجيل": { screen: SignupScreen },
-  "معرض المصمم": { screen: GalleryScreen },
-  "صفحة المصمم": { screen: DprofileScreen },
-  "سياسة الخصوصية": { screen: privacyPolicyScreen },
-});
+const Navigation = createStackNavigator(
+  {
+    "صفحة الدخول": { screen: LoginScreen },
+    "صفحة التسجيل": { screen: SignupScreen },
+    "معرض المصمم": { screen: GalleryScreen },
+    "صفحة المصمم": { screen: DprofileScreen },
+    "سياسة الخصوصية": { screen: privacyPolicyScreen },
+  },
+  { headerMode: "none" }
+);
 
 export default createAppContainer(Navigation);

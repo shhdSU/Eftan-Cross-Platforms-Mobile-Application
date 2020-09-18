@@ -6,15 +6,20 @@ import { createStackNavigator } from "react-navigation-stack";
 import LoginScreen from "./components/login";
 import SignupScreen from "./components/signup";
 import GalleryScreen from "./components/gallery";
-import CprofileScreen from "./components/Cprofile";
+import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
+import ForgotPassword from "./components/ForgotPassword";
 
-const Navigation = createStackNavigator({
-  "صفحة الدخول": { screen: LoginScreen },
-  "صفحة التسجيل": { screen: SignupScreen },
-  gallery: { screen: GalleryScreen },
-  Cprofile: { screen: CprofileScreen },
-  "سياسة الخصوصية": { screen: privacyPolicyScreen },
-});
+const Navigation = createStackNavigator(
+  {
+    "صفحة الدخول": { screen: LoginScreen },
+    "صفحة التسجيل": { screen: SignupScreen },
+    "معرض المصمم": { screen: GalleryScreen },
+    "صفحة المصمم": { screen: DprofileScreen },
+    "سياسة الخصوصية": { screen: privacyPolicyScreen },
+    "نسيت كلمة السر!": { screen: ForgotPassword },
+  },
+  { headerMode: "none" }
+);
 
 export default createAppContainer(Navigation);

@@ -17,7 +17,7 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-
+import SvgComponenet from "./welcomeSVG";
 import firebase from "../database/firebase";
 //import * as firebase from "firebase";
 import { NavigationContainer } from "react-navigation";
@@ -36,7 +36,6 @@ export default class SignupScreen extends Component {
       userType: 1,
     };
   }
-
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -44,6 +43,8 @@ export default class SignupScreen extends Component {
   };
 
   registerUser = () => {
+    var specialCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var numCheck = /\d/; //check whether string contains numbers
     if (
       this.state.email === "" ||
       this.state.password === "" ||
@@ -51,6 +52,22 @@ export default class SignupScreen extends Component {
       this.state.lastName === ""
     ) {
       Alert.alert("..فضلًا تأكد من إدخال جميع بياناتك");
+    } else if (
+      specialCheck.test(this.state.firstName) ||
+      specialCheck.test(this.state.lastName)
+    ) {
+      alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
+    } else if (
+      numCheck.test(this.state.firstName) ||
+      numCheck.test(this.state.lastName)
+    ) {
+      alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
+    } else if (
+      this.state.password.length < 8 ||
+      !specialCheck.test(this.state.password) ||
+      !numCheck.test(this.state.password)
+    ) {
+      alert("كلمة السر المدخلة ضعيفة");
     } else {
       this.setState({
         isLoading: true,
@@ -60,7 +77,9 @@ export default class SignupScreen extends Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
-          /* res.user.updateProfile({
+          firebase.auth().onAuthStateChanged(function (user) {
+            user.sendEmailVerification();
+          }); /* res.user.updateProfile({
             firstName: this.state.firstName,
             lastName: this.state.lastName,   */
           if (this.state.userType == 1) {
@@ -92,8 +111,28 @@ export default class SignupScreen extends Component {
           });
           this.props.navigation.navigate("صفحة الدخول");
         })
-
-        .catch((error) => this.setState({ errorMessage: error.message }));
+        .catch((error) => {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == "auth/invalid-email") {
+            alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
+          } else if (
+            errorCode == "auth/email-already-in-use" ||
+            errorCode == "auth/email-already-exists"
+          ) {
+            alert("البريد الإلكتروني مسجل مسبقَا");
+          } else {
+            console.log(error);
+          }
+          this.setState({
+            isLoading: false,
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+          });
+        });
     }
   };
 
@@ -108,6 +147,8 @@ export default class SignupScreen extends Component {
 
     return (
       <View style={styles.container}>
+
+        <SvgComponenet style={{top:-30}} />
         <TextInput
           style={styles.inputStyle}
           placeholder="الاسم الأول"
@@ -134,9 +175,18 @@ export default class SignupScreen extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
+        <Text style={[styles.inputStyle,{color:"#B7B7B7",top:15}]}>هل انت؟</Text>
         <View>
-          <RadioForm
-            labelStyle={{ position: "relative", left: 0 }}
+          <RadioForm 
+          style={styles.radio}
+            labelStyle={{ 
+            position: "relative", 
+            right: 5, 
+            top:0,
+            justifyContent:"center",
+            alignSelf:"center"
+           }}
+           top={300}
             selectedButtonColor={"#4F3C75"}
             buttonColor={"#4F3C75"}
             formHorizontal={true}
@@ -151,10 +201,11 @@ export default class SignupScreen extends Component {
           style={styles.button}
           onPress={() => this.registerUser()}
         >
+          
           <Text
             style={{
               color: "#FFEED6",
-              fontSize: 16,
+              fontSize: 25,
 
               //fontFamily: "Droid Sans Arabic",
             }}
@@ -163,61 +214,61 @@ export default class SignupScreen extends Component {
           </Text>
         </TouchableOpacity>
 
-        <Text
-          style={{
-            color: "#B7B7B7",
-            fontSize: 11,
-            textAlign: "center",
-            margin: 20,
-            //fontFamily: "Droid Sans Arabic",
-          }}
-        >
-          بالنقر على هذا الزر أنت توافق على
+       
+          
           <Text
             style={{
-              color: "#4F3C75",
-              fontSize: 11,
-              marginRight: 7,
+              color: "#B7B7B7",
+              fontSize: 10,
+              textAlign: "center",
+
+              top:5
               //fontFamily: "Droid Sans Arabic",
             }}
             onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
           >
-            تراخيص وخصوصية الاستخدام
-          </Text>
-        </Text>
+            بالنقر على هذا الزر أنت توافق على
+            <Text
+              style={{
+                color: "#4F3C75",
 
+                //fontFamily: "Droid Sans Arabic",
+              }}
+              onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
+            >
+              {""} تراخيص وخصوصية الاستخدام
+            </Text>
+          </Text>
+        
         <Text
-          style={{
-            color: "#B7B7B7",
-            fontSize: 14,
-            margin: 15,
-            textAlign: "center",
-            //fontFamily: "Droid Sans Arabic",
-          }}
+          style={[
+            styles.createAccount,
+            {
+              color: "#B7B7B7",
+            },
+          ]}
         >
           لديك حساب بالفعل؟
         </Text>
-
+        <Text style={styles.radioText}>
+عميل                   مصمم جرافيك
+</Text>
         <Text
-          style={{
-            color: "#4F3C75",
-            fontSize: 16,
-            textAlign: "center",
-
-            //fontFamily: "Droid Sans Arabic",
-          }}
+          style={[styles.createAccount, { color: "#4F3C75" }]}
           onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
         >
           قم بتسجيل الدخول
         </Text>
+        
       </View>
     );
   }
 }
 var radio_props = [
-  { label: "مصمم جرافيك", value: 0 },
-  { label: "عميل", value: 1 },
+  { value: 0 },
+  { value: 1 },
 ];
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -228,18 +279,34 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   inputStyle: {
+   
+    fontSize:18,
+    marginTop: 20,
     width: "100%",
-    //fontFamily: "Droid Sans Arabic",
     marginBottom: 15,
     paddingBottom: 15,
     alignSelf: "center",
-    borderColor: "#B7B7B7",
-    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: 10,
   },
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
     padding: 10,
+    borderRadius: 25,
+    width: 279,
+    height: 50,
+    alignSelf: "center",
+    top: 0,
+  },
+  createAccount: {
+    top: 60,
+    fontSize: 18,
+    textAlign: "center",
+    alignSelf:"center",
+    margin:-13,
   },
   preloader: {
     left: 0,
@@ -250,5 +317,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-  },
+  }, 
+  radio:{
+    top:-5,
+    left:90,
+    textAlign:"left",
+    alignItems:"flex-start",
+    justifyContent:"space-evenly"
+ },
+ radioText:{
+ fontSize:18,
+ bottom:100,
+ left:70,
+ color:"#B7B7B7",
+ }
+
 });

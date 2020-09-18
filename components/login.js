@@ -17,18 +17,11 @@ import RadioForm, {
 } from "react-native-simple-radio-button";
 import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
-import { useFonts, Tajawal_300Light } from "@expo-google-fonts/tajawal";
 import { AppLoading } from "expo";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class LoginPage extends Component {
-  useFonts = () => {
-    Tajawal_300Light;
-  };
-
-  // if (fontsLoaded) {
-  //   return <AppLoading />;
-  // } ;
+  
 
   constructor() {
     super();

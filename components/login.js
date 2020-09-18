@@ -21,12 +21,10 @@ import { useFonts, Tajawal_300Light } from "@expo-google-fonts/tajawal";
 import { AppLoading } from "expo";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-
 export default class LoginPage extends Component {
-  
   useFonts = () => {
-    Tajawal_300Light
-  }
+    Tajawal_300Light;
+  };
 
   // if (fontsLoaded) {
   //   return <AppLoading />;
@@ -147,9 +145,7 @@ export default class LoginPage extends Component {
         </Text>
 
         <View style={styles.loginButton}>
-          <TouchableOpacity 
-            onPress={() => this.userLogin()}
-          >
+          <TouchableOpacity onPress={() => this.userLogin()}>
             <Text style={styles.loginButton2}>تسجيل الدخول</Text>
           </TouchableOpacity>
         </View>
@@ -168,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   inputStyle: {
-    fontSize:18,
+    fontSize: 18,
     marginTop: 20,
     width: "100%",
     marginBottom: 15,
@@ -206,29 +202,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   svgComponant: {
-    top:10,
+    top: 10,
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
   },
   loginButton: {
-    top:90,
+    top: 90,
     backgroundColor: "#4F3C75",
-    height:50,
-    width:279,
-    borderRadius:25,
-    alignSelf:"center",
-    alignItems:"center"
+    height: 50,
+    width: 279,
+    borderRadius: 25,
+    alignSelf: "center",
+    alignItems: "center",
   },
   loginButton2: {
-    top:5,
-    color:"#FFEED6",
+    top: 5,
+    color: "#FFEED6",
     fontSize: 27,
-    height:50,
-    width:279,
-    borderRadius:25,
+    height: 50,
+    width: 279,
+    borderRadius: 25,
     textAlign: "center",
-    justifyContent:"center"
+    justifyContent: "center",
   },
 });

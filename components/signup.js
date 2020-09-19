@@ -27,6 +27,7 @@ import privacyPolicy from "./privacyPolicy";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  
 } from "react-native-responsive-screen";
 
 export default class SignupScreen extends Component {
@@ -160,12 +161,12 @@ export default class SignupScreen extends Component {
             color: "#4F3C75",
             fontWeight: "700",
             alignSelf: "center",
-            top: "0.5%",
+            top: wp("0.5%"),
           }}
         >
           انشاء حساب جديد
         </Text>
-        <SvgComponenet style={{ top: "-4%" }} />
+        <SvgComponenet style={{ top: wp("-8.5%" )}} />
 
         <TextInput
           style={styles.inputStyle}
@@ -193,7 +194,7 @@ export default class SignupScreen extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
-        <Text style={[styles.inputStyle2, { color: "#B7B7B7", top: "0%" }]}>
+        <Text style={[styles.inputStyle2, { color: "#B7B7B7", top: wp("-4%") }]}>
           هل انت؟
         </Text>
         <View>
@@ -201,7 +202,7 @@ export default class SignupScreen extends Component {
             style={styles.radio}
             labelStyle={{
               position: "relative",
-              right: "5%",
+              right: hp("5%"),
               justifyContent: "center",
               alignSelf: "center",
             }}
@@ -237,7 +238,7 @@ export default class SignupScreen extends Component {
             color: "#B7B7B7",
             fontSize: 10,
             textAlign: "center",
-            top: "1%",
+            top: hp("0%"),
             //fontFamily: "Droid Sans Arabic",
           }}
           onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
@@ -264,10 +265,12 @@ export default class SignupScreen extends Component {
         >
           لديك حساب بالفعل؟
         </Text>
-        <Text style={[styles.radioText, { left: "75%", bottom: "11.5%" }]}>
+        <View style={[styles.radioText, { left: hp("27.5%"), bottom: hp("12.5%") }]}>
+        <Text style={styles.radioText}>
           عميل{" "}
         </Text>
-        <View style={{ left: "15%", bottom: "15%" }}>
+        </View>
+        <View style={{ left: hp("5.5%"), bottom: hp("15.5%") }}>
           <Text style={styles.radioText}> مصمم جرافيك</Text>
         </View>
 
@@ -292,45 +295,45 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: "10%",
+    padding: wp("10%"),
     backgroundColor: "#fff",
   },
   inputStyle: {
     fontSize: 18,
-    marginTop: "5%",
+    marginTop: hp("2%"),
     width: "100%",
-    marginBottom: "5%",
-    paddingBottom: "6%",
+    marginBottom: hp("2%"),
+    paddingBottom: hp("2%"),
     alignSelf: "center",
     borderColor: "#ccc",
     borderBottomWidth: 3,
     textAlign: "right",
-    top: "2%",
+    top: wp("0%"),
   },
   inputStyle2: {
     fontSize: 18,
-    marginTop: "5%",
+    marginTop: hp("4%"),
     width: "100%",
-    marginBottom: "5%",
-    paddingBottom: "6%",
+    marginBottom:hp("2%"),
+    paddingBottom: hp("2%"),
     textAlign: "right",
-    top: "2%",
+    top: hp("0%"),
   },
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: "3%",
+    padding: hp("1%"),
     borderRadius: 25,
     width: wp("80%"),
     height: hp("6%"),
     alignSelf: "center",
   },
   createAccount: {
-    top: "8%",
+    top: wp("15%"),
     fontSize: 18,
     textAlign: "center",
     alignSelf: "center",
-    margin: "-8%",
+    margin: hp("-3%"),
   },
   preloader: {
     position: "absolute",
@@ -339,8 +342,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   radio: {
-    top: "-4%",
-    left: "230%",
+    top: hp("-4%"),
+    left: wp("23%"),
     alignItems: "flex-start",
     justifyContent: "space-evenly",
     zIndex: 6,

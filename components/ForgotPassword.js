@@ -129,7 +129,7 @@ class ForgotPassword extends Component {
           value={this.state.email}
           onChangeText={(val) => this.updateInputVal(val, "email")}
         />
-        <Text style={styles.Text}>*ستصلك رسالة على بريدك الالكتروني لاستعادة كلمة المرور</Text>
+        {/* <Text style={styles.Text}>*ستصلك رسالة على بريدك الالكتروني لاستعادة كلمة المرور</Text> */}
         <TouchableOpacity
           onPress={() => this.forgotPassword()}
           style={styles.buttonContainer}

@@ -134,7 +134,6 @@ class ForgotPassword extends Component {
           onPress={() => this.forgotPassword()}
           style={styles.buttonContainer}
         >
-          
           <Text style={styles.buttonText}>ارسال</Text>
         </TouchableOpacity>
       </View>
@@ -149,10 +148,10 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    marginTop: "90%",
+    marginTop: wp("90%"),
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: "3%",
+    padding: wp("3%"),
     borderRadius: 25,
     width: wp("80%"),
     height: hp("7%"),
@@ -161,20 +160,21 @@ const styles = StyleSheet.create({
   Text: {
     fontSize: 12,
     color: "#4F3C75",
-    left:"13%",
-    top: "35%",
+    left: wp("13%"),
+    top: hp("35%"),
   },
   inputStyle: {
     fontSize: 18,
-    width: "80%",
-    marginBottom: "15%",
-    paddingBottom: "5%",
+    height: hp("7%"),
+    width: wp("80%"),
+    marginBottom: wp("15%"),
+    paddingBottom: wp("5%"),
     alignSelf: "center",
     borderColor: "#ccc",
     borderBottomWidth: 3,
     textAlign: "right",
-    top: "40%",
-    zIndex:10,
+    top: hp("40%"),
+    zIndex: 10,
   },
   buttonText: {
     fontSize: 23,

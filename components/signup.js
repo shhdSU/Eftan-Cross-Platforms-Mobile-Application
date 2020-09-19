@@ -31,9 +31,6 @@ import {
 
 export default class SignupScreen extends Component {
 
-  
-
-
   constructor() {
     super();
     this.state = {

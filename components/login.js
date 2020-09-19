@@ -47,10 +47,8 @@ export default class LoginPage extends Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
-        firebase.auth().onAuthStateChanged(function (user) {
+        firebase.auth().onAuthStateChanged((user) => {
           if (user.emailVerified) {
-            console.log(res);
-            console.log("User logged-in successfully!");
             this.setState({
               isLoading: false,
               email: "",

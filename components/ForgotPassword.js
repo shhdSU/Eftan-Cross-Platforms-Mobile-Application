@@ -52,14 +52,28 @@ class ForgotPassword extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Svg style={{ position: "absolute" }}>
+
+<TextInput
+          style={styles.inputStyle}
+          placeholder="البريد الالكتروني"
+          value={this.state.email}
+          onChangeText={(val) => this.updateInputVal(val, "email")}
+        />
+        {/* <Text style={styles.Text}>*ستصلك رسالة على بريدك الالكتروني لاستعادة كلمة المرور</Text> */}
+        <TouchableOpacity
+          onPress={() => this.forgotPassword()}
+          style={styles.buttonContainer}
+        >
+          <Text style={styles.buttonText}>ارسال</Text>
+        </TouchableOpacity>
+
+        <Svg viewBox="0 0 375 812" style={{ position: "absolute" }}>
           <Defs>
             <ClipPath id="prefix__a">
               <Path d="M0 0h375v812H0z" />
             </ClipPath>
           </Defs>
           <G data-name="Policy Screen" clipPath="url(#prefix__a)">
-            <Path fill="#fff" d="M0 0h375v812H0z" />
             <G data-name="Group 6">
               <G filter="url(#prefix__b)">
                 <Path
@@ -123,19 +137,7 @@ class ForgotPassword extends Component {
             </G>
           </G>
         </Svg>
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="البريد الالكتروني"
-          value={this.state.email}
-          onChangeText={(val) => this.updateInputVal(val, "email")}
-        />
-        {/* <Text style={styles.Text}>*ستصلك رسالة على بريدك الالكتروني لاستعادة كلمة المرور</Text> */}
-        <TouchableOpacity
-          onPress={() => this.forgotPassword()}
-          style={styles.buttonContainer}
-        >
-          <Text style={styles.buttonText}>ارسال</Text>
-        </TouchableOpacity>
+       
       </View>
     );
   }

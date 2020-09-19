@@ -77,7 +77,7 @@ export default class gallery extends React.Component {
         <Text style={styles.forText} onPress={this.signOutUser}>
           تسجيل الخروج
         </Text>
-        <Text style={styles.forText2} onPress={this.signOutUser}>
+        <Text style={styles.forText2}>
           مرحبًا ايها المصمم
         </Text>
       </View>

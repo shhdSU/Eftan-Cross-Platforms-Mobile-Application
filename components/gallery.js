@@ -35,10 +35,6 @@ export default class gallery extends React.Component {
   render() {
      return (
       <View >
-
-
-
-
     <Svg >
       <Defs>
         <ClipPath id="prefix__a">
@@ -79,7 +75,7 @@ export default class gallery extends React.Component {
       </G>
     </Svg>
     <Text style={styles.forText} onPress={this.signOutUser}>تسجيل الخروج</Text>
-    <Text style={styles.forText2} onPress={this.signOutUser}>مرحبًا ايها العميل</Text>
+    <Text style={styles.forText2}>مرحبًا ايها العميل</Text>
        </View>
 
 );

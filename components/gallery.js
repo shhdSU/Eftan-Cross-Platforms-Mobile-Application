@@ -5,6 +5,10 @@ import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg"
 /* SVGR has dropped some elements not supported by react-native-svg: filter */
 // view its like div in web :)
 //class LoadingScreen
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 export default class gallery extends React.Component {
   constructor() {
     super();
@@ -88,19 +92,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  forText:{
-    position:"absolute",
-top:"9%",
-left:"5%",
-color:"#4F3C75",
-
+  forText: {
+    position: "relative",
+    top: wp("-200%"),
+    left: hp("2%"),
+    color: "#4F3C75",
   },
-  forText2:{
-    position:"absolute",
-top:"45%",
-left:"25%",
-color:"#4F3C75",
-fontSize:30
-
-  }
+  forText2: {
+    position: "absolute",
+    top: hp("45%"),
+    left: hp("11%"),
+    color: "#4F3C75",
+    fontSize: 30,
+  },
 });

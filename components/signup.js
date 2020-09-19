@@ -158,12 +158,12 @@ export default class SignupScreen extends Component {
             color: "#4F3C75",
             fontWeight: "700",
             alignSelf: "center",
-            top: wp("0.5%"),
+            top: wp("-6%"),
           }}
         >
           انشاء حساب جديد
         </Text>
-        <SvgComponenet style={{ top: wp("-8.5%") }} />
+        <SvgComponenet style={{ top: wp("-15%") }} />
 
         <TextInput
           style={styles.inputStyle}
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderBottomWidth: 3,
     textAlign: "right",
-    top: wp("0%"),
+    top: wp("-5%"),
   },
   inputStyle2: {
     fontSize: 18,

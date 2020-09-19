@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  ScrollView,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -32,7 +31,6 @@ class privacyPolicy extends Component {
         </ClipPath>
       </Defs>
       <G data-name="Policy Screen" clipPath="url(#prefix__a)">
-        <Path fill="#fff" d="M0 0h375v812H0z" />
         <G data-name="Group 6">
           <G filter="url(#prefix__b)">
             <Path
@@ -135,30 +133,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   textStyle: {
-    top: "13%",
+    top: wp("35%"),
     alignSelf: "center",
     textAlign: "center",
     backgroundColor: "#fff",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
-    marginLeft: "15%",
+    marginLeft: wp("15%"),
   },
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: "3%",
+    padding: hp("1%"),
     borderRadius: 25,
-    width: "80%",
-    height: "6%",
+    width: wp("80%"),
+    height: hp("6%"),
     alignSelf: "center",
-    bottom: "10%",
+    bottom: hp("10%"),
     position: "absolute",
   },
-  scrollView: {
-    backgroundColor: 'pink',
-    marginHorizontal: 20,
-  },
+ 
   
 });
 

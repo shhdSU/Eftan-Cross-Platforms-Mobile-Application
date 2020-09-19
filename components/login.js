@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { color } from "react-native-reanimated";
 import RadioForm, {
@@ -19,10 +20,12 @@ import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
 import { AppLoading } from "expo";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 export default class LoginPage extends Component {
-  
-
   constructor() {
     super();
     this.state = {
@@ -130,9 +133,10 @@ export default class LoginPage extends Component {
         />
         <Text
           style={{
-            top: 110,
+            top: "19%",
             color: "#4F3C75",
             textAlign: "left",
+            textDecorationLine: "underline",
           }}
           onPress={() => this.props.navigation.navigate("نسيت كلمة السر!")}
         >
@@ -163,70 +167,67 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: 35,
+    padding: "10%",
     backgroundColor: "#fff",
   },
   inputStyle: {
     fontSize: 18,
-    marginTop: 20,
+    marginTop: "4%",
     width: "100%",
-    marginBottom: 15,
-    paddingBottom: 15,
+    marginBottom: "5%",
+    paddingBottom: "5%",
     alignSelf: "center",
     borderColor: "#ccc",
     borderBottomWidth: 3,
     textAlign: "right",
-    top: 120,
+    top: "21%",
   },
   loginText: {
     fontSize: 18,
     color: "#4F3C75",
-    marginTop: 10,
+    marginTop: "1%",
     textAlign: "center",
     alignItems: "center",
-    top: 240,
+    top: "32%",
+    textDecorationLine: "underline",
+    zIndex: 10,
   },
   loginText2: {
     fontSize: 18,
     color: "#B7B7B7",
-    marginTop: 25,
+    marginTop: "14%",
     textAlign: "center",
     alignItems: "center",
-    top: 245,
+    top: "33%",
   },
   preloader: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
   },
   svgComponant: {
-    top: 10,
+    top: "1%",
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
   },
   loginButton: {
-    top: 90,
+    top: "13%",
     backgroundColor: "#4F3C75",
-    height: 50,
-    width: 279,
+    height: hp("6%"),
+    width: wp("80%"),
     borderRadius: 25,
     alignSelf: "center",
     alignItems: "center",
   },
   loginButton2: {
-    top: 5,
+    top: "4%",
     color: "#FFEED6",
     fontSize: 27,
-    height: 50,
-    width: 279,
-    borderRadius: 25,
+    height: hp("19%"),
+    width: wp("42%"),
     textAlign: "center",
     justifyContent: "center",
   },

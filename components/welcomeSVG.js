@@ -19,11 +19,11 @@ function SvgComponent(props) {
             right={20}
           >
             <TSpan x={0} y={0} />
-            <TSpan x={-93} y={0}>
+            {/* <TSpan x={-93} y={0}>
               {
                 "\u0625\u0646\u0634\u0627\u0621 \u062D\u0633\u0627\u0628 \u062C\u062F\u064A\u062F"
               }
-            </TSpan>
+            </TSpan> */}
           </Text>
         </G>
         <G data-name="Group 4" transform="translate(0 -101.593)" fill="#e6e6e6">

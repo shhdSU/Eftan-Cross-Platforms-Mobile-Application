@@ -90,15 +90,15 @@ const styles = StyleSheet.create({
   },
   forText:{
     position:"absolute",
-top:80,
-left:20,
+top:"9%",
+left:"5%",
 color:"#4F3C75",
 
   },
   forText2:{
     position:"absolute",
-top:450,
-left:110,
+top:"45%",
+left:"25%",
 color:"#4F3C75",
 fontSize:30
 

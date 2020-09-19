@@ -24,7 +24,16 @@ import { NavigationContainer } from "react-navigation";
 import LoginScreen from "./login";
 import privacyPolicy from "./privacyPolicy";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 export default class SignupScreen extends Component {
+
+  
+
+
   constructor() {
     super();
     this.state = {
@@ -35,6 +44,7 @@ export default class SignupScreen extends Component {
       isLoading: false,
       userType: 1,
     };
+    
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -147,8 +157,19 @@ export default class SignupScreen extends Component {
 
     return (
       <View style={styles.container}>
+        <Text
+          style={{
+            fontSize: 27,
+            color: "#4F3C75",
+            fontWeight: "700",
+            alignSelf: "center",
+            top: "0.5%",
+          }}
+        >
+          انشاء حساب جديد
+        </Text>
+        <SvgComponenet style={{ top: "-4%" }} />
 
-        <SvgComponenet style={{top:-30}} />
         <TextInput
           style={styles.inputStyle}
           placeholder="الاسم الأول"
@@ -175,18 +196,19 @@ export default class SignupScreen extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
-        <Text style={[styles.inputStyle,{color:"#B7B7B7",top:15}]}>هل انت؟</Text>
+        <Text style={[styles.inputStyle2, { color: "#B7B7B7", top: "0%" }]}>
+          هل انت؟
+        </Text>
         <View>
-          <RadioForm 
-          style={styles.radio}
-            labelStyle={{ 
-            position: "relative", 
-            right: 5, 
-            top:0,
-            justifyContent:"center",
-            alignSelf:"center"
-           }}
-           top={300}
+          <RadioForm
+            style={styles.radio}
+            labelStyle={{
+              position: "relative",
+              right: "5%",
+              justifyContent: "center",
+              alignSelf: "center",
+            }}
+            top={300}
             selectedButtonColor={"#4F3C75"}
             buttonColor={"#4F3C75"}
             formHorizontal={true}
@@ -201,7 +223,6 @@ export default class SignupScreen extends Component {
           style={styles.button}
           onPress={() => this.registerUser()}
         >
-          
           <Text
             style={{
               color: "#FFEED6",
@@ -214,32 +235,28 @@ export default class SignupScreen extends Component {
           </Text>
         </TouchableOpacity>
 
-       
-          
+        <Text
+          style={{
+            color: "#B7B7B7",
+            fontSize: 10,
+            textAlign: "center",
+            top: "1%",
+            //fontFamily: "Droid Sans Arabic",
+          }}
+          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
+        >
+          بالنقر على هذا الزر أنت توافق على
           <Text
             style={{
-              color: "#B7B7B7",
-              fontSize: 10,
-              textAlign: "center",
-
-              top:5
-              //fontFamily: "Droid Sans Arabic",
+              color: "#4F3C75",
+              textDecorationLine: "underline",
             }}
             onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
           >
-            بالنقر على هذا الزر أنت توافق على
-            <Text
-              style={{
-                color: "#4F3C75",
-
-                //fontFamily: "Droid Sans Arabic",
-              }}
-              onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
-            >
-              {""} تراخيص وخصوصية الاستخدام
-            </Text>
+            {""} تراخيص وخصوصية الاستخدام
           </Text>
-        
+        </Text>
+
         <Text
           style={[
             styles.createAccount,
@@ -250,24 +267,27 @@ export default class SignupScreen extends Component {
         >
           لديك حساب بالفعل؟
         </Text>
-        <Text style={styles.radioText}>
-عميل                   مصمم جرافيك
-</Text>
+        <Text style={[styles.radioText, { left: "75%", bottom: "11.5%" }]}>
+          عميل{" "}
+        </Text>
+        <View style={{ left: "15%", bottom: "15%" }}>
+          <Text style={styles.radioText}> مصمم جرافيك</Text>
+        </View>
+
         <Text
-          style={[styles.createAccount, { color: "#4F3C75" }]}
+          style={[
+            styles.createAccount,
+            { color: "#4F3C75", textDecorationLine: "underline" },
+          ]}
           onPress={() => this.props.navigation.navigate("صفحة الدخول")} ///change it later
         >
           قم بتسجيل الدخول
         </Text>
-        
       </View>
     );
   }
 }
-var radio_props = [
-  { value: 0 },
-  { value: 1 },
-];
+var radio_props = [{ value: 0 }, { value: 1 }];
 
 const styles = StyleSheet.create({
   container: {
@@ -275,61 +295,61 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: 35,
+    padding: "10%",
     backgroundColor: "#fff",
   },
   inputStyle: {
-   
-    fontSize:18,
-    marginTop: 20,
+    fontSize: 18,
+    marginTop: "5%",
     width: "100%",
-    marginBottom: 15,
-    paddingBottom: 15,
+    marginBottom: "5%",
+    paddingBottom: "6%",
     alignSelf: "center",
     borderColor: "#ccc",
     borderBottomWidth: 3,
     textAlign: "right",
-    top: 10,
+    top: "2%",
+  },
+  inputStyle2: {
+    fontSize: 18,
+    marginTop: "5%",
+    width: "100%",
+    marginBottom: "5%",
+    paddingBottom: "6%",
+    textAlign: "right",
+    top: "2%",
   },
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: 10,
+    padding: "3%",
     borderRadius: 25,
-    width: 279,
-    height: 50,
+    width: wp("80%"),
+    height: hp("6%"),
     alignSelf: "center",
-    top: 0,
   },
   createAccount: {
-    top: 60,
+    top: "8%",
     fontSize: 18,
     textAlign: "center",
-    alignSelf:"center",
-    margin:-13,
+    alignSelf: "center",
+    margin: "-8%",
   },
   preloader: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-  }, 
-  radio:{
-    top:-5,
-    left:90,
-    textAlign:"left",
-    alignItems:"flex-start",
-    justifyContent:"space-evenly"
- },
- radioText:{
- fontSize:18,
- bottom:100,
- left:70,
- color:"#B7B7B7",
- }
-
+  },
+  radio: {
+    top: "-4%",
+    left: "230%",
+    alignItems: "flex-start",
+    justifyContent: "space-evenly",
+    zIndex: 6,
+  },
+  radioText: {
+    fontSize: 18,
+    color: "#B7B7B7",
+  },
 });

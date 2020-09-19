@@ -10,6 +10,8 @@ import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 
+
+
 const Navigation = createStackNavigator(
   {
     "صفحة الدخول": { screen: LoginScreen },

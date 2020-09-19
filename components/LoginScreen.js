@@ -32,7 +32,7 @@ function LoginScreen(props) {
         </ClipPath>
       </Defs>
       <G data-name="index(main) Screen" clipPath="url(#prefix__a)">
-        <Path fill="#fff" d="M0 0h375v812H0z" />
+        {/* <Path fill="#fff" d="M0 0h375v812H0z" /> */}
         {/* <Rect
           data-name="signin button"
           width={279}

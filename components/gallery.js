@@ -39,7 +39,7 @@ export default class gallery extends React.Component {
 
 
 
-    <Svg  viewBox="0 0 375 812">
+    <Svg >
       <Defs>
         <ClipPath id="prefix__a">
           <Path d="M0 0h375v812H0z" />

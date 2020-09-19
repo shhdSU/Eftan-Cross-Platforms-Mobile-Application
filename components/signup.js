@@ -27,11 +27,9 @@ import privacyPolicy from "./privacyPolicy";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-  
 } from "react-native-responsive-screen";
 
 export default class SignupScreen extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -42,7 +40,6 @@ export default class SignupScreen extends Component {
       isLoading: false,
       userType: 1,
     };
-    
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -166,7 +163,7 @@ export default class SignupScreen extends Component {
         >
           انشاء حساب جديد
         </Text>
-        <SvgComponenet style={{ top: wp("-8.5%" )}} />
+        <SvgComponenet style={{ top: wp("-8.5%") }} />
 
         <TextInput
           style={styles.inputStyle}
@@ -194,7 +191,9 @@ export default class SignupScreen extends Component {
           maxLength={15}
           secureTextEntry={true}
         />
-        <Text style={[styles.inputStyle2, { color: "#B7B7B7", top: wp("-4%") }]}>
+        <Text
+          style={[styles.inputStyle2, { color: "#B7B7B7", top: wp("-4%") }]}
+        >
           هل انت؟
         </Text>
         <View>
@@ -265,10 +264,10 @@ export default class SignupScreen extends Component {
         >
           لديك حساب بالفعل؟
         </Text>
-        <View style={[styles.radioText, { left: hp("27.5%"), bottom: hp("12.5%") }]}>
-        <Text style={styles.radioText}>
-          عميل{" "}
-        </Text>
+        <View
+          style={[styles.radioText, { left: hp("27.5%"), bottom: hp("12.5%") }]}
+        >
+          <Text style={styles.radioText}>عميل </Text>
         </View>
         <View style={{ left: hp("5.5%"), bottom: hp("15.5%") }}>
           <Text style={styles.radioText}> مصمم جرافيك</Text>
@@ -314,7 +313,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: hp("4%"),
     width: "100%",
-    marginBottom:hp("2%"),
+    marginBottom: hp("2%"),
     paddingBottom: hp("2%"),
     textAlign: "right",
     top: hp("0%"),
@@ -336,7 +335,7 @@ const styles = StyleSheet.create({
     margin: hp("-3%"),
   },
   preloader: {
-    position: "absolute",
+    position: "relative",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",

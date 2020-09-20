@@ -50,7 +50,7 @@ export default class LoginPage extends Component {
         firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             if (!user.emailVerified) {
-              Alert.alert("يرجى تفعيل البريد الإلكتروني");
+              alert("يرجى تفعيل البريد الإلكتروني");
               firebase.auth().signOut;
             } else {
               this.setState({
@@ -67,7 +67,6 @@ export default class LoginPage extends Component {
                   if (snapshot.exists()) {
                     this.props.navigation.navigate("معرض المصمم");
                   }
-                  console.log("مادخل جاليري");
                   return;
                 });
 
@@ -78,7 +77,6 @@ export default class LoginPage extends Component {
                   if (snapshot.exists()) {
                     this.props.navigation.navigate("صفحة المصمم");
                   }
-                  console.log("مادخل بروفايل");
                   return;
                 });
             }
@@ -89,7 +87,9 @@ export default class LoginPage extends Component {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        if (errorCode == "auth/wrong-password") {
+        if (this.state.email === "" || this.state.password === "") {
+          alert("..فضلًا تأكد من إدخال جميع بياناتك");
+        } else if (errorCode == "auth/wrong-password") {
           alert("نرجو إدخال كلمة السر الصحيحة");
         } else if (errorCode == "auth/user-not-found") {
           alert("لا يوجد حساب مسجل بهذا البريد الإلكتروني");

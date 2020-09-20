@@ -18,15 +18,8 @@ export default class gallery extends React.Component {
       email: "",
       password: "",
       isLoading: false,
-      //  userType: 1,
     };
   }
-
-  /*componentDidMount() {
-    const { email, displayName } = firebase.auth().currentUser;
-    this.setState({ email, displayName });
-  }
-  */
   signOutUser = () => {
     const { email, password } = this.state;
     firebase.auth().signOut();
@@ -35,10 +28,6 @@ export default class gallery extends React.Component {
   render() {
      return (
       <View >
-
-
-
-
     <Svg >
       <Defs>
         <ClipPath id="prefix__a">

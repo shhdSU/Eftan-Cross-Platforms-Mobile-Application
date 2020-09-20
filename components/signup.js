@@ -56,7 +56,7 @@ export default class SignupScreen extends Component {
       this.state.firstName === "" ||
       this.state.lastName === ""
     ) {
-      Alert.alert("..فضلًا تأكد من إدخال جميع بياناتك");
+      alert("..فضلًا تأكد من إدخال جميع بياناتك");
     } else if (
       specialCheck.test(this.state.firstName) ||
       specialCheck.test(this.state.lastName)
@@ -85,10 +85,6 @@ export default class SignupScreen extends Component {
           firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               user.sendEmailVerification();
-
-              /* res.user.updateProfile({
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,   */
               if (this.state.userType == 1) {
                 firebase
                   .database()
@@ -119,14 +115,14 @@ export default class SignupScreen extends Component {
             }
             this.props.navigation.navigate("صفحة الدخول");
           });
-
-          alert("heerreee");
         })
         .catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
-          if (errorCode == "auth/invalid-email") {
+          if (this.state.email === "" || this.state.password === "") {
+            alert("..فضلًا تأكد من إدخال جميع بياناتك");
+          } else if (errorCode == "auth/invalid-email") {
             alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
           } else if (
             errorCode == "auth/email-already-in-use" ||

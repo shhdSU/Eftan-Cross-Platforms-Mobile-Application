@@ -82,39 +82,45 @@ export default class SignupScreen extends Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
-          firebase.auth().onAuthStateChanged(function (user) {
-            user.sendEmailVerification();
-          }); /* res.user.updateProfile({
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              user.sendEmailVerification();
+
+              /* res.user.updateProfile({
             firstName: this.state.firstName,
             lastName: this.state.lastName,   */
-          if (this.state.userType == 1) {
-            firebase
-              .database()
-              .ref("Client/" + res.user.uid)
-              .set({
-                CFirstName: this.state.firstName,
-                CLastName: this.state.lastName,
-                Cemail: this.state.email,
-              });
-          } else {
-            firebase
-              .database()
-              .ref("GraphicDesigner/" + res.user.uid)
-              .set({
-                DFirstName: this.state.firstName,
-                DLastName: this.state.lastName,
-                DEmail: this.state.email,
-              });
-          }
+              if (this.state.userType == 1) {
+                firebase
+                  .database()
+                  .ref("Client/" + res.user.uid)
+                  .set({
+                    CFirstName: this.state.firstName,
+                    CLastName: this.state.lastName,
+                    Cemail: this.state.email,
+                  });
+              } else {
+                firebase
+                  .database()
+                  .ref("GraphicDesigner/" + res.user.uid)
+                  .set({
+                    DFirstName: this.state.firstName,
+                    DLastName: this.state.lastName,
+                    DEmail: this.state.email,
+                  });
+              }
 
-          this.setState({
-            isLoading: false,
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
+              this.setState({
+                isLoading: false,
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+              });
+            }
+            this.props.navigation.navigate("صفحة الدخول");
           });
-          this.props.navigation.navigate("صفحة الدخول");
+
+          alert("heerreee");
         })
         .catch((error) => {
           // Handle Errors here.

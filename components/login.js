@@ -48,37 +48,40 @@ export default class LoginPage extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
         firebase.auth().onAuthStateChanged((user) => {
-          if (user.emailVerified) {
-            this.setState({
-              isLoading: false,
-              email: "",
-              password: "",
-            });
-            const user = firebase.auth().currentUser.uid;
-            firebase
-              .database()
-              .ref(`Client/` + user)
-              .on("value", (snapshot) => {
-                if (snapshot.exists()) {
-                  this.props.navigation.navigate("معرض المصمم");
-                }
-                console.log("مادخل جاليري");
-                return;
+          if (user) {
+            if (!user.emailVerified) {
+              Alert.alert("يرجى تفعيل البريد الإلكتروني");
+              firebase.auth().signOut;
+            } else {
+              this.setState({
+                isLoading: false,
+                email: "",
+                password: "",
               });
 
-            firebase
-              .database()
-              .ref(`GraphicDesigner/` + user)
-              .on("value", (snapshot) => {
-                if (snapshot.exists()) {
-                  this.props.navigation.navigate("صفحة المصمم");
-                }
-                console.log("مادخل بروفايل");
-                return;
-              });
-          } else {
-            alert("يرجى تفعيل بريدك الإلكتروني");
-            firebase.auth().signOut;
+              const user = firebase.auth().currentUser.uid;
+              firebase
+                .database()
+                .ref(`Client/` + user)
+                .on("value", (snapshot) => {
+                  if (snapshot.exists()) {
+                    this.props.navigation.navigate("معرض المصمم");
+                  }
+                  console.log("مادخل جاليري");
+                  return;
+                });
+
+              firebase
+                .database()
+                .ref(`GraphicDesigner/` + user)
+                .on("value", (snapshot) => {
+                  if (snapshot.exists()) {
+                    this.props.navigation.navigate("صفحة المصمم");
+                  }
+                  console.log("مادخل بروفايل");
+                  return;
+                });
+            }
           }
         });
       })

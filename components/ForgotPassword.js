@@ -25,6 +25,9 @@ class ForgotPassword extends Component {
         alert("الرجاء تفقد بريدك الالكتروني ");
       })
       .catch((error) => {
+        if(this.state.email === ""){
+          alert("..فضلًا تأكد من إدخال البريد الالكتروني");
+        }
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;

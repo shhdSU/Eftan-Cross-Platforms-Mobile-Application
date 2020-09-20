@@ -68,7 +68,12 @@ export default class SignupScreen extends Component {
       !specialCheck.test(this.state.password) ||
       !numCheck.test(this.state.password)
     ) {
-      alert("كلمة السر المدخلة ضعيفة");
+      Alert.alert(
+        "تنبيه",
+        "كلمة السر المدخلة ضعيفة، يجب أن لا يقل طولها عن 8 متضمّنة حروفًا وأرقامًا ورموزًا خاصة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
     } else {
       this.setState({
         isLoading: true,
@@ -116,7 +121,7 @@ export default class SignupScreen extends Component {
           var errorCode = error.code;
           var errorMessage = error.message;
           if (this.state.email === "" || this.state.password === "") {
-            alert("..فضلًا تأكد من إدخال جميع بياناتك");
+            alert("فضلًا تأكد من إدخال جميع بياناتك");
           } else if (errorCode == "auth/invalid-email") {
             alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
           } else if (
@@ -155,7 +160,7 @@ export default class SignupScreen extends Component {
             top: wp("-6%"),
           }}
         >
-          انشاء حساب جديد
+          إنشاء حساب جديد
         </Text>
         <SvgComponenet style={{ top: wp("-15%") }} />
 
@@ -188,7 +193,7 @@ export default class SignupScreen extends Component {
         <Text
           style={[styles.inputStyle2, { color: "#B7B7B7", top: wp("-4%") }]}
         >
-          هل انت؟
+          هل أنت؟
         </Text>
         <View>
           <RadioForm

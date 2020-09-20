@@ -25,13 +25,12 @@ class ForgotPassword extends Component {
         alert("الرجاء تفقد بريدك الالكتروني ");
       })
       .catch((error) => {
-        if(this.state.email === ""){
-          alert("..فضلًا تأكد من إدخال البريد الالكتروني");
-        }
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        if (errorCode == "auth/user-not-found") {
+        if(this.state.email === ""){
+          alert("..فضلًا تأكد من إدخال البريد الالكتروني");
+        } else if (errorCode == "auth/user-not-found") {
           alert("البريد الالكتروني غير مسجل !");
         } else if (errorCode == "auth/invalid-email") {
           alert("نرجوا إعادة كتابة البريد الالكتروني بشكل صحيح");

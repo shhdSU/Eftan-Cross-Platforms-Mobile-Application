@@ -25,7 +25,6 @@ class ForgotPassword extends Component {
         alert("الرجاء تفقد بريدك الالكتروني ");
       })
       .catch((error) => {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         if(this.state.email === ""){
@@ -61,12 +60,12 @@ class ForgotPassword extends Component {
           value={this.state.email}
           onChangeText={(val) => this.updateInputVal(val, "email")}
         />
-        {/* <Text style={styles.Text}>*ستصلك رسالة على بريدك الالكتروني لاستعادة كلمة المرور</Text> */}
+        {}
         <TouchableOpacity
           onPress={() => this.forgotPassword()}
           style={styles.buttonContainer}
         >
-          <Text style={styles.buttonText}>ارسال</Text>
+          <Text style={styles.buttonText}>إرسال</Text>
         </TouchableOpacity>
 
         <Svg viewBox="0 0 375 812" style={{ position: "absolute" }}>

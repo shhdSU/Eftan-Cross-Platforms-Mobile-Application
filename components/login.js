@@ -10,15 +10,8 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import { color } from "react-native-reanimated";
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from "react-native-simple-radio-button";
 import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
-import { AppLoading } from "expo";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   widthPercentageToDP as wp,
@@ -89,7 +82,6 @@ export default class LoginPage extends Component {
         });
       })
       .catch((error) => {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         if (this.state.email === "" || this.state.password === "") {

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
 import {
   Text,
   StyleSheet,
@@ -14,13 +13,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import { NavigationContainer } from "react-navigation";
 
 import Svg, { Defs, ClipPath, Path, G } from "react-native-svg";
 
 class privacyPolicy extends Component {
   render() {
-    /* SVGR has dropped some elements not supported by react-native-svg: filter */
 
     return (
       <View style={styles.container}>

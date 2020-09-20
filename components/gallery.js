@@ -2,9 +2,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react"
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg"
-/* SVGR has dropped some elements not supported by react-native-svg: filter */
-// view its like div in web :)
-//class LoadingScreen
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

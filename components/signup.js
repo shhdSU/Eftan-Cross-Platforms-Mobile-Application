@@ -2,9 +2,7 @@
 
 import React, { Component } from "react";
 import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
+  
 } from "react-native-simple-radio-button";
 
 import {
@@ -19,11 +17,6 @@ import {
 } from "react-native";
 import SvgComponenet from "./welcomeSVG";
 import firebase from "../database/firebase";
-//import * as firebase from "firebase";
-import { NavigationContainer } from "react-navigation";
-import LoginScreen from "./login";
-import privacyPolicy from "./privacyPolicy";
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -117,7 +110,6 @@ export default class SignupScreen extends Component {
           });
         })
         .catch((error) => {
-          // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
           if (this.state.email === "" || this.state.password === "") {
@@ -224,7 +216,6 @@ export default class SignupScreen extends Component {
               color: "#FFEED6",
               fontSize: 25,
 
-              //fontFamily: "Droid Sans Arabic",
             }}
           >
             إنشاء حساب
@@ -237,9 +228,8 @@ export default class SignupScreen extends Component {
             fontSize: 10,
             textAlign: "center",
             top: hp("0%"),
-            //fontFamily: "Droid Sans Arabic",
           }}
-          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
+          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} 
         >
           بالنقر على هذا الزر أنت توافق على
           <Text
@@ -247,7 +237,7 @@ export default class SignupScreen extends Component {
               color: "#4F3C75",
               textDecorationLine: "underline",
             }}
-            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} ///change it later
+            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} 
           >
             {""} تراخيص وخصوصية الاستخدام
           </Text>

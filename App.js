@@ -1,6 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-//import HomeStack from "./routes/HomeStack";
-import firebase from "../Eftan/database/firebase";
+
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import LoginScreen from "./components/login";

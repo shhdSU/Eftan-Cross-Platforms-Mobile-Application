@@ -2,9 +2,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-/* SVGR has dropped some elements not supported by react-native-svg: filter */
-// view its like div in web :)
-//class LoadingScreen
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -18,17 +15,9 @@ export default class gallery extends React.Component {
       email: "",
       password: "",
       isLoading: false,
-      //  userType: 1,
     };
   }
-
-  /*componentDidMount() {
-    const { email, displayName } = firebase.auth().currentUser;
-    this.setState({ email, displayName });
-  }
-  */
   signOutUser = () => {
-    const { email, password } = this.state;
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };

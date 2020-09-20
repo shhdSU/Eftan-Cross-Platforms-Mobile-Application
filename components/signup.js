@@ -1,9 +1,7 @@
 // components/signup.js
 
 import React, { Component } from "react";
-import RadioForm, {
-  
-} from "react-native-simple-radio-button";
+import RadioForm from "react-native-simple-radio-button";
 
 import {
   Text,
@@ -49,7 +47,12 @@ export default class SignupScreen extends Component {
       this.state.firstName === "" ||
       this.state.lastName === ""
     ) {
-      alert("..فضلًا تأكد من إدخال جميع بياناتك");
+      Alert.alert(
+        "تنبيه",
+        "..فضلًا تأكد من إدخال جميع بياناتك",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
     } else if (
       specialCheck.test(this.state.firstName) ||
       specialCheck.test(this.state.lastName)
@@ -215,7 +218,6 @@ export default class SignupScreen extends Component {
             style={{
               color: "#FFEED6",
               fontSize: 25,
-
             }}
           >
             إنشاء حساب
@@ -229,7 +231,7 @@ export default class SignupScreen extends Component {
             textAlign: "center",
             top: hp("0%"),
           }}
-          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} 
+          onPress={() => this.props.navigation.navigate("سياسة الخصوصية")}
         >
           بالنقر على هذا الزر أنت توافق على
           <Text
@@ -237,7 +239,7 @@ export default class SignupScreen extends Component {
               color: "#4F3C75",
               textDecorationLine: "underline",
             }}
-            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")} 
+            onPress={() => this.props.navigation.navigate("سياسة الخصوصية")}
           >
             {""} تراخيص وخصوصية الاستخدام
           </Text>

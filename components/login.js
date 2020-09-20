@@ -43,7 +43,12 @@ export default class LoginPage extends Component {
         firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             if (!user.emailVerified) {
-              alert("يرجى تفعيل البريد الإلكتروني");
+              Alert.alert(
+                "تنبيه",
+                "يرجى تفعيل البريد الإلكتروني",
+                [{ text: "حسنًا" }],
+                { cancelable: false }
+              );
               firebase.auth().signOut;
             } else {
               this.setState({
@@ -85,13 +90,33 @@ export default class LoginPage extends Component {
         var errorCode = error.code;
         var errorMessage = error.message;
         if (this.state.email === "" || this.state.password === "") {
-          alert("..فضلًا تأكد من إدخال جميع بياناتك");
+          Alert.alert(
+            "تنبيه",
+            "فضلًا تأكد من إدخال جميع بياناتك",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else if (errorCode == "auth/wrong-password") {
-          alert("نرجو إدخال كلمة السر الصحيحة");
+          Alert.alert(
+            "تنبيه",
+            "نرجو إدخال كلمة السر الصحيحة",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else if (errorCode == "auth/user-not-found") {
-          alert("لا يوجد حساب مسجل بهذا البريد الإلكتروني");
+          Alert.alert(
+            "تنبيه",
+            "لا يوجد حساب مسجل بهذا البريد الإلكتروني",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else if (errorCode == "auth/invalid-email") {
-          alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
+          Alert.alert(
+            "تنبيه",
+            "نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else {
           alert(errorMessage);
         }
@@ -101,6 +126,7 @@ export default class LoginPage extends Component {
         });
       });
   };
+
   render() {
     if (this.state.isLoading) {
       return (

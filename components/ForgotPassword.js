@@ -22,17 +22,37 @@ class ForgotPassword extends Component {
       .auth()
       .sendPasswordResetEmail(this.state.email)
       .then(function () {
-        alert("الرجاء تفقد بريدك الالكتروني ");
+        Alert.alert(
+          "تنبيه",
+          "الرجاء تفقد بريدك الالكتروني",
+          [{ text: "حسنًا" }],
+          { cancelable: false }
+        );
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         if (this.state.email === "") {
-          alert("..فضلًا تأكد من إدخال البريد الالكتروني");
+          Alert.alert(
+            "تنبيه",
+            "فضلًا تأكد من إدخال البريد الالكتروني",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else if (errorCode == "auth/user-not-found") {
-          alert("البريد الالكتروني غير مسجل !");
+          Alert.alert(
+            "تنبيه",
+            "البريد الالكتروني غير مسجل !",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else if (errorCode == "auth/invalid-email") {
-          alert("نرجو إعادة كتابة البريد الالكتروني بشكل صحيح");
+          Alert.alert(
+            "تنبيه",
+            "نرجو إعادة كتابة البريد الالكتروني بشكل صحيح",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
         } else {
           alert(errorMessage);
         }

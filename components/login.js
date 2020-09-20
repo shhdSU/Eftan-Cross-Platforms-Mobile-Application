@@ -79,6 +79,11 @@ export default class LoginPage extends Component {
                   }
                   return;
                 });
+              this.setState({
+                isLoading: false,
+                email: "",
+                password: "",
+              });
             }
           }
         });

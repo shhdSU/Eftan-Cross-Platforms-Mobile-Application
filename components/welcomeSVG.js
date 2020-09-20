@@ -1,6 +1,5 @@
-
-import * as React from "react"
-import Svg, { Defs, G, Text, TSpan, Ellipse, Path } from "react-native-svg"
+import * as React from "react";
+import Svg, { Defs, G, Text, TSpan, Ellipse, Path } from "react-native-svg";
 
 function SvgComponent(props) {
   return (
@@ -40,7 +39,7 @@ function SvgComponent(props) {
         </G>
       </G>
     </Svg>
-  )
+  );
 }
 
-export default SvgComponent
+export default SvgComponent;

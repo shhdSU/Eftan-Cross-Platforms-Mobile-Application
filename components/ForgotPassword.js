@@ -27,12 +27,12 @@ class ForgotPassword extends Component {
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        if(this.state.email === ""){
+        if (this.state.email === "") {
           alert("..فضلًا تأكد من إدخال البريد الالكتروني");
         } else if (errorCode == "auth/user-not-found") {
           alert("البريد الالكتروني غير مسجل !");
         } else if (errorCode == "auth/invalid-email") {
-          alert("نرجوا إعادة كتابة البريد الالكتروني بشكل صحيح");
+          alert("نرجو إعادة كتابة البريد الالكتروني بشكل صحيح");
         } else {
           alert(errorMessage);
         }
@@ -53,8 +53,7 @@ class ForgotPassword extends Component {
   render() {
     return (
       <View style={styles.container}>
-
-<TextInput
+        <TextInput
           style={styles.inputStyle}
           placeholder="البريد الالكتروني"
           value={this.state.email}
@@ -138,7 +137,6 @@ class ForgotPassword extends Component {
             </G>
           </G>
         </Svg>
-       
       </View>
     );
   }

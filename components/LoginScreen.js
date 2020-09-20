@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import Svg, {
   Defs,
   LinearGradient,
@@ -9,7 +9,7 @@ import Svg, {
   Rect,
   Circle,
   Ellipse,
-} from "react-native-svg"
+} from "react-native-svg";
 
 function LoginScreen(props) {
   return (
@@ -468,7 +468,7 @@ function LoginScreen(props) {
         </G>
       </G>
     </Svg>
-  )
+  );
 }
 
 export default LoginScreen;

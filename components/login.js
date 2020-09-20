@@ -145,7 +145,7 @@ export default class LoginPage extends Component {
           style={styles.loginText}
           onPress={() => this.props.navigation.navigate("صفحة التسجيل")}
         >
-          انشاء حساب جديد
+          إنشاء حساب جديد{" "}
         </Text>
 
         <View style={styles.loginButton}>

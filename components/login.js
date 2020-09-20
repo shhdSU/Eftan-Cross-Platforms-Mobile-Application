@@ -100,7 +100,6 @@ export default class LoginPage extends Component {
         }
         this.setState({
           isLoading: false,
-          email: "",
           password: "",
         });
       });

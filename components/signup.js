@@ -48,7 +48,7 @@ export default class SignupScreen extends Component {
   };
 
   registerUser = () => {
-    var specialCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
     var numCheck = /\d/; //check whether string contains numbers
     if (
       this.state.email === "" ||
@@ -134,9 +134,6 @@ export default class SignupScreen extends Component {
           }
           this.setState({
             isLoading: false,
-            firstName: "",
-            lastName: "",
-            email: "",
             password: "",
           });
         });

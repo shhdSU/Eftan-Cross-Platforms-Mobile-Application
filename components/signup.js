@@ -57,18 +57,33 @@ export default class SignupScreen extends Component {
       specialCheck.test(this.state.firstName) ||
       specialCheck.test(this.state.lastName)
     ) {
-      alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
     } else if (
       numCheck.test(this.state.firstName) ||
       numCheck.test(this.state.lastName)
     ) {
-      alert("فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح");
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
     } else if (
       this.state.password.length < 8 ||
       !specialCheck.test(this.state.password) ||
       !numCheck.test(this.state.password)
     ) {
-      alert("كلمة السر المدخلة ضعيفة");
+      Alert.alert(
+        "تنبيه",
+        "كلمة السر المدخلة ضعيفة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
     } else {
       this.setState({
         isLoading: true,
@@ -116,14 +131,29 @@ export default class SignupScreen extends Component {
           var errorCode = error.code;
           var errorMessage = error.message;
           if (this.state.email === "" || this.state.password === "") {
-            alert("..فضلًا تأكد من إدخال جميع بياناتك");
+            Alert.alert(
+              "تنبيه",
+              "..فضلًا تأكد من إدخال جميع بياناتك",
+              [{ text: "حسنًا" }],
+              { cancelable: false }
+            );
           } else if (errorCode == "auth/invalid-email") {
-            alert("نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.");
+            Alert.alert(
+              "تنبيه",
+              "نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.",
+              [{ text: "حسنًا" }],
+              { cancelable: false }
+            );
           } else if (
             errorCode == "auth/email-already-in-use" ||
             errorCode == "auth/email-already-exists"
           ) {
-            alert("البريد الإلكتروني مسجل مسبقَا");
+            Alert.alert(
+              "تنبيه",
+              "البريد الإلكتروني مسجل مسبقَا",
+              [{ text: "حسنًا" }],
+              { cancelable: false }
+            );
           } else {
             console.log(error);
           }

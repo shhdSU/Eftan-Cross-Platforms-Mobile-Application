@@ -92,7 +92,7 @@ export default class LoginPage extends Component {
         if (this.state.email === "" || this.state.password === "") {
           Alert.alert(
             "تنبيه",
-            "..فضلًا تأكد من إدخال جميع بياناتك",
+            "فضلًا تأكد من إدخال جميع بياناتك",
             [{ text: "حسنًا" }],
             { cancelable: false }
           );
@@ -126,6 +126,7 @@ export default class LoginPage extends Component {
         });
       });
   };
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -170,7 +171,7 @@ export default class LoginPage extends Component {
           style={styles.loginText}
           onPress={() => this.props.navigation.navigate("صفحة التسجيل")}
         >
-          انشاء حساب جديد
+          إنشاء حساب جديد{" "}
         </Text>
 
         <View style={styles.loginButton}>

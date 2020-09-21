@@ -24,7 +24,7 @@ class ForgotPassword extends Component {
       .then(function () {
         Alert.alert(
           "تنبيه",
-          "الرجاء تفقد بريدك الالكتروني ",
+          "الرجاء تفقد بريدك الالكتروني",
           [{ text: "حسنًا" }],
           { cancelable: false }
         );
@@ -32,10 +32,10 @@ class ForgotPassword extends Component {
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        if(this.state.email === ""){
+        if (this.state.email === "") {
           Alert.alert(
             "تنبيه",
-            "..فضلًا تأكد من إدخال البريد الالكتروني",
+            "فضلًا تأكد من إدخال البريد الالكتروني",
             [{ text: "حسنًا" }],
             { cancelable: false }
           );
@@ -49,7 +49,7 @@ class ForgotPassword extends Component {
         } else if (errorCode == "auth/invalid-email") {
           Alert.alert(
             "تنبيه",
-            "نرجوا إعادة كتابة البريد الالكتروني بشكل صحيح",
+            "نرجو إعادة كتابة البريد الالكتروني بشكل صحيح",
             [{ text: "حسنًا" }],
             { cancelable: false }
           );
@@ -73,8 +73,7 @@ class ForgotPassword extends Component {
   render() {
     return (
       <View style={styles.container}>
-
-<TextInput
+        <TextInput
           style={styles.inputStyle}
           placeholder="البريد الالكتروني"
           value={this.state.email}
@@ -158,7 +157,6 @@ class ForgotPassword extends Component {
             </G>
           </G>
         </Svg>
-       
       </View>
     );
   }

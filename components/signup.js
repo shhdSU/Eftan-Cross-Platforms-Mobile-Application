@@ -49,7 +49,7 @@ export default class SignupScreen extends Component {
     ) {
       Alert.alert(
         "تنبيه",
-        "..فضلًا تأكد من إدخال جميع بياناتك",
+        "فضلًا تأكد من إدخال جميع بياناتك",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
@@ -80,7 +80,7 @@ export default class SignupScreen extends Component {
     ) {
       Alert.alert(
         "تنبيه",
-        "كلمة السر المدخلة ضعيفة",
+        "كلمة السر المدخلة ضعيفة، يجب أن لا يقل طولها عن 8 متضمّنة حروفًا وأرقامًا ورموزًا خاصة",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
@@ -133,7 +133,7 @@ export default class SignupScreen extends Component {
           if (this.state.email === "" || this.state.password === "") {
             Alert.alert(
               "تنبيه",
-              "..فضلًا تأكد من إدخال جميع بياناتك",
+              "فضلًا تأكد من إدخال جميع بياناتك",
               [{ text: "حسنًا" }],
               { cancelable: false }
             );
@@ -185,7 +185,7 @@ export default class SignupScreen extends Component {
             top: wp("-6%"),
           }}
         >
-          انشاء حساب جديد
+          إنشاء حساب جديد
         </Text>
         <SvgComponenet style={{ top: wp("-15%") }} />
 
@@ -218,7 +218,7 @@ export default class SignupScreen extends Component {
         <Text
           style={[styles.inputStyle2, { color: "#B7B7B7", top: wp("-4%") }]}
         >
-          هل انت؟
+          هل أنت؟
         </Text>
         <View>
           <RadioForm

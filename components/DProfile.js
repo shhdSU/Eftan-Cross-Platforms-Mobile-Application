@@ -1,3 +1,4 @@
+//this page access by designer Themselfe 
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react";

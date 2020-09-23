@@ -355,12 +355,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     margin: hp("-3%"),
   },
-  preloader: {
-    position: "relative",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-  },
+  
+
   radio: {
     top: hp("-4%"),
     left: wp("23%"),

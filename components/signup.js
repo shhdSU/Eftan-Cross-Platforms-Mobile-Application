@@ -123,6 +123,12 @@ export default class SignupScreen extends Component {
                 email: "",
                 password: "",
               });
+              Alert.alert(
+                "تنبيه",
+                "تم إنشاء حسابك بنجاح! يرجى تفعيل بريدك الإلكتروني",
+                [{ text: "حسنًا" }],
+                { cancelable: false }
+              );
             }
             this.props.navigation.navigate("صفحة الدخول");
           });

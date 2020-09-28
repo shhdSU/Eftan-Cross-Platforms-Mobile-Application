@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Svg, { Defs, ClipPath, Path, G } from "react-native-svg";
-class ForgotPassword extends Component {
+export default class ForgotPassword extends Component {
   constructor() {
     super();
     this.state = {
@@ -17,7 +17,14 @@ class ForgotPassword extends Component {
     };
   }
 
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+
   forgotPassword = () => {
+    const { navigation } = this.props;
     firebase
       .auth()
       .sendPasswordResetEmail(this.state.email)
@@ -28,6 +35,7 @@ class ForgotPassword extends Component {
           [{ text: "حسنًا" }],
           { cancelable: false }
         );
+        navigation.navigate("صفحة الدخول");
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -62,12 +70,6 @@ class ForgotPassword extends Component {
           password: "",
         });
       });
-  };
-
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
   };
 
   render() {
@@ -106,7 +108,7 @@ class ForgotPassword extends Component {
                 data-name="Icon ionic-ios-arrow-back"
                 d="M33.706 58.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L30.45 57.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
                 fill="#4f3c75"
-                onPress={() => this.props.navigation.navigate("صفحة الدخول")}
+                onPress={() => navigation.navigate("صفحة الدخول")}
               />
               <G fill="#4f3c75">
                 <Path
@@ -202,5 +204,3 @@ const styles = StyleSheet.create({
     color: "#FFEED6",
   },
 });
-
-export default ForgotPassword;

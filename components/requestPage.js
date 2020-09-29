@@ -139,42 +139,39 @@ export default class RequestScreen extends Component {
           <TriangleColorPicker
             onColorChange={(val) => this.ColorPickerhandl(val, 1)}
             style={styles.ColorPickerStyle}
-            hideSliders
+            hideControls
           />
         )}
         {this.state.show && this.state.colorNum == 2 && (
           <TriangleColorPicker
             onColorChange={(val) => this.ColorPickerhandl(val, 2)}
             style={styles.ColorPickerStyle}
-            hideSliders
+            hideControls
           />
         )}
         {this.state.show && this.state.colorNum == 3 && (
           <TriangleColorPicker
             onColorChange={(val) => this.ColorPickerhandl(val, 3)}
             style={styles.ColorPickerStyle}
-            hideSliders
+            hideControls
           />
         )}
 
         <TouchableOpacity
           style={[styles.coloresbutton, { backgroundColor: this.state.color1 }]}
           onPress={() => this.showcolorpicker(1)}
-          hideSliders
         ></TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.coloresbutton, { backgroundColor: this.state.color2 }]}
           onPress={() => this.showcolorpicker(2)}
-          hideSliders
         ></TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.coloresbutton, { backgroundColor: this.state.color3 }]}
           onPress={() => this.showcolorpicker(3)}
-          hideSliders
         ></TouchableOpacity>
-        <Text>test2</Text>
+        <Text>test2000</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="التصنيف"

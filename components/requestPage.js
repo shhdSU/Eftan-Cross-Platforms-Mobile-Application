@@ -97,6 +97,25 @@ export default class RequestScreen extends Component {
                 */
   }
 
+  submitRequestForm() {
+    //here you put all validation checks
+    this.setState({
+      isLoading: true,
+    });
+    /*
+    const user = firebase.auth().currentUser.uid;
+              firebase
+                .database()
+                .ref(`RequestForms/` + user)
+                .on("value", (snapshot) => {
+                  if (snapshot.exists()) {
+                    this.props.navigation.navigate("معرض المصمم");
+                  }
+                  return;
+                });
+                */
+  }
+
   render() {
     if (this.state.isLoading) {
       return (

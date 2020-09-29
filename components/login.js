@@ -63,7 +63,7 @@ export default class LoginPage extends Component {
                 .ref(`Client/` + user)
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
-                    this.props.navigation.navigate("معرض المصمم");
+                    this.props.navigation.navigate("clientedit");
                   }
                   return;
                 });

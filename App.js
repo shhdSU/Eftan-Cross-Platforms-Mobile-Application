@@ -1,4 +1,3 @@
-
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import LoginScreen from "./components/login";
@@ -7,8 +6,8 @@ import GalleryScreen from "./components/gallery";
 import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
-
-
+import clientprofile from "./components/clientprofile";
+import clientedit from "./components/clientedit";
 
 const Navigation = createStackNavigator(
   {
@@ -18,6 +17,8 @@ const Navigation = createStackNavigator(
     "صفحة المصمم": { screen: DprofileScreen },
     "سياسة الخصوصية": { screen: privacyPolicyScreen },
     "نسيت كلمة السر!": { screen: ForgotPassword },
+    clientprofile: { screen: clientprofile },
+    clientedit: { screen: clientedit },
   },
   { headerMode: "none" }
 );

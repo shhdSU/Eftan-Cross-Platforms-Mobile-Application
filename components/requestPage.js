@@ -175,13 +175,7 @@ export default class RequestScreen extends Component {
           style={[styles.coloresbutton, { backgroundColor: this.state.color3 }]}
           onPress={() => this.showcolorpicker(3)}
         ></TouchableOpacity>
-        <Text>test2000</Text>
-        {/* <TextInput
-          style={styles.inputStyle}
-          placeholder="التصنيف"
-          value={this.state.category}
-          onChangeText={(val) => this.updateInputVal(val, "category")}
-        /> */}
+       
         <Picker
           selectedValue={this.state.category}
           style={{ height: "22%", width: "80%",bottom:"4%"}}

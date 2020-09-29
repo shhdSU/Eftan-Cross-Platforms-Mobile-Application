@@ -10,6 +10,7 @@ import {
   Alert,
   Button,
   ActivityIndicator,
+  Picker,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-datepicker";
@@ -88,6 +89,9 @@ export default class RequestScreen extends Component {
           Alert.alert(error);
         });
     }
+  };
+  setSelectedValue = (val) => {
+    this.updateInputVal(val, "category");
   };
 
   storeResquset = () => {
@@ -172,12 +176,26 @@ export default class RequestScreen extends Component {
           onPress={() => this.showcolorpicker(3)}
         ></TouchableOpacity>
         <Text>test2000</Text>
-        <TextInput
+        {/* <TextInput
           style={styles.inputStyle}
           placeholder="التصنيف"
           value={this.state.category}
           onChangeText={(val) => this.updateInputVal(val, "category")}
-        />
+        /> */}
+        <Picker
+          selectedValue={this.state.category}
+          style={{ height: "22%", width: "80%",bottom:"4%"}}
+          onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
+        >
+          <Picker.Item label="أخرى" value="أخرى" />
+          <Picker.Item label="علامة تجارية" value="علامة تجارية" />
+          <Picker.Item label="شعار" value="شعار" />
+          <Picker.Item label="فلتر" value="فلتر" />
+          <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
+          <Picker.Item label="إعلان" value="إعلان" />
+          <Picker.Item label="شهادة" value="شهادة" />
+          <Picker.Item label="فن رقمي" value="فن رقمي" />
+        </Picker>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.onChooseImagePress()}

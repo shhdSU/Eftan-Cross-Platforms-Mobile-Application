@@ -1,18 +1,22 @@
 import React, { Component } from "react";
 import RadioForm from "react-native-simple-radio-button";
-
+import {
+  DocumentPicker,
+  DocumentPickerUtil,
+} from "react-native-document-picker";
 import {
   Text,
   StyleSheet,
   View,
+  Image,
   TextInput,
   TouchableOpacity,
   Alert,
   Button,
   ActivityIndicator,
 } from "react-native";
-import SvgComponenet from "./welcomeSVG";
 import firebase from "../database/firebase";
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -30,6 +34,8 @@ export default class UploadNewDesign extends Component {
     };
   }
 
+  selectImage() {}
+
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -41,18 +47,6 @@ export default class UploadNewDesign extends Component {
     this.setState({
       isLoading: true,
     });
-    /*
-    const user = firebase.auth().currentUser.uid;
-              firebase
-                .database()
-                .ref(`RequestForms/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                    this.props.navigation.navigate("معرض المصمم");
-                  }
-                  return;
-                });
-                */
   }
 
   render() {
@@ -99,7 +93,7 @@ export default class UploadNewDesign extends Component {
               top={300}
               selectedButtonColor={"#4F3C75"}
               buttonColor={"#4F3C75"}
-              formVertical={true}
+              formHorizontal={true}
               radio_props={radio_props}
               initial={"other"}
               onPress={(value) => {
@@ -107,7 +101,11 @@ export default class UploadNewDesign extends Component {
               }}
             />
           </View>
-
+          <Image
+            style={styles.tinyLogo}
+            source={require("../assets/upload.png")}
+            onPress={() => this.selectImage()}
+          />
           <Text
             style={{
               color: "#FFEED6",
@@ -141,6 +139,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: wp("10%"),
     backgroundColor: "#fff",
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
   },
   inputStyle: {
     fontSize: 18,

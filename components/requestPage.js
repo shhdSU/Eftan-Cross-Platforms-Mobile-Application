@@ -160,16 +160,19 @@ export default class RequestScreen extends Component {
         <TouchableOpacity
           style={[styles.coloresbutton, { backgroundColor: this.state.color1 }]}
           onPress={() => this.showcolorpicker(1)}
+          hideSliders
         ></TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.coloresbutton, { backgroundColor: this.state.color2 }]}
           onPress={() => this.showcolorpicker(2)}
+          hideSliders
         ></TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.coloresbutton, { backgroundColor: this.state.color3 }]}
           onPress={() => this.showcolorpicker(3)}
+          hideSliders
         ></TouchableOpacity>
         <Text>test2</Text>
         <TextInput

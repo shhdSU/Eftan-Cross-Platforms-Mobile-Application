@@ -134,7 +134,7 @@ export default class RequestScreen extends Component {
           value={this.state.description}
           onChangeText={(val) => this.updateInputVal(val, "description")}
         />
-        
+
         {this.state.show && this.state.colorNum == 1 && (
           <TriangleColorPicker
             onColorChange={(val) => this.ColorPickerhandl(val, 1)}
@@ -156,23 +156,22 @@ export default class RequestScreen extends Component {
             hideSliders
           />
         )}
-        
+
         <TouchableOpacity
-          style={styles.coloresbutton}
+          style={[styles.coloresbutton, { backgroundColor: this.state.color1 }]}
           onPress={() => this.showcolorpicker(1)}
         ></TouchableOpacity>
 
-         <TouchableOpacity
-          style={styles.coloresbutton}
+        <TouchableOpacity
+          style={[styles.coloresbutton, { backgroundColor: this.state.color2 }]}
           onPress={() => this.showcolorpicker(2)}
         ></TouchableOpacity>
 
-         <TouchableOpacity
-          style={styles.coloresbutton}
+        <TouchableOpacity
+          style={[styles.coloresbutton, { backgroundColor: this.state.color3 }]}
           onPress={() => this.showcolorpicker(3)}
         ></TouchableOpacity>
-
-       
+        <Text>test2</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="التصنيف"

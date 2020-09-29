@@ -14,6 +14,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-datepicker";
 import Svg, { Path } from "react-native-svg";
+import { fromHsv, TriangleColorPicker } from "react-native-color-picker";
 
 export default class RequestScreen extends Component {
   constructor(props) {
@@ -29,13 +30,42 @@ export default class RequestScreen extends Component {
       deadLine: "",
       Cemail: "",
       Demail: "",
+      show: false,
+      colorNum: 0,
     };
   }
+  ColorPickerhandl = (val, num) => {
+    let hexVal = fromHsv(val);
+    let type = "NONE";
+
+    switch (num) {
+      case 1: {
+        type = "color1";
+        break;
+      }
+      case 2: {
+        type = "color2";
+        break;
+      }
+      case 3: {
+        type = "color3";
+        break;
+      }
+    }
+    if (type !== "NONE") this.updateInputVal(hexVal, type);
+    else console.log("Method fail");
+  };
 
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
+  };
+  showcolorpicker = (colorNum) => {
+    if (this.state.show == false) {
+      this.updateInputVal(true, "show");
+      this.updateInputVal(colorNum, "colorNum");
+    } else this.updateInputVal(false, "show");
   };
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);
@@ -78,44 +108,6 @@ export default class RequestScreen extends Component {
       });
   };
 
-  submitRequestForm() {
-    //here you put all validation checks
-    this.setState({
-      isLoading: true,
-    });
-    /*
-    const user = firebase.auth().currentUser.uid;
-              firebase
-                .database()
-                .ref(`RequestForms/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                    this.props.navigation.navigate("معرض المصمم");
-                  }
-                  return;
-                });
-                */
-  }
-
-  submitRequestForm() {
-    //here you put all validation checks
-    this.setState({
-      isLoading: true,
-    });
-    /*
-    const user = firebase.auth().currentUser.uid;
-              firebase
-                .database()
-                .ref(`RequestForms/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                    this.props.navigation.navigate("معرض المصمم");
-                  }
-                  return;
-                });
-                */
-  }
-
   render() {
     if (this.state.isLoading) {
       return (
@@ -125,7 +117,7 @@ export default class RequestScreen extends Component {
       );
     }
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         {/* <Svg></Svg>//For Image and nav bar */}
         <TextInput
           style={styles.inputStyle}
@@ -142,25 +134,45 @@ export default class RequestScreen extends Component {
           value={this.state.description}
           onChangeText={(val) => this.updateInputVal(val, "description")}
         />
+        
+        {this.state.show && this.state.colorNum == 1 && (
+          <TriangleColorPicker
+            onColorChange={(val) => this.ColorPickerhandl(val, 1)}
+            style={styles.ColorPickerStyle}
+            hideSliders
+          />
+        )}
+        {this.state.show && this.state.colorNum == 2 && (
+          <TriangleColorPicker
+            onColorChange={(val) => this.ColorPickerhandl(val, 2)}
+            style={styles.ColorPickerStyle}
+            hideSliders
+          />
+        )}
+        {this.state.show && this.state.colorNum == 3 && (
+          <TriangleColorPicker
+            onColorChange={(val) => this.ColorPickerhandl(val, 3)}
+            style={styles.ColorPickerStyle}
+            hideSliders
+          />
+        )}
+        
+        <TouchableOpacity
+          style={styles.coloresbutton}
+          onPress={() => this.showcolorpicker(1)}
+        ></TouchableOpacity>
 
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="اللون الأول"
-          value={this.state.color1}
-          onChangeText={(val) => this.updateInputVal(val, "color1")}
-        />
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="اللون الثاني"
-          value={this.state.color2}
-          onChangeText={(val) => this.updateInputVal(val, "color2")}
-        />
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="اللون الثالث"
-          value={this.state.color3}
-          onChangeText={(val) => this.updateInputVal(val, "color3")}
-        />
+         <TouchableOpacity
+          style={styles.coloresbutton}
+          onPress={() => this.showcolorpicker(2)}
+        ></TouchableOpacity>
+
+         <TouchableOpacity
+          style={styles.coloresbutton}
+          onPress={() => this.showcolorpicker(3)}
+        ></TouchableOpacity>
+
+       
         <TextInput
           style={styles.inputStyle}
           placeholder="التصنيف"
@@ -222,7 +234,7 @@ export default class RequestScreen extends Component {
             رفع الطلب
           </Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     );
   } //End of Second return
 }
@@ -266,5 +278,24 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "140%",
     right: "80%",
+  },
+  ColorPickerStyle: {
+    position: "absolute",
+    top: "10%",
+    height: "10%",
+    width: "40%",
+    backgroundColor: "#fff",
+  },
+  coloresbutton: {
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: "1%",
+    borderRadius: 25,
+    width: "10%",
+    height: "4%",
+    alignSelf: "center",
+    marginTop: "4%",
+    borderWidth: 2,
+    borderColor: "#4F3C75",
   },
 });

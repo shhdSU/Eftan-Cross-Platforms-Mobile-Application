@@ -47,9 +47,14 @@ export default class UploadNewDesign extends Component {
       category: "",
       designFile: "",
       isLoading: false,
+      localpath: "",
     };
   }
-
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -58,25 +63,28 @@ export default class UploadNewDesign extends Component {
       .storage()
       .ref()
       .child("DesignWork/" + draftName);
+    //this.updateInputVal(response.url, "designFile");
+
     return ref.put(blob);
   };
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
+    this.updateInputVal(result.uri, "localpath");
     if (!result.cancelled) {
       this.uploadImage(result.uri, this.state.designTitle)
         .then(() => {
-          Alert.alert("Success");
+          firebase
+            .storage()
+            .ref("DesignWork/" + this.state.designTitle)
+            .getDownloadURL()
+            .then((url) => {
+              this.updateInputVal(url, "designFile");
+            });
         })
         .catch((error) => {
           Alert.alert(error);
         });
     }
-  };
-
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
   };
 
   uploadDesign() {
@@ -149,6 +157,12 @@ export default class UploadNewDesign extends Component {
             source={require("../assets/upload.png")}
           />
         </TouchableOpacity>
+        <Image
+          style={styles.preview}
+          source={{
+            uri: this.state.localpath,
+          }}
+        />
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.uploadDesign()}
@@ -167,17 +181,6 @@ export default class UploadNewDesign extends Component {
   } //End of Second return
 }
 
-var radio_props = [
-  { value: "logo" },
-  { value: "filter" },
-  { value: "branding" },
-  { value: "digitalArt" },
-  { value: "poster" },
-  { value: "infographic" },
-  { value: "certification" },
-  { value: "other" },
-];
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -192,6 +195,11 @@ const styles = StyleSheet.create({
     height: 30,
     paddingBottom: "3%",
     marginBottom: "3%",
+  },
+  preview: {
+    width: 60,
+    height: 60,
+    right: 10,
   },
   inputStyle: {
     fontSize: 18,

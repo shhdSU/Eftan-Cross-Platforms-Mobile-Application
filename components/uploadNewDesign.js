@@ -45,7 +45,7 @@ export default class UploadNewDesign extends Component {
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      this.uploadImage(result.uri, result.base64)
+      this.uploadImage(result.uri, result.uri)
         .then(() => {
           Alert.alert("Success");
         })
@@ -55,7 +55,7 @@ export default class UploadNewDesign extends Component {
     }
   };
 
-  storeResquset = () => {
+  storeDesign = () => {
     const userID = firebase.auth().currentUser.uid;
     const userEmail = "";
     firebase
@@ -88,7 +88,9 @@ export default class UploadNewDesign extends Component {
       isLoading: true,
     });
   }
-
+  setSelectedValue = (val) => {
+    this.updateInputVal(val, "category");
+  };
   render() {
     if (this.state.isLoading) {
       return (
@@ -112,36 +114,36 @@ export default class UploadNewDesign extends Component {
           value={this.state.designDescription}
           onChangeText={(val) => this.updateInputVal(val, "designDescription")}
         />
+        <Text
+          style={[styles.inputStyle2, { color: "#4F3C75", top: wp("-4%") }]}
+        >
+          فئة التصميم{" "}
+        </Text>
+        <Picker
+          selectedValue={this.state.category}
+          style={{ height: "22%", width: "80%", bottom: "4%" }}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setSelectedValue(itemValue)
+          }
+        >
+          <Picker.Item label="أخرى" value="أخرى" />
+          <Picker.Item label="علامة تجارية" value="علامة تجارية" />
+          <Picker.Item label="شعار" value="شعار" />
+          <Picker.Item label="فلتر" value="فلتر" />
+          <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
+          <Picker.Item label="إعلان" value="إعلان" />
+          <Picker.Item label="شهادة" value="شهادة" />
+          <Picker.Item label="فن رقمي" value="فن رقمي" />
+        </Picker>
+        <Image
+          style={styles.tinyLogo}
+          source={require("../assets/upload.png")}
+          onPress={() => this.onChooseImagePress()}
+        />
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.uploadDesign()}
         >
-          <Text
-            style={[styles.inputStyle2, { color: "#4F3C75", top: wp("-4%") }]}
-          >
-            فئة التصميم{" "}
-          </Text>
-          <Picker
-            selectedValue={this.state.category}
-            style={{ height: "22%", width: "80%", bottom: "4%" }}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setSelectedValue(itemValue)
-            }
-          >
-            <Picker.Item label="أخرى" value="أخرى" />
-            <Picker.Item label="علامة تجارية" value="علامة تجارية" />
-            <Picker.Item label="شعار" value="شعار" />
-            <Picker.Item label="فلتر" value="فلتر" />
-            <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
-            <Picker.Item label="إعلان" value="إعلان" />
-            <Picker.Item label="شهادة" value="شهادة" />
-            <Picker.Item label="فن رقمي" value="فن رقمي" />
-          </Picker>
-          <Image
-            style={styles.tinyLogo}
-            source={require("../assets/upload.png")}
-            onPress={() => this.onChooseImagePress()}
-          />
           <Text
             style={{
               color: "#FFEED6",
@@ -177,8 +179,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   tinyLogo: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
   },
   inputStyle: {
     fontSize: 18,

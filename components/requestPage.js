@@ -8,14 +8,15 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Button,
   ActivityIndicator,
   Picker,
+  KeyboardAvoidingView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-datepicker";
-import Svg, { Path } from "react-native-svg";
-import { fromHsv, TriangleColorPicker } from "react-native-color-picker";
+import Svg, { Defs, G, Path } from "react-native-svg";
+import { fromHsv, TriangleColorPicker, toHsv } from "react-native-color-picker";
+import SvgComponent from "./rquestPageImage";
 
 export default class RequestScreen extends Component {
   constructor(props) {
@@ -34,6 +35,9 @@ export default class RequestScreen extends Component {
       show: false,
       colorNum: 0,
     };
+  }
+  trans(val) {
+    return toHsv(val);
   }
   ColorPickerhandl = (val, num) => {
     let hexVal = fromHsv(val);
@@ -63,6 +67,10 @@ export default class RequestScreen extends Component {
     this.setState(state);
   };
   showcolorpicker = (colorNum) => {
+    if (this.state.colorNum !== 0) {
+      // this.updateInputVal(0, "colorNum");
+      this.updateInputVal(false, "show");
+    }
     if (this.state.show == false) {
       this.updateInputVal(true, "show");
       this.updateInputVal(colorNum, "colorNum");
@@ -121,159 +129,290 @@ export default class RequestScreen extends Component {
       );
     }
     return (
-      <View style={styles.container}>
-        {/* <Svg></Svg>//For Image and nav bar */}
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="عنوان الطلب"
-          value={this.state.title}
-          onChangeText={(val) => this.updateInputVal(val, "title")}
-        />
-
-        <TextInput
-          style={styles.inputStyle}
-          multiline={true}
-          numberOfLines={6}
-          placeholder="وصف الطلب"
-          value={this.state.description}
-          onChangeText={(val) => this.updateInputVal(val, "description")}
-        />
-
-        {this.state.show && this.state.colorNum == 1 && (
-          <TriangleColorPicker
-            onColorChange={(val) => this.ColorPickerhandl(val, 1)}
-            style={styles.ColorPickerStyle}
-            hideControls
-          />
-        )}
-        {this.state.show && this.state.colorNum == 2 && (
-          <TriangleColorPicker
-            onColorChange={(val) => this.ColorPickerhandl(val, 2)}
-            style={styles.ColorPickerStyle}
-            hideControls
-          />
-        )}
-        {this.state.show && this.state.colorNum == 3 && (
-          <TriangleColorPicker
-            onColorChange={(val) => this.ColorPickerhandl(val, 3)}
-            style={styles.ColorPickerStyle}
-            hideControls
-          />
-        )}
-
-        <TouchableOpacity
-          style={[styles.coloresbutton, { backgroundColor: this.state.color1 }]}
-          onPress={() => this.showcolorpicker(1)}
-        ></TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.coloresbutton, { backgroundColor: this.state.color2 }]}
-          onPress={() => this.showcolorpicker(2)}
-        ></TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.coloresbutton, { backgroundColor: this.state.color3 }]}
-          onPress={() => this.showcolorpicker(3)}
-        ></TouchableOpacity>
-       
-        <Picker
-          selectedValue={this.state.category}
-          style={{ height: "22%", width: "80%",bottom:"4%"}}
-          onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
-        >
-          <Picker.Item label="أخرى" value="أخرى" />
-          <Picker.Item label="علامة تجارية" value="علامة تجارية" />
-          <Picker.Item label="شعار" value="شعار" />
-          <Picker.Item label="فلتر" value="فلتر" />
-          <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
-          <Picker.Item label="إعلان" value="إعلان" />
-          <Picker.Item label="شهادة" value="شهادة" />
-          <Picker.Item label="فن رقمي" value="فن رقمي" />
-        </Picker>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onChooseImagePress()}
-        >
-          <Text
-            style={{
-              color: "#FFEED6",
-              fontSize: 25,
-            }}
-          >
-            رفع مسودة
-          </Text>
-        </TouchableOpacity>
-        <DatePicker
-          style={{ width: 200 }}
-          date={this.state.deadLine}
-          mode="date"
-          format="YYYY-MM-DD"
-          minDate="2020-10-26"
-          confirmBtnText="تم"
-          cancelBtnText="إلغاء"
-          hideText
-          iconComponent={
-            <Svg width={31.5} height={36} style={styles.dateIcon}>
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+        <ScrollView style={styles.container}>
+          <Svg width={416} height={144} style={styles.tab}>
+            <G data-name="Group 7">
+              <G filter="url(#prefix__a)">
+                <Path
+                  data-name="Path 117"
+                  d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
+                  fill="#ffeed6"
+                />
+              </G>
               <Path
-                data-name="Icon awesome-calendar-alt"
-                d="M0 32.625A3.376 3.376 0 003.375 36h24.75a3.376 3.376 0 003.375-3.375V13.5H0zm22.5-13.781a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm0 9a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm-9-9a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm0 9a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm-9-9A.846.846 0 015.344 18h2.812a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844H5.344a.846.846 0 01-.844-.844zm0 9A.846.846 0 015.344 27h2.812a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844H5.344a.846.846 0 01-.844-.844zM28.125 4.5H24.75V1.125A1.128 1.128 0 0023.625 0h-2.25a1.128 1.128 0 00-1.125 1.125V4.5h-9V1.125A1.128 1.128 0 0010.125 0h-2.25A1.128 1.128 0 006.75 1.125V4.5H3.375A3.376 3.376 0 000 7.875v3.375h31.5V7.875A3.376 3.376 0 0028.125 4.5z"
-                fill="#c5c3c1"
+                data-name="Icon ionic-ios-arrow-back"
+                d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+                fill="#4f3c75"
               />
-            </Svg>
-          }
-          onDateChange={(date) => {
-            this.setState({ deadLine: date });
-          }}
-        />
-        <TextInput
-          editable={false}
-          style={[styles.inputStyle, { width: "80%", left: "19%" }]}
-          placeholder="آخر موعد للتسليم"
-          value={this.state.deadLine}
-          onChangeText={(val) => this.updateInputVal(val, "deadLine")}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.storeResquset()}
-        >
+              <Path
+                data-name="Icon material-menu"
+                d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
+                fill="#4f3c75"
+              />
+            </G>
+          </Svg>
           <Text
             style={{
-              color: "#FFEED6",
-              fontSize: 25,
+              fontSize: 30,
+              color: "#4F3C75",
+              fontWeight: "700",
+              top: "-14%",
+              alignSelf: "center",
             }}
           >
-            رفع الطلب
+            طلب تصميم
           </Text>
-        </TouchableOpacity>
-      </View>
+
+          <SvgComponent style={styles.SvgComponentStyle}></SvgComponent>
+          <TextInput
+            style={styles.inputStyle}
+            placeholder="عنوان الطلب*"
+            value={this.state.title}
+            onChangeText={(val) => this.updateInputVal(val, "title")}
+          />
+
+          <TextInput
+            editable={false}
+            style={[styles.inputStyle, { width: "80%", left: "8.5%" }]}
+            value={this.state.title}
+            placeholder="رفع مسودة"
+            onChangeText={(val) => this.updateInputVal(val, "title")}
+            onTouchStart={() => this.onChooseImagePress()}
+          />
+
+          <View>
+            <Svg
+              width={30}
+              height={30}
+              onPress={() => this.onChooseImagePress()}
+              style={styles.uploadIcon}
+            >
+              <G
+                data-name="Icon feather-upload"
+                fill="none"
+                stroke="#c5c3c1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={3}
+              >
+                <Path
+                  data-name="Path 220"
+                  d="M28.5 19.5v6a3 3 0 01-3 3h-21a3 3 0 01-3-3v-6"
+                />
+                <Path data-name="Path 221" d="M22.5 9L15 1.5 7.5 9" />
+                <Path data-name="Path 222" d="M15 1.5v18" />
+              </G>
+            </Svg>
+          </View>
+          <Text
+            style={{
+              fontSize: 20,
+              alignSelf: "flex-end",
+              top: "-2%",
+              color: "#4F3C75",
+              fontWeight: "700",
+            }}
+          >
+            الألوان المراد استخدامها
+          </Text>
+          {/* <ScrollView horizontal={true}> */}
+          <TextInput
+            style={[styles.inputStyle, { top: "-12%", overflow: "scroll" }]}
+            numberOfLines={6}
+            placeholder="وصف الطلب*"
+            value={this.state.description}
+            onChangeText={(val) => this.updateInputVal(val, "description")}
+            scrollEnabled={true}
+          />
+          {/* </ScrollView> */}
+          {this.state.show && this.state.colorNum == 1 && (
+            <TriangleColorPicker
+              onColorChange={(val) => this.ColorPickerhandl(val, 1)}
+              style={styles.ColorPickerStyle}
+              hideControls
+              color={this.trans(this.state.color1)}
+            />
+          )}
+          {this.state.show && this.state.colorNum == 2 && (
+            <TriangleColorPicker
+              onColorChange={(val) => this.ColorPickerhandl(val, 2)}
+              style={styles.ColorPickerStyle}
+              hideControls
+              color={this.trans(this.state.color2)}
+            />
+          )}
+          {this.state.show && this.state.colorNum == 3 && (
+            <TriangleColorPicker
+              onColorChange={(val) => this.ColorPickerhandl(val, 3)}
+              style={styles.ColorPickerStyle}
+              hideControls
+              color={this.trans(this.state.color3)}
+            />
+          )}
+
+          <TextInput
+            style={[
+              styles.coloresbutton,
+              { backgroundColor: this.state.color1, left: "83%" },
+            ]}
+            placeholder="اللون الأول"
+            placeholderTextColor="#4F3C75"
+            value={this.state.color1}
+            onTouchStart={() => this.showcolorpicker(1)}
+            onChangeText={(val) => this.updateInputVal(val, "color1")}
+          />
+          <TextInput
+            style={[
+              styles.coloresbutton,
+              { backgroundColor: this.state.color2, left: "67%" },
+            ]}
+            placeholder="اللون الثاني"
+            placeholderTextColor="#4F3C75"
+            value={this.state.color2}
+            onTouchStart={() => this.showcolorpicker(2)}
+            onChangeText={(val) => this.updateInputVal(val, "color2")}
+          />
+          <TextInput
+            style={[
+              styles.coloresbutton,
+              { backgroundColor: this.state.color3, left: "51%" },
+            ]}
+            placeholder="اللون الثالث"
+            placeholderTextColor="#4F3C75"
+            value={this.state.color3}
+            onTouchStart={() => this.showcolorpicker(3)}
+            onChangeText={(val) => this.updateInputVal(val, "color3")}
+          />
+          <TouchableOpacity
+            style={styles.button2}
+            onPress={() => this.updateInputVal(false, "show")}
+          >
+            <Text
+              style={{
+                color: "#FFEED6",
+                fontSize: 13,
+                flexDirection: "row",
+                alignSelf: "center",
+              }}
+            >
+              إغلاق اداة التقاط اللون
+            </Text>
+            <Text style={{ alignSelf: "center" }}> </Text>
+            <Text
+              style={{
+                color: "#FFEED6",
+                fontSize: 15,
+                flexDirection: "row",
+                alignSelf: "center",
+              }}
+            >
+              X
+            </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 20,
+              alignSelf: "flex-end",
+              top: "-5%",
+              color: "#4F3C75",
+              fontWeight: "700",
+            }}
+          >
+            التصنيف*
+          </Text>
+          <Picker
+            selectedValue={this.state.category}
+            style={{
+              height: "22%",
+              width: "80%",
+              bottom: "5%",
+              alignSelf: "center",
+            }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setSelectedValue(itemValue)
+            }
+          >
+            <Picker.Item label="أخرى" value="أخرى" />
+            <Picker.Item label="علامة تجارية" value="علامة تجارية" />
+            <Picker.Item label="شعار" value="شعار" />
+            <Picker.Item label="فلتر" value="فلتر" />
+            <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
+            <Picker.Item label="إعلان" value="إعلان" />
+            <Picker.Item label="شهادة" value="شهادة" />
+            <Picker.Item label="فن رقمي" value="فن رقمي" />
+          </Picker>
+
+          <DatePicker
+            style={{ width: 200 }}
+            date={this.state.deadLine}
+            mode="date"
+            format="YYYY-MM-DD"
+            minDate={new Date()}
+            confirmBtnText="تم"
+            cancelBtnText="إلغاء"
+            hideText
+            iconComponent={
+              <Svg width={31.5} height={36} style={styles.dateIcon}>
+                <Path
+                  data-name="Icon awesome-calendar-alt"
+                  d="M0 32.625A3.376 3.376 0 003.375 36h24.75a3.376 3.376 0 003.375-3.375V13.5H0zm22.5-13.781a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm0 9a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm-9-9a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm0 9a.846.846 0 01.844-.844h2.813a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844h-2.813a.846.846 0 01-.844-.844zm-9-9A.846.846 0 015.344 18h2.812a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844H5.344a.846.846 0 01-.844-.844zm0 9A.846.846 0 015.344 27h2.812a.846.846 0 01.844.844v2.813a.846.846 0 01-.844.844H5.344a.846.846 0 01-.844-.844zM28.125 4.5H24.75V1.125A1.128 1.128 0 0023.625 0h-2.25a1.128 1.128 0 00-1.125 1.125V4.5h-9V1.125A1.128 1.128 0 0010.125 0h-2.25A1.128 1.128 0 006.75 1.125V4.5H3.375A3.376 3.376 0 000 7.875v3.375h31.5V7.875A3.376 3.376 0 0028.125 4.5z"
+                  fill="#c5c3c1"
+                />
+              </Svg>
+            }
+            onDateChange={(date) => {
+              this.setState({ deadLine: date });
+            }}
+          />
+          <TextInput
+            editable={false}
+            style={[
+              styles.inputStyle,
+              { width: "80%", left: "8%", top: "-12%" },
+            ]}
+            placeholder="آخر موعد للتسليم"
+            value={this.state.deadLine}
+            onChangeText={(val) => this.updateInputVal(val, "deadLine")}
+          />
+          <TouchableOpacity
+            style={[styles.button]}
+            onPress={() => this.storeResquset()}
+          >
+            <Text
+              style={{
+                color: "#FFEED6",
+                fontSize: 25,
+              }}
+            >
+              رفع الطلب
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   } //End of Second return
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
     padding: "10%",
+    backgroundColor: "#fff",
   },
   preloader: {
     position: "relative",
     alignItems: "center",
     justifyContent: "center",
   },
-  Button: {
-    height: "10%",
-    width: "10%",
-    backgroundColor: "#DDD",
-  },
   inputStyle: {
+    alignSelf: "center",
     fontSize: 18,
     width: "100%",
     textAlign: "right",
-    top: "0%",
+    top: "-8%",
     borderColor: "#ccc",
     borderBottomWidth: 2,
-    padding: "7%",
+    padding: "3%",
+    margin: "4%",
   },
   button: {
     alignItems: "center",
@@ -281,32 +420,56 @@ const styles = StyleSheet.create({
     padding: "1%",
     borderRadius: 25,
     width: "100%",
-    height: "7%",
+    height: "5%",
     alignSelf: "center",
+    // marginTop: "4%",
+    bottom: "10%",
+    justifyContent: "center",
+  },
+  button2: {
+    justifyContent: "center",
+    flexDirection: "row",
+    backgroundColor: "#4F3C75",
+    padding: "1%",
+    borderRadius: 25,
+    width: "50%",
+    height: "3%",
     marginTop: "4%",
+    top: "-31%",
   },
   dateIcon: {
     position: "absolute",
-    top: "140%",
+    bottom: "170%",
     right: "80%",
   },
   ColorPickerStyle: {
     position: "absolute",
-    top: "10%",
+    top: "56%",
     height: "10%",
     width: "40%",
     backgroundColor: "#fff",
+    zIndex: 2,
   },
   coloresbutton: {
-    alignItems: "center",
     backgroundColor: "#fff",
-    padding: "1%",
     borderRadius: 25,
-    width: "10%",
-    height: "4%",
-    alignSelf: "center",
-    marginTop: "4%",
+    width: "16%",
+    height: "3.2%",
     borderWidth: 2,
     borderColor: "#4F3C75",
+    fontSize: 9,
+    textAlign: "center",
+    position: "absolute",
+    top: "52.5%",
+  },
+  tab: {
+    alignSelf: "center",
+    top: "-8%",
+  },
+  SvgComponentStyle: {
+    top: "-8%",
+  },
+  uploadIcon: {
+    top: "-400%",
   },
 });

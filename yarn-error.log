@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\USER\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-responsive-screen
+  C:\Program Files\nodejs\node.exe C:\Users\USER\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add expo-image-picker
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\dotnet\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Users\USER\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\msys64\mingw64\bin;C:\msys64\usr\bin;C:\Users\USER\AppData\Local\Programs\Microsoft VS Code\bin;C:\xampp\php;C:\Users\USER\AppData\Local\ComposerSetup\bin;C:\Users\USER\AppData\Roaming\Composer\vendor\bin;C:\Users\USER\AppData\Roaming\npm;C:\Users\USER\AppData\Local\GitHubDesktop\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\USER\Documents\GitHub\Eftan\node_modules\@babel\compat-data\node_modules\.bin'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\USER\Documents\GitHub\Eftan\node_modules\deep-assign\node_modules\is-obj'
 
 npm manifest: 
   {

@@ -6,48 +6,64 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import FirebaseAuth from "../database/firebase";
 import firebase from "../database/firebase";
 import * as React from "react";
-import * as ImagePicker from "expo-image-picker";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-export default class clientprofile extends React.Component {
-  constructor() {
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+export default class designerprofile extends React.Component {
+  constructor(props) {
     super();
+    this.state = {};
     this.state = {
       firstName: "",
       lastName: "",
       email: "",
-      img: "",
+      bio: "",
+      num_rating: 0,
+      total_rating: 0,
     };
     const user = firebase.auth().currentUser.uid;
-    var fName, lName, email;
-
+    var fName = "";
+    var lName = "";
+    var email = "";
+    var bio = "";
+    var num_rating = 0;
+    var total_rating = 0;
     firebase
       .database()
-      .ref(`Client/` + user)
-      .once("value", function (dataSnapshot) {
-        fName = dataSnapshot.child("CFirstName").val();
-        lName = dataSnapshot.child("CLastName").val();
-        email = dataSnapshot.child("Cemail").val();
+      .ref(`GraphicDesigner/` + user)
+      .on("value", function (snapshot) {
+        if (snapshot.exists()) {
+          firebase
+            .database()
+            .ref(`GraphicDesigner/` + user)
+            .on("value", function (dataSnapshot) {
+              fName = dataSnapshot.child("DFirstName").val();
+              lName = dataSnapshot.child("DLastName").val();
+              email = dataSnapshot.child("Demail").val();
+              bio = dataSnapshot.child("bio").val();
+              num_rating = dataSnapshot.child("number_of_rating").val();
+              total_rating = dataSnapshot.child("total_rating").val();
+            });
+        }
       });
 
     this.state.firstName = fName;
     this.state.lastName = lName;
     this.state.email = email;
-    const profileImage = firebase
-      .storage()
-      .ref("ProfilePictures/" + firebase.auth().currentUser.uid);
-    profileImage.getDownloadURL().then((url) => {
-      this.state.img = url;
-    });
-    console.log(this.state.img);
+    this.state.bio = bio;
+    this.state.num_rating = num_rating;
+    this.state.total_rating = total_rating;
   }
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
   render() {
-    const state = this.state;
     return (
       <View>
         <Svg>
@@ -90,31 +106,21 @@ export default class clientprofile extends React.Component {
           </G>
         </Svg>
         <Image
-          source={{
-            uri: firebase
-              .storage()
-              .ref("ProfilePictures/" + firebase.auth().currentUser.uid)
-              .getDownloadURL()
-              .then((url) => {}),
-          }}
+          style={styles.forText}
+          source={require("../assets/Nerdy-Cactus.png")}
         />
-        <Text style={styles.forText}>First Name:</Text>
-        <Text style={styles.forText}>{state.firstName}</Text>
-        <Text style={styles.forText}>Last Name:</Text>
-        <Text style={styles.forText}>{state.lastName}</Text>
-        <Text style={styles.forText}>Email:</Text>
-        <Text style={styles.forText}>{state.email}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("clientedit")}
-        >
-          <Text
-            onPress={() => this.props.navigation.navigate("clientedit")}
-            style={styles.forText}
-          >
-            Edit Profile
-          </Text>
-        </TouchableOpacity>
+        <Text>First Name:</Text>
+        <Text>{this.state.firstName}</Text>
+        <Text>Last Name:</Text>
+        <Text>{this.state.lastName}</Text>
+        <Text>Email:</Text>
+        <Text>{this.state.email}</Text>
+        <Text>Bio:</Text>
+        <Text>{this.state.bio}</Text>
+        <Text>Number of ratings:</Text>
+        <Text>{this.state.num_rating}</Text>
+        <Text>Total rating:</Text>
+        <Text>{this.state.total_rating}</Text>
       </View>
     );
   }
@@ -129,25 +135,19 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: "1%",
     borderRadius: 25,
-    width: "80%",
-    height: "6%",
+
     alignSelf: "center",
   },
   forText: {
-    top: "-200%",
-    left: "2%",
+    position: "relative",
+    top: wp("-200%"),
+    left: hp("2%"),
     color: "#4F3C75",
+    textAlign: "center",
     alignSelf: "center",
   },
-  forText2: {
-    position: "absolute",
-    top: "45%",
-    left: "11%",
-    color: "#4F3C75",
-    fontSize: 30,
-  },
+
   profileImg: {
     width: 50,
     height: 50,

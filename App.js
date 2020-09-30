@@ -8,6 +8,8 @@ import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import clientprofile from "./components/clientprofile";
 import clientedit from "./components/clientedit";
+import designerprofile from "./components/designerprofile";
+import designeredit from "./components/designeredit";
 
 const Navigation = createStackNavigator(
   {
@@ -19,6 +21,8 @@ const Navigation = createStackNavigator(
     "نسيت كلمة السر!": { screen: ForgotPassword },
     clientprofile: { screen: clientprofile },
     clientedit: { screen: clientedit },
+    designerprofile: { screen: designerprofile },
+    designeredit: { screen: designeredit },
   },
   { headerMode: "none" }
 );

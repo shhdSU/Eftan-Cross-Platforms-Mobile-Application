@@ -9,43 +9,83 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 import * as ImagePicker from "expo-image-picker";
+import FirebaseAuth from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-
-export default class clientedit extends React.Component {
+export default class designeredit extends React.Component {
   constructor(props) {
     super();
     this.state = {
       firstName: "",
       lastName: "",
       email: "",
+      bio: "",
+      num_rating: 0,
+      total_rating: 0,
+      img: "",
     };
     const user = firebase.auth().currentUser.uid;
-    var fName, lName, email;
+    var fName, lName, email, bio, num_rating, total_rating;
     firebase
       .database()
-      .ref(`Client/` + user)
+      .ref(`GraphicDesigner/` + user)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           firebase
             .database()
-            .ref(`Client/` + user)
+            .ref(`GraphicDesigner/` + user)
             .on("value", function (dataSnapshot) {
-              fName = dataSnapshot.child("CFirstName").val();
-              lName = dataSnapshot.child("CLastName").val();
-              email = dataSnapshot.child("Cemail").val();
+              fName = dataSnapshot.child("DFirstName").val();
+              lName = dataSnapshot.child("DLastName").val();
+              email = dataSnapshot.child("Demail").val();
+              bio = dataSnapshot.child("bio").val();
+              num_rating = dataSnapshot.child("number_of_rating").val();
+              total_rating = dataSnapshot.child("total_rating").val();
             });
         }
       });
     this.state.firstName = fName;
     this.state.lastName = lName;
     this.state.email = email;
+    this.state.bio = bio;
+    this.state.num_rating = num_rating;
+    this.state.total_rating = total_rating;
   }
 
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
+  };
+  confirmChanges = () => {
+    const user = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + user)
+      .set({
+        DFirstName: this.state.firstName,
+        DLastName: this.state.lastName,
+        Demail: this.state.email,
+        number_of_rating: this.state.num_rating,
+        total_rating: this.state.total_rating,
+        bio: this.state.bio,
+      });
+    this.props.navigation.navigate("designerprofile");
+  };
+
+  uploadImage = async (uri, draftName) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    var ref = firebase
+      .storage()
+      .ref()
+      .child("ProfilePictures/" + draftName);
+    return ref.put(blob);
+  };
+  signOutUser = () => {
+    firebase.auth().signOut();
+    this.props.navigation.navigate("صفحة الدخول");
   };
   onChooseImagePress = async () => {
     const user = firebase.auth().currentUser.uid;
@@ -61,36 +101,13 @@ export default class clientedit extends React.Component {
       console.log("success");
     }
   };
-  uploadImage = async (uri, draftName) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("ProfilePictures/" + draftName);
-    return ref.put(blob);
-  };
-
-  confirmChanges = () => {
-    const user = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref("Client/" + user)
-      .set({
-        CFirstName: this.state.firstName,
-        CLastName: this.state.lastName,
-        Cemail: this.state.email,
-      });
-    this.props.navigation.navigate("clientprofile");
-  };
-  signOutUser = () => {
-    firebase.auth().signOut();
-    this.props.navigation.navigate("صفحة الدخول");
-  };
   render() {
     const state = this.state;
-
+    const user = firebase.auth().currentUser.uid;
+    const profileImage = firebase.storage().ref("ProfilePictures").child(user);
+    profileImage.getDownloadURL().then((url) => {
+      this.setState({ img: url });
+    });
     return (
       <View>
         <Svg>
@@ -132,7 +149,10 @@ export default class clientedit extends React.Component {
             />
           </G>
         </Svg>
-        <Image source={require("../assets/Nerdy-Cactus.png")} />
+        <Image
+          style={styles.forText}
+          source={require("../assets/Nerdy-Cactus.png")}
+        />
         <TextInput
           style={styles.inputStyle}
           placeholder="First name"
@@ -147,22 +167,21 @@ export default class clientedit extends React.Component {
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
           maxLength={15}
         />
+        <TextInput
+          style={styles.inputStyle}
+          placeholder="Bio"
+          value={this.state.bio}
+          onChangeText={(val) => this.updateInputVal(val, "bio")}
+          maxLength={120}
+        />
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.button} onPress={() => this.confirmChanges()}>
-            Save
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onChooseImagePress()}
-        >
-          <Text style={styles.forText}>Upload Image</Text>
+          <Text onPress={() => this.confirmChanges()}>Save</Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
-
+//Style sheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -179,10 +198,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   forText: {
-    top: "-100%",
+    top: "-200%",
     left: "2%",
     color: "#4F3C75",
-
     alignSelf: "center",
   },
   forText2: {
@@ -195,17 +213,5 @@ const styles = StyleSheet.create({
   profileImg: {
     width: 50,
     height: 50,
-  },
-  inputStyle: {
-    fontSize: 18,
-    marginTop: "4%",
-    width: "100%",
-    marginBottom: "2%",
-    paddingBottom: "2%",
-    alignSelf: "center",
-    borderColor: "#ccc",
-    borderBottomWidth: 3,
-    textAlign: "right",
-    top: "15%",
   },
 });

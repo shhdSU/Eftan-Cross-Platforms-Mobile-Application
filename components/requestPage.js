@@ -103,6 +103,7 @@ export default class RequestScreen extends Component {
   };
 
   storeResquset = () => {
+    const Cemail = firebase.auth().currentUser.email;
     firebase
       .database()
       .ref("Forms/" + "QQQWWW")
@@ -115,7 +116,7 @@ export default class RequestScreen extends Component {
         category: this.state.category,
         reference: this.state.reference,
         deadLine: this.state.deadLine,
-        Cemail: "",
+        Cemail: Cemail,
         Demail: "",
       });
   };

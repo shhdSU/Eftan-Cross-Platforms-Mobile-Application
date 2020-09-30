@@ -45,7 +45,7 @@ export default class UploadNewDesign extends Component {
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      this.uploadImage(result.uri, result.uri)
+      this.uploadImage(result.uri, this.state.designTitle)
         .then(() => {
           Alert.alert("Success");
         })
@@ -53,27 +53,6 @@ export default class UploadNewDesign extends Component {
           Alert.alert(error);
         });
     }
-  };
-
-  storeDesign = () => {
-    const userID = firebase.auth().currentUser.uid;
-    const userEmail = "";
-    firebase
-      .database()
-      .ref(`GraphicDesigner/` + user)
-      .on("value", (snapshot) => {
-        userEmail = snapshot.Demail;
-      });
-    firebase
-      .database()
-      .ref("Designs/" + designTitle)
-      .set({
-        designTitle: this.state.designTitle,
-        designDescription: this.state.designDescription,
-        category: this.state.category,
-        designFile: this.state.designFile,
-        Demail: userEmail,
-      });
   };
 
   updateInputVal = (val, prop) => {
@@ -84,9 +63,34 @@ export default class UploadNewDesign extends Component {
 
   uploadDesign() {
     //here you put all validation checks
-    this.setState({
-      isLoading: true,
-    });
+
+    const user = firebase.auth().currentUser.uid;
+    var email;
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + user)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          firebase
+            .database()
+            .ref(`GraphicDesigner/` + user)
+            .on("value", function (dataSnapshot) {
+              email = dataSnapshot.child("DEmail").val();
+            });
+        }
+      });
+
+    firebase
+      .database()
+      .ref("Designs/" + this.state.designTitle)
+      .set({
+        DEmail: email,
+        designTitle: this.state.designTitle,
+        designDescription: this.state.designDescription,
+        category: this.state.category,
+        designFile: this.state.designFile,
+      });
+    Alert.alert(email);
   }
   setSelectedValue = (val) => {
     this.updateInputVal(val, "category");
@@ -135,11 +139,13 @@ export default class UploadNewDesign extends Component {
           <Picker.Item label="شهادة" value="شهادة" />
           <Picker.Item label="فن رقمي" value="فن رقمي" />
         </Picker>
-        <Image
-          style={styles.tinyLogo}
-          source={require("../assets/upload.png")}
-          onPress={() => this.onChooseImagePress()}
-        />
+
+        <TouchableOpacity onPress={() => this.onChooseImagePress()}>
+          <Image
+            style={styles.tinyLogo}
+            source={require("../assets/upload.png")}
+          />
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.uploadDesign()}
@@ -181,6 +187,8 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 30,
     height: 30,
+    paddingBottom: "3%",
+    marginBottom: "3%",
   },
   inputStyle: {
     fontSize: 18,

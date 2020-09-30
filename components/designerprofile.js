@@ -23,16 +23,16 @@ export default class designerprofile extends React.Component {
       lastName: "",
       email: "",
       bio: "",
-      num_rating: 0,
-      total_rating: 0,
+     // num_rating: 0,
+// total_rating: 0,
     };
     const user = firebase.auth().currentUser.uid;
     var fName = "";
     var lName = "";
     var email = "";
     var bio = "";
-    var num_rating = 0;
-    var total_rating = 0;
+   // var num_rating = 0;
+    //var total_rating = 0;
     firebase
       .database()
       .ref(`GraphicDesigner/` + user)
@@ -46,18 +46,17 @@ export default class designerprofile extends React.Component {
               lName = dataSnapshot.child("DLastName").val();
               email = dataSnapshot.child("Demail").val();
               bio = dataSnapshot.child("bio").val();
-              num_rating = dataSnapshot.child("number_of_rating").val();
-              total_rating = dataSnapshot.child("total_rating").val();
+              //num_rating = dataSnapshot.child("number_of_rating").val();
+              //total_rating = dataSnapshot.child("total_rating").val();
             });
         }
       });
-
     this.state.firstName = fName;
     this.state.lastName = lName;
     this.state.email = email;
     this.state.bio = bio;
-    this.state.num_rating = num_rating;
-    this.state.total_rating = total_rating;
+    //this.state.num_rating = num_rating;
+    //this.state.total_rating = total_rating;
   }
   signOutUser = () => {
     firebase.auth().signOut();
@@ -117,10 +116,10 @@ export default class designerprofile extends React.Component {
         <Text>{this.state.email}</Text>
         <Text>Bio:</Text>
         <Text>{this.state.bio}</Text>
-        <Text>Number of ratings:</Text>
+        {/* <Text>Number of ratings:</Text>
         <Text>{this.state.num_rating}</Text>
         <Text>Total rating:</Text>
-        <Text>{this.state.total_rating}</Text>
+        <Text>{this.state.total_rating}</Text> */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("designeredit")}

@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import RadioForm from "react-native-simple-radio-button";
 import {
-  DocumentPicker,
-  DocumentPickerUtil,
-} from "react-native-document-picker";
-import {
   Text,
   StyleSheet,
   View,
@@ -124,30 +120,26 @@ export default class UploadNewDesign extends Component {
           >
             فئة التصميم{" "}
           </Text>
-          <View>
-            <RadioForm
-              style={styles.radio}
-              labelStyle={{
-                position: "relative",
-                right: hp("5%"),
-                justifyContent: "center",
-                alignSelf: "center",
-              }}
-              top={300}
-              selectedButtonColor={"#4F3C75"}
-              buttonColor={"#4F3C75"}
-              formHorizontal={true}
-              radio_props={radio_props}
-              initial={"other"}
-              onPress={(value) => {
-                this.setState({ category: value });
-              }}
-            />
-          </View>
+          <Picker
+            selectedValue={this.state.category}
+            style={{ height: "22%", width: "80%", bottom: "4%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setSelectedValue(itemValue)
+            }
+          >
+            <Picker.Item label="أخرى" value="أخرى" />
+            <Picker.Item label="علامة تجارية" value="علامة تجارية" />
+            <Picker.Item label="شعار" value="شعار" />
+            <Picker.Item label="فلتر" value="فلتر" />
+            <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
+            <Picker.Item label="إعلان" value="إعلان" />
+            <Picker.Item label="شهادة" value="شهادة" />
+            <Picker.Item label="فن رقمي" value="فن رقمي" />
+          </Picker>
           <Image
             style={styles.tinyLogo}
             source={require("../assets/upload.png")}
-            onPress={() => this.selectImage()}
+            onPress={() => this.onChooseImagePress()}
           />
           <Text
             style={{

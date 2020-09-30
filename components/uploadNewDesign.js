@@ -16,6 +16,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import firebase from "../database/firebase";
+import * as ImagePicker from "expo-image-picker";
 
 import {
   widthPercentageToDP as wp,
@@ -34,7 +35,49 @@ export default class UploadNewDesign extends Component {
     };
   }
 
-  selectImage() {}
+  uploadImage = async (uri, draftName) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    var ref = firebase
+      .storage()
+      .ref()
+      .child("DesignWork/" + draftName);
+    return ref.put(blob);
+  };
+  onChooseImagePress = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      this.uploadImage(result.uri, result.base64)
+        .then(() => {
+          Alert.alert("Success");
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        });
+    }
+  };
+
+  storeResquset = () => {
+    const userID = firebase.auth().currentUser.uid;
+    const userEmail = "";
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + user)
+      .on("value", (snapshot) => {
+        userEmail = snapshot.Demail;
+      });
+    firebase
+      .database()
+      .ref("Designs/" + designTitle)
+      .set({
+        designTitle: this.state.designTitle,
+        designDescription: this.state.designDescription,
+        category: this.state.category,
+        designFile: this.state.designFile,
+        Demail: userEmail,
+      });
+  };
 
   updateInputVal = (val, prop) => {
     const state = this.state;

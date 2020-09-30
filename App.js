@@ -12,10 +12,11 @@ import UploadNewDesign from "./components/uploadNewDesign";
 
 const Navigation = createStackNavigator(
   {
-    "رفع تصميم جديد": { screen: UploadNewDesign },
     "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
     "معرض المصمم": { screen: GalleryScreen },
+    "رفع تصميم جديد": { screen: UploadNewDesign },
+
     "صفحة المصمم": { screen: DprofileScreen },
     "سياسة الخصوصية": { screen: privacyPolicyScreen },
     "نسيت كلمة السر!": { screen: ForgotPassword },

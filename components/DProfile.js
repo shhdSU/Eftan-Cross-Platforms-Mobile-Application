@@ -1,4 +1,4 @@
-//this page access by designer Themselfe 
+//this page access by designer Themselfe
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react";
@@ -67,7 +67,12 @@ export default class gallery extends React.Component {
         <Text style={styles.forText} onPress={this.signOutUser}>
           تسجيل الخروج
         </Text>
-        <Text style={styles.forText2}>مرحبًا أيّها المصمم</Text>
+        <Text
+          style={styles.forText2}
+          onPress={() => this.props.navigation.navigate("رفع تصميم جديد")}
+        >
+          رفع تصميم جديد
+        </Text>
       </View>
     );
   }

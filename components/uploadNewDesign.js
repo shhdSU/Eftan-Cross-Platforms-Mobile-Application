@@ -10,10 +10,11 @@ import {
   Alert,
   Button,
   ActivityIndicator,
+  Picker,
 } from "react-native";
-import firebase from "../database/firebase";
 import * as ImagePicker from "expo-image-picker";
-
+import Svg, { Path } from "react-native-svg";
+import firebase from "../database/firebase";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

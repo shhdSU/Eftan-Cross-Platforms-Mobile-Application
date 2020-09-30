@@ -1,3 +1,21 @@
+/*Useful note for you, when you want to search for user attributes using his/her uid..
+
+const user = firebase.auth().currentUser.uid;
+    var email;
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + user)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          firebase
+            .database()
+            .ref(`GraphicDesigner/` + user)
+            .on("value", function (dataSnapshot) {
+              email = dataSnapshot.child("DEmail").val();
+            });
+        }
+      });
+*/
 import React, { Component } from "react";
 import RadioForm from "react-native-simple-radio-button";
 import {
@@ -65,32 +83,17 @@ export default class UploadNewDesign extends Component {
     //here you put all validation checks
 
     const user = firebase.auth().currentUser.uid;
-    var email;
-    firebase
-      .database()
-      .ref(`GraphicDesigner/` + user)
-      .on("value", (snapshot) => {
-        if (snapshot.exists()) {
-          firebase
-            .database()
-            .ref(`GraphicDesigner/` + user)
-            .on("value", function (dataSnapshot) {
-              email = dataSnapshot.child("DEmail").val();
-            });
-        }
-      });
 
     firebase
       .database()
       .ref("Designs/" + this.state.designTitle)
       .set({
-        DEmail: email,
+        Duid: user,
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
         designFile: this.state.designFile,
       });
-    Alert.alert(email);
   }
   setSelectedValue = (val) => {
     this.updateInputVal(val, "category");

@@ -392,7 +392,6 @@ export default class RequestScreen extends Component {
             }
           >
             <Picker.Item label="اختيار التصنيف" value="" />
-            <Picker.Item label="أخرى" value="أخرى" />
             <Picker.Item label="علامة تجارية" value="علامة تجارية" />
             <Picker.Item label="شعار" value="شعار" />
             <Picker.Item label="فلتر" value="فلتر" />
@@ -400,6 +399,7 @@ export default class RequestScreen extends Component {
             <Picker.Item label="إعلان" value="إعلان" />
             <Picker.Item label="شهادة" value="شهادة" />
             <Picker.Item label="فن رقمي" value="فن رقمي" />
+            <Picker.Item label="أخرى" value="أخرى" />
           </Picker>
 
           <DatePicker

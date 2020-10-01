@@ -149,7 +149,7 @@ export default class RequestScreen extends Component {
       this.updateInputVal("", "title");
       return;
     }
-    // const Cemail = firebase.auth().currentUser.email;
+    // const Cemail = firebase.auth().currentUser.email;// الطريقة غلط...
     firebase.database().ref("Forms/").push({
       title: this.state.title,
       description: this.state.description,

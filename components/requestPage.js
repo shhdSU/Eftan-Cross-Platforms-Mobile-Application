@@ -146,6 +146,7 @@ export default class RequestScreen extends Component {
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
+      this.updateInputVal("", "title");
       return;
     }
     // const Cemail = firebase.auth().currentUser.email;
@@ -412,6 +413,7 @@ export default class RequestScreen extends Component {
             cancelBtnText="إلغاء"
             hideText
             locale={"ar"}
+            useNativeDriver={true}
             iconComponent={
               <Svg width={31.5} height={36} style={styles.dateIcon}>
                 <Path
@@ -501,6 +503,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: "170%",
     right: "80%",
+    zIndex: 2,
   },
   ColorPickerStyle: {
     position: "absolute",

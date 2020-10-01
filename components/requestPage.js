@@ -32,6 +32,7 @@ export default class RequestScreen extends Component {
       deadLine: "",
       Cemail: "",
       Demail: "",
+      ImageURL: "",
       show: false,
       colorNum: 0,
     };
@@ -68,7 +69,6 @@ export default class RequestScreen extends Component {
   };
   showcolorpicker = (colorNum) => {
     if (this.state.colorNum !== 0) {
-      // this.updateInputVal(0, "colorNum");
       this.updateInputVal(false, "show");
     }
     if (this.state.show == false) {
@@ -89,13 +89,8 @@ export default class RequestScreen extends Component {
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      this.uploadImage(result.uri, "test")
-        .then(() => {
-          Alert.alert("Success");
-        })
-        .catch((error) => {
-          Alert.alert(error);
-        });
+      this.uploadImage(result.uri, "test");
+      this.updateInputVal(result.uri, "ImageURL");
     }
   };
   setSelectedValue = (val) => {
@@ -103,22 +98,70 @@ export default class RequestScreen extends Component {
   };
 
   storeResquset = () => {
-    const Cemail = firebase.auth().currentUser.email;
-    firebase
-      .database()
-      .ref("Forms/" + "QQQWWW")
-      .set({
-        title: this.state.title,
-        description: this.state.description,
-        color1: this.state.color1,
-        color2: this.state.color2,
-        color3: this.state.color3,
-        category: this.state.category,
-        reference: this.state.reference,
-        deadLine: this.state.deadLine,
-        Cemail: Cemail,
-        Demail: "",
-      });
+    //Checking on colors only if not Empty
+    let checkOnColor = /(^#[0-9A-Fa-f]{6}$)|(^#[0-9A-Fa-f]{3}$)/;
+    let colors = this.state.color1 + this.state.color2 + this.state.color3;
+    if (colors !== "") {
+      if (
+        (!checkOnColor.test(this.state.color1) || this.state.color1 === "") &&
+        (!checkOnColor.test(this.state.color2) || this.state.color2 === "") &&
+        (!checkOnColor.test(this.state.color3) || this.state.color3 === "")
+      ) {
+        Alert.alert(
+          "تنبيه",
+          "الرجاء إدخال رمز اللون بشكل صحيح او ترك الخانة فارغة",
+          [{ text: "حسنًا" }],
+          { cancelable: false }
+        );
+        this.updateInputVal("", "color1");
+        this.updateInputVal("", "color2");
+        this.updateInputVal("", "color3");
+        return;
+      }
+    }
+    //Checking on Required info
+    if (
+      this.state.category === "" ||
+      this.state.title === "" ||
+      this.state.description === ""
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "الرجاء التأكد من إدخال جميع البيانات المطلوبة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      return;
+    }
+    //Checking on title
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    var numCheck = /\d/;
+    if (
+      specialCheck.test(this.state.title) ||
+      numCheck.test(this.state.title)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "يجب ان يحتوي العنوان على أحرف فقط",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      return;
+    }
+    // const Cemail = firebase.auth().currentUser.email;
+    firebase.database().ref("Forms/").push({
+      title: this.state.title,
+      description: this.state.description,
+      color1: this.state.color1,
+      color2: this.state.color2,
+      color3: this.state.color3,
+      category: this.state.category,
+      reference: this.state.reference,
+      deadLine: this.state.deadLine,
+      // Cemail: Cemail,
+      Demail: "",
+      ImageURL: this.state.ImageURL,
+    });
   };
 
   render() {
@@ -176,7 +219,7 @@ export default class RequestScreen extends Component {
           <TextInput
             editable={false}
             style={[styles.inputStyle, { width: "80%", left: "8.5%" }]}
-            value={this.state.title}
+            value={this.state.ImageURL}
             placeholder="رفع مسودة"
             onChangeText={(val) => this.updateInputVal(val, "title")}
             onTouchStart={() => this.onChooseImagePress()}
@@ -210,7 +253,7 @@ export default class RequestScreen extends Component {
             style={{
               fontSize: 20,
               alignSelf: "flex-end",
-              top: "-2%",
+              top: "-4%",
               color: "#4F3C75",
               fontWeight: "700",
             }}
@@ -219,7 +262,7 @@ export default class RequestScreen extends Component {
           </Text>
           {/* <ScrollView horizontal={true}> */}
           <TextInput
-            style={[styles.inputStyle, { top: "-12%", overflow: "scroll" }]}
+            style={[styles.inputStyle, { top: "-14%", overflow: "scroll" }]}
             numberOfLines={6}
             placeholder="وصف الطلب*"
             value={this.state.description}
@@ -255,7 +298,11 @@ export default class RequestScreen extends Component {
           <TextInput
             style={[
               styles.coloresbutton,
-              { backgroundColor: this.state.color1, left: "83%" },
+              {
+                backgroundColor:
+                  this.state.color1 === "" ? "#fff" : this.state.color1,
+                left: "83%",
+              },
             ]}
             placeholder="اللون الأول"
             placeholderTextColor="#4F3C75"
@@ -266,7 +313,11 @@ export default class RequestScreen extends Component {
           <TextInput
             style={[
               styles.coloresbutton,
-              { backgroundColor: this.state.color2, left: "67%" },
+              {
+                backgroundColor:
+                  this.state.color2 === "" ? "#fff" : this.state.color2,
+                left: "67%",
+              },
             ]}
             placeholder="اللون الثاني"
             placeholderTextColor="#4F3C75"
@@ -277,7 +328,11 @@ export default class RequestScreen extends Component {
           <TextInput
             style={[
               styles.coloresbutton,
-              { backgroundColor: this.state.color3, left: "51%" },
+              {
+                backgroundColor:
+                  this.state.color3 === "" ? "#fff" : this.state.color3,
+                left: "51%",
+              },
             ]}
             placeholder="اللون الثالث"
             placeholderTextColor="#4F3C75"
@@ -285,32 +340,34 @@ export default class RequestScreen extends Component {
             onTouchStart={() => this.showcolorpicker(3)}
             onChangeText={(val) => this.updateInputVal(val, "color3")}
           />
-          <TouchableOpacity
-            style={styles.button2}
-            onPress={() => this.updateInputVal(false, "show")}
-          >
-            <Text
-              style={{
-                color: "#FFEED6",
-                fontSize: 13,
-                flexDirection: "row",
-                alignSelf: "center",
-              }}
+          {this.state.show && (
+            <TouchableOpacity
+              style={styles.button2}
+              onPress={() => this.updateInputVal(false, "show")}
             >
-              إغلاق اداة التقاط اللون
-            </Text>
-            <Text style={{ alignSelf: "center" }}> </Text>
-            <Text
-              style={{
-                color: "#FFEED6",
-                fontSize: 15,
-                flexDirection: "row",
-                alignSelf: "center",
-              }}
-            >
-              X
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: "#FFEED6",
+                  fontSize: 13,
+                  flexDirection: "row",
+                  alignSelf: "center",
+                }}
+              >
+                إغلاق اداة التقاط اللون
+              </Text>
+              <Text style={{ alignSelf: "center" }}> </Text>
+              <Text
+                style={{
+                  color: "#FFEED6",
+                  fontSize: 15,
+                  flexDirection: "row",
+                  alignSelf: "center",
+                }}
+              >
+                X
+              </Text>
+            </TouchableOpacity>
+          )}
           <Text
             style={{
               fontSize: 20,
@@ -334,6 +391,7 @@ export default class RequestScreen extends Component {
               this.setSelectedValue(itemValue)
             }
           >
+            <Picker.Item label="اختيار التصنيف" value="" />
             <Picker.Item label="أخرى" value="أخرى" />
             <Picker.Item label="علامة تجارية" value="علامة تجارية" />
             <Picker.Item label="شعار" value="شعار" />
@@ -353,6 +411,7 @@ export default class RequestScreen extends Component {
             confirmBtnText="تم"
             cancelBtnText="إلغاء"
             hideText
+            locale={"ar"}
             iconComponent={
               <Svg width={31.5} height={36} style={styles.dateIcon}>
                 <Path

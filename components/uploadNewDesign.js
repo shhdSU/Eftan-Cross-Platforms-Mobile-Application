@@ -26,7 +26,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Button,
+  KeyboardAvoidingView,
   ActivityIndicator,
   Picker,
 } from "react-native";
@@ -45,7 +45,7 @@ export default class UploadNewDesign extends Component {
       designTitle: "",
       designDescription: "",
       category: "",
-      designFile: "",
+      designFileKey: "",
       isLoading: false,
       localpath: "",
     };
@@ -91,17 +91,23 @@ export default class UploadNewDesign extends Component {
     //here you put all validation checks
 
     const user = firebase.auth().currentUser.uid;
-
     firebase
-      .database()
-      .ref("Designs/" + this.state.designTitle)
-      .set({
+      .child("Designs")
+      .push({
         Duid: user,
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
         designFile: this.state.designFile,
+      })
+      .then((key) => {
+        this.updateInputVal(key.key, "designFileKey");
       });
+    /* firebase
+      .database()
+      .ref("Designs/" + this.state.designTitle)
+      .set({
+             });*/
   }
   setSelectedValue = (val) => {
     this.updateInputVal(val, "category");
@@ -115,68 +121,77 @@ export default class UploadNewDesign extends Component {
       );
     }
     return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="عنوان العمل"
-          value={this.state.designTitle}
-          onChangeText={(val) => this.updateInputVal(val, "designTitle")}
-        />
-
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="وصف العمل"
-          value={this.state.designDescription}
-          onChangeText={(val) => this.updateInputVal(val, "designDescription")}
-        />
-        <Text
-          style={[styles.inputStyle2, { color: "#4F3C75", top: wp("-4%") }]}
-        >
-          فئة التصميم{" "}
-        </Text>
-        <Picker
-          selectedValue={this.state.category}
-          style={{ height: "22%", width: "80%", bottom: "4%" }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setSelectedValue(itemValue)
-          }
-        >
-          <Picker.Item label="أخرى" value="أخرى" />
-          <Picker.Item label="علامة تجارية" value="علامة تجارية" />
-          <Picker.Item label="شعار" value="شعار" />
-          <Picker.Item label="فلتر" value="فلتر" />
-          <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
-          <Picker.Item label="إعلان" value="إعلان" />
-          <Picker.Item label="شهادة" value="شهادة" />
-          <Picker.Item label="فن رقمي" value="فن رقمي" />
-        </Picker>
-
-        <TouchableOpacity onPress={() => this.onChooseImagePress()}>
-          <Image
-            style={styles.tinyLogo}
-            source={require("../assets/upload.png")}
-          />
-        </TouchableOpacity>
-        <Image
-          style={styles.preview}
-          source={{
-            uri: this.state.localpath,
-          }}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.uploadDesign()}
-        >
-          <Text
-            style={{
-              color: "#FFEED6",
-              fontSize: 25,
-            }}
-          >
-            رفع العمل
+      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
+            عنوان العمل{" "}
           </Text>
-        </TouchableOpacity>
-      </View>
+          <TextInput
+            style={styles.inputStyle}
+            placeholder="عنوان العمل"
+            value={this.state.designTitle}
+            onChangeText={(val) => this.updateInputVal(val, "designTitle")}
+          />
+          <TouchableOpacity onPress={() => this.onChooseImagePress()}>
+            <Image
+              style={styles.tinyLogo}
+              source={require("../assets/upload.png")}
+            />
+          </TouchableOpacity>
+          <Image
+            style={styles.preview}
+            source={{
+              uri: this.state.localpath,
+            }}
+          />
+          <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
+            وصف العمل{" "}
+          </Text>
+          <TextInput
+            style={styles.inputStyle}
+            placeholder="وصف العمل"
+            value={this.state.designDescription}
+            onChangeText={(val) =>
+              this.updateInputVal(val, "designDescription")
+            }
+          />
+          <Text
+            style={[styles.inputStyle2, { color: "#4F3C75", top: wp("-4%") }]}
+          >
+            فئة التصميم{" "}
+          </Text>
+          <Picker
+            selectedValue={this.state.category}
+            style={{ height: "22%", width: "80%", bottom: "4%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setSelectedValue(itemValue)
+            }
+          >
+            <Picker.Item label="أخرى" value="أخرى" />
+            <Picker.Item label="علامة تجارية" value="علامة تجارية" />
+            <Picker.Item label="شعار" value="شعار" />
+            <Picker.Item label="فلتر" value="فلتر" />
+            <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
+            <Picker.Item label="إعلان" value="إعلان" />
+            <Picker.Item label="شهادة" value="شهادة" />
+            <Picker.Item label="فن رقمي" value="فن رقمي" />
+          </Picker>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.uploadDesign()}
+          >
+            <Text
+              style={{
+                color: "#FFEED6",
+                fontSize: 25,
+              }}
+            >
+              رفع العمل
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     );
   } //End of Second return
 }

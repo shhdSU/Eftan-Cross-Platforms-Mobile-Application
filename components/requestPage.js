@@ -89,8 +89,9 @@ export default class RequestScreen extends Component {
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      this.uploadImage(result.uri, "test");
-      this.updateInputVal(result.uri, "ImageURL");
+      this.uploadImage(result.uri, "Draft")
+      .then(console.log("DONE"))
+      // this.updateInputVal(result.uri, "ImageURL");
     }
   };
   setSelectedValue = (val) => {
@@ -389,7 +390,7 @@ export default class RequestScreen extends Component {
               alignSelf: "center",
             }}
             onValueChange={(itemValue, itemIndex) =>
-              this.setSelectedValue(itemValue)
+              this.updateInputVal(itemValue, "category")
             }
           >
             <Picker.Item label="اختيار التصنيف" value="" />
@@ -442,8 +443,7 @@ export default class RequestScreen extends Component {
           >
             <Text
               style={{
-                color: "#FFEED6",
-                fontSize: 25,
+                
               }}
             >
               رفع الطلب
@@ -483,7 +483,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "5%",
     alignSelf: "center",
-    // marginTop: "4%",
     bottom: "10%",
     justifyContent: "center",
   },

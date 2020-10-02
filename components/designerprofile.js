@@ -14,6 +14,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+var fName, lName, email, bio;
 export default class designerprofile extends React.Component {
   constructor(props) {
     super();
@@ -23,46 +24,43 @@ export default class designerprofile extends React.Component {
       lastName: "",
       email: "",
       bio: "",
-     // num_rating: 0,
-// total_rating: 0,
+      // num_rating: 0,
+      // total_rating: 0,
     };
     const user = firebase.auth().currentUser.uid;
-    var fName = "";
-    var lName = "";
-    var email = "";
-    var bio = "";
-   // var num_rating = 0;
+    // var num_rating = 0;
     //var total_rating = 0;
     firebase
       .database()
       .ref(`GraphicDesigner/` + user)
-      .on("value", function (snapshot) {
-        if (snapshot.exists()) {
-          firebase
-            .database()
-            .ref(`GraphicDesigner/` + user)
-            .on("value", function (dataSnapshot) {
-              fName = dataSnapshot.child("DFirstName").val();
-              lName = dataSnapshot.child("DLastName").val();
-              email = dataSnapshot.child("Demail").val();
-              bio = dataSnapshot.child("bio").val();
-              //num_rating = dataSnapshot.child("number_of_rating").val();
-              //total_rating = dataSnapshot.child("total_rating").val();
-            });
-        }
+      .on("value", (dataSnapshot) => {
+        fName = dataSnapshot.child("DFirstName").val();
+        lName = dataSnapshot.child("DLastName").val();
+        email = dataSnapshot.child("Demail").val();
+        bio = dataSnapshot.child("bio").val();
+        //num_rating = dataSnapshot.child("number_of_rating").val();
+        //total_rating = dataSnapshot.child("total_rating").val();
+        this.updateVal(fName, "firstName");
+        this.updateVal(lName, "lastName");
+        this.updateVal(email, "email");
+        this.updateVal(bio, "bio");
       });
-    this.state.firstName = fName;
-    this.state.lastName = lName;
-    this.state.email = email;
-    this.state.bio = bio;
-    //this.state.num_rating = num_rating;
-    //this.state.total_rating = total_rating;
+  }
+  updateVal(val, prop) {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
   }
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
   render() {
+    const user = firebase.auth().currentUser.uid;
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    profileImage.getDownloadURL().then((url) => {
+      this.updateVal(url, "img");
+    });
     return (
       <View>
         <Svg>
@@ -105,8 +103,11 @@ export default class designerprofile extends React.Component {
           </G>
         </Svg>
         <Image
-          style={styles.forText}
-          source={require("../assets/Nerdy-Cactus.png")}
+          style={{
+            height: 50,
+            width: 50,
+          }}
+          source={this.state.img}
         />
         <Text>First Name:</Text>
         <Text>{this.state.firstName}</Text>

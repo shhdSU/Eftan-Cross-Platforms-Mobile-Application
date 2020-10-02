@@ -11,14 +11,16 @@ import firebase from "../database/firebase";
 import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
+import clientprofile from "./clientprofile";
 
 export default class clientedit extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       firstName: "",
       lastName: "",
       email: "",
+      img: "",
     };
     const user = firebase.auth().currentUser.uid;
     var fName, lName, email;
@@ -30,16 +32,21 @@ export default class clientedit extends React.Component {
           firebase
             .database()
             .ref(`Client/` + user)
-            .on("value", function (dataSnapshot) {
+            .on("value", (dataSnapshot) => {
               fName = dataSnapshot.child("CFirstName").val();
               lName = dataSnapshot.child("CLastName").val();
               email = dataSnapshot.child("Cemail").val();
+              this.updateInputVal(fName, "firstName");
+              this.updateInputVal(lName, "lastName");
+              this.updateInputVal(email, "email");
             });
         }
       });
-    this.state.firstName = fName;
-    this.state.lastName = lName;
-    this.state.email = email;
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+
+    profileImage.getDownloadURL().then((url) => {
+      this.updateInputVal(url, "img");
+    });
   }
 
   updateInputVal = (val, prop) => {
@@ -53,12 +60,17 @@ export default class clientedit extends React.Component {
     if (!result.cancelled) {
       this.uploadImage(result.uri, user)
         .then(() => {
+          const profileImage = firebase
+            .storage()
+            .ref("ProfilePictures/" + user);
+          profileImage.getDownloadURL().then((url) => {
+            this.updateInputVal(url, "img");
+          });
           Alert.alert("Success");
         })
         .catch((error) => {
           Alert.alert(error);
         });
-      console.log("success");
     }
   };
   uploadImage = async (uri, draftName) => {
@@ -69,19 +81,21 @@ export default class clientedit extends React.Component {
       .storage()
       .ref()
       .child("ProfilePictures/" + draftName);
+
     return ref.put(blob);
   };
 
   confirmChanges = () => {
-    const user = firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser;
     firebase
       .database()
-      .ref("Client/" + user)
+      .ref("Client/" + user.uid)
       .set({
         CFirstName: this.state.firstName,
         CLastName: this.state.lastName,
         Cemail: this.state.email,
       });
+    user.updateEmail(this.state.email).then(user.sendEmailVerification().then(Alert.alert("Email changed successfully")));
     this.props.navigation.navigate("clientprofile");
   };
   signOutUser = () => {
@@ -89,8 +103,6 @@ export default class clientedit extends React.Component {
     this.props.navigation.navigate("صفحة الدخول");
   };
   render() {
-    const state = this.state;
-
     return (
       <View>
         <Svg>
@@ -132,7 +144,13 @@ export default class clientedit extends React.Component {
             />
           </G>
         </Svg>
-        <Image source={require("../assets/Nerdy-Cactus.png")} />
+        <Image
+          style={{
+            height: 50,
+            width: 50,
+          }}
+          source={this.state.img}
+        />
         <TextInput
           style={styles.inputStyle}
           placeholder="First name"
@@ -145,6 +163,14 @@ export default class clientedit extends React.Component {
           placeholder="Last name"
           value={this.state.lastName}
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
+          maxLength={15}
+        />
+
+        <TextInput
+          style={styles.inputStyle}
+          placeholder="Email"
+          value={this.state.email}
+          onChangeText={(val) => this.updateInputVal(val, "email")}
           maxLength={15}
         />
         <TouchableOpacity style={styles.button}>

@@ -20,8 +20,8 @@ export default class designeredit extends React.Component {
       lastName: "",
       email: "",
       bio: "",
-      num_rating: 0,
-      total_rating: 0,
+      // num_rating: 0,
+      //total_rating: 0,
       img: "",
     };
     const user = firebase.auth().currentUser.uid;
@@ -34,22 +34,27 @@ export default class designeredit extends React.Component {
           firebase
             .database()
             .ref(`GraphicDesigner/` + user)
-            .on("value", function (dataSnapshot) {
+            .on("value", (dataSnapshot) => {
               fName = dataSnapshot.child("DFirstName").val();
               lName = dataSnapshot.child("DLastName").val();
               email = dataSnapshot.child("Demail").val();
               bio = dataSnapshot.child("bio").val();
-              num_rating = dataSnapshot.child("number_of_rating").val();
-              total_rating = dataSnapshot.child("total_rating").val();
+              //   num_rating = dataSnapshot.child("number_of_rating").val();
+              //  total_rating = dataSnapshot.child("total_rating").val();
+              this.updateInputVal(fName, "firstName");
+              this.updateInputVal(lName, "lastName");
+              this.updateInputVal(email, "email");
+              this.updateInputVal(bio, "bio");
+              //  this.updateInputVal(num_rating, "num_rating");
+              //  this.updateInputVal(total_rating, "total_rating");
             });
         }
       });
-    this.state.firstName = fName;
-    this.state.lastName = lName;
-    this.state.email = email;
-    this.state.bio = bio;
-    this.state.num_rating = num_rating;
-    this.state.total_rating = total_rating;
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+
+    profileImage.getDownloadURL().then((url) => {
+      this.updateInputVal(url, "img");
+    });
   }
 
   updateInputVal = (val, prop) => {
@@ -66,8 +71,8 @@ export default class designeredit extends React.Component {
         DFirstName: this.state.firstName,
         DLastName: this.state.lastName,
         Demail: this.state.email,
-        number_of_rating: this.state.num_rating,
-        total_rating: this.state.total_rating,
+        //   number_of_rating: this.state.num_rating,
+        //  total_rating: this.state.total_rating,
         bio: this.state.bio,
       });
     this.props.navigation.navigate("designerprofile");
@@ -93,21 +98,20 @@ export default class designeredit extends React.Component {
     if (!result.cancelled) {
       this.uploadImage(result.uri, user)
         .then(() => {
+          const profileImage = firebase
+            .storage()
+            .ref("ProfilePictures/" + user);
+          profileImage.getDownloadURL().then((url) => {
+            this.updateInputVal(url, "img");
+          });
           Alert.alert("Success");
         })
         .catch((error) => {
           Alert.alert(error);
         });
-      console.log("success");
     }
   };
   render() {
-    const state = this.state;
-    const user = firebase.auth().currentUser.uid;
-    const profileImage = firebase.storage().ref("ProfilePictures").child(user);
-    profileImage.getDownloadURL().then((url) => {
-      this.setState({ img: url });
-    });
     return (
       <View>
         <Svg>
@@ -150,8 +154,11 @@ export default class designeredit extends React.Component {
           </G>
         </Svg>
         <Image
-          style={styles.forText}
-          source={require("../assets/Nerdy-Cactus.png")}
+          style={{
+            height: 50,
+            width: 50,
+          }}
+          source={this.state.img}
         />
         <TextInput
           style={styles.inputStyle}
@@ -176,6 +183,12 @@ export default class designeredit extends React.Component {
         />
         <TouchableOpacity style={styles.button}>
           <Text onPress={() => this.confirmChanges()}>Save</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.onChooseImagePress()}
+        >
+          <Text style={styles.forText}>Upload Image</Text>
         </TouchableOpacity>
       </View>
     );

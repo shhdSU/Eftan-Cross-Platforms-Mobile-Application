@@ -8,46 +8,45 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react";
-import * as ImagePicker from "expo-image-picker";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
+var fName, lName, email;
 export default class clientprofile extends React.Component {
   constructor() {
     super();
     this.state = {
       firstName: "",
       lastName: "",
-      email: "",
+      cemail: "",
       img: "",
     };
     const user = firebase.auth().currentUser.uid;
-    var fName, lName, email;
-
     firebase
       .database()
       .ref(`Client/` + user)
-      .once("value", function (dataSnapshot) {
+      .on("value", (dataSnapshot) => {
         fName = dataSnapshot.child("CFirstName").val();
         lName = dataSnapshot.child("CLastName").val();
         email = dataSnapshot.child("Cemail").val();
+        this.updateVal(fName, "firstName");
+        this.updateVal(lName, "lastName");
+        this.updateVal(email, "cemail");
       });
-
-    this.state.firstName = fName;
-    this.state.lastName = lName;
-    this.state.email = email;
-    const profileImage = firebase
-      .storage()
-      .ref("ProfilePictures/" + firebase.auth().currentUser.uid);
-    profileImage.getDownloadURL().then((url) => {
-      this.state.img = url;
-    });
-    console.log(this.state.img);
+  }
+  updateVal(val, prop) {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
   }
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
   render() {
-    const state = this.state;
+    const user = firebase.auth().currentUser.uid;
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    profileImage.getDownloadURL().then((url) => {
+      this.updateVal(url, "img");
+    });
     return (
       <View>
         <Svg>
@@ -90,20 +89,18 @@ export default class clientprofile extends React.Component {
           </G>
         </Svg>
         <Image
-          source={{
-            uri: firebase
-              .storage()
-              .ref("ProfilePictures/" + firebase.auth().currentUser.uid)
-              .getDownloadURL()
-              .then((url) => {}),
+          style={{
+            height: 50,
+            width: 50,
           }}
+          source={this.state.img}
         />
         <Text style={styles.forText}>First Name:</Text>
-        <Text style={styles.forText}>{state.firstName}</Text>
+        <Text style={styles.forText}>{this.state.firstName}</Text>
         <Text style={styles.forText}>Last Name:</Text>
-        <Text style={styles.forText}>{state.lastName}</Text>
+        <Text style={styles.forText}>{this.state.lastName}</Text>
         <Text style={styles.forText}>Email:</Text>
-        <Text style={styles.forText}>{state.email}</Text>
+        <Text style={styles.forText}>{this.state.cemail}</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("clientedit")}

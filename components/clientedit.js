@@ -87,6 +87,33 @@ export default class clientedit extends React.Component {
 
   confirmChanges = () => {
     const user = firebase.auth().currentUser;
+
+    user.updateEmail(this.state.email).then(
+      user
+        .sendEmailVerification()
+        .then(Alert.alert("Email changed successfully"))
+        .catch((errorCode) => {
+          if (errorCode == "auth/invalid-email") {
+            Alert.alert(
+              "تنبيه",
+              "نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.",
+              [{ text: "حسنًا" }],
+              { cancelable: false }
+            );
+          } else if (
+            errorCode == "auth/email-already-in-use" ||
+            errorCode == "auth/email-already-exists"
+          ) {
+            Alert.alert(
+              "تنبيه",
+              "البريد الإلكتروني مسجل مسبقَا",
+              [{ text: "حسنًا" }],
+              { cancelable: false }
+            );
+          }
+        })
+    );
+
     firebase
       .database()
       .ref("Client/" + user.uid)
@@ -95,13 +122,53 @@ export default class clientedit extends React.Component {
         CLastName: this.state.lastName,
         Cemail: this.state.email,
       });
-    user.updateEmail(this.state.email).then(user.sendEmailVerification().then(Alert.alert("Email changed successfully")));
     this.props.navigation.navigate("clientprofile");
   };
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
+  resetPassword() {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(this.state.email)
+      .then(function () {
+        Alert.alert(
+          "تنبيه",
+          "الرجاء تفقد بريدك الالكتروني",
+          [{ text: "حسنًا" }],
+          { cancelable: false }
+        );
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (this.state.email === "") {
+          Alert.alert(
+            "تنبيه",
+            "فضلًا تأكد من إدخال البريد الالكتروني",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
+        } else if (errorCode == "auth/user-not-found") {
+          Alert.alert(
+            "تنبيه",
+            "البريد الالكتروني غير مسجل !",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
+        } else if (errorCode == "auth/invalid-email") {
+          Alert.alert(
+            "تنبيه",
+            "نرجو إعادة كتابة البريد الالكتروني بشكل صحيح",
+            [{ text: "حسنًا" }],
+            { cancelable: false }
+          );
+        } else {
+          alert(errorMessage);
+        }
+      });
+  }
   render() {
     return (
       <View>
@@ -171,7 +238,7 @@ export default class clientedit extends React.Component {
           placeholder="Email"
           value={this.state.email}
           onChangeText={(val) => this.updateInputVal(val, "email")}
-          maxLength={15}
+          maxLength={30}
         />
         <TouchableOpacity style={styles.button}>
           <Text style={styles.button} onPress={() => this.confirmChanges()}>
@@ -183,6 +250,12 @@ export default class clientedit extends React.Component {
           onPress={() => this.onChooseImagePress()}
         >
           <Text style={styles.forText}>Upload Image</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.resetPassword()}
+        >
+          <Text style={styles.forText}>Reset Password</Text>
         </TouchableOpacity>
       </View>
     );

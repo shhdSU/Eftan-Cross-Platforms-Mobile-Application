@@ -18,9 +18,12 @@ const user = firebase.auth().currentUser.uid;
 */
 import React, { Component } from "react";
 import RadioForm from "react-native-simple-radio-button";
+import Svg, { Defs, G, Path } from "react-native-svg";
+import SvgComponent from "./uploadSVG";
 import {
   Text,
   StyleSheet,
+  ScrollView,
   View,
   Image,
   TextInput,
@@ -71,7 +74,7 @@ export default class UploadNewDesign extends Component {
     let result = await ImagePicker.launchImageLibraryAsync();
     this.updateInputVal(result.uri, "localpath");
     if (!result.cancelled) {
-      this.uploadImage(result.uri, this.state.designTitle)
+      this.uploadImage(result.uri, this.state.designTitle) ///////////////////////
         .then(() => {
           firebase
             .storage()
@@ -121,77 +124,118 @@ export default class UploadNewDesign extends Component {
       );
     }
     return (
-      <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
-            عنوان العمل{" "}
-          </Text>
-          <TextInput
-            style={styles.inputStyle}
-            placeholder="عنوان العمل"
-            value={this.state.designTitle}
-            onChangeText={(val) => this.updateInputVal(val, "designTitle")}
-          />
-          <TouchableOpacity onPress={() => this.onChooseImagePress()}>
-            <Image
-              style={styles.tinyLogo}
-              source={require("../assets/upload.png")}
-            />
-          </TouchableOpacity>
-          <Image
-            style={styles.preview}
-            source={{
-              uri: this.state.localpath,
-            }}
-          />
-          <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
-            وصف العمل{" "}
-          </Text>
-          <TextInput
-            style={styles.inputStyle}
-            placeholder="وصف العمل"
-            value={this.state.designDescription}
-            onChangeText={(val) =>
-              this.updateInputVal(val, "designDescription")
-            }
-          />
-          <Text
-            style={[styles.inputStyle2, { color: "#4F3C75", top: wp("-4%") }]}
-          >
-            فئة التصميم{" "}
-          </Text>
-          <Picker
-            selectedValue={this.state.category}
-            style={{ height: "22%", width: "80%", bottom: "4%" }}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setSelectedValue(itemValue)
-            }
-          >
-            <Picker.Item label="أخرى" value="أخرى" />
-            <Picker.Item label="علامة تجارية" value="علامة تجارية" />
-            <Picker.Item label="شعار" value="شعار" />
-            <Picker.Item label="فلتر" value="فلتر" />
-            <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
-            <Picker.Item label="إعلان" value="إعلان" />
-            <Picker.Item label="شهادة" value="شهادة" />
-            <Picker.Item label="فن رقمي" value="فن رقمي" />
-          </Picker>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.uploadDesign()}
-          >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView behavior={"padding"} style={{ flex: 1 }}>
+          <ScrollView style={styles.container}>
+            <Svg width={416} height={144} style={styles.tab}>
+              <G data-name="Group 7">
+                <G filter="url(#prefix__a)">
+                  <Path
+                    data-name="Path 117"
+                    d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
+                    fill="#ffeed6"
+                  />
+                </G>
+                <Path
+                  data-name="Icon ionic-ios-arrow-back"
+                  d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+                  fill="#4f3c75"
+                />
+                <Path
+                  data-name="Icon material-menu"
+                  d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
+                  fill="#4f3c75"
+                />
+              </G>
+            </Svg>
             <Text
               style={{
-                color: "#FFEED6",
-                fontSize: 25,
+                fontSize: 30,
+                color: "#4F3C75",
+                fontWeight: "700",
+                top: "-14%",
+                alignSelf: "center",
               }}
             >
-              رفع العمل
+              رفع تصميم جديد
             </Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+
+            <SvgComponent style={styles.SvgComponentStyle}></SvgComponent>
+            <Text
+              style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}
+            >
+              عنوان العمل{" "}
+            </Text>
+            <TextInput
+              style={styles.inputStyle}
+              placeholder="عنوان العمل"
+              value={this.state.designTitle}
+              onChangeText={(val) => this.updateInputVal(val, "designTitle")}
+            />
+            <TouchableOpacity onPress={() => this.onChooseImagePress()}>
+              <Image
+                style={styles.tinyLogo}
+                source={require("../assets/upload.png")}
+              />
+            </TouchableOpacity>
+            <Image
+              style={styles.preview}
+              source={{
+                uri: this.state.localpath,
+              }}
+            />
+            <Text
+              style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}
+            >
+              وصف العمل{" "}
+            </Text>
+            <TextInput
+              style={styles.inputStyle}
+              placeholder="وصف العمل"
+              value={this.state.designDescription}
+              onChangeText={(val) =>
+                this.updateInputVal(val, "designDescription")
+              }
+            />
+            <Text
+              style={[styles.inputStyle2, { color: "#4F3C75", top: wp("-4%") }]}
+            >
+              فئة التصميم{" "}
+            </Text>
+            <Picker
+              selectedValue={this.state.category}
+              style={{ height: "22%", width: "80%", bottom: "4%" }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setSelectedValue(itemValue)
+              }
+            >
+              <Picker.Item label="اختيار التصنيف" value="" />
+              <Picker.Item label="علامة تجارية" value="علامة تجارية" />
+              <Picker.Item label="شعار" value="شعار" />
+              <Picker.Item label="فلتر" value="فلتر" />
+              <Picker.Item label="انفوجرافيك" value="انفوجرافيك" />
+              <Picker.Item label="إعلان" value="إعلان" />
+              <Picker.Item label="شهادة" value="شهادة" />
+              <Picker.Item label="فن رقمي" value="فن رقمي" />
+              <Picker.Item label="أخرى" value="أخرى" />
+            </Picker>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.uploadDesign()}
+            >
+              <Text
+                style={{
+                  color: "#FFEED6",
+                  fontSize: 25,
+                }}
+              >
+                رفع العمل
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     );
   } //End of Second return
 }
@@ -263,5 +307,11 @@ const styles = StyleSheet.create({
   radioText: {
     fontSize: 18,
     color: "#B7B7B7",
+  },
+  SvgComponentStyle: {
+    top: "-8%",
+  },
+  uploadIcon: {
+    top: "-400%",
   },
 });

@@ -471,7 +471,7 @@ export default class RequestForm extends Component {
                     styles.coloresbutton,
                     {
                       backgroundColor:
-                        this.state.color2 === "" ? "#fff" : this.state.color1,
+                        this.state.color2 === "" ? "#fff" : this.state.color2,
                     },
                   ]}
                   placeholder="أدخل رمز اللون "
@@ -494,7 +494,7 @@ export default class RequestForm extends Component {
                     styles.coloresbutton,
                     {
                       backgroundColor:
-                        this.state.color3 === "" ? "#fff" : this.state.color1,
+                        this.state.color3 === "" ? "#fff" : this.state.color3,
                     },
                   ]}
                   placeholder="أدخل رمز اللون "

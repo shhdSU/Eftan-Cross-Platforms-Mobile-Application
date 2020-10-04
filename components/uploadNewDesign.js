@@ -27,7 +27,6 @@ firebase
               this.updateInputVal(url, "designFile");
               */
 import React, { Component } from "react";
-import RadioForm from "react-native-simple-radio-button";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import SvgComponent from "./uploadSVG";
 import {
@@ -81,7 +80,41 @@ export default class UploadNewDesign extends Component {
 
   uploadDesign() {
     //upload info to realtime DB, retreive their key to be the key of the img in storage
-    //here you put all validation checks
+    if (
+      this.state.category === "" ||
+      this.state.designTitle === "" ||
+      this.state.designDescription === ""
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "الرجاء التأكد من إدخال جميع البيانات المطلوبة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      return;
+    }
+    if (this.state.localpath === "") {
+      Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
+        cancelable: false,
+      });
+      return;
+    }
+
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    var numCheck = /\d/;
+    if (
+      specialCheck.test(this.state.designTitle) ||
+      numCheck.test(this.state.designTitle)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "يجب ان يحتوي العنوان على أحرف فقط",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      this.updateInputVal("", "designTitle");
+      return;
+    }
 
     //const user = firebase.auth().currentUser.uid;
     firebase
@@ -96,17 +129,19 @@ export default class UploadNewDesign extends Component {
       })
       .then((key) => {
         this.updateInputVal(key.key, "designFileKey");
+        this.updateInputVal("", "designTitle");
+        this.updateInputVal("", "category");
+        this.updateInputVal("", "designDescription");
+
         firebase
           .database()
           .ref("Designs/")
           .child(this.state.designFileKey)
           .update({ designFileKey: this.state.designFileKey })
           .then(
-            this.uploadImage(
-              this.state.localpath,
-              this.state.designFileKey
-            ).then(Alert.alert("DONE"))
+            this.uploadImage(this.state.localpath, this.state.designFileKey)
           );
+        this.updateInputVal("", "localpath");
       });
   }
   setSelectedValue = (val) => {
@@ -145,33 +180,52 @@ export default class UploadNewDesign extends Component {
         </Svg>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 24,
             color: "#4F3C75",
             fontWeight: "700",
             top: "-14%",
             alignSelf: "center",
+            zIndex: 6,
           }}
         >
           رفع تصميم جديد
         </Text>
-        {
-          //           <SvgComponent style={styles.SvgComponentStyle}></SvgComponent>
-        }
+
+        <SvgComponent
+          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+        ></SvgComponent>
+
         <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
-          عنوان العمل{" "}
+          عنوان العمل *{" "}
         </Text>
         <TextInput
           style={styles.inputStyle}
-          placeholder="عنوان العمل"
           value={this.state.designTitle}
           onChangeText={(val) => this.updateInputVal(val, "designTitle")}
         />
-        <TouchableOpacity onPress={() => this.onChooseImagePress()}>
-          <Image
-            style={styles.tinyLogo}
-            source={require("../assets/upload.png")}
-          />
-        </TouchableOpacity>
+
+        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-7%" }]}>
+          وصف العمل *{" "}
+        </Text>
+        <TextInput
+          style={styles.inputStyleDescription}
+          maxLength={250}
+          multiline={true}
+          value={this.state.designDescription}
+          onChangeText={(val) => this.updateInputVal(val, "designDescription")}
+          scrollEnabled={true}
+        />
+
+        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-9%" }]}>
+          اختيار ملف التصميم *{" "}
+          <TouchableOpacity onPress={() => this.onChooseImagePress()}>
+            <Image
+              style={styles.tinyLogo}
+              source={require("../assets/upload.png")}
+            />
+          </TouchableOpacity>
+        </Text>
+
         <Image
           style={styles.preview}
           source={{
@@ -179,16 +233,7 @@ export default class UploadNewDesign extends Component {
           }}
         />
         <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
-          وصف العمل{" "}
-        </Text>
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="وصف العمل"
-          value={this.state.designDescription}
-          onChangeText={(val) => this.updateInputVal(val, "designDescription")}
-        />
-        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
-          فئة التصميم{" "}
+          * فئة التصميم{" "}
         </Text>
         <Picker
           selectedValue={this.state.category}
@@ -234,28 +279,39 @@ const styles = StyleSheet.create({
     padding: "10%",
     backgroundColor: "#fff",
   },
+  inputStyleDescription: {
+    alignSelf: "center",
+    fontSize: 18,
+    width: "80%",
+    height: "15%",
+    textAlign: "right",
+    top: "-8%",
+    borderColor: "#ccc",
+    borderWidth: 2,
+  },
   tinyLogo: {
     width: 30,
     height: 30,
-    paddingBottom: "3%",
-    marginBottom: "3%",
+    right: "1280%",
+    top: "25%",
   },
   preview: {
-    width: 60,
-    height: 60,
-    right: 10,
+    width: 300,
+    height: 250,
+    borderColor: "#B7B7B7",
+    borderWidth: 1,
+    top: "-8%",
+    alignSelf: "center",
   },
   inputStyle: {
     fontSize: 18,
-    marginTop: "2%",
+    marginTop: "3%",
     width: "100%",
-    marginBottom: "2%",
-    paddingBottom: "2%",
     alignSelf: "center",
     borderColor: "#ccc",
-    borderBottomWidth: 3,
+    borderBottomWidth: 2,
     textAlign: "right",
-    top: "-5%",
+    top: "-6.7%",
   },
   inputStyle2: {
     fontSize: 18,
@@ -289,14 +345,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     zIndex: 6,
   },
-  radioText: {
-    fontSize: 18,
-    color: "#B7B7B7",
-  },
+
   SvgComponentStyle: {
     top: "-8%",
-  },
-  uploadIcon: {
-    top: "-400%",
   },
 });

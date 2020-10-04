@@ -175,7 +175,7 @@ export default class LoginPage extends Component {
         </Text>
 
         <View style={styles.loginButton}>
-          <TouchableOpacity onPress={() => this.userLogin()}>
+          <TouchableOpacity onPress={() => this.Hnav()}>
             <Text style={styles.loginButton2}>تسجيل الدخول</Text>
           </TouchableOpacity>
         </View>

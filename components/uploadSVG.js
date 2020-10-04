@@ -1,5 +1,13 @@
 import * as React from "react";
-import Svg, { G, Path, Ellipse, Circle, Rect } from "react-native-svg";
+import Svg, {
+  Stop,
+  G,
+  Path,
+  Ellipse,
+  Circle,
+  Rect,
+  LinearGradient,
+} from "react-native-svg";
 
 function SvgComponent(props) {
   return (
@@ -10,17 +18,17 @@ function SvgComponent(props) {
       {...props}
     >
       <defs>
-        <linearGradient
+        <LinearGradient
           id="prefix__a"
           x1={0.5}
           y1={1}
           x2={0.5}
           gradientUnits="objectBoundingBox"
         >
-          <stop offset={0} stopColor="gray" stopOpacity={0.251} />
-          <stop offset={0.54} stopColor="gray" stopOpacity={0.122} />
-          <stop offset={1} stopColor="gray" stopOpacity={0.102} />
-        </linearGradient>
+          <Stop offset={0} StopColor="gray" StopOpacity={0.251} />
+          <Stop offset={0.54} StopColor="gray" StopOpacity={0.122} />
+          <Stop offset={1} StopColor="gray" StopOpacity={0.102} />
+        </LinearGradient>
       </defs>
       <g data-name="Group 24" transform="translate(-.003 -.048)">
         <path

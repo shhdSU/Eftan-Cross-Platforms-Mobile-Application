@@ -126,6 +126,7 @@ export default class UploadNewDesign extends Component {
         designDescription: this.state.designDescription,
         category: this.state.category,
         designFileKey: "",
+        date: new Date(),
       })
       .then((key) => {
         this.updateInputVal(key.key, "designFileKey");
@@ -139,12 +140,22 @@ export default class UploadNewDesign extends Component {
           .child(this.state.designFileKey)
           .update({ designFileKey: this.state.designFileKey })
           .then(
-            this.uploadImage(this.state.localpath, this.state.designFileKey)
-          );
-        Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
-          cancelable: false,
-        });
-        this.updateInputVal("", "localpath");
+            this.uploadImage(this.state.localpath, this.state.designFileKey),
+            Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
+              cancelable: false,
+            }),
+            this.updateInputVal("", "localpath"),
+            this.props.navigation.navigate("صفحة المصمم")
+          )
+          .catch((error) => {
+            Alert.alert(
+              "حجم الصورة متجاوز للحد المسموح، الرجاء اختيار صورة أخرى",
+              [{ text: "حسنًا" }],
+              {
+                cancelable: false,
+              }
+            );
+          });
       });
   }
   setSelectedValue = (val) => {
@@ -358,12 +369,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#4F3C75",
     padding: "1%",
-    justifyContent:"center",
+    justifyContent: "center",
     borderRadius: 25,
     width: "80%",
     height: "3.5%",
     alignSelf: "center",
-    bottom:"15%"
+    bottom: "15%",
   },
 
   preloader: {

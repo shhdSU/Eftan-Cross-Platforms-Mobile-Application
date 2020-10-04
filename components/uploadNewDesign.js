@@ -141,6 +141,9 @@ export default class UploadNewDesign extends Component {
           .then(
             this.uploadImage(this.state.localpath, this.state.designFileKey)
           );
+        Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
+          cancelable: false,
+        });
         this.updateInputVal("", "localpath");
       });
   }

@@ -7,11 +7,13 @@ import GalleryScreen from "./components/gallery";
 import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
+import DesignDetails from "./components/GDDetails"
 
 
 
 const Navigation = createStackNavigator(
   {
+    "تفاصيل العمل":{screen:DesignDetails },
     "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
     "معرض المصمم": { screen: GalleryScreen },

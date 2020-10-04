@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import * as React from "react";
 import Svg, {
   Defs,
@@ -14,265 +14,163 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import SvgComponent from "./GD_detailsImage"
 
 export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
+      designId: "",
+      title: "عنوان العمل",
+      designerFName: "هديل",
+      designerLName: "الهاجري",
+      date:"22-5-2020",
+      description: "بببببببببببببببببببببببببب ببببببببب بببببببببببببببب بببببببببببببببببببب ببببببببببببببب بببببببببببببب بببببب بببببببببببببببب بببببببببببببببببببببببب ببببببببببببببببببببببببببب بببببببببببببب بببببببببببببب بببببببببببببب بببببببب ببببببب ببببببببب ببببببب ببببب",
       isLoading: false,
     };
   }
-
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
   render() {
     return (
-      <View>
-        <Svg>
-          <Defs>
-            <ClipPath id="prefix__a">
-              <Path d="M0 0h375v812H0z" />
-            </ClipPath>
-          </Defs>
-          <G data-name="GDDetails Screen" clipPath="url(#prefix__a)">
-            <Path fill="#fff" d="M0 0h375v812H0z" />
-            <G filter="url(#prefix__b)">
-              <Rect
-                data-name="Rectangle 6"
-                width={398}
-                height={126}
-                rx={38}
-                transform="translate(-11 -18)"
+      <View style={styles.container}>
+        <Text
+          style={[
+            styles.inputStyle2,
+            {
+              color: "#4F3C75",
+              top: "5%",
+              fontWeight: "700",
+              position:"absolute",
+              fontSize:30,
+              textAlign:"center",
+              alignSelf:"center",
+              zIndex:1,
+            },
+          ]}
+        >
+          {this.state.title}
+        </Text>
+        <Svg
+          width={416}
+          height={144}
+          style={{ alignSelf: "center", top: "-2%", position: "absolute" }}
+        >
+          <G data-name="Group 7">
+            <G filter="url(#prefix__a)">
+              <Path
+                data-name="Path 117"
+                d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
             </G>
-
+            <Path
+              data-name="Icon ionic-ios-arrow-back"
+              d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+              fill="#4f3c75"
+            />
             <Path
               data-name="Icon material-menu"
-              onPress={() => this.props.navigation.toggleDrawer()}
-              d="M316.676 71.883H357V67.4h-40.324zm0-11.2H357V56.2h-40.324zm0-15.683v4.48H357V45z"
+              d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
             />
           </G>
-
+        </Svg>
+        <Image
+          style={styles.preview}
+          onTouchStart={this.onChooseImagePress}
+          source={{
+            uri: this.state.localpath,
+          }}
+        />
+        <Svg
+          width={39.676}
+          height={39.676}
+          viewBox="0 0 39.676 39.676"
+          style={{
+            top: 115,
+            left: 135,
+          }}
+        >
+          <Path
+            data-name="Icon material-account-circle"
+            d="M19.838 0a19.838 19.838 0 1019.838 19.838A19.845 19.845 0 0019.838 0zm0 5.951a5.951 5.951 0 11-5.951 5.949 5.943 5.943 0 015.951-5.949zm0 28.17a14.285 14.285 0 01-11.9-6.388c.06-3.948 7.935-6.11 11.9-6.11 3.948 0 11.843 2.162 11.9 6.11a14.285 14.285 0 01-11.9 6.388z"
+            fill="#4f3c75"
+          />
+        </Svg>
+        <Text
+          style={[
+            styles.inputStyle2,
+            {
+              color: "#4F3C75",
+              top: "8%",
+              left: "-23%",
+              fontWeight: "700",
+            },
+          ]}
+        >
+          {this.state.designerFName + " " + this.state.designerLName}
+        </Text>
+        <Svg
+          width={42}
+          height={42}
+          viewBox="0 0 42 42"
+          style={{
+            top: 70,
+            left: 135,
+          }}
+        >
           <G
-            transform="translate(304 483)"
-            fill="rgba(255,255,255,.62)"
+            data-name="Ellipse 26"
+            fill="rgba(255,255,255,0.62)"
             stroke="#4f3c75"
             strokeWidth={2}
           >
-            <Path
-              d="M19.838 0a19.838 19.838 0 1019.838 19.838A19.845 19.845 0 0019.838 0zm0 5.951a5.951 5.951 0 11-5.951 5.949 5.943 5.943 0 015.951-5.949zm0 28.17a14.285 14.285 0 01-11.9-6.388c.06-3.948 7.935-6.11 11.9-6.11 3.948 0 11.843 2.162 11.9 6.11a14.285 14.285 0 01-11.9 6.388z"
-              fill="#4f3c75"
-            />
+            <Circle cx={21} cy={21} r={21} stroke="none" />
+            <Circle cx={21} cy={21} r={20} fill="none" />
           </G>
-
-          <Text
-            transform="translate(48 19)"
-            fill="#c5c3c1"
-            fontSize={21}
-            fontFamily="Helvetica-Bold,Helvetica"
-            fontWeight={700}
-          >
-            <TSpan className="prefix__b" y={0}>
-              {"\u0627\u0644\u0645\u0635\u0645\u0645"}
-            </TSpan>
-            <TSpan y={0} />
-            <TSpan className="prefix__b" y={0}>
-              {"\u0627\u0633\u0645"}
-            </TSpan>
-            <TSpan fontFamily="GESSUniqueBold-Bold,GE SS Unique" />
-          </Text>
-          <Text
-            transform="translate(170 27)"
-            fontFamily="Helvetica-Bold,Helvetica"
-            fontWeight={700}
-            fill="#f10921"
-            fontSize={26}
-          >
-            <TSpan className="prefix__c" y={0}>
-              {"\u0627\u0644\u0639\u0645\u0644"}
-            </TSpan>
-            <TSpan y={0} />
-            <TSpan className="prefix__c" y={0}>
-              {"\u0639\u0646\u0648\u0627\u0646"}
-            </TSpan>
-            <TSpan className="prefix__d" />
-          </Text>
-
           <Path
-            className="prefix__r"
-            d="M321 408.5H55c-4.928 0-9.708-.965-14.207-2.868a36.38 36.38 0 01-11.602-7.823 36.38 36.38 0 01-7.823-11.602A36.272 36.272 0 0118.5 372V148c0-4.928.965-9.708 2.868-14.207a36.38 36.38 0 017.823-11.602 36.38 36.38 0 0111.602-7.823A36.272 36.272 0 0155 111.5h266c4.928 0 9.708.965 14.207 2.868a36.38 36.38 0 0111.602 7.823 36.38 36.38 0 017.823 11.602A36.271 36.271 0 01357.5 148v224c0 4.928-.965 9.708-2.868 14.207a36.38 36.38 0 01-7.823 11.602 36.38 36.38 0 01-11.602 7.823A36.272 36.272 0 01321 408.5z"
-          />
-          <Path
-            d="M55 112c-4.86 0-9.575.952-14.013 2.829a35.881 35.881 0 00-11.443 7.715A35.881 35.881 0 0019 148v224c0 4.86.952 9.575 2.829 14.013a35.881 35.881 0 007.715 11.443A35.881 35.881 0 0055 408h266c4.86 0 9.575-.952 14.013-2.829a35.881 35.881 0 0011.443-7.715A35.881 35.881 0 00357 372V148c0-4.86-.952-9.575-2.829-14.013a35.881 35.881 0 00-7.715-11.443A35.881 35.881 0 00321 112H55m0-1h266c20.435 0 37 16.565 37 37v224c0 20.435-16.565 37-37 37H55c-20.435 0-37-16.565-37-37V148c0-20.435 16.565-37 37-37z"
-            fill="#707070"
-          />
-
-          <Path
-            className="prefix__f"
-            d="M325 419.162A19.838 19.838 0 10344.838 439 19.845 19.845 0 00325 419.162zm0 5.951a5.951 5.951 0 11-5.951 5.949 5.943 5.943 0 015.951-5.949zm0 28.17a14.285 14.285 0 01-11.9-6.388c.06-3.948 7.935-6.11 11.9-6.11 3.948 0 11.843 2.162 11.9 6.11a14.285 14.285 0 01-11.9 6.388z"
-          />
-          <Text
-            transform="translate(237 444)"
-            fontSize={21}
-            fill="#c5c3c1"
-            fontFamily="Helvetica-Bold,Helvetica"
-            fontWeight={700}
-          >
-            <TSpan className="prefix__c" y={0}>
-              {"\u0627\u0644\u0645\u0635\u0645\u0645"}
-            </TSpan>
-            <TSpan y={0} />
-            <TSpan className="prefix__c" y={0}>
-              {"\u0627\u0633\u0645"}
-            </TSpan>
-            <TSpan className="prefix__d" />
-          </Text>
-          <Text
-            transform="translate(109 429)"
-            fontSize={13}
-            fontFamily="Helvetica"
-            fill="#c5c3c1"
-          >
-            <TSpan x={-69.342} y={0}>
-              {"dd/mm/yyyy"}
-            </TSpan>
-          </Text>
-          <Text
-            transform="translate(232 509)"
-            fontSize={24}
+            data-name="Icon awesome-sticky-note"
+            d="M25.17 23.964H32V10.705A1.2 1.2 0 0030.795 9.5h-20.09A1.2 1.2 0 009.5 10.705v20.09A1.2 1.2 0 0010.705 32h13.259v-6.83a1.209 1.209 0 011.206-1.206zm6.479 2.762l-2.625 2.624-2.3 2.3a1.2 1.2 0 01-.854.352h-.3v-6.431H32v.306a1.2 1.2 0 01-.352.85z"
             fill="#4f3c75"
-            fontFamily="Helvetica-Bold,Helvetica"
-            fontWeight={700}
-          >
-            <TSpan className="prefix__c" y={0}>
-              {"\u0627\u0644\u0639\u0645\u0644"}
-            </TSpan>
-            <TSpan y={0} />
-            <TSpan className="prefix__c" y={0}>
-              {"\u0648\u0635\u0641"}
-            </TSpan>
-            <TSpan className="prefix__d" />
-          </Text>
-          <Text
-            transform="translate(188 549)"
-            fontSize={18}
-            fill="#c5c3c1"
-            fontFamily="Helvetica-Bold,Helvetica"
-            fontWeight={700}
-          >
-            <TSpan x={-145.028} y={0}>
-              {".........................................................."}
-            </TSpan>
-            <TSpan x={-145.028} y={22}>
-              {".........................................................."}
-            </TSpan>
-            <TSpan x={-145.028} y={44}>
-              {".........................................................."}
-            </TSpan>
-            <TSpan x={-145.028} y={66}>
-              {".........................................................."}
-            </TSpan>
-            <TSpan className="prefix__d" />
-          </Text>
-          <Path
-            d="M26.461 722.088c0 36.631 16.632 65.528 37.113 66.326 26.71 1.04 61.618-25.592 37.113-66.326-18.883-31.389-16.616-66.326-37.113-66.326s-37.113 29.695-37.113 66.326z"
-            fill="#f2f2f2"
-          />
-          <Ellipse
-            className="prefix__l"
-            cx={33.059}
-            cy={3.535}
-            rx={33.059}
-            ry={3.535}
-            transform="translate(41.016 783.424)"
-          />
-          <Path
-            className="prefix__m"
-            d="M45.697 743.063a1.753 1.753 0 103.488.344c.13-1.313-1.449-3.157-1.449-3.157s-1.911 1.5-2.039 2.813zM59.229 739.294a1.753 1.753 0 102.97-1.862c-.7-1.118-3.078-1.61-3.078-1.61s-.593 2.354.108 3.472z"
-          />
-          <Path
-            className="prefix__n"
-            d="M59.99 769.517s-1.565 6.812-4 8.28 5.952 4.252 5.952 4.252 3.652 2.264 4.6 3.083 5.014 2.57 4.344 1.269a26.181 26.181 0 00-3.706-5.829c-1.859-2.055-4.3-5.734-2.174-8.6s-5.016-2.455-5.016-2.455z"
-          />
-          <Path
-            className="prefix__o"
-            d="M68.467 686.647l.821-.293s2.11-.293 4.044 2.169 6.359 9.935 6.359 9.935l1.641 3.868-5.8.176-4.367-9.612z"
-          />
-          <Path
-            className="prefix__p"
-            d="M68.467 686.647l.821-.293s2.11-.293 4.044 2.169 6.359 9.935 6.359 9.935l1.641 3.868-5.8.176-4.367-9.612z"
-          />
-          <Path
-            className="prefix__q"
-            d="M69.346 746.166s-3.312.733-2.755 3.282-3.458 5.861-3.839 6.418-.938.791-.586 1.641-8.176 12.836-6.477 13.92 15.473 5.334 16.7 4.484 2.227-28.661 2.227-28.661z"
-          />
-          <Path
-            className="prefix__p"
-            d="M69.346 746.166s-3.312.733-2.755 3.282-3.458 5.861-3.839 6.418-.938.791-.586 1.641-8.176 12.836-6.477 13.92 15.473 5.334 16.7 4.484 2.227-28.661 2.227-28.661z"
-          />
-          <Path
-            className="prefix__n"
-            d="M76.881 776.409s2.051 6.682.674 9.173 7.281.705 7.281.705 4.295.134 5.525.368 5.627-.282 4.4-1.073a26.186 26.186 0 00-6.125-3.194c-2.638-.85-6.594-2.813-6.183-6.359s-5.572.38-5.572.38z"
-          />
-          <Path
-            className="prefix__q"
-            d="M80.716 709.623a6.459 6.459 0 00-3.9-1.2c-2.257.088-9.642 1.846-9.436 2.2a7.41 7.41 0 00.674.879s-.469 2.139-.264 2.344-4.015 5.041-1.553 15.415a72.491 72.491 0 012.2 17.554s-1 30.419 1.846 31.034 14.037.205 14.565-1-1.612-38.507-1.612-38.507-.234-18.756-.791-21.041-1.729-7.678-1.729-7.678z"
-          />
-          <Circle
-            className="prefix__n"
-            cx={7.063}
-            cy={7.063}
-            r={7.063}
-            transform="translate(60.745 669.019)"
-          />
-          <Path
-            className="prefix__n"
-            d="M68.877 680.756s-4.367 4.279 1.026 7.59c3.8 2.332-9.173-1.817-9.173-1.817s2.7-6.887 2.286-8.469 5.861 2.696 5.861 2.696z"
-          />
-          <Path
-            className="prefix__o"
-            d="M67.792 687.438s-6.066-2.784-7.063-1.788-5.3 5.1-.615 12.367 5.6 12.719 6.389 13.334 1.289-.791 1.289-.791 2.286-2.081 3.78-2.081 7.883.7 7.883.7l-1.788-7.092s.879-5.6-2.11-8.381a60.011 60.011 0 01-6.271-7.356l-1.693-.309 1.118 1.423s.166.443-.919-.026z"
-          />
-          <Path
-            className="prefix__m"
-            d="M51.792 735.15c12.247-4.473 13.865-13.316 10.584-22.3s-10.216-14.7-22.463-10.227-21.889 26.426-21.889 26.426 21.522 10.574 33.768 6.101z"
-          />
-          <Path
-            className="prefix__l"
-            d="M60.287 712.944l-10.189 3.91-10.149 11.563 8.551-10.949-4.581 1.758-7.429 8.128 6.217-7.662-8.24 3.162-5.435 7.783 4.14-7.286-15.171 5.63 19.929-7.878-.815.347-9.859-2.293 11.423 1.628 9.08-3.866-.251.075-10.567-2.936 11.429 2.6 1.136-.483.013-.017.1-.03 23.038-9.807.6 1.643-12.06 4.628-7.045 9.331z"
-          />
-          <Path
-            className="prefix__n"
-            d="M81.742 702.911s2.608 3.517.879 4.835-5.363-.938-5.363-.938-8.381 5.832-8.264 2.4 6.125-5.8 6.125-5.8l4.044.117-.615-2.022 1.7-.176z"
-          />
-          <Path
-            className="prefix__p"
-            d="M81.742 702.911s2.608 3.517.879 4.835-5.363-.938-5.363-.938-8.381 5.832-8.264 2.4 6.125-5.8 6.125-5.8l4.044.117-.615-2.022 1.7-.176z"
-          />
-          <Path
-            className="prefix__n"
-            d="M64.247 696.142s16.47 12.689 17.525 8.235c.686-2.895.158-10.023-.3-14.66a14.368 14.368 0 00-4.256-8.9c-.988-.963-1.9-1.567-2.365-1.117-1.289 1.26 3.018 6.3 3.018 6.3s.7 10.228-.7 11.4c0 0-5.1-4.921-6.153-4.849s-6.769 3.591-6.769 3.591z"
-          />
-          <Path
-            className="prefix__q"
-            d="M53.338 682.686c1.349-2.031 2.463-5.3 3.665-8.174.39-.932.745-1.877 1.094-2.825.7-1.912 3.76-4.379 7.765-4.379 4.577 0 8.288 2.3 8.288 4.236 0 1.6-2.537 2.945-6 3.364a21.1 21.1 0 011.951 7.779c0 4.628-3.752 2.671-8.38 2.671s-10.945 1.183-8.383-2.672z"
-          />
-          <Path
-            className="prefix__o"
-            d="M60.73 688.229s-2.931 7.473 3.663 9.173a5.586 5.586 0 013.4-2.081c2.11-.293 3.986-2.491 3.986-2.491s-4.308-6.066-7.678-6.183-3.371 1.582-3.371 1.582z"
-          />
-          <Path
-            className="prefix__f"
-            d="M329.17 506.964H336v-13.259a1.2 1.2 0 00-1.205-1.205h-20.09a1.2 1.2 0 00-1.205 1.205v20.09a1.2 1.2 0 001.205 1.205h13.259v-6.83a1.209 1.209 0 011.206-1.206zm6.479 2.762l-4.922 4.924a1.2 1.2 0 01-.854.352h-.3v-6.431H336v.306a1.2 1.2 0 01-.352.85z"
           />
         </Svg>
-        {/* <Text style={styles.forText} onPress={this.signOutUser}>
-          تسجيل الخروج
-        </Text> */}
+        <Text
+          style={[
+            styles.inputStyle2,
+            {
+              color: "#4F3C75",
+              top: "2%",
+              left: "-23.5%",
+              fontWeight: "700",
+            },
+          ]}
+        >
+          وصف العمل
+        </Text>
+        <Text
+          style={[
+            {
+              color: "#4F3C75",
+              top: "3%",
+              left: "0%",
+              textAlign:"center",
+              fontWeight: "700",
+              width:340,
+              height:150,
+              fontSize: 15,
+              
+            },
+          ]}
+        >
+          {this.state.description}{" "}
+        </Text>
+        <SvgComponent style={{
+          right:120,
+        }}></SvgComponent>
       </View>
     );
   }
@@ -284,6 +182,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   forText: {
     position: "relative",
@@ -297,5 +196,23 @@ const styles = StyleSheet.create({
     left: hp("11%"),
     color: "#4F3C75",
     fontSize: 30,
+  },
+  preview: {
+    width: 330,
+    height: 280,
+    borderColor: "#ccc",
+    borderWidth: 2,
+    top: "12.5%",
+    borderRadius: 35,
+    alignSelf: "center",
+  },
+  inputStyle2: {
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    textAlign: "right",
+    top: "0%",
   },
 });

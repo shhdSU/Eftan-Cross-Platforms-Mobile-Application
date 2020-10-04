@@ -160,7 +160,11 @@ export default class UploadNewDesign extends Component {
     }
     return (
       <ScrollView style={styles.container}>
-        <Svg width={416} height={144} style={styles.tab}>
+        <Svg
+          width={416}
+          height={144}
+          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+        >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
               <Path
@@ -186,7 +190,7 @@ export default class UploadNewDesign extends Component {
             fontSize: 24,
             color: "#4F3C75",
             fontWeight: "700",
-            top: "-14%",
+            top: "-11%",
             alignSelf: "center",
             zIndex: 6,
           }}
@@ -195,10 +199,15 @@ export default class UploadNewDesign extends Component {
         </Text>
 
         <SvgComponent
-          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-8.5%", position: "relative" }}
         ></SvgComponent>
 
-        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+          ]}
+        >
           عنوان العمل *{" "}
         </Text>
         <TextInput
@@ -207,7 +216,12 @@ export default class UploadNewDesign extends Component {
           onChangeText={(val) => this.updateInputVal(val, "designTitle")}
         />
 
-        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-7%" }]}>
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+          ]}
+        >
           وصف العمل *{" "}
         </Text>
         <TextInput
@@ -218,29 +232,43 @@ export default class UploadNewDesign extends Component {
           onChangeText={(val) => this.updateInputVal(val, "designDescription")}
           scrollEnabled={true}
         />
-
-        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-9%" }]}>
+        <Image
+          onTouchStart={this.onChooseImagePress}
+          style={styles.tinyLogo}
+          source={require("../assets/upload.png")}
+        />
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-10%", fontWeight: "700" },
+          ]}
+        >
           اختيار ملف التصميم *{" "}
-          <TouchableOpacity onPress={() => this.onChooseImagePress()}>
-            <Image
-              style={styles.tinyLogo}
-              source={require("../assets/upload.png")}
-            />
-          </TouchableOpacity>
         </Text>
 
         <Image
           style={styles.preview}
+          onTouchStart={this.onChooseImagePress}
           source={{
             uri: this.state.localpath,
           }}
         />
-        <Text style={[styles.inputStyle2, { color: "#4F3C75", top: "-4%" }]}>
-          * فئة التصميم{" "}
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-10%", fontWeight: "700" },
+          ]}
+        >
+          فئة التصميم*{" "}
         </Text>
         <Picker
           selectedValue={this.state.category}
-          style={{ height: "22%", width: "80%", bottom: "4%" }}
+          style={{
+            height: "22%",
+            width: "80%",
+            bottom: "12%",
+            alignSelf: "center",
+          }}
           onValueChange={(itemValue, itemIndex) =>
             this.setSelectedValue(itemValue)
           }
@@ -285,8 +313,8 @@ const styles = StyleSheet.create({
   inputStyleDescription: {
     alignSelf: "center",
     fontSize: 18,
-    width: "80%",
-    height: "15%",
+    width: "100%",
+    height: "8%",
     textAlign: "right",
     top: "-8%",
     borderColor: "#ccc",
@@ -295,15 +323,16 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 30,
     height: 30,
-    right: "1280%",
-    top: "25%",
+    right: "-10%",
+    top: "-7%",
   },
   preview: {
     width: 300,
     height: 250,
-    borderColor: "#B7B7B7",
-    borderWidth: 1,
-    top: "-8%",
+    borderColor: "#ccc",
+    borderWidth: 2,
+    top: "-10%",
+    borderRadius: 35,
     alignSelf: "center",
   },
   inputStyle: {
@@ -314,7 +343,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderBottomWidth: 2,
     textAlign: "right",
-    top: "-6.7%",
+    top: "-9%",
   },
   inputStyle2: {
     fontSize: 18,
@@ -329,10 +358,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#4F3C75",
     padding: "1%",
+    justifyContent:"center",
     borderRadius: 25,
     width: "80%",
-    height: "6%",
+    height: "3.5%",
     alignSelf: "center",
+    bottom:"15%"
   },
 
   preloader: {

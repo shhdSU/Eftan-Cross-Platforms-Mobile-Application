@@ -37,6 +37,8 @@ export default class RequestForm extends Component {
       Cemail: "",
       Demail: "",
       ImagePath: "",
+      ImageURL: "",
+      Imagekey: "",
       popup: false,
       colorNum: 0,
       mainStep: true,
@@ -92,24 +94,42 @@ export default class RequestForm extends Component {
   closePopUp = () => {
     let checkOnColor = /(^#[0-9A-Fa-f]{6}$)|(^#[0-9A-Fa-f]{3}$)/;
     let colors = this.state.color1 + this.state.color2 + this.state.color3;
-    if (colors !== "") {
-      if (
-        (!checkOnColor.test(this.state.color1) || this.state.color1 === "") &&
-        (!checkOnColor.test(this.state.color2) || this.state.color2 === "") &&
-        (!checkOnColor.test(this.state.color3) || this.state.color3 === "")
-      ) {
-        Alert.alert(
-          "تنبيه",
-          "الرجاء إدخال رمز اللون بشكل صحيح او ترك الخانة فارغة",
-          [{ text: "حسنًا" }],
-          { cancelable: false }
-        );
-        this.updateInputVal("", "color1");
-        this.updateInputVal("", "color2");
-        this.updateInputVal("", "color3");
-        return;
-      }
+
+    if (!checkOnColor.test(this.state.color1) && this.state.color1 !== "") {
+      Alert.alert(
+        "تنبيه",
+        "الرجاء إدخال رمز اللون بشكل صحيح او ترك الخانة فارغة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      this.updateInputVal("", "color1");
+      return;
+    } else if (
+      !checkOnColor.test(this.state.color2) &&
+      this.state.color2 !== ""
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "الرجاء إدخال رمز اللون بشكل صحيح او ترك الخانة فارغة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      this.updateInputVal("", "color2");
+      return;
+    } else if (
+      !checkOnColor.test(this.state.color3) &&
+      this.state.color3 !== ""
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "الرجاء إدخال رمز اللون بشكل صحيح او ترك الخانة فارغة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      this.updateInputVal("", "color3");
+      return;
     }
+
     this.updateInputVal(false, "popup");
   };
 
@@ -143,37 +163,67 @@ export default class RequestForm extends Component {
     const response = await fetch(uri);
     const blob = await response.blob();
 
-    var ref = firebase.storage().ref("Draft/");
+    var ref = firebase
+      .storage()
+      .ref()
+      .child("Draft/" + draftName);
     return ref.put(blob);
   };
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      this.uploadImage(result.uri, "Draft");
       this.updateInputVal(result.uri, "ImagePath");
     }
   };
   storeResquset = () => {
     // const Cemail = firebase.auth().currentUser.email;// الطريقة غلط...
 
-    firebase.database().ref("Forms/").push({
-      title: this.state.title,
-      description: this.state.description,
-      color1: this.state.color1,
-      color2: this.state.color2,
-      color3: this.state.color3,
-      category: this.state.category,
-      reference: this.state.reference,
-      deadLine: this.state.deadLine,
-      // Cemail: Cemail,
-      Demail: "",
-      ImagePath: this.state.ImagePath,
+    firebase
+      .database()
+      .ref("Forms/")
+      .push({
+        title: this.state.title,
+        description: this.state.description,
+        color1: this.state.color1,
+        color2: this.state.color2,
+        color3: this.state.color3,
+        category: this.state.category,
+        reference: this.state.reference,
+        deadLine: this.state.deadLine,
+        // Cemail: Cemail,
+        Demail: "",
+      })
+      .then((key) => {
+        this.updateInputVal(key.key, "Imagekey");
+        this.uploadImage(this.state.ImagePath, this.state.Imagekey);
+        firebase
+          .database()
+          .ref("Forms/")
+          .child(this.state.Imagekey)
+          .update({ Imagekey: this.state.Imagekey });
+      });
+    Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
+      cancelable: false,
     });
+    this.props.navigation.navigate("معرض الصور");
   };
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
+          <Text
+            style={{
+              fontSize: 30,
+              color: "#4F3C75",
+              fontWeight: "700",
+              top: "5%",
+              alignSelf: "center",
+              position: "absolute",
+              zIndex: 10,
+            }}
+          >
+            طلب تصميم
+          </Text>
           <Svg
             width={416}
             height={144}
@@ -348,7 +398,7 @@ export default class RequestForm extends Component {
                   width={30}
                   height={30}
                   onPress={() => this.onChooseImagePress()}
-                  style={{ marginTop: "-47%", marginLeft: "-5%" }}
+                  style={{ marginTop: "-25%", marginLeft: "-5%" }}
                 >
                   <G
                     data-name="Icon feather-upload"
@@ -366,16 +416,17 @@ export default class RequestForm extends Component {
                     <Path data-name="Path 222" d="M15 1.5v18" />
                   </G>
                 </Svg>
+
                 <DatePicker
                   style={{ width: 200 }}
-                  date={this.state.deadLine}
+                  date={this.state.date}
                   mode="date"
+                  placeholder="آخر موعد للتسليم"
                   format="YYYY-MM-DD"
                   minDate={new Date()}
                   confirmBtnText="تم"
-                  cancelBtnText="إلغاء"
-                  hideText
                   locale={"ar"}
+                  cancelBtnText="إلغاء"
                   iconComponent={
                     <Svg width={31.5} height={36} style={styles.dateIcon}>
                       <Path
@@ -385,26 +436,22 @@ export default class RequestForm extends Component {
                       />
                     </Svg>
                   }
-                  onDateChange={(date) => {
-                    this.setState({ deadLine: date });
-                  }}
-                />
-                <TextInput
-                  editable={false}
-                  style={[
-                    styles.inputStyle,
-                    {
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "-25%",
-                      position: "absolute",
-                      width: "80%",
-                      zIndex: 0,
+                  customStyles={{
+                    placeholder: {
+                      fontSize: 30,
                     },
-                  ]}
-                  placeholder="آخر موعد للتسليم"
-                  value={this.state.deadLine}
-                  onChangeText={(val) => this.updateInputVal(val, "deadLine")}
+                    dateInput: {
+                      left: 40,
+                      top: 50,
+                      borderWidth: 0,
+                      borderBottomWidth: 2,
+                      borderBottomColor: "#ccc",
+                    },
+                    // ... You can check the source to find the other keys.
+                  }}
+                  onDateChange={(date) => {
+                    this.setState({ date: date });
+                  }}
                 />
               </View>
               <View>
@@ -413,15 +460,33 @@ export default class RequestForm extends Component {
                     alignItems: "center",
                     backgroundColor: "#4F3C75",
                     borderRadius: 25,
-                    width: "100%",
-                    height: "40%",
+                    width: "70%",
+                    height: "30%",
                     justifyContent: "center",
-                    position: "absolute",
+                    position: "relative",
                     alignSelf: "center",
+                    left: "20%",
+                    top: "30%",
                   }}
                   onPress={() => this.storeResquset()}
                 >
-                  <Text style={styles.buttonText}>رفع الطلب</Text>
+                  <Text style={styles.buttonText}> رفع الطلب </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    alignItems: "center",
+                    backgroundColor: "#4F3C75",
+                    borderRadius: 25,
+                    width: "140%",
+                    height: "30%",
+                    justifyContent: "center",
+                    position: "relative",
+                    alignSelf: "center",
+                    left: "-20%",
+                  }}
+                  onPress={() => this.updateInputVal(true, "mainStep")}
+                >
+                  <Text style={styles.buttonText}> السابق </Text>
                 </TouchableOpacity>
               </View>
             </Animatable.View>
@@ -587,7 +652,7 @@ const styles = StyleSheet.create({
     width: "20%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "0%",
+    marginTop: "20%",
     marginLeft: "2.5%",
     marginRight: "2.5%",
   },
@@ -638,8 +703,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   dateIcon: {
-    marginTop: "32%",
-    marginLeft: "-105%",
-    zIndex: 2,
+    position: "absolute",
+    top: 50,
+    left: -20,
+    zIndex: 10,
   },
 });

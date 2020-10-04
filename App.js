@@ -14,7 +14,7 @@ const Navigation = createStackNavigator(
     "صفحة الطلب": { screen: RequestScreen },
     "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
-    "معرض المصمم": { screen: GalleryScreen },
+    "معرض الصور": { screen: GalleryScreen },
     "صفحة المصمم": { screen: DprofileScreen },
     "سياسة الخصوصية": { screen: privacyPolicyScreen },
     "نسيت كلمة السر!": { screen: ForgotPassword },

@@ -14,18 +14,19 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import SvgComponent from "./GD_detailsImage"
+import SvgComponent from "./GD_detailsImage";
+import firebase from "../database/firebase";
 
 export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      designId: "",
-      title: "عنوان العمل",
+      designId: "-MIpWWop_15MRc_fm7YW",
+      title: "",
       designerFName: "هديل",
       designerLName: "الهاجري",
-      date:"22-5-2020",
-      description: "بببببببببببببببببببببببببب ببببببببب بببببببببببببببب بببببببببببببببببببب ببببببببببببببب بببببببببببببب بببببب بببببببببببببببب بببببببببببببببببببببببب ببببببببببببببببببببببببببب بببببببببببببب بببببببببببببب بببببببببببببب بببببببب ببببببب ببببببببب ببببببب ببببب",
+      date: "22-5-2020",
+      description: "",
       isLoading: false,
     };
   }
@@ -34,7 +35,24 @@ export default class GDDetails extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
+  screenLoading = () => {
+    let title = firebase
+      .database()
+      .ref("Designs/" + this.state.designId)
+      .child("designTitle")
+      .on("value", function (snapshot) {
+        console.log(snapshot);
+      });
+    this.updateInputVal(title, "title");
+    return;
+  };
   render() {
+    firebase
+      .database()
+      .ref("Designs/" + this.state.designId)
+      .child("designTitle")
+      .on("value",snap => console.log(snap.val()));
+    // this.updateInputVal(title, "title");
     return (
       <View style={styles.container}>
         <Text
@@ -44,11 +62,11 @@ export default class GDDetails extends React.Component {
               color: "#4F3C75",
               top: "5%",
               fontWeight: "700",
-              position:"absolute",
-              fontSize:30,
-              textAlign:"center",
-              alignSelf:"center",
-              zIndex:1,
+              position: "absolute",
+              fontSize: 30,
+              textAlign: "center",
+              alignSelf: "center",
+              zIndex: 1,
             },
           ]}
         >
@@ -157,20 +175,21 @@ export default class GDDetails extends React.Component {
               color: "#4F3C75",
               top: "3%",
               left: "0%",
-              textAlign:"center",
+              textAlign: "center",
               fontWeight: "700",
-              width:340,
-              height:150,
+              width: 340,
+              height: 150,
               fontSize: 15,
-              
             },
           ]}
         >
           {this.state.description}{" "}
         </Text>
-        <SvgComponent style={{
-          right:120,
-        }}></SvgComponent>
+        <SvgComponent
+          style={{
+            right: 120,
+          }}
+        ></SvgComponent>
       </View>
     );
   }

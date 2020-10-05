@@ -104,7 +104,7 @@ export default class UploadNewDesign extends Component {
     if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",
-        "يجب ان يحتوي العنوان على أحرف وأرقامًا فقط",
+        "يجب ان يحتوي العنوان على أحرف وأرقام فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );

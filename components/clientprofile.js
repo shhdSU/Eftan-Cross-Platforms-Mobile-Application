@@ -48,7 +48,7 @@ export default class clientprofile extends React.Component {
       this.updateVal(url, "img");
     });
     return (
-      <View>
+      <View style={styles.container}>
         <Svg>
           <Defs>
             <ClipPath id="prefix__a">
@@ -88,29 +88,19 @@ export default class clientprofile extends React.Component {
             />
           </G>
         </Svg>
-        <Image
-          style={{
-            height: 50,
-            width: 50,
-          }}
-          source={this.state.img}
-        />
-        <Text style={styles.forText}>First Name:</Text>
-        <Text style={styles.forText}>{this.state.firstName}</Text>
-        <Text style={styles.forText}>Last Name:</Text>
-        <Text style={styles.forText}>{this.state.lastName}</Text>
-        <Text style={styles.forText}>Email:</Text>
-        <Text style={styles.forText}>{this.state.cemail}</Text>
+        <Text style={styles.forText}>حسابي الشخصي</Text>
+        <Image style={styles.image} source={{ uri: this.state.img }} />
+        <Text style={styles.textStyle2}>الاسم الأول</Text>
+        <Text style={styles.textStyle}>{this.state.firstName}</Text>
+        <Text style={styles.textStyle4}>الاسم الأخير</Text>
+        <Text style={styles.textStyle3}>{this.state.lastName}</Text>
+        <Text style={styles.textStyle6}>البريد الالكتروني</Text>
+        <Text style={styles.textStyle5}>{this.state.cemail}</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("clientedit")}
         >
-          <Text
-            onPress={() => this.props.navigation.navigate("clientedit")}
-            style={styles.forText}
-          >
-            Edit Profile
-          </Text>
+          <Text style={styles.editText}>تعديل بيانات الحساب</Text>
         </TouchableOpacity>
       </View>
     );
@@ -120,33 +110,116 @@ export default class clientprofile extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    top: "5%",
+    padding: "1%",
+  },
+  image: {
+    flex: 1,
+    width: 150,
+    height: 150,
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffeed6",
+    alignItems: "center",
+    borderRadius: 150 / 2,
+    top: "24%",
+    left: "30%",
+    right: "5%",
   },
   button: {
-    alignItems: "center",
+    top: "75%",
     backgroundColor: "#4F3C75",
-    padding: "1%",
-    borderRadius: 25,
-    width: "80%",
     height: "6%",
+    width: "80%",
+    borderRadius: 25,
     alignSelf: "center",
+    alignItems: "center",
+    position: "absolute",
+  },
+  editText: {
+    fontSize: 25,
+    color: "#fff",
+    marginTop: "1%",
+    textAlign: "center",
+    alignItems: "center",
+    top: "5%",
+    zIndex: 10,
   },
   forText: {
-    top: "-200%",
-    left: "2%",
-    color: "#4F3C75",
-    alignSelf: "center",
-  },
-  forText2: {
     position: "absolute",
-    top: "45%",
-    left: "11%",
+    top: "17%",
     color: "#4F3C75",
-    fontSize: 30,
+    fontSize: 25,
+    textAlign: "center",
   },
   profileImg: {
     width: 50,
     height: 50,
+  },
+  textStyle: {
+    top: "45%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    left: "40%",
+    right: "5%",
+    justifyContent: "center",
+  },
+  textStyle2: {
+    top: "45%",
+    textAlign: "center",
+    fontSize: 19,
+    justifyContent: "center",
+    color: "#4F3C75",
+    position: "absolute",
+    right: "55%",
+  },
+  textStyle3: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+
+    left: "40%",
+    right: "5%",
+  },
+  textStyle4: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    right: "55%",
+
+    justifyContent: "center",
+  },
+  textStyle5: {
+    top: "55%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    textAlign: "center",
+    paddingTop: "15%",
+    justifyContent: "center",
+  },
+  textStyle6: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    textAlign: "center",
+    paddingTop: "15%",
   },
 });

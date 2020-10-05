@@ -11,7 +11,6 @@ import firebase from "../database/firebase";
 import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-import clientprofile from "./clientprofile";
 
 export default class clientedit extends React.Component {
   constructor() {
@@ -86,33 +85,38 @@ export default class clientedit extends React.Component {
   };
 
   confirmChanges = () => {
-    const user = firebase.auth().currentUser;
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var numCheck = /\d/; //check whether string contains numbers
+    if (this.state.firstName === "" || this.state.lastName === "") {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال جميع بياناتك",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    } else if (
+      specialCheck.test(this.state.firstName) ||
+      specialCheck.test(this.state.lastName)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    } else if (
+      numCheck.test(this.state.firstName) ||
+      numCheck.test(this.state.lastName)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    }
 
-    user.updateEmail(this.state.email).then(
-      user
-        .sendEmailVerification()
-        .then(Alert.alert("Email changed successfully"))
-        .catch((errorCode) => {
-          if (errorCode == "auth/invalid-email") {
-            Alert.alert(
-              "تنبيه",
-              "نرجو كتابة البريد الإلكتروني بالطريقة الصحيحة.",
-              [{ text: "حسنًا" }],
-              { cancelable: false }
-            );
-          } else if (
-            errorCode == "auth/email-already-in-use" ||
-            errorCode == "auth/email-already-exists"
-          ) {
-            Alert.alert(
-              "تنبيه",
-              "البريد الإلكتروني مسجل مسبقَا",
-              [{ text: "حسنًا" }],
-              { cancelable: false }
-            );
-          }
-        })
-    );
+    const user = firebase.auth().currentUser;
 
     firebase
       .database()
@@ -143,30 +147,7 @@ export default class clientedit extends React.Component {
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        if (this.state.email === "") {
-          Alert.alert(
-            "تنبيه",
-            "فضلًا تأكد من إدخال البريد الالكتروني",
-            [{ text: "حسنًا" }],
-            { cancelable: false }
-          );
-        } else if (errorCode == "auth/user-not-found") {
-          Alert.alert(
-            "تنبيه",
-            "البريد الالكتروني غير مسجل !",
-            [{ text: "حسنًا" }],
-            { cancelable: false }
-          );
-        } else if (errorCode == "auth/invalid-email") {
-          Alert.alert(
-            "تنبيه",
-            "نرجو إعادة كتابة البريد الالكتروني بشكل صحيح",
-            [{ text: "حسنًا" }],
-            { cancelable: false }
-          );
-        } else {
-          alert(errorMessage);
-        }
+        alert(errorMessage);
       });
   }
   render() {
@@ -233,13 +214,6 @@ export default class clientedit extends React.Component {
           maxLength={15}
         />
 
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="Email"
-          value={this.state.email}
-          onChangeText={(val) => this.updateInputVal(val, "email")}
-          maxLength={30}
-        />
         <TouchableOpacity style={styles.button}>
           <Text style={styles.button} onPress={() => this.confirmChanges()}>
             Save
@@ -281,15 +255,15 @@ const styles = StyleSheet.create({
     top: "-100%",
     left: "2%",
     color: "#4F3C75",
-
     alignSelf: "center",
   },
   forText2: {
-    position: "absolute",
+    position: "relative",
     top: "45%",
     left: "11%",
     color: "#4F3C75",
     fontSize: 30,
+    
   },
   profileImg: {
     width: 50,

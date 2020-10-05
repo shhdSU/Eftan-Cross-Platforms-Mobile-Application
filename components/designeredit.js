@@ -63,6 +63,36 @@ export default class designeredit extends React.Component {
     this.setState(state);
   };
   confirmChanges = () => {
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var numCheck = /\d/; //check whether string contains numbers
+    if (this.state.firstName === "" || this.state.lastName === "") {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال جميع بياناتك",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    } else if (
+      specialCheck.test(this.state.firstName) ||
+      specialCheck.test(this.state.lastName)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    } else if (
+      numCheck.test(this.state.firstName) ||
+      numCheck.test(this.state.lastName)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    }
     const user = firebase.auth().currentUser.uid;
     firebase
       .database()
@@ -179,7 +209,7 @@ export default class designeredit extends React.Component {
           placeholder="Bio"
           value={this.state.bio}
           onChangeText={(val) => this.updateInputVal(val, "bio")}
-          maxLength={120}
+          maxLength={260}
         />
         <TouchableOpacity style={styles.button}>
           <Text onPress={() => this.confirmChanges()}>Save</Text>

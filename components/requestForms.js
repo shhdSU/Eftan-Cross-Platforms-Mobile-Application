@@ -87,6 +87,7 @@ export default class RequestForm extends Component {
 
   ///Pop Up Window @#$%^&*(*&^%$#@!@#$%^&*(*&^%$#@#$%^&*(&^%$E%^&*()*&^%$%^&*())))
   popUpWindow = (colorNum) => {
+    this.closePopUp();
     this.updateInputVal(false, "popup");
     this.updateInputVal(true, "popup");
     this.updateInputVal(colorNum, "colorNum");

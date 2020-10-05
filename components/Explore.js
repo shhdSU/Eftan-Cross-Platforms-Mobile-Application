@@ -30,8 +30,30 @@ class Explore extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <View style={{ flex: 1 }}>
-        <Svg width={416} height={144} style={{ position: "relative" }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "700",
+            color: "#4f3c75",
+            alignSelf: "center",
+            top: "8%",
+            position: "absolute",
+            zIndex: 2,
+          }}
+        >
+          معرض التصاميم
+        </Text>
+        <Svg
+          width={416}
+          height={144}
+          style={{
+            position: "absolute",
+            alignSelf: "center",
+            top: "-2%",
+            zIndex: 1,
+          }}
+        >
           <Defs></Defs>
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -69,6 +91,7 @@ class Explore extends Component {
                 shadowOffset: { width: 0, height: 0 },
                 shadowColor: "black",
                 shadowOpacity: 0.2,
+                top: "35%",
                 elevation: 1,
                 marginTop: Platform.OS == "android" ? 30 : null,
               }}
@@ -85,21 +108,10 @@ class Explore extends Component {
 
           <ScrollView scrollEventThrottle={16}>
             <View>
-              <Text
-                style={{
-                  fontSize: 24,
-                  fontWeight: "700",
-                  color: "#4f3c75",
-                  paddingHorizontal: 20,
-                }}
-              >
-                التصنيفات
-              </Text>
-
               <View
                 style={{
                   height: 130,
-                  marginTop: 30,
+                  marginTop: 90,
                   marginBottom: 30,
                   height: this.startHeaderHeight,
 
@@ -187,16 +199,6 @@ class Explore extends Component {
                   marginTop: 40,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 24,
-                    fontWeight: "700",
-                    color: "#4f3c75",
-                    paddingHorizontal: 20,
-                  }}
-                >
-                  معرض التصاميم!{" "}
-                </Text>
 
                 <View
                   style={{
@@ -205,7 +207,7 @@ class Explore extends Component {
                     // // flexWrap: "wrap",
                     // // justifyContent: "space-around",
                     paddingHorizontal: 20,
-                    marginTop: 20,
+                    marginTop: -60,
 
                     flexDirection: "row",
                     flexWrap: "wrap",

@@ -22,7 +22,7 @@ class certificatons extends Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-5%", position: "relative",backgroundColor:"#fff" }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">

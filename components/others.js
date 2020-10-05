@@ -18,7 +18,7 @@ class others extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1,backgroundColor:"#fff" }}>
         <Svg
           width={416}
           height={144}

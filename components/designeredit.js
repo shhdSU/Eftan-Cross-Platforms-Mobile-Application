@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 import * as ImagePicker from "expo-image-picker";
-import FirebaseAuth from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 export default class designeredit extends React.Component {
@@ -56,7 +55,24 @@ export default class designeredit extends React.Component {
       this.updateInputVal(url, "img");
     });
   }
-
+  resetPassword() {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(this.state.email)
+      .then(function () {
+        Alert.alert(
+          "تنبيه",
+          "الرجاء تفقد بريدك الالكتروني",
+          [{ text: "حسنًا" }],
+          { cancelable: false }
+        );
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert(errorMessage);
+      });
+  }
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -143,7 +159,7 @@ export default class designeredit extends React.Component {
   };
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Svg>
           <Defs>
             <ClipPath id="prefix__a">
@@ -183,13 +199,11 @@ export default class designeredit extends React.Component {
             />
           </G>
         </Svg>
-        <Image
-          style={{
-            height: 50,
-            width: 50,
-          }}
-          source={this.state.img}
-        />
+        <Text style={styles.forText}>تعديل الحساب</Text>
+        <Image style={styles.image} source={{ uri: this.state.img }} />
+        <Text onPress={() => this.onChooseImagePress()} style={styles.forText2}>
+          رفع صورة شخصية
+        </Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="First name"
@@ -198,28 +212,27 @@ export default class designeredit extends React.Component {
         />
 
         <TextInput
-          style={styles.inputStyle}
+          style={styles.inputStyle2}
           placeholder="Last name"
           value={this.state.lastName}
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
           maxLength={15}
         />
         <TextInput
-          style={styles.inputStyle}
+          style={styles.inputStyle3}
           placeholder="Bio"
           value={this.state.bio}
           onChangeText={(val) => this.updateInputVal(val, "bio")}
           maxLength={260}
         />
         <TouchableOpacity style={styles.button}>
-          <Text onPress={() => this.confirmChanges()}>Save</Text>
+          <Text style={styles.editText} onPress={() => this.confirmChanges()}>
+            حفظ
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onChooseImagePress()}
-        >
-          <Text style={styles.forText}>Upload Image</Text>
-        </TouchableOpacity>
+        <Text onPress={() => this.resetPassword()} style={styles.forText3}>
+          تعديل كلمة السر
+        </Text>
       </View>
     );
   }
@@ -228,33 +241,194 @@ export default class designeredit extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    top: "5%",
+    padding: "1%",
+  },
+  image: {
+    flex: 1,
+    width: 150,
+    height: 150,
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffeed6",
+    alignItems: "center",
+    borderRadius: 150 / 2,
+    top: "24%",
+    left: "30%",
+    right: "5%",
   },
   button: {
-    alignItems: "center",
+    top: "70%",
     backgroundColor: "#4F3C75",
-    padding: "1%",
-    borderRadius: 25,
-    width: "80%",
     height: "6%",
+    width: "80%",
+    borderRadius: 25,
     alignSelf: "center",
+    alignItems: "center",
+    position: "absolute",
   },
+  editText: {
+    fontSize: 25,
+    color: "#fff",
+    marginTop: "1%",
+    textAlign: "center",
+    alignItems: "center",
+    top: "5%",
+    zIndex: 10,
+  },
+
   forText: {
-    top: "-200%",
-    left: "2%",
+    position: "absolute",
+    top: "17%",
     color: "#4F3C75",
-    alignSelf: "center",
+    fontSize: 25,
+    textAlign: "center",
   },
   forText2: {
+    alignItems: "center",
     position: "absolute",
     top: "45%",
-    left: "11%",
     color: "#4F3C75",
-    fontSize: 30,
+    fontSize: 15,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  forText3: {
+    alignItems: "center",
+    position: "absolute",
+    top: "77%",
+    color: "#4F3C75",
+    fontSize: 18,
+    textAlign: "center",
+    textDecorationLine: "underline",
   },
   profileImg: {
     width: 50,
     height: 50,
+  },
+  textStyle: {
+    top: "45%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    left: "40%",
+    right: "5%",
+    justifyContent: "center",
+  },
+
+  inputStyle: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "46%",
+    left: "10%",
+  },
+  inputStyle2: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "53%",
+  },
+  inputStyle3: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "60%",
+  },
+  textStyle2: {
+    top: "45%",
+    textAlign: "center",
+    fontSize: 19,
+    justifyContent: "center",
+    color: "#4F3C75",
+    position: "absolute",
+    right: "55%",
+  },
+  textStyle3: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    left: "40%",
+    right: "5%",
+  },
+  textStyle4: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    right: "55%",
+
+    justifyContent: "center",
+  },
+  textStyle5: {
+    top: "55%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    textAlign: "center",
+    paddingTop: "15%",
+    justifyContent: "center",
+  },
+  textStyle6: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    textAlign: "center",
+    paddingTop: "15%",
+  },
+  textStyle7: {
+    top: "64%",
+    textAlign: "center",
+    fontSize: 14,
+    color: "#4F3C75",
+    position: "absolute",
+    textAlign: "center",
+    paddingTop: "15%",
+    justifyContent: "center",
+  },
+  textStyle8: {
+    top: "67%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    textAlign: "center",
   },
 });

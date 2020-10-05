@@ -42,7 +42,6 @@ export default class clientedit extends React.Component {
         }
       });
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-
     profileImage.getDownloadURL().then((url) => {
       this.updateInputVal(url, "img");
     });
@@ -152,7 +151,7 @@ export default class clientedit extends React.Component {
   }
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Svg>
           <Defs>
             <ClipPath id="prefix__a">
@@ -192,13 +191,11 @@ export default class clientedit extends React.Component {
             />
           </G>
         </Svg>
-        <Image
-          style={{
-            height: 50,
-            width: 50,
-          }}
-          source={this.state.img}
-        />
+        <Text style={styles.forText}>تعديل الحساب</Text>
+        <Image style={styles.image} source={{ uri: this.state.img }} />
+        <Text onPress={() => this.onChooseImagePress()} style={styles.forText2}>
+          رفع صورة شخصية
+        </Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="First name"
@@ -207,30 +204,20 @@ export default class clientedit extends React.Component {
         />
 
         <TextInput
-          style={styles.inputStyle}
+          style={styles.inputStyle2}
           placeholder="Last name"
           value={this.state.lastName}
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
           maxLength={15}
         />
-
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.button} onPress={() => this.confirmChanges()}>
-            Save
+          <Text style={styles.editText} onPress={() => this.confirmChanges()}>
+            حفظ
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onChooseImagePress()}
-        >
-          <Text style={styles.forText}>Upload Image</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.resetPassword()}
-        >
-          <Text style={styles.forText}>Reset Password</Text>
-        </TouchableOpacity>
+        <Text onPress={() => this.resetPassword()} style={styles.forText3}>
+          تعديل كلمة السر
+        </Text>
       </View>
     );
   }
@@ -239,37 +226,80 @@ export default class clientedit extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#4F3C75",
+    backgroundColor: "#fff",
+    top: "5%",
     padding: "1%",
-    borderRadius: 25,
-    width: "80%",
-    height: "6%",
-    alignSelf: "center",
   },
   forText: {
-    top: "-100%",
-    left: "2%",
+    position: "absolute",
+    top: "5%",
     color: "#4F3C75",
-    alignSelf: "center",
+    fontSize: 25,
+    textAlign: "center",
+    alignItems: "center",
   },
   forText2: {
-    position: "relative",
-    top: "45%",
-    left: "11%",
+    alignItems: "center",
+    position: "absolute",
+    top: "41%",
     color: "#4F3C75",
-    fontSize: 30,
-    
+    fontSize: 15,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  forText3: {
+    alignItems: "center",
+    position: "absolute",
+    top: "77%",
+    color: "#4F3C75",
+    fontSize: 18,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  image: {
+    flex: 1,
+    width: 150,
+    height: 150,
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffeed6",
+    alignItems: "center",
+    borderRadius: 150 / 2,
+    top: "20%",
+    left: "30%",
+    right: "5%",
+  },
+  button: {
+    top: "70%",
+    backgroundColor: "#4F3C75",
+    height: "6%",
+    width: "80%",
+    borderRadius: 25,
+    alignSelf: "center",
+    alignItems: "center",
+    position: "absolute",
+  },
+
+  editText: {
+    fontSize: 25,
+    color: "#fff",
+    marginTop: "1%",
+    textAlign: "center",
+    alignItems: "center",
+    top: "5%",
+    zIndex: 10,
   },
   profileImg: {
     width: 50,
     height: 50,
   },
   inputStyle: {
+    position: "absolute",
     fontSize: 18,
     marginTop: "4%",
     width: "100%",
@@ -279,6 +309,20 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderBottomWidth: 3,
     textAlign: "right",
-    top: "15%",
+    top: "46%",
+    left: "10%",
+  },
+  inputStyle2: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "53%",
   },
 });

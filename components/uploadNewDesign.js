@@ -140,10 +140,11 @@ export default class UploadNewDesign extends Component {
           .update({ designFileKey: this.state.designFileKey })
           .then(
             this.uploadImage(this.state.localpath, this.state.designFileKey),
+            this.updateInputVal("", "localpath"),
+
             Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
               cancelable: false,
             }),
-            this.updateInputVal("", "localPath"),
 
             this.props.navigation.navigate("صفحة المصمم")
           )

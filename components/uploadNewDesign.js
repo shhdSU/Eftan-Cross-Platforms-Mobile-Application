@@ -120,7 +120,7 @@ export default class UploadNewDesign extends Component {
       .database()
       .ref("Designs/")
       .push({
-        // Duid: user,
+        Duid: "2Uf1Wj14icbxngiiJbjklDDwiZb2", //uid for Hadeel ---------change it later
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,

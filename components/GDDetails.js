@@ -21,12 +21,13 @@ export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      designId: "-MIpWWop_15MRc_fm7YW",
-      title: "",
-      designerFName: "هديل",
-      designerLName: "الهاجري",
-      date: "22-5-2020",
-      description: "",
+      designId: "-MIrTGvXQA5hM-z3jXsP",
+      designTitle: "",
+      designerFName: "",
+      designerLName: "",
+      date: "",
+      designDescription: "",
+      obj: "",
       isLoading: false,
     };
   }
@@ -50,9 +51,11 @@ export default class GDDetails extends React.Component {
     firebase
       .database()
       .ref("Designs/" + this.state.designId)
-      .child("designTitle")
-      .on("value",snap => console.log(snap.val()));
-    // this.updateInputVal(title, "title");
+      .on("value", (snap) => this.updateInputVal(snap.val(), "obj"));
+    this.updateInputVal(this.state.obj.designTitle, "designTitle");
+    this.updateInputVal(this.state.obj.designDescription, "designDescription");
+    this.updateInputVal(this.state.obj.designUploadingdate, "date");
+
     return (
       <View style={styles.container}>
         <Text

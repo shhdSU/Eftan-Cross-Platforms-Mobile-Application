@@ -15,9 +15,12 @@ import digitals from "./components/digitals";
 import filters from "./components/filters";
 import certifications from "./components/certifications";
 import others from "./components/others";
+import UploadNewDesign from "./components/uploadNewDesign";
 
 const Navigation = createStackNavigator(
   {
+    "رفع تصميم جديد": { screen: UploadNewDesign },
+
     اكسبلور: { screen: Explore },
     شعار: { screen: logos },
     ملصق: { screen: posters },

@@ -16,16 +16,56 @@ import Category from "./Explore/Category";
 import Home from "./Explore/Home";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
+import firebase from "../database/firebase";
 
 const { width, height } = Dimensions.get("window");
 
 class Explore extends Component {
+  constructor() {
+    super();
+    this.state = {
+      designTitle: "",
+      designDescription: "",
+      category: "",
+      designFileKey: "",
+      isLoading: false,
+      localpath: "",
+    };
+  }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
   UNSAFE_componentWillMount() {
     this.startHeaderHeight = 70;
     if (Platform.OS == "android") {
       this.startHeaderHeight = 100 + StatusBar.currentHeight;
     }
   }
+
+  retriveImage = () => {
+    const { designTitle } = this.state;
+    firebase
+      .storage()
+      .ref("DesignWork/" + designTitle)
+      .getDownloadURL()
+      .then((url) => {
+        this.updateInputVal(url, "designFileKey");
+      });
+  };
+
+  // retriveImage = () => {
+  //   const { designTitle } = this.state;
+  //   let imageRef = firebase.storage().ref("DesignWork/" + designTitle);
+  //   imageRef
+  //     .getDownloadURL()
+  //     .then((url) => {
+  //       //from url you can fetched the uploaded image easily
+  //       this.setState({ designFile: url });
+  //     })
+  //     .catch((e) => console.log("getting downloadURL of image error => ", e));
+  // };
 
   render() {
     const { navigation } = this.props;
@@ -215,7 +255,8 @@ class Explore extends Component {
                   <Home
                     width={width}
                     name="شعار مشروع مبتدئ"
-                    imageUri={require("../assets/logo1.jpg")}
+                    //imageUri={designTitle}
+                    imageUri={this.state.designFileKey}
                   />
                   <Home
                     width={width}

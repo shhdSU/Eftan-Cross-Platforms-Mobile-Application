@@ -100,21 +100,20 @@ export default class UploadNewDesign extends Component {
     }
 
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    var numCheck = /\d/;
-    if (
-      specialCheck.test(this.state.designTitle) ||
-      numCheck.test(this.state.designTitle)
-    ) {
+    if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",
-        "يجب ان يحتوي العنوان على أحرف فقط",
+        "يجب ان يحتوي العنوان على أحرف وأرقامًا فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
       this.updateInputVal("", "designTitle");
       return;
     }
-
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    var currentDate = date + "/" + month + "/" + year;
     //const user = firebase.auth().currentUser.uid;
     firebase
       .database()
@@ -125,6 +124,7 @@ export default class UploadNewDesign extends Component {
         designDescription: this.state.designDescription,
         category: this.state.category,
         designFileKey: "",
+        designUploadingdate: currentDate,
       })
       .then((key) => {
         this.updateInputVal(key.key, "designFileKey");
@@ -138,12 +138,23 @@ export default class UploadNewDesign extends Component {
           .child(this.state.designFileKey)
           .update({ designFileKey: this.state.designFileKey })
           .then(
-            this.uploadImage(this.state.localpath, this.state.designFileKey)
-          );
-        Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
-          cancelable: false,
-        });
-        this.updateInputVal("", "localpath");
+            this.uploadImage(this.state.localpath, this.state.designFileKey),
+            Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
+              cancelable: false,
+            }),
+            this.updateInputVal("", "localPath"),
+
+            this.props.navigation.navigate("اكسبلور")
+          )
+          .catch((error) => {
+            Alert.alert(
+              "حجم الصورة متجاوز للحد المسموح، الرجاء اختيار صورة أخرى",
+              [{ text: "حسنًا" }],
+              {
+                cancelable: false,
+              }
+            );
+          });
       });
   }
   setSelectedValue = (val) => {
@@ -294,6 +305,20 @@ export default class UploadNewDesign extends Component {
             }}
           >
             رفع العمل
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("اكسبلور")}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+            }}
+          >
+            نافقيت للجاليري
           </Text>
         </TouchableOpacity>
       </ScrollView>

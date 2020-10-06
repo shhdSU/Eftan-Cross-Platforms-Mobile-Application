@@ -138,12 +138,7 @@ export default class GDDetails extends React.Component {
             uri: this.state.localpath,
           }}
         />
-        <Image
-          style={styles.profileImage}
-          source={{
-            uri: this.state.designerProfileImage,
-          }}
-        />
+
         <Text
           style={[
             styles.inputStyle2,
@@ -156,6 +151,14 @@ export default class GDDetails extends React.Component {
         >
           {this.state.date}
         </Text>
+        <Image
+          // ontouchstart= {this.props.navigation.navigate("صفحة حساب العمل من وجهة نظر المصمم",this.state.Duid)}@HadeelHamad change this later
+
+          style={styles.profileImage}
+          source={{
+            uri: this.state.designerProfileImage,
+          }}
+        />
         <Text
           style={[
             styles.inputStyle2,
@@ -194,6 +197,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
+          // ontouchstart= {this.props.navigation.navigate("صفحة حساب العمل من وجهة نظر المصمم",this.state.Duid)}@HadeelHamad change this later
           style={[
             styles.inputStyle2,
             {
@@ -247,7 +251,7 @@ const styles = StyleSheet.create({
     color: "#4F3C75",
   },
   forText2: {
-    position: "absolute",
+    position: "relative",
     top: hp("45%"),
     left: hp("11%"),
     color: "#4F3C75",
@@ -275,5 +279,6 @@ const styles = StyleSheet.create({
     //---------------------------------you may need to modify this @shhdSU
     width: 40,
     height: 40,
+    top: "30%",
   },
 });

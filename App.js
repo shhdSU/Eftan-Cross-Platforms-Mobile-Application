@@ -10,7 +10,7 @@ import clientprofile from "./components/clientprofile";
 import clientedit from "./components/clientedit";
 import designerprofile from "./components/designerprofile";
 import designeredit from "./components/designeredit";
-
+import designerGallery from "./components/designerGallery";
 const Navigation = createStackNavigator(
   {
     "صفحة الدخول": { screen: LoginScreen },
@@ -23,6 +23,7 @@ const Navigation = createStackNavigator(
     clientedit: { screen: clientedit },
     designerprofile: { screen: designerprofile },
     designeredit: { screen: designeredit },
+    designerGallery: { screen: designerGallery },
   },
   { headerMode: "none" }
 );

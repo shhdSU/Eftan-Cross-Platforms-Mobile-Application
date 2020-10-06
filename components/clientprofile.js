@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   forText: {
     position: "absolute",
-    top: "17%",
+    top: "5%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",

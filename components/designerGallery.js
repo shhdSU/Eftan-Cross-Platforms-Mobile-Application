@@ -5,13 +5,19 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Dimensions,
   TextInput,
 } from "react-native";
 import firebase from "../database/firebase";
 import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
+import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-export default class designeredit extends React.Component {
+const { width, height } = Dimensions.get("window");
+var images = [];
+var files = [];
+
+export default class designerGallery extends React.Component {
   constructor(props) {
     super();
     this.state = {
@@ -49,115 +55,60 @@ export default class designeredit extends React.Component {
             });
         }
       });
+
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
 
     profileImage.getDownloadURL().then((url) => {
       this.updateInputVal(url, "img");
     });
   }
-  resetPassword() {
-    firebase
-      .auth()
-      .sendPasswordResetEmail(this.state.email)
-      .then(function () {
-        Alert.alert(
-          "تنبيه",
-          "الرجاء تفقد بريدك الالكتروني",
-          [{ text: "حسنًا" }],
-          { cancelable: false }
-        );
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        alert(errorMessage);
-      });
-  }
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
-  confirmChanges = () => {
-    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
-    var numCheck = /\d/; //check whether string contains numbers
-    if (this.state.firstName === "" || this.state.lastName === "") {
-      Alert.alert(
-        "تنبيه",
-        "فضلًا تأكد من إدخال جميع بياناتك",
-        [{ text: "حسنًا" }],
-        { cancelable: false }
-      );
-    } else if (
-      specialCheck.test(this.state.firstName) ||
-      specialCheck.test(this.state.lastName)
-    ) {
-      Alert.alert(
-        "تنبيه",
-        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
-        [{ text: "حسنًا" }],
-        { cancelable: false }
-      );
-    } else if (
-      numCheck.test(this.state.firstName) ||
-      numCheck.test(this.state.lastName)
-    ) {
-      Alert.alert(
-        "تنبيه",
-        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
-        [{ text: "حسنًا" }],
-        { cancelable: false }
-      );
-    }
-    const user = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref("GraphicDesigner/" + user)
-      .set({
-        DFirstName: this.state.firstName,
-        DLastName: this.state.lastName,
-        Demail: this.state.email,
-        //   number_of_rating: this.state.num_rating,
-        //  total_rating: this.state.total_rating,
-        bio: this.state.bio,
-      });
-    this.props.navigation.navigate("designerprofile");
-  };
-
-  uploadImage = async (uri, draftName) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("ProfilePictures/" + draftName);
-    return ref.put(blob);
-  };
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
-  onChooseImagePress = async () => {
-    const user = firebase.auth().currentUser.uid;
-    let result = await ImagePicker.launchImageLibraryAsync();
-    if (!result.cancelled) {
-      this.uploadImage(result.uri, user)
-        .then(() => {
-          const profileImage = firebase
-            .storage()
-            .ref("ProfilePictures/" + user);
-          profileImage.getDownloadURL().then((url) => {
-            this.updateInputVal(url, "img");
-          });
-          Alert.alert("Success");
-        })
-        .catch((error) => {
-          Alert.alert(error);
+  generateImage = () => {
+    var ref = firebase.storage().ref("DesignWork/");
+    images.forEach((image) => {
+      ref
+        .child(image)
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+          files.push(url);
+          console.log(files);
+          var code =
         });
-    }
+    });
+    return files.map((item) => {
+      var x = item.then((url) => {
+        {
+          url;
+        }
+      });
+      console.log(x);
+      return (
+        <GalleryImage name="شعار أعمال يدوية" width={width} imageUri={x} />
+      );
+    });
   };
+
   render() {
+    const user = firebase.auth().currentUser.uid;
+    var ref = firebase.database().ref("Designs");
+    ref
+      .orderByChild("Duid")
+      .equalTo(user)
+      .on("value", (snapshot) => {
+        snapshot.forEach((child) => {
+          images.push(child.child("designFileKey").val());
+        });
+        console.log(images);
+      });
     return (
       <View style={styles.container}>
         <Svg>
@@ -199,40 +150,20 @@ export default class designeredit extends React.Component {
             />
           </G>
         </Svg>
-        <Text style={styles.forText}>تعديل الحساب</Text>
-        <Image style={styles.image} source={{ uri: this.state.img }} />
-        <Text onPress={() => this.onChooseImagePress()} style={styles.forText2}>
-          رفع صورة شخصية
-        </Text>
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="First name"
-          value={this.state.firstName}
-          onChangeText={(val) => this.updateInputVal(val, "firstName")}
-        />
-
-        <TextInput
-          style={styles.inputStyle2}
-          placeholder="Last name"
-          value={this.state.lastName}
-          onChangeText={(val) => this.updateInputVal(val, "lastName")}
-          maxLength={15}
-        />
-        <TextInput
-          style={styles.inputStyle3}
-          placeholder="Bio"
-          value={this.state.bio}
-          onChangeText={(val) => this.updateInputVal(val, "bio")}
-          maxLength={260}
-        />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.editText} onPress={() => this.confirmChanges()}>
-            حفظ
-          </Text>
-        </TouchableOpacity>
-        <Text onPress={() => this.resetPassword()} style={styles.forText3}>
-          تعديل كلمة السر
-        </Text>
+        <View
+          style={{
+            flex: 1,
+            // // flexDirection: "row",
+            // // flexWrap: "wrap",
+            paddingHorizontal: 20,
+            bottom: "180%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          {this.generateImage()}
+        </View>
       </View>
     );
   }

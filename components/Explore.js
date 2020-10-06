@@ -17,6 +17,7 @@ import Home from "./Explore/Home";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
 import firebase from "../database/firebase";
+var designGallery = [];
 
 const { width, height } = Dimensions.get("window");
 
@@ -37,35 +38,45 @@ class Explore extends Component {
     state[prop] = val;
     this.setState(state);
   };
-  UNSAFE_componentWillMount() {
-    this.startHeaderHeight = 70;
-    if (Platform.OS == "android") {
-      this.startHeaderHeight = 100 + StatusBar.currentHeight;
-    }
-  }
 
-  retriveImage = () => {
-    const { designTitle } = this.state;
-    firebase
-      .storage()
-      .ref("DesignWork/" + designTitle)
-      .getDownloadURL()
-      .then((url) => {
-        this.updateInputVal(url, "designFileKey");
-      });
+  readData = () => {
+    var ref = firebase.database().ref("Designs");
+    ref.on("value", function (snapshot) {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desFileKey = design[designInfo].designFileKey;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: desFileKey,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+        };
+      }
+    });
+    return designGallery.map((element) => {
+      return (
+        <View style={{ marginBottom: 30 }}>
+          <ScrollView>
+            <view>
+              <Image
+                style={{ height: 180, width: 280 }}
+                source={{ uri: element.designFileKey }}
+              />
+              <Text>{"اسم" + elemnt.designTitle}</Text>
+            </view>
+          </ScrollView>
+        </View>
+      );
+    });
   };
-
-  // retriveImage = () => {
-  //   const { designTitle } = this.state;
-  //   let imageRef = firebase.storage().ref("DesignWork/" + designTitle);
-  //   imageRef
-  //     .getDownloadURL()
-  //     .then((url) => {
-  //       //from url you can fetched the uploaded image easily
-  //       this.setState({ designFile: url });
-  //     })
-  //     .catch((e) => console.log("getting downloadURL of image error => ", e));
-  // };
 
   render() {
     const { navigation } = this.props;
@@ -239,8 +250,9 @@ class Explore extends Component {
                   marginTop: 40,
                 }}
               >
+                {this.readData()}
 
-                <View
+                {/* <View
                   style={{
                     // flex: 1,
                     // // flexDirection: "row",
@@ -258,7 +270,8 @@ class Explore extends Component {
                     width={width}
                     name="شعار مشروع مبتدئ"
                     //imageUri={designTitle}
-                    imageUri={this.state.designFileKey}
+                    // imageUri={profileImage}
+                    source={{ uri: url }}
                   />
                   <Home
                     width={width}
@@ -275,7 +288,7 @@ class Explore extends Component {
                     width={width}
                     imageUri={require("../assets/logo4.jpg")}
                   />
-                </View>
+                </View> */}
               </View>
             </View>
           </ScrollView>

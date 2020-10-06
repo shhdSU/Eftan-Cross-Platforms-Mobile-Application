@@ -16,13 +16,16 @@ import filters from "./components/filters";
 import certifications from "./components/certifications";
 import others from "./components/others";
 import UploadNewDesign from "./components/UploadNewDesign";
+import test from "./components/test";
 
 const Navigation = createStackNavigator(
   {
+    تست: { screen: test },
+
     "صفحة الدخول": { screen: LoginScreen },
+    "رفع تصميم جديد": { screen: UploadNewDesign },
 
     اكسبلور: { screen: Explore },
-    "رفع تصميم جديد": { screen: UploadNewDesign },
 
     شعار: { screen: logos },
     ملصق: { screen: posters },
@@ -33,7 +36,6 @@ const Navigation = createStackNavigator(
     شهادات: { screen: certifications },
     "غير ذلك": { screen: others },
 
-    "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
     "معرض المصمم": { screen: GalleryScreen },
     "صفحة المصمم": { screen: DprofileScreen },

@@ -23,7 +23,7 @@ firebase
             .ref("DesignWork/" + this.state.designTitle)
             .getDownloadURL()
             .then((url) => {
-              this.updateInputVal(url, "designFile");
+              this.updateInputVal(url, "designFileKey");
               */
 import React, { Component } from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";

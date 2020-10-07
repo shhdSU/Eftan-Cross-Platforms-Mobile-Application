@@ -14,52 +14,53 @@ import * as React from "react";
 import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
-var images = [];
-var files = [];
-
+var designGallery = [];
 export default class designerGallery extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      bio: "",
-      // num_rating: 0,
-      //total_rating: 0,
-      img: "",
+      designTitle: "",
+      designDescription: "",
+      category: "",
+      designFileKey: "",
+      isLoading: false,
+      localpath: "",
+      designUrl: "",
     };
-    const user = firebase.auth().currentUser.uid;
-    var fName, lName, email, bio, num_rating, total_rating;
-    firebase
-      .database()
-      .ref(`GraphicDesigner/` + user)
-      .on("value", (snapshot) => {
-        if (snapshot.exists()) {
-          firebase
-            .database()
-            .ref(`GraphicDesigner/` + user)
-            .on("value", (dataSnapshot) => {
-              fName = dataSnapshot.child("DFirstName").val();
-              lName = dataSnapshot.child("DLastName").val();
-              email = dataSnapshot.child("Demail").val();
-              bio = dataSnapshot.child("bio").val();
-              //   num_rating = dataSnapshot.child("number_of_rating").val();
-              //  total_rating = dataSnapshot.child("total_rating").val();
-              this.updateInputVal(fName, "firstName");
-              this.updateInputVal(lName, "lastName");
-              this.updateInputVal(email, "email");
-              this.updateInputVal(bio, "bio");
-              //  this.updateInputVal(num_rating, "num_rating");
-              //  this.updateInputVal(total_rating, "total_rating");
-            });
-        }
-      });
-
-    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-
-    profileImage.getDownloadURL().then((url) => {
-      this.updateInputVal(url, "img");
+    console.log();
+    var user = firebase.auth().currentUser.uid;
+    var ref = firebase.database().ref("Designs/").orderByChild("Duid")
+    .equalTo(user);
+    ref.on("value", (snapshot) => {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        //  designFileKey = this.storageImg();
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desFileKey = design[designInfo].designFileKey;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        //var desUrl = "";
+        var ref1 = firebase
+          .storage()
+          .ref("DesignWork/" + design[designInfo].designFileKey)
+          .getDownloadURL()
+          .then((url) => {
+            this.updateInputVal(url, "designUrl");
+            console.log(this.state.designUrl);
+          });
+        console.log(this.state.designUrl);
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: desFileKey,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: this.state.designUrl,
+        };
+      }
     });
   }
   updateInputVal = (val, prop) => {
@@ -71,32 +72,23 @@ export default class designerGallery extends React.Component {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
-  generateImage = () => {
-    var ref = firebase.storage().ref("DesignWork/");
-    images.forEach((image) => {
-      ref
-        .child(image)
-        .getDownloadURL()
-        .then((url) => {
-          console.log(url);
-          files.push(url);
-          console.log(files);
-          var code =
-        });
-    });
-    return files.map((item) => {
-      var x = item.then((url) => {
-        {
-          url;
-        }
-      });
-      console.log(x);
+  printImages = () => {
+    return designGallery.map((element) => {
       return (
-        <GalleryImage name="شعار أعمال يدوية" width={width} imageUri={x} />
+        <View style={{ marginBottom: 30 }}>
+          <ScrollView scrollEventThrottle={16}>
+            <View>
+              <Image
+                style={{ height: 180, width: 280 }}
+                source={{ uri: element.designUrl }}
+              />
+              <Text>{"اسم" + element.designTitle}</Text>
+            </View>
+          </ScrollView>
+        </View>
       );
     });
   };
-
   render() {
     const user = firebase.auth().currentUser.uid;
     var ref = firebase.database().ref("Designs");
@@ -162,7 +154,7 @@ export default class designerGallery extends React.Component {
             justifyContent: "space-between",
           }}
         >
-          {this.generateImage()}
+          {this.printImages()}
         </View>
       </View>
     );

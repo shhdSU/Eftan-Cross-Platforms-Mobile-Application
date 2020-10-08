@@ -1,5 +1,6 @@
 /*Useful note for you, 
 -------------when you want to search for user attributes using his/her uid..
+
 const user = firebase.auth().currentUser.uid;
     var email;
     firebase
@@ -23,7 +24,7 @@ firebase
             .ref("DesignWork/" + this.state.designTitle)
             .getDownloadURL()
             .then((url) => {
-              this.updateInputVal(url, "designFileKey");
+              this.updateInputVal(url, "designFile");
               */
 import React, { Component } from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
@@ -103,7 +104,7 @@ export default class UploadNewDesign extends Component {
     if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",
-        "يجب ان يحتوي العنوان على أحرف وأرقامًا فقط",
+        "يجب ان يحتوي العنوان على أحرف وأرقام فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
@@ -119,7 +120,7 @@ export default class UploadNewDesign extends Component {
       .database()
       .ref("Designs/")
       .push({
-        // Duid: user,
+        Duid: "2Uf1Wj14icbxngiiJbjklDDwiZb2", //uid for Hadeel ---------change it later
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
@@ -139,12 +140,13 @@ export default class UploadNewDesign extends Component {
           .update({ designFileKey: this.state.designFileKey })
           .then(
             this.uploadImage(this.state.localpath, this.state.designFileKey),
+            this.updateInputVal("", "localpath"),
+
             Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
               cancelable: false,
             }),
-            this.updateInputVal("", "localPath"),
 
-            this.props.navigation.navigate("اكسبلور")
+            this.props.navigation.navigate("صفحة المصمم")
           )
           .catch((error) => {
             Alert.alert(
@@ -305,20 +307,6 @@ export default class UploadNewDesign extends Component {
             }}
           >
             رفع العمل
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("اكسبلور")}
-        >
-          <Text
-            style={{
-              color: "#FFEED6",
-              fontSize: 25,
-            }}
-          >
-            نافقيت للجاليري
           </Text>
         </TouchableOpacity>
       </ScrollView>

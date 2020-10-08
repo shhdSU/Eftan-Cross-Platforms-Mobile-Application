@@ -21,7 +21,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import LoginScreen from "./components/login";
 import SignupScreen from "./components/signup";
 import ClientGalleryScreen from "./components/ClientGallery";
-import DesignerGalleryScreen from "./components/designerGallery";
+import DesignerGalleryScreen from "./components/DesignerGallery";
 // import designerGallery from "./components/designerGallery"; >> هي نفس اللي فوقها بس غيرت المسميات
 //import DprofileScreen from "./components/DProfile"; // Access by Client <<قديمه
 import privacyPolicyScreen from "./components/privacyPolicy";

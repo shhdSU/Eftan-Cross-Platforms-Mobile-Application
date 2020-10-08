@@ -14,10 +14,36 @@ import clientedit from "./components/clientedit";
 import designerprofile from "./components/designerprofile";
 import designeredit from "./components/designeredit";
 import designerGallery from "./components/designerGallery";
+import Explore from "./components/Explore";
+import logos from "./components/logos";
+import posters from "./components/posters";
+import brands from "./components/brands";
+import packages from "./components/packages";
+import digitals from "./components/digitals";
+import filters from "./components/filters";
+import certifications from "./components/certifications";
+import others from "./components/others";
+import UploadNewDesign from "./components/UploadNewDesign";
+import test from "./components/test";
+
 const Navigation = createStackNavigator(
   {
-    "رفع تصميم جديد": { screen: UploadNewDesign },
+    تست: { screen: test },
+
     "صفحة الدخول": { screen: LoginScreen },
+    "رفع تصميم جديد": { screen: UploadNewDesign },
+
+    اكسبلور: { screen: Explore },
+
+    شعار: { screen: logos },
+    ملصق: { screen: posters },
+    "علامة تجارية": { screen: brands },
+    "تغليف المنتج": { screen: packages },
+    "الفن الرقمي": { screen: digitals },
+    "فلاتر سنابتشات": { screen: filters },
+    شهادات: { screen: certifications },
+    "غير ذلك": { screen: others },
+
     "صفحة التسجيل": { screen: SignupScreen },
     "معرض المصمم": { screen: GalleryScreen },
 

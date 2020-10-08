@@ -121,35 +121,35 @@ export default class UploadNewDesign extends Component {
     //   .child("DesignWork/" + this.state.designFileKey);
     // return ref.put(blob);
   // };
-  RenderImage = () => {
-    let { PetImage } = this.state;
-    if (!PetImage) {
-      return;
-    }
+  // RenderImage = () => {
+  //   let { designUrl } = this.state;
+  //   if (!designUrl) {
+  //     return;
+  //   }
 
-    return (
-      <View
-        style={{
-          marginTop: 30,
-          width: 250,
-          borderRadius: 3,
-          elevation: 2,
-        }}>
-        <View
-          style={{
-            borderTopRightRadius: 3,
-            borderTopLeftRadius: 3,
-            shadowColor: 'rgba(0,0,0,1)',
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 4, height: 4 },
-            shadowRadius: 5,
-            overflow: 'hidden',
-          }}>
-          <Image source={{ uri: PetImage }} style={{ width: 100, height: 100 }} />
-        </View>
-      </View>
-    );
-  };
+  //   return (
+  //     <View
+  //       style={{
+  //         marginTop: 30,
+  //         width: 250,
+  //         borderRadius: 3,
+  //         elevation: 2,
+  //       }}>
+  //       <View
+  //         style={{
+  //           borderTopRightRadius: 3,
+  //           borderTopLeftRadius: 3,
+  //           shadowColor: 'rgba(0,0,0,1)',
+  //           shadowOpacity: 0.2,
+  //           shadowOffset: { width: 4, height: 4 },
+  //           shadowRadius: 5,
+  //           overflow: 'hidden',
+  //         }}>
+  //         <Image source={{ uri: designUrl }} style={{ width: 100, height: 100 }} />
+  //       </View>
+  //     </View>
+  //   );
+  // };
   uploadDesign() {
     //upload info to realtime DB, retreive their key to be the key of the img in storage
     if (
@@ -247,7 +247,7 @@ export default class UploadNewDesign extends Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-3%", position: "relative" }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -274,7 +274,7 @@ export default class UploadNewDesign extends Component {
             fontSize: 24,
             color: "#4F3C75",
             fontWeight: "700",
-            top: "-11%",
+            top: "-8.5%",
             alignSelf: "center",
             zIndex: 6,
           }}
@@ -283,13 +283,13 @@ export default class UploadNewDesign extends Component {
         </Text>
 
         <SvgComponent
-          style={{ alignSelf: "center", top: "-8.5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-5.5%", position: "relative" }}
         ></SvgComponent>
 
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-5%", fontWeight: "700" },
           ]}
         >
           عنوان العمل *{" "}
@@ -303,7 +303,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-6.5%", fontWeight: "700" },
           ]}
         >
           وصف العمل *{" "}
@@ -316,6 +316,16 @@ export default class UploadNewDesign extends Component {
           onChangeText={(val) => this.updateInputVal(val, "designDescription")}
           scrollEnabled={true}
         />
+
+<Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-7%", fontWeight: "700" },
+          ]}
+        >
+          اختيار ملف التصميم *{" "}
+        </Text>
+
         <Image
           onTouchStart={this.onChooseImagePress}
           style={styles.tinyLogo}
@@ -328,17 +338,8 @@ export default class UploadNewDesign extends Component {
             uri: this.state.localpath,
           }}
         />
-         {this.RenderImage()}
          {this.RenderUploading()}
-        <Text
-          style={[
-            styles.inputStyle2,
-            { color: "#4F3C75", top: "-10%", fontWeight: "700" },
-          ]}
-        >
-          اختيار ملف التصميم *{" "}
-        </Text>
-
+        
         
         <Text
           style={[
@@ -428,16 +429,16 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    padding: "10%",
+    // padding: "10%",
     backgroundColor: "#fff",
   },
   inputStyleDescription: {
     alignSelf: "center",
     fontSize: 18,
-    width: "100%",
+    width: "80%",
     height: "8%",
     textAlign: "right",
-    top: "-8%",
+    top: "-7%",
     borderColor: "#ccc",
     borderWidth: 2,
   },
@@ -445,7 +446,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     right: "-10%",
-    top: "-7%",
+    top: "-10.5%",
   },
   preview: {
     width: 300,
@@ -459,21 +460,22 @@ const styles = StyleSheet.create({
   inputStyle: {
     fontSize: 18,
     marginTop: "3%",
-    width: "100%",
+    width: "80%",
     alignSelf: "center",
     borderColor: "#ccc",
     borderBottomWidth: 2,
     textAlign: "right",
-    top: "-9%",
+    top: "-7%",
   },
   inputStyle2: {
     fontSize: 18,
     marginTop: "4%",
-    width: "100%",
+    width: "80%",
     marginBottom: "2%",
     paddingBottom: "2%",
     textAlign: "right",
     top: "0%",
+    left:"10%"
   },
   button: {
     alignItems: "center",

@@ -11,8 +11,10 @@ import clientedit from "./components/clientedit";
 import designerprofile from "./components/designerprofile";
 import designeredit from "./components/designeredit";
 import designerGallery from "./components/designerGallery";
+import GDDetails from "./components/"
 const Navigation = createStackNavigator(
   {
+
     "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
     "معرض المصمم": { screen: GalleryScreen },

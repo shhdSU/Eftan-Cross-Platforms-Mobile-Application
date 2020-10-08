@@ -43,6 +43,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import firebase from "../database/firebase";
+import uuid from 'react-native-uuid';
 
 export default class UploadNewDesign extends Component {
   constructor() {
@@ -52,8 +53,9 @@ export default class UploadNewDesign extends Component {
       designDescription: "",
       category: "",
       designFileKey: "",
-      isLoading: false,
+      uploading: false,
       localpath: "",
+      designUrl:"",
     };
   }
   updateInputVal = (val, prop) => {
@@ -64,20 +66,90 @@ export default class UploadNewDesign extends Component {
 
   onChooseImagePress = async () => {
     //takes image from the mobile gallery
-    let result = await ImagePicker.launchImageLibraryAsync();
-    if (!result.cancelled) this.updateInputVal(result.uri, "localpath");
-  };
-  uploadImage = async (uri, draftName) => {
-    //upload img to storage knowing its local path
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("DesignWork/" + this.state.designFileKey);
-    return ref.put(blob);
+    let SelectResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 4],
+    });
+    if (!SelectResult.cancelled) this.updateInputVal(SelectResult.uri, "localpath");
+    this.handleImageSelected(SelectResult);
   };
 
+  handleImageSelected = async SelectResult => {
+    try {
+      this.setState({ uploading: true });
+
+      if (!SelectResult.cancelled) {
+        const uploadUrl = await uploadImageAsync(SelectResult.uri);
+        this.setState({ designUrl: uploadUrl });
+      }
+    } catch (e) {
+      console.log(e);
+      Alert.alert("تنبيه","فشل في رفع التصميم ، حاول مرة أخرى ", [{ text: "حسنًا" }], {
+        cancelable: false,
+      });
+    } finally {
+      this.setState({ uploading: false });
+    }
+  };
+
+  RenderUploading = () => {
+    if (this.state.uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          ]}>
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>
+      );
+    }
+  };
+
+
+  // uploadImage = async (uri, draftName) => {
+  //   //upload img to storage knowing its local path
+  //   const response = await fetch(uri);
+  //   const blob = await response.blob();
+    // var ref = firebase
+    //   .storage()
+    //   .ref()
+    //   .child("DesignWork/" + this.state.designFileKey);
+    // return ref.put(blob);
+  // };
+  RenderImage = () => {
+    let { PetImage } = this.state;
+    if (!PetImage) {
+      return;
+    }
+
+    return (
+      <View
+        style={{
+          marginTop: 30,
+          width: 250,
+          borderRadius: 3,
+          elevation: 2,
+        }}>
+        <View
+          style={{
+            borderTopRightRadius: 3,
+            borderTopLeftRadius: 3,
+            shadowColor: 'rgba(0,0,0,1)',
+            shadowOpacity: 0.2,
+            shadowOffset: { width: 4, height: 4 },
+            shadowRadius: 5,
+            overflow: 'hidden',
+          }}>
+          <Image source={{ uri: PetImage }} style={{ width: 100, height: 100 }} />
+        </View>
+      </View>
+    );
+  };
   uploadDesign() {
     //upload info to realtime DB, retreive their key to be the key of the img in storage
     if (
@@ -125,27 +197,31 @@ export default class UploadNewDesign extends Component {
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
-        designFileKey: "",
+        designUrl: this.state.designUrl,
+        //designFileKey: "",
       })
       .then((key) => {
-        this.updateInputVal(key.key, "designFileKey");
+        //this.updateInputVal(key.key, "designFileKey");
         this.updateInputVal("", "designTitle");
         this.updateInputVal("", "category");
         this.updateInputVal("", "designDescription");
 
-        firebase
-          .database()
-          .ref("Designs/")
-          .child(this.state.designFileKey)
-          .update({ designFileKey: this.state.designFileKey })
-          .then(
-            this.uploadImage(this.state.localpath, this.state.designFileKey)
-          );
+        // firebase
+        //   .database()
+        //   .ref("Designs/")
+        //   .child(this.state.designFileKey)
+        //   .update({ designFileKey: this.state.designFileKey })
+        //   .then(
+        //     this.uploadImage(this.state.localpath, this.state.designFileKey)
+        //   );
         Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
           cancelable: false,
         });
         this.updateInputVal("", "localpath");
+        
       });
+
+      
   }
   setSelectedValue = (val) => {
     this.updateInputVal(val, "category");
@@ -237,6 +313,15 @@ export default class UploadNewDesign extends Component {
           style={styles.tinyLogo}
           source={require("../assets/upload.png")}
         />
+        <Image
+          style={styles.preview}
+          onTouchStart={this.onChooseImagePress}
+          source={{
+            uri: this.state.localpath,
+          }}
+        />
+         {this.RenderImage()}
+         {this.RenderUploading()}
         <Text
           style={[
             styles.inputStyle2,
@@ -246,13 +331,7 @@ export default class UploadNewDesign extends Component {
           اختيار ملف التصميم *{" "}
         </Text>
 
-        <Image
-          style={styles.preview}
-          onTouchStart={this.onChooseImagePress}
-          source={{
-            uri: this.state.localpath,
-          }}
-        />
+        
         <Text
           style={[
             styles.inputStyle2,
@@ -301,6 +380,40 @@ export default class UploadNewDesign extends Component {
     );
   } //End of Second return
 }
+
+
+async function uploadImageAsync(uri) {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.log(e);
+      reject(new TypeError('فشل الطلب'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+
+  // const ref = firebase
+  //   .storage()
+  //   .ref()
+  //   .child(uuid.v4());
+  // const snapshot = await ref.put(blob);
+  // blob.close();
+  var ref = firebase
+      .storage()
+      .ref()
+      .child("DesignWork/" + uuid.v4());
+      const snapshot = await ref.put(blob);
+      blob.close();
+
+  return await snapshot.ref.getDownloadURL();
+}
+
+
 
 const styles = StyleSheet.create({
   container: {

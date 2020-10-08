@@ -15,7 +15,7 @@ import * as React from "react";
 import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
-var designGallery = new Array();
+var designGallery = ["test"];
 export default class designerGallery extends React.Component {
   constructor() {
     super();
@@ -28,52 +28,52 @@ export default class designerGallery extends React.Component {
       localpath: "",
       designUrl: "",
     };
-    // const user = firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser.uid;
 
-    // var ref = firebase
-    //   .database()
-    //   .ref("Designs/")
-    //   .orderByChild("Duid")
-    //   .equalTo(user);
-    // ref.on("value", (snapshot) => {
-    //   var design = snapshot.val();
-    //   var designKeys = Object.keys(design);
-    //   for (var i = 0; i < designKeys.length; i++) {
-    //     var designInfo = designKeys[i];
-    //     //  designFileKey = this.storageImg();
-    //     // var categ = design[designInfo].category;
-    //     // var desDis = design[designInfo].designDescription;
-    //     // var desFileKey = design[designInfo].designFileKey;
-    //     // var desTitle = design[designInfo].designTitle;
-    //     // var desUploadingdate = design[designInfo].designUploadingdate;
-    //     //var desUrl = "";
-    //     console.log(design[designInfo].designTitle);
+    var ref = firebase
+      .database()
+      .ref("Designs/")
+      .orderByChild("Duid")
+      .equalTo(user);
+    ref.on("value", (snapshot) => {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        //  designFileKey = this.storageImg();
+        // var categ = design[designInfo].category;
+        // var desDis = design[designInfo].designDescription;
+        // var desFileKey = design[designInfo].designFileKey;
+        // var desTitle = design[designInfo].designTitle;
+        // var desUploadingdate = design[designInfo].designUploadingdate;
+        //var desUrl = "";
+        console.log(design[designInfo].designTitle);
 
-    //     //  console.log(design[designInfo].designFileKey);
-    //     //  var x = "";
+        //  console.log(design[designInfo].designFileKey);
+        //  var x = "";
 
-    //     // console.log(x);
+        // console.log(x);
 
-    //     var ref1 = firebase
-    //       .storage()
-    //       .ref("DesignWork/" + design[designInfo].designFileKey)
-    //       .getDownloadURL()
-    //       .then((url) => {
-    //         // x = url;
-    //         this.updateInputVal(url, "designUrl"),
-    //           console.log(this.state.designUrl),
-    //           (designGallery[i] = {
-    //             category: design[designInfo].category,
-    //             designDescription: design[designInfo].designDescription,
-    //             designFileKey: design[designInfo].designFileKey,
-    //             designTitle: design[designInfo].designTitle,
-    //             designUploadingdate: design[designInfo].designUploadingdate,
-    //             designUrl: this.state.designUrl,
-    //           });
-    //         console.log(designGallery[i]);
-    //       });
-    //   }
-    // });
+        var ref1 = firebase
+          .storage()
+          .ref("DesignWork/" + design[designInfo].designFileKey)
+          .getDownloadURL()
+          .then((url) => {
+            // x = url;
+            this.updateInputVal(url, "designUrl"),
+              console.log(this.state.designUrl),
+              designGallery[i] = {
+                category: design[designInfo].category,
+                designDescription: design[designInfo].designDescription,
+                designFileKey: design[designInfo].designFileKey,
+                designTitle: design[designInfo].designTitle,
+                designUploadingdate: design[designInfo].designUploadingdate,
+                designUrl: this.state.designUrl,
+              };
+            console.log(designGallery[i]);
+          });
+      }
+    });
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -86,60 +86,11 @@ export default class designerGallery extends React.Component {
   };
 
   print = () => {
-    var designGallery = new Array();
-    const user = firebase.auth().currentUser.uid;
-    var ref = firebase
-      .database()
-      .ref("Designs/")
-      .orderByChild("Duid")
-      .equalTo(user);
-    ref.on("value", (snapshot) => {
-      var design = snapshot.val();
-      var designKeys = Object.keys(design);
-      //console.log(designKeys.length);
-      var i = 0;
-      for (i = 0; i < designKeys.length; i++) {
-        var designInfo = designKeys[i];
-        //  designFileKey = this.storageImg();
-        var categ = design[designInfo].category;
-        var desDis = design[designInfo].designDescription;
-        var desFileKey = design[designInfo].designFileKey;
-        var desTitle = design[designInfo].designTitle;
-        var desUploadingdate = design[designInfo].designUploadingdate;
-
-        console.log(design[designInfo].designFileKey);
-        //  var x = "";
-        designGallery[i] = {
-          category: categ,
-          designDescription: desDis,
-          designFileKey: desFileKey,
-          designTitle: desTitle,
-          designUploadingdate: desUploadingdate,
-        };
-
-        // console.log(x);
-        firebase
-          .storage()
-          .ref("DesignWork/" + design[designInfo].designFileKey)
-          .getDownloadURL()
-          .then((url) => {
-            // x = url;
-            // console.log(i);
-            this.updateInputVal(url, "designUrl");
-            designGallery[i] = {
-              category: categ,
-              designDescription: desDis,
-              designFileKey: desFileKey,
-              designTitle: desTitle,
-              designUploadingdate: desUploadingdate,
-              designUrl: url,
-            };
-          });
-      }
-    });
     console.log(designGallery);
     console.log(designGallery.length);
+
     return designGallery.map((element) => {
+      console.log(element);
       return (
         <View style={{ marginBottom: 30 }}>
           <ScrollView scrollEventThrottle={16}>
@@ -158,66 +109,7 @@ export default class designerGallery extends React.Component {
     });
   };
   render() {
-    var designGallery = new Array();
-    const user = firebase.auth().currentUser.uid;
-    var ref = firebase
-      .database()
-      .ref("Designs/")
-      .orderByChild("Duid")
-      .equalTo(user);
-    ref.on("value", (snapshot) => {
-      var design = snapshot.val();
-      var designKeys = Object.keys(design);
-      //console.log(designKeys.length);
-      var i;
-      for (i = 0; i < designKeys.length; ++i) {
-        var designInfo = designKeys[i];
-        //  designFileKey = this.storageImg();
-        var categ = design[designInfo].category;
-        var desDis = design[designInfo].designDescription;
-        var desFileKey = design[designInfo].designFileKey;
-        var desTitle = design[designInfo].designTitle;
-        var desUploadingdate = design[designInfo].designUploadingdate;
-
-        console.log(design[designInfo].designFileKey);
-        //  var x = "";
-        designGallery.push(categ);
-        designGallery.push(desDis);
-        designGallery.push(desFileKey);
-        designGallery.push(desTitle);
-        designGallery.push(desUploadingdate);
-        designGallery.length = designGallery.length + 1;
-      }
-      // console.log(x);
-      firebase
-        .storage()
-        .ref("DesignWork/" + design[designInfo].designFileKey)
-        .getDownloadURL()
-        .then((url) => {
-          // x = url;
-          // console.log(i);
-          designGallery.push(url);
-        });
-    });
-    const x = designGallery.map((element) => {
-      return (
-        <View style={{ marginBottom: 30 }}>
-          <ScrollView scrollEventThrottle={16}>
-            <View>
-              <GalleryImage
-                name={element.designTitle}
-                width={width}
-                imageUri={element.designUrl}
-              />
-              <Text>{element.designTitle}</Text>
-              <Text>text</Text>
-            </View>
-          </ScrollView>
-        </View>
-      );
-    });
     console.log(designGallery);
-    console.log(designGallery.length);
 
     return (
       <View style={styles.container}>
@@ -260,6 +152,7 @@ export default class designerGallery extends React.Component {
             />
           </G>
         </Svg>
+        {this.print()}
         <View
           style={{
             flex: 1,
@@ -272,29 +165,27 @@ export default class designerGallery extends React.Component {
             justifyContent: "space-between",
           }}
         >
-          {x}
-          {this.print()}
+          {designGallery.map((element) => {
+            <View style={{ marginBottom: 30 }}>
+              <ScrollView scrollEventThrottle={16}>
+                <View>
+                  <GalleryImage
+                    name={element.designTitle}
+                    width={width}
+                    imageUri={element.designUrl}
+                  />
+                  <Text>{"اسم" + element.designTitle}</Text>
+                  <Text>text</Text>
+                </View>
+              </ScrollView>
+            </View>;
+          })}
         </View>
       </View>
     );
   }
 }
 
-// {designGallery.map((element) => {
-//   <View style={{ marginBottom: 30 }}>
-//     <ScrollView scrollEventThrottle={16}>
-//       <View>
-//         <GalleryImage
-//           name={element.designTitle}
-//           width={width}
-//           imageUri={element.designUrl}
-//         />
-//         <Text>{"اسم" + element.designTitle}</Text>
-//         <Text>text</Text>
-//       </View>
-//     </ScrollView>
-//   </View>;
-// })}
 //Style sheet
 const styles = StyleSheet.create({
   container: {

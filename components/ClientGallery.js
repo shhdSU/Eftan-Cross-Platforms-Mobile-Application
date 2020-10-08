@@ -6,7 +6,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-export default class gallery extends React.Component {
+
+export default class ClientGallery extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -17,11 +18,11 @@ export default class gallery extends React.Component {
       isLoading: false,
     };
   }
-  signOutUser = () => {
-    const { email, password } = this.state;
-    firebase.auth().signOut();
-    this.props.navigation.navigate("صفحة الدخول");
-  };
+  // signOutUser = () => {
+  //   const { email, password } = this.state;
+  //   firebase.auth().signOut();
+  //   this.props.navigation.navigate("صفحة الدخول");
+  // };
   render() {
     return (
       <View>
@@ -43,7 +44,10 @@ export default class gallery extends React.Component {
                 fill="#ffeed6"
               />
             </G>
-            <G data-name="Icon ionic-md-log-out" onPress={this.signOutUser}>
+            {/* <G
+              data-name="Icon ionic-md-log-out"
+              onPress={this.signOutUser}}
+            >
               <Path
                 data-name="Path 104"
                 d="M61.125 52.125H47.787l3.066-3.143-2.1-2.1L42 53.625l6.75 6.75 2.18-2.1-3.143-3.15h13.338z"
@@ -56,18 +60,20 @@ export default class gallery extends React.Component {
                   fill="#4f3c75"
                 />
               </G>
-            </G>
+            </G> */}
+
             <Path
               data-name="Icon material-menu"
+              onPress={() => this.props.navigation.toggleDrawer()}
               d="M316.676 71.883H357V67.4h-40.324zm0-11.2H357V56.2h-40.324zm0-15.683v4.48H357V45z"
               fill="#4f3c75"
             />
           </G>
         </Svg>
-        <Text style={styles.forText} onPress={this.signOutUser}>
+        {/* <Text style={styles.forText} onPress={this.signOutUser}>
           تسجيل الخروج
-        </Text>
-        <Text style={styles.forText2}>مرحبًا أيّها العميل</Text>
+        </Text> */}
+        <Text style={styles.forText2}> معرض من جهة العميل </Text>
       </View>
     );
   }

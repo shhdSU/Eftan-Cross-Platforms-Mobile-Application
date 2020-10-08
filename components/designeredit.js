@@ -15,45 +15,52 @@ export default class designeredit extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      firstName: "شهد",
-      lastName: "الكلثم",
-      email: "يسيسي",
-      bio: "يثبثبثب",
+      firstName: "",
+      lastName: "",
+      email: "",
+      bio: "",
       // num_rating: 0,
       //total_rating: 0,
       img: "",
     };
-    // const user = firebase.auth().currentUser.uid;
-    // var fName, lName, email, bio, num_rating, total_rating;
-    // firebase
-    //   .database()
-    //   .ref(`GraphicDesigner/` + user)
-    //   .on("value", (snapshot) => {
-    //     if (snapshot.exists()) {
-    //       firebase
-    //         .database()
-    //         .ref(`GraphicDesigner/` + user)
-    //         .on("value", (dataSnapshot) => {
-    //           fName = dataSnapshot.child("DFirstName").val();
-    //           lName = dataSnapshot.child("DLastName").val();
-    //           email = dataSnapshot.child("Demail").val();
-    //           bio = dataSnapshot.child("bio").val();
-    //           //   num_rating = dataSnapshot.child("number_of_rating").val();
-    //           //  total_rating = dataSnapshot.child("total_rating").val();
-    //           this.updateInputVal(fName, "firstName");
-    //           this.updateInputVal(lName, "lastName");
-    //           this.updateInputVal(email, "email");
-    //           this.updateInputVal(bio, "bio");
-    //           //  this.updateInputVal(num_rating, "num_rating");
-    //           //  this.updateInputVal(total_rating, "total_rating");
-    //         });
-    //     }
-    //   });
-    // const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    const user = firebase.auth().currentUser.uid;
+    var fName, lName, email, bio, num_rating, total_rating;
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + user)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          firebase
+            .database()
+            .ref(`GraphicDesigner/` + user)
+            .on("value", (dataSnapshot) => {
+              fName = dataSnapshot.child("DFirstName").val();
+              lName = dataSnapshot.child("DLastName").val();
+              email = dataSnapshot.child("Demail").val();
+              bio = dataSnapshot.child("bio").val();
+              //   num_rating = dataSnapshot.child("number_of_rating").val();
+              //  total_rating = dataSnapshot.child("total_rating").val();
+              this.updateInputVal(fName, "firstName");
+              this.updateInputVal(lName, "lastName");
+              this.updateInputVal(email, "email");
+              this.updateInputVal(bio, "bio");
+              //  this.updateInputVal(num_rating, "num_rating");
+              //  this.updateInputVal(total_rating, "total_rating");
+            });
+        }
+      });
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
 
-    // profileImage.getDownloadURL().then((url) => {
-    //   this.updateInputVal(url, "img");
-    // });
+    profileImage
+      .getDownloadURL()
+      .then((url) => {
+        this.updateInputVal(url, "img");
+      })
+      .catch((error) => {
+        image =
+          "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+        this.updateVal(image, "img");
+      });
   }
   resetPassword() {
     firebase
@@ -79,49 +86,49 @@ export default class designeredit extends React.Component {
     this.setState(state);
   };
   confirmChanges = () => {
-    // var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
-    // var numCheck = /\d/; //check whether string contains numbers
-    // if (this.state.firstName === "" || this.state.lastName === "") {
-    //   Alert.alert(
-    //     "تنبيه",
-    //     "فضلًا تأكد من إدخال جميع بياناتك",
-    //     [{ text: "حسنًا" }],
-    //     { cancelable: false }
-    //   );
-    // } else if (
-    //   specialCheck.test(this.state.firstName) ||
-    //   specialCheck.test(this.state.lastName)
-    // ) {
-    //   Alert.alert(
-    //     "تنبيه",
-    //     "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
-    //     [{ text: "حسنًا" }],
-    //     { cancelable: false }
-    //   );
-    // } else if (
-    //   numCheck.test(this.state.firstName) ||
-    //   numCheck.test(this.state.lastName)
-    // ) {
-    //   Alert.alert(
-    //     "تنبيه",
-    //     "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
-    //     [{ text: "حسنًا" }],
-    //     { cancelable: false }
-    //   );
-    // }
-    // const user = firebase.auth().currentUser.uid;
-    // firebase
-    //   .database()
-    //   .ref("GraphicDesigner/" + user)
-    //   .set({
-    //     DFirstName: this.state.firstName,
-    //     DLastName: this.state.lastName,
-    //     Demail: this.state.email,
-    //     //   number_of_rating: this.state.num_rating,
-    //     //  total_rating: this.state.total_rating,
-    //     bio: this.state.bio,
-    //   });
-    // this.props.navigation.navigate("designerprofile");
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var numCheck = /\d/; //check whether string contains numbers
+    if (this.state.firstName === "" || this.state.lastName === "") {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال جميع بياناتك",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    } else if (
+      specialCheck.test(this.state.firstName) ||
+      specialCheck.test(this.state.lastName)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    } else if (
+      numCheck.test(this.state.firstName) ||
+      numCheck.test(this.state.lastName)
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    }
+    const user = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + user)
+      .set({
+        DFirstName: this.state.firstName,
+        DLastName: this.state.lastName,
+        Demail: this.state.email,
+        //   number_of_rating: this.state.num_rating,
+        //  total_rating: this.state.total_rating,
+        bio: this.state.bio,
+      });
+    this.props.navigation.navigate("designerprofile");
   };
 
   uploadImage = async (uri, draftName) => {
@@ -139,28 +146,28 @@ export default class designeredit extends React.Component {
     this.props.navigation.navigate("صفحة الدخول");
   };
   onChooseImagePress = async () => {
-    // const user = firebase.auth().currentUser.uid;
-    // let result = await ImagePicker.launchImageLibraryAsync();
-    // if (!result.cancelled) {
-    //   this.uploadImage(result.uri, user)
-    //     .then(() => {
-    //       const profileImage = firebase
-    //         .storage()
-    //         .ref("ProfilePictures/" + user);
-    //       profileImage.getDownloadURL().then((url) => {
-    //         this.updateInputVal(url, "img");
-    //       });
-    //       Alert.alert("Success");
-    //     })
-    //     .catch((error) => {
-    //       Alert.alert(error);
-    //     });
-    // }
+    const user = firebase.auth().currentUser.uid;
+    let result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      this.uploadImage(result.uri, user)
+        .then(() => {
+          const profileImage = firebase
+            .storage()
+            .ref("ProfilePictures/" + user);
+          profileImage.getDownloadURL().then((url) => {
+            this.updateInputVal(url, "img");
+          });
+          Alert.alert("Success");
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        });
+    }
   };
   render() {
     return (
       <View style={styles.container}>
-         <Svg
+        <Svg
           width={416}
           height={144}
           style={{ alignSelf: "center", top: "-8%", position: "absolute" }}
@@ -214,7 +221,7 @@ export default class designeredit extends React.Component {
         />
         <TouchableOpacity style={styles.button}>
           <Text style={styles.editText} onPress={() => this.confirmChanges()}>
-             حفظ التغييرات
+            حفظ التغييرات
           </Text>
         </TouchableOpacity>
         <Text onPress={() => this.resetPassword()} style={styles.forText3}>
@@ -276,7 +283,7 @@ const styles = StyleSheet.create({
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
-    fontWeight:"700"
+    fontWeight: "700",
   },
   forText2: {
     alignItems: "center",
@@ -343,7 +350,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: "4%",
     width: "80%",
-    height:"13%",
+    height: "13%",
     marginBottom: "2%",
     paddingBottom: "2%",
     alignSelf: "center",

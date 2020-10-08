@@ -20,32 +20,32 @@ export default class designerprofile extends React.Component {
     super();
     this.state = {};
     this.state = {
-      firstName: "شهد",
-      lastName: "الكلثم",
-      email: "shh@gmail.com",
-      bio: "bla bla bla ",
+      firstName: "",
+      lastName: "",
+      email: "",
+      bio: "",
       img: "",
       // num_rating: 0,
       // total_rating: 0,
     };
-    // const user = firebase.auth().currentUser.uid;
-    // var num_rating = 0;
-    //var total_rating = 0;
-    // firebase
-    //   .database()
-    //   .ref(`GraphicDesigner/` + user)
-    //   .on("value", (dataSnapshot) => {
-    //     fName = dataSnapshot.child("DFirstName").val();
-    //     lName = dataSnapshot.child("DLastName").val();
-    //     email = dataSnapshot.child("DEmail").val();
-    //     bio = dataSnapshot.child("bio").val();
-    //     //num_rating = dataSnapshot.child("number_of_rating").val();
-    //     //total_rating = dataSnapshot.child("total_rating").val();
-    //     this.updateVal(fName, "firstName");
-    //     this.updateVal(lName, "lastName");
-    //     this.updateVal(email, "email");
-    //     this.updateVal(bio, "bio");
-    //   });
+    const user = firebase.auth().currentUser.uid;
+    var num_rating = 0;
+    var total_rating = 0;
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + user)
+      .on("value", (dataSnapshot) => {
+        fName = dataSnapshot.child("DFirstName").val();
+        lName = dataSnapshot.child("DLastName").val();
+        email = dataSnapshot.child("DEmail").val();
+        bio = dataSnapshot.child("bio").val();
+        //num_rating = dataSnapshot.child("number_of_rating").val();
+        //total_rating = dataSnapshot.child("total_rating").val();
+        this.updateVal(fName, "firstName");
+        this.updateVal(lName, "lastName");
+        this.updateVal(email, "email");
+        this.updateVal(bio, "bio");
+      });
   }
   updateVal(val, prop) {
     const state = this.state;
@@ -57,11 +57,18 @@ export default class designerprofile extends React.Component {
     this.props.navigation.navigate("صفحة الدخول");
   };
   render() {
-    // const user = firebase.auth().currentUser.uid;
-    // const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-    // profileImage.getDownloadURL().then((url) => {
-    //   this.updateVal(url, "img");
-    // });
+    const user = firebase.auth().currentUser.uid;
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    profileImage
+      .getDownloadURL()
+      .then((url) => {
+        this.updateVal(url, "img");
+      })
+      .catch((error) => {
+        image =
+          "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+        this.updateVal(image, "img");
+      });
     return (
       <View style={styles.container}>
         <Svg
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
-    fontWeight:"700"
+    fontWeight: "700",
   },
   profileImg: {
     width: 50,

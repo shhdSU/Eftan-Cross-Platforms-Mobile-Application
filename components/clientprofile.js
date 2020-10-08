@@ -49,41 +49,27 @@ export default class clientprofile extends React.Component {
     });
     return (
       <View style={styles.container}>
-        <Svg>
-          <Defs>
-            <ClipPath id="prefix__a">
-              <Path d="M0 0h375v812H0z" />
-            </ClipPath>
-          </Defs>
-          <G data-name="Gallery Screen" clipPath="url(#prefix__a)">
-            <Path fill="#fff" d="M0 0h375v812H0z" />
-            <G filter="url(#prefix__b)">
-              <Rect
-                data-name="Rectangle 6"
-                width={398}
-                height={126}
-                rx={38}
-                transform="translate(-11 -18)"
+        <Svg
+          width={416}
+          height={144}
+          style={{ alignSelf: "center", top: "-8%", position: "absolute" }}
+        >
+          <G data-name="Group 7">
+            <G filter="url(#prefix__a)">
+              <Path
+                data-name="Path 117"
+                d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
             </G>
-            <G data-name="Icon ionic-md-log-out" onPress={this.signOutUser}>
-              <Path
-                data-name="Path 104"
-                d="M61.125 52.125H47.787l3.066-3.143-2.1-2.1L42 53.625l6.75 6.75 2.18-2.1-3.143-3.15h13.338z"
-                fill="#4f3c75"
-              />
-              <G data-name="Group 3">
-                <Path
-                  data-name="Path 105"
-                  d="M56.646 42.002a11.629 11.629 0 018.206 19.843 11.594 11.594 0 01-16.4.014l-2.13 2.13a15.541 15.541 0 001.95 1.636 14.637 14.637 0 10-1.941-22.352l2.124 2.118a11.509 11.509 0 018.191-3.389z"
-                  fill="#4f3c75"
-                />
-              </G>
-            </G>
+            <Path
+              data-name="Icon ionic-ios-arrow-back"
+              d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+              fill="#4f3c75"
+            />
             <Path
               data-name="Icon material-menu"
-              d="M316.676 71.883H357V67.4h-40.324zm0-11.2H357V56.2h-40.324zm0-15.683v4.48H357V45z"
+              d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
             />
           </G>
@@ -116,7 +102,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff",
     top: "5%",
-    padding: "1%",
   },
   image: {
     flex: 1,
@@ -128,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffeed6",
     alignItems: "center",
     borderRadius: 150 / 2,
-    top: "24%",
+    top: "15%",
     left: "30%",
     right: "5%",
   },
@@ -153,7 +138,7 @@ const styles = StyleSheet.create({
   },
   forText: {
     position: "absolute",
-    top: "5%",
+    top: "1.5%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
@@ -163,47 +148,47 @@ const styles = StyleSheet.create({
     height: 50,
   },
   textStyle: {
-    top: "45%",
+    top: "35%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
-    left: "40%",
-    right: "5%",
+    right: "40%",
+    left: "5%",
     justifyContent: "center",
   },
   textStyle2: {
-    top: "45%",
+    top: "35%",
     textAlign: "center",
     fontSize: 19,
     justifyContent: "center",
     color: "#4F3C75",
     position: "absolute",
-    right: "55%",
+    left: "55%",
   },
   textStyle3: {
-    top: "50%",
+    top: "40%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
     justifyContent: "center",
 
-    left: "40%",
-    right: "5%",
+    right: "40%",
+    left: "5%",
   },
   textStyle4: {
-    top: "50%",
+    top: "40%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
-    right: "55%",
+    left: "55%",
 
     justifyContent: "center",
   },
   textStyle5: {
-    top: "55%",
+    top: "50%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -213,7 +198,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle6: {
-    top: "50%",
+    top: "45%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",

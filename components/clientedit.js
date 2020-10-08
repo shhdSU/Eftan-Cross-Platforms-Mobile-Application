@@ -180,14 +180,14 @@ export default class clientedit extends React.Component {
         </Text>
         <TextInput
           style={styles.inputStyle}
-          placeholder="First name"
+          placeholder="الاسم الأول"
           value={this.state.firstName}
           onChangeText={(val) => this.updateInputVal(val, "firstName")}
         />
 
         <TextInput
           style={styles.inputStyle2}
-          placeholder="Last name"
+          placeholder="الاسم الاخير"
           value={this.state.lastName}
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
           maxLength={15}

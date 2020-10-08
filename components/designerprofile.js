@@ -14,11 +14,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-var fName, lName, email, bio;
+var fName, lName, email, bio,image;
 export default class designerprofile extends React.Component {
   constructor(props) {
     super();
-    this.state = {};
     this.state = {
       firstName: "",
       lastName: "",

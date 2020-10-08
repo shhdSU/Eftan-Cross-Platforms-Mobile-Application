@@ -73,7 +73,7 @@ export default class LoginPage extends Component {
                 .ref(`GraphicDesigner/` + user)
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
-                    this.props.navigation.navigate("designerGallery");
+                    this.props.navigation.navigate("designerprofile");
                   }
                   return;
                 });

@@ -9,7 +9,7 @@ import {
 import firebase from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-var fName, lName, email;
+var fName, lName, email,image;
 export default class clientprofile extends React.Component {
   constructor() {
     super();

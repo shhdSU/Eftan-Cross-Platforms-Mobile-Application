@@ -24,7 +24,7 @@ export default class designeredit extends React.Component {
       img: "",
     };
     const user = firebase.auth().currentUser.uid;
-    var fName, lName, email, bio, num_rating, total_rating;
+    var fName, lName, email, bio, num_rating, total_rating,image;
     firebase
       .database()
       .ref(`GraphicDesigner/` + user)

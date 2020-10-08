@@ -17,9 +17,13 @@ import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
 export default class designerGallery extends React.Component {
-  constructor() {
+  constructor (props)  {
     super();
     this.state = {
+      firstName: "",
+      lastName: "",
+      bio: "",
+      img: "",
       designTitle: "",
       designDescription: "",
       category: "",
@@ -28,6 +32,33 @@ export default class designerGallery extends React.Component {
       localpath: "",
       designUrl: "",
     };
+    const { navigate } = props.navigation;
+    const user = props.navigation.state.params.uid;
+    var fName, lName, bio,image;
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + user)
+      .on("value", (dataSnapshot) => {
+        fName = dataSnapshot.child("DFirstName").val();
+        lName = dataSnapshot.child("DLastName").val();
+        bio = dataSnapshot.child("bio").val();
+        //num_rating = dataSnapshot.child("number_of_rating").val();
+        //total_rating = dataSnapshot.child("total_rating").val();
+        this.updateInputVal(fName, "firstName");
+        this.updateInputVal(lName, "lastName");
+        this.updateInputVal(bio, "bio");
+      });
+      const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+      profileImage
+        .getDownloadURL()
+        .then((url) => {
+          this.updateInputVal(url, "img");
+        })
+        .catch((error) => {
+          image =
+            "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+          this.updateInputVal(image, "img");
+        });
     // const user = firebase.auth().currentUser.uid;
 
     // var ref = firebase
@@ -107,7 +138,7 @@ export default class designerGallery extends React.Component {
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
 
-        console.log(design[designInfo].designFileKey);
+       // console.log(design[designInfo].designFileKey);
         //  var x = "";
         designGallery[i] = {
           category: categ,
@@ -137,8 +168,8 @@ export default class designerGallery extends React.Component {
           });
       }
     });
-    console.log(designGallery);
-    console.log(designGallery.length);
+    //console.log(designGallery);
+    //console.log(designGallery.length);
     return designGallery.map((element) => {
       return (
         <View style={{ marginBottom: 30 }}>
@@ -179,7 +210,7 @@ export default class designerGallery extends React.Component {
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
 
-        console.log(design[designInfo].designFileKey);
+     //   console.log(design[designInfo].designFileKey);
         //  var x = "";
         designGallery.push(categ);
         designGallery.push(desDis);
@@ -216,8 +247,8 @@ export default class designerGallery extends React.Component {
         </View>
       );
     });
-    console.log(designGallery);
-    console.log(designGallery.length);
+    //console.log(designGallery);
+    //console.log(designGallery.length);
 
     return (
       <View style={styles.container}>
@@ -260,6 +291,14 @@ export default class designerGallery extends React.Component {
             />
           </G>
         </Svg>
+        <Text style={styles.forText}>حسابي الشخصي</Text>
+        <Image style={styles.image} source={{ uri: this.state.img }} />
+        <Text style={styles.textStyle2}>الاسم الأول</Text>
+        <Text style={styles.textStyle}>{this.state.firstName}</Text>
+        <Text style={styles.textStyle4}>الاسم الأخير</Text>
+        <Text style={styles.textStyle3}>{this.state.lastName}</Text>
+        <Text style={styles.textStyle8}>نبذة</Text>
+        <Text style={styles.textStyle7}>{this.state.bio}</Text>
         <View
           style={{
             flex: 1,
@@ -275,6 +314,7 @@ export default class designerGallery extends React.Component {
           {x}
           {this.print()}
         </View>
+        
       </View>
     );
   }

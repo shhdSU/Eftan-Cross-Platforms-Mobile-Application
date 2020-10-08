@@ -22,7 +22,7 @@ export default class clientedit extends React.Component {
       img: "",
     };
     const user = firebase.auth().currentUser.uid;
-    var fName, lName, email;
+    var fName, lName, email,image;
     firebase
       .database()
       .ref(`Client/` + user)

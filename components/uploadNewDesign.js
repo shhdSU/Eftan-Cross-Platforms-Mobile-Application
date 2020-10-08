@@ -173,31 +173,31 @@ export default class UploadNewDesign extends Component {
     }
 
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    var numCheck = /\d/;
-    if (
-      specialCheck.test(this.state.designTitle) ||
-      numCheck.test(this.state.designTitle)
-    ) {
+    if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",
-        "يجب ان يحتوي العنوان على أحرف فقط",
+        "يجب ان يحتوي العنوان على أحرف وأرقام فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
       this.updateInputVal("", "designTitle");
       return;
     }
-
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    var currentDate = date + "/" + month + "/" + year;
     //const user = firebase.auth().currentUser.uid;
     firebase
       .database()
       .ref("Designs/")
       .push({
-        // Duid: user,
+        Duid: "2Uf1Wj14icbxngiiJbjklDDwiZb2", //uid for Hadeel ---------change it later
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
         designUrl: this.state.designUrl,
+        designUploadingdate: currentDate,
         //designFileKey: "",
       })
       .then((key) => {
@@ -216,9 +216,17 @@ export default class UploadNewDesign extends Component {
         //   );
         Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
           cancelable: false,
-        });
-        this.updateInputVal("", "localpath");
-        
+        }),
+        this.updateInputVal("", "localpath"),
+        this.props.navigation.navigate("صفحة المصمم")
+      }) .catch((error) => {
+        Alert.alert(
+          "فشل في حفظ التصميم ، حاول مرة أخرى",
+          [{ text: "حسنًا" }],
+          {
+            cancelable: false,
+          }
+        );
       });
 
       
@@ -471,12 +479,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#4F3C75",
     padding: "1%",
-    justifyContent:"center",
+    justifyContent: "center",
     borderRadius: 25,
     width: "80%",
     height: "3.5%",
     alignSelf: "center",
-    bottom:"15%"
+    bottom: "15%",
   },
 
   preloader: {

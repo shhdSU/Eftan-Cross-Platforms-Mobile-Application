@@ -104,7 +104,7 @@ export default class designerprofile extends React.Component {
           </G>
         </Svg>
         <Text style={styles.forText}>حسابي الشخصي</Text>
-        <Image style={styles.image} source={{uri: this.state.img}} />
+        <Image style={styles.image} source={{ uri: this.state.img }} />
         <Text style={styles.textStyle2}>الاسم الأول</Text>
         <Text style={styles.textStyle}>{this.state.firstName}</Text>
         <Text style={styles.textStyle4}>الاسم الأخير</Text>

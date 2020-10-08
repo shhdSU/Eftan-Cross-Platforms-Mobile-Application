@@ -11,7 +11,7 @@ import LoginScreen from "./components/login";
 import SignupScreen from "./components/signup";
 import ClientGalleryScreen from "./components/ClientGallery";
 import DesignerGalleryScreen from "./components/DesignerGallery";
-import DprofileScreen from "./components/DProfile";
+import DprofileScreen from "./components/DProfile";// Access by Client
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import ChatPassword from "./components/chat";
@@ -28,7 +28,27 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from "react-native";
-import firebase from "./database/firebase";
+import GalleryScreen from "./components/gallery";
+import DesignerProfile from "./components/designerProfile"; // Access by Designer
+import RequestScreen from "./components/requestPage";
+import UploadNewDesign from "./components/uploadNewDesign";
+import clientprofile from "./components/clientprofile";
+import clientedit from "./components/clientedit";
+import designerprofile from "./components/designerprofile";
+import designeredit from "./components/designeredit";
+import designerGallery from "./components/designerGallery";
+import Explore from "./components/Explore";
+import logos from "./components/logos";
+import posters from "./components/posters";
+import brands from "./components/brands";
+import packages from "./components/packages";
+import digitals from "./components/digitals";
+import filters from "./components/filters";
+import certifications from "./components/certifications";
+import others from "./components/others";
+import UploadNewDesign from "./components/UploadNewDesign";
+import test from "./components/test";
+import DesignDetails from "./components/GDDetails"
 
 //-------------------------------------------------------
 
@@ -46,6 +66,8 @@ const LoginStack = createStackNavigator(
   }
 );
 //-------------------------------------------------------
+
+
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
 const ClientGalleryNavigation = createStackNavigator(
@@ -69,6 +91,35 @@ const DesignerGalleryNavigation = createStackNavigator(
     "معرض التصاميم من منظور المصمم": DesignerGalleryScreen,
     // "عرض تفاصيل التصميم"
     // عرض حساب المصمم" >> بحيث يختفي زر الطلب"
+    // تست: { screen: test },
+    // "تفاصيل العمل":{screen:DesignDetails },
+    // "صفحة الدخول": { screen: LoginScreen },
+    // "رفع تصميم جديد": { screen: UploadNewDesign },
+
+    // اكسبلور: { screen: Explore },
+
+    // شعار: { screen: logos },
+    // ملصق: { screen: posters },
+    // "علامة تجارية": { screen: brands },
+    // "تغليف المنتج": { screen: packages },
+    // "الفن الرقمي": { screen: digitals },
+    // "فلاتر سنابتشات": { screen: filters },
+    // شهادات: { screen: certifications },
+    // "غير ذلك": { screen: others },
+
+    // "صفحة التسجيل": { screen: SignupScreen },
+    // "معرض المصمم": { screen: GalleryScreen },
+
+    // "صفحة المصمم": { screen: DprofileScreen },
+    // "سياسة الخصوصية": { screen: privacyPolicyScreen },
+    // "نسيت كلمة السر!": { screen: ForgotPassword },
+    // "الملف الخاص بي": { screen: DesignerProfile },
+    // "صفحة الطلب": { screen: RequestScreen },
+    // clientprofile: { screen: clientprofile },
+    // clientedit: { screen: clientedit },
+    // designerprofile: { screen: designerprofile },
+    // designeredit: { screen: designeredit },
+    // designerGallery: { screen: designerGallery },
   },
   {
     headerMode: "none",

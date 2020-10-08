@@ -25,11 +25,12 @@ import certifications from "./components/certifications";
 import others from "./components/others";
 import UploadNewDesign from "./components/UploadNewDesign";
 import test from "./components/test";
+import DesignDetails from "./components/GDDetails"
 
 const Navigation = createStackNavigator(
   {
     تست: { screen: test },
-
+    "تفاصيل العمل":{screen:DesignDetails },
     "صفحة الدخول": { screen: LoginScreen },
     "رفع تصميم جديد": { screen: UploadNewDesign },
 

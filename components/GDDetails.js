@@ -152,7 +152,7 @@ export default class GDDetails extends React.Component {
           {this.state.date}
         </Text>
         <Image
-          // ontouchstart= {this.props.navigation.navigate("صفحة حساب العمل من وجهة نظر المصمم",this.state.Duid)}@HadeelHamad change this later
+        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} //@HadeelHamad change this later
 
           style={styles.profileImage}
           source={{
@@ -197,7 +197,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
-          // ontouchstart= {this.props.navigation.navigate("صفحة حساب العمل من وجهة نظر المصمم",this.state.Duid)}@HadeelHamad change this later
+          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}//@HadeelHamad change this later
           style={[
             styles.inputStyle2,
             {

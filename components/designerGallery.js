@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import firebase from "../database/firebase";
+import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";

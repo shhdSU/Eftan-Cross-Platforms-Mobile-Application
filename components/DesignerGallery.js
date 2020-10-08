@@ -1,31 +1,118 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import firebase from "../database/firebase";
-import * as React from "react";
-import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
-export default class DesignerGallery extends React.Component {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  Dimensions,
+  TextInput,
+} from "react-native";
+import firebase from "../database/firebase";
+import * as ImagePicker from "expo-image-picker";
+import * as React from "react";
+import GalleryImage from "./GalleryImage";
+import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
+const { width, height } = Dimensions.get("window");
+var designGallery = ["test"];
+export default class designerGallery extends React.Component {
   constructor() {
     super();
     this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
+      designTitle: "",
+      designDescription: "",
+      category: "",
+      designFileKey: "",
       isLoading: false,
+      localpath: "",
+      designUrl: "",
     };
+    const user = firebase.auth().currentUser.uid;
+
+    var ref = firebase
+      .database()
+      .ref("Designs/")
+      .orderByChild("Duid")
+      .equalTo(user);
+    ref.on("value", (snapshot) => {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        //  designFileKey = this.storageImg();
+        // var categ = design[designInfo].category;
+        // var desDis = design[designInfo].designDescription;
+        // var desFileKey = design[designInfo].designFileKey;
+        // var desTitle = design[designInfo].designTitle;
+        // var desUploadingdate = design[designInfo].designUploadingdate;
+        //var desUrl = "";
+        console.log(design[designInfo].designTitle);
+
+        //  console.log(design[designInfo].designFileKey);
+        //  var x = "";
+
+        // console.log(x);
+
+        var ref1 = firebase
+          .storage()
+          .ref("DesignWork/" + design[designInfo].designFileKey)
+          .getDownloadURL()
+          .then((url) => {
+            // x = url;
+            this.updateInputVal(url, "designUrl"),
+              console.log(this.state.designUrl),
+              designGallery[i] = {
+                category: design[designInfo].category,
+                designDescription: design[designInfo].designDescription,
+                designFileKey: design[designInfo].designFileKey,
+                designTitle: design[designInfo].designTitle,
+                designUploadingdate: design[designInfo].designUploadingdate,
+                designUrl: this.state.designUrl,
+              };
+            console.log(designGallery[i]);
+          });
+      }
+    });
   }
-  //   signOutUser = () => {
-  //     const { email, password } = this.state;
-  //     firebase.auth().signOut();
-  //     this.props.navigation.navigate("صفحة الدخول");
-  //   };
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+  signOutUser = () => {
+    firebase.auth().signOut();
+    this.props.navigation.navigate("صفحة الدخول");
+  };
+
+  print = () => {
+    console.log(designGallery);
+    console.log(designGallery.length);
+
+    return designGallery.map((element) => {
+      console.log(element);
+      return (
+        <View style={{ marginBottom: 30 }}>
+          <ScrollView scrollEventThrottle={16}>
+            <View>
+              <GalleryImage
+                name={element.designTitle}
+                width={width}
+                imageUri={element.designUrl}
+              />
+              <Text>{"اسم" + element.designTitle}</Text>
+              <Text>text</Text>
+            </View>
+          </ScrollView>
+        </View>
+      );
+    });
+  };
   render() {
+    console.log(designGallery);
+
     return (
-      <View>
+      <View style={styles.container}>
         <Svg>
           <Defs>
             <ClipPath id="prefix__a">
@@ -44,10 +131,7 @@ export default class DesignerGallery extends React.Component {
                 fill="#ffeed6"
               />
             </G>
-            {/* <G
-              data-name="Icon ionic-md-log-out"
-              onPress={this.signOutUser}}
-            >
+            <G data-name="Icon ionic-md-log-out" onPress={this.signOutUser}>
               <Path
                 data-name="Path 104"
                 d="M61.125 52.125H47.787l3.066-3.143-2.1-2.1L42 53.625l6.75 6.75 2.18-2.1-3.143-3.15h13.338z"
@@ -60,42 +144,240 @@ export default class DesignerGallery extends React.Component {
                   fill="#4f3c75"
                 />
               </G>
-            </G> */}
-
+            </G>
             <Path
               data-name="Icon material-menu"
-              onPress={() => this.props.navigation.toggleDrawer()}
               d="M316.676 71.883H357V67.4h-40.324zm0-11.2H357V56.2h-40.324zm0-15.683v4.48H357V45z"
               fill="#4f3c75"
             />
           </G>
         </Svg>
-        {/* <Text style={styles.forText} onPress={this.signOutUser}>
-          تسجيل الخروج
-        </Text> */}
-        <Text style={styles.forText2}> معرض من جهة المصمم </Text>
+        {this.print()}
+        <View
+          style={{
+            flex: 1,
+            // // flexDirection: "row",
+            // // flexWrap: "wrap",
+            paddingHorizontal: 20,
+            bottom: "180%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          {designGallery.map((element) => {
+            <View style={{ marginBottom: 30 }}>
+              <ScrollView scrollEventThrottle={16}>
+                <View>
+                  <GalleryImage
+                    name={element.designTitle}
+                    width={width}
+                    imageUri={element.designUrl}
+                  />
+                  <Text>{"اسم" + element.designTitle}</Text>
+                  <Text>text</Text>
+                </View>
+              </ScrollView>
+            </View>;
+          })}
+        </View>
       </View>
     );
   }
 }
+
 //Style sheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    top: "5%",
+    padding: "1%",
   },
+  image: {
+    flex: 1,
+    width: 150,
+    height: 150,
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffeed6",
+    alignItems: "center",
+    borderRadius: 150 / 2,
+    top: "24%",
+    left: "30%",
+    right: "5%",
+  },
+  button: {
+    top: "70%",
+    backgroundColor: "#4F3C75",
+    height: "6%",
+    width: "80%",
+    borderRadius: 25,
+    alignSelf: "center",
+    alignItems: "center",
+    position: "absolute",
+  },
+  editText: {
+    fontSize: 25,
+    color: "#fff",
+    marginTop: "1%",
+    textAlign: "center",
+    alignItems: "center",
+    top: "5%",
+    zIndex: 10,
+  },
+
   forText: {
-    position: "relative",
-    top: wp("-200%"),
-    left: hp("2%"),
+    position: "absolute",
+    top: "5%",
     color: "#4F3C75",
+    fontSize: 25,
+    textAlign: "center",
   },
   forText2: {
+    alignItems: "center",
     position: "absolute",
-    top: hp("45%"),
-    left: hp("11%"),
+    top: "45%",
     color: "#4F3C75",
-    fontSize: 30,
+    fontSize: 15,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  forText3: {
+    alignItems: "center",
+    position: "absolute",
+    top: "77%",
+    color: "#4F3C75",
+    fontSize: 18,
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  profileImg: {
+    width: 50,
+    height: 50,
+  },
+  textStyle: {
+    top: "45%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    left: "40%",
+    right: "5%",
+    justifyContent: "center",
+  },
+
+  inputStyle: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "46%",
+    left: "10%",
+  },
+  inputStyle2: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "53%",
+  },
+  inputStyle3: {
+    position: "absolute",
+    fontSize: 18,
+    marginTop: "4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "60%",
+  },
+  textStyle2: {
+    top: "45%",
+    textAlign: "center",
+    fontSize: 19,
+    justifyContent: "center",
+    color: "#4F3C75",
+    position: "absolute",
+    right: "55%",
+  },
+  textStyle3: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    left: "40%",
+    right: "5%",
+  },
+  textStyle4: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    right: "55%",
+
+    justifyContent: "center",
+  },
+  textStyle5: {
+    top: "55%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    textAlign: "center",
+    paddingTop: "15%",
+    justifyContent: "center",
+  },
+  textStyle6: {
+    top: "50%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    textAlign: "center",
+    paddingTop: "15%",
+  },
+  textStyle7: {
+    top: "64%",
+    textAlign: "center",
+    fontSize: 14,
+    color: "#4F3C75",
+    position: "absolute",
+    textAlign: "center",
+    paddingTop: "15%",
+    justifyContent: "center",
+  },
+  textStyle8: {
+    top: "67%",
+    textAlign: "center",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    justifyContent: "center",
+    textAlign: "center",
   },
 });

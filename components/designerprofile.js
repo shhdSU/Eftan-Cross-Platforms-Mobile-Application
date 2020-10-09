@@ -163,9 +163,9 @@ export default class designerprofile extends React.Component {
         <Text style={styles.forText}>حسابي الشخصي</Text>
         <Image style={styles.image} source={{ uri: this.state.img }} />
         <Text style={styles.textStyle2}>الاسم الأول</Text>
-        <Text style={styles.textStyle}>{this.state.firstName}</Text>
+        <Text style={styles.textStyle3}>{this.state.firstName}</Text>
         <Text style={styles.textStyle4}>الاسم الأخير</Text>
-        <Text style={styles.textStyle3}>{this.state.lastName}</Text>
+        <Text style={styles.textStyle}>{this.state.lastName}</Text>
         <Text style={styles.textStyle6}>البريد الالكتروني</Text>
         <Text style={styles.textStyle5}>{this.state.email}</Text>
         <Text style={styles.textStyle8}>نبذة</Text>

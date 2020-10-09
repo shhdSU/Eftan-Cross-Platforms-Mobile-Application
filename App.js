@@ -24,7 +24,6 @@ import SignupScreen from "./components/signup";
 import DesignerGalleryScreen from "./components/designerGallery";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
-import ChatPassword from "./components/chat";
 import React, { Component } from "react";
 import RequestScreen from "./components/requestForms";
 import UploadNewDesign from "./components/uploadNewDesign";
@@ -33,15 +32,7 @@ import clientedit from "./components/clientedit";
 import designerprofile from "./components/designerprofile";
 import designeredit from "./components/designeredit";
 import Explore from "./components/Explore";
-import logos from "./components/logos";
-import posters from "./components/posters";
-import brands from "./components/brands";
-import packages from "./components/packages";
-import digitals from "./components/digitals";
-import filters from "./components/filters";
-import certifications from "./components/certifications";
-import others from "./components/others";
-import test from "./components/test";
+import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
 // import firebase from "./database/firebase";
 
@@ -63,14 +54,7 @@ const LoginStack = createStackNavigator(
 const category = createStackNavigator(
   {
     "معرض": { screen: Explore },
-    "شعار": { screen: logos },
-    "ملصق": { screen: posters },
-    "علامة تجارية": { screen: brands },
-    "تغليف المنتج": { screen: packages },
-    "الفن الرقمي": { screen: digitals },
-    "فلاتر سنابتشات": { screen: filters },
-    "شهادات": { screen: certifications },
-    "غير ذلك": { screen: others },
+    "الإختيار": {screen: choice},
   },
   {
     headerMode: "none",

@@ -14,7 +14,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import SvgComponent from "./GD_detailsImage"
+import SvgComponent from "./SvgComponent"
 
 export default class GDDetails extends React.Component {
   constructor() {

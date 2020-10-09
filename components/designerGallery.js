@@ -32,9 +32,11 @@ export default class designerGallery extends React.Component {
       isLoading: false,
       localpath: "",
       designUrl: "",
+      propsUser: "",
     };
     const { navigate } = props.navigation;
     const user = props.navigation.state.params.uid; //to get parameters
+    this.updateInputVal(user,"propsUser");
     var fName, lName, bio,image;
     firebase
       .database()
@@ -76,8 +78,7 @@ export default class designerGallery extends React.Component {
   };
 
     readData = () => {
-      const user = firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
+      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(this.state.propsUser);
       ref.on("value", (snapshot) => {
         var design = snapshot.val();
         var designKeys = Object.keys(design);

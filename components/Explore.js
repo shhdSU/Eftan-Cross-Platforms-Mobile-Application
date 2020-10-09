@@ -12,7 +12,8 @@ import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
 
-var designGallery = [];
+var designGallery = new Array();
+
 var logo = [];
 var brand = [];
 var cert = [];
@@ -26,25 +27,18 @@ var design = "";
 var designKeys = "";
 const { width, height } = Dimensions.get("window");
 
-class Explore extends Component {
+export default class Explore extends Component {
   constructor() {
     super();
     this.state = {
       designTitle: "",
       designDescription: "",
       category: "",
-      designFileKey: "",
       designUrl: "",
       designUploadingdate: "",
+      designGalleryState:[]
+      
     };
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  };
-
-  readData = () => {
     var b = 0;
     var l = 0;
     var c = 0;
@@ -63,7 +57,6 @@ class Explore extends Component {
 
         var categ = design[designInfo].category;
         var desDis = design[designInfo].designDescription;
-        var desFileKey = design[designInfo].designFileKey;
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
@@ -71,17 +64,14 @@ class Explore extends Component {
         designGallery[i] = {
           category: categ,
           designDescription: desDis,
-          designFileKey: desFileKey,
           designTitle: desTitle,
           designUploadingdate: desUploadingdate,
           designUrl: desUrl,
         };
-
         if (categ == "علامة تجارية") {
           brand[b++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -90,7 +80,6 @@ class Explore extends Component {
           logo[l++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -99,7 +88,6 @@ class Explore extends Component {
           cert[c++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -108,7 +96,6 @@ class Explore extends Component {
           packag[g++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -117,7 +104,6 @@ class Explore extends Component {
           other[o++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -126,7 +112,6 @@ class Explore extends Component {
           filter[f++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -135,7 +120,6 @@ class Explore extends Component {
           poster[p++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -144,17 +128,165 @@ class Explore extends Component {
           digital[d++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
         }
       }
+      this.updateInputVal(designGallery,"designGalleryState");
     });
-    return this.print(designGallery);
+
+   
+
+  }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
   };
 
+  readData = () => {
+    /*
+    var b = 0;
+    var l = 0;
+    var c = 0;
+    var g = 0;
+    var o = 0;
+    var d = 0;
+    var f = 0;
+    var p = 0;
+
+    var ref = firebase.database().ref("Designs/");
+    ref.on("value", (snapshot) => {
+      design = snapshot.val();
+      designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var desUrl = design[designInfo].designUrl;
+
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: desUrl,
+        };
+        if (categ == "علامة تجارية") {
+          brand[b++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "شعار") {
+          logo[l++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "شهادة") {
+          cert[c++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "انفوجرافيك") {
+          packag[g++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "أخرى") {
+          other[o++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "فلتر") {
+          filter[f++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "إعلان") {
+          poster[p++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "فن رقمي") {
+          digital[d++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        }
+      }
+      this.updateInputVal(designGallery,"designGalleryState");
+    });
+
+   */ 
+
+    return this.state.designGalleryState.map((element) => {
+      return ( <View
+        style={{
+          width: width / 2 - 40,
+          height: width / 2 - 20,
+        }}
+        key={element.designUrl}
+      >
+        <View style={{ flex: 1 }}>
+          <Image
+            style={{
+              flex: 1,
+              width: null,
+              height: null,
+              resizeMode: "contain",
+            }}
+            width={width}
+            source={{ uri: element.designUrl }}
+          />
+        </View>
+
+        <View
+          style={{
+            justifyContent: "space-evenly",
+            paddingLeft: 10,
+          }}
+        >
+          <Text
+            style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+          >
+            {"  عنوان العمل:" + element.designTitle}
+          </Text>
+        </View>
+      </View>
+    );
+        
+    //return this.print(designGallery);
+  });};
+/*
   print = (array) => {
     return array.map((element) => {
       return (
@@ -214,9 +346,9 @@ class Explore extends Component {
       );
     });
   };
-
+*/
   render() {
-    const { navigation } = this.props;
+  //  const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
@@ -400,7 +532,6 @@ class Explore extends Component {
     );
   }
 }
-export default Explore;
 
 const styles = StyleSheet.create({
   container: {

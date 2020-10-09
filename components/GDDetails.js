@@ -1,32 +1,25 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import * as React from "react";
-import Svg, {
-  Defs,
-  ClipPath,
-  Path,
-  G,
-  Rect,
-  Circle,
-  TSpan,
-  Ellipse,
-} from "react-native-svg";
+import Svg, { Path, G, Circle } from "react-native-svg";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import SvgComponent from "./SvgComponent"
+import SvgComponent from "./GD_detailsImage";
+import firebase from "../database/firebase";
 
 export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      designId: "MIpWWop_15MRc_fm7YW",
-      title: "عنوان العمل",
-      designerFName: "هديل",
-      designerLName: "الهاجري",
-      date:"22-5-2020",
-      description: "بببببببببببببببببببببببببب ببببببببب بببببببببببببببب بببببببببببببببببببب ببببببببببببببب بببببببببببببب بببببب بببببببببببببببب بببببببببببببببببببببببب ببببببببببببببببببببببببببب بببببببببببببب بببببببببببببب بببببببببببببب بببببببب ببببببب ببببببببب ببببببب ببببب",
-      isLoading: false,
+      designId: "-MIsiG_yb7Z0SNRIliJK",
+      designTitle: "",
+      designerProfileImage: "",
+      date: "",
+      designDescription: "",
+      localpath: "",
+      name: "",
+      Duid: "",
     };
 
     //--------------------retreive the JSON obj of the design work from realtime DB
@@ -91,11 +84,13 @@ export default class GDDetails extends React.Component {
         } else console.log("Duid is not found");
       });
   }
+
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
+
   render() {
     return (
       <View style={styles.container}>
@@ -106,15 +101,15 @@ export default class GDDetails extends React.Component {
               color: "#4F3C75",
               top: "5%",
               fontWeight: "700",
-              position:"absolute",
-              fontSize:30,
-              textAlign:"center",
-              alignSelf:"center",
-              zIndex:1,
+              position: "absolute",
+              fontSize: 30,
+              textAlign: "center",
+              alignSelf: "center",
+              zIndex: 1,
             },
           ]}
         >
-          {this.state.title}
+          {this.state.designTitle}
         </Text>
         <Svg
           width={416}
@@ -143,26 +138,31 @@ export default class GDDetails extends React.Component {
         </Svg>
         <Image
           style={styles.preview}
-          onTouchStart={this.onChooseImagePress}
           source={{
             uri: this.state.localpath,
           }}
         />
-        <Svg
-          width={39.676}
-          height={39.676}
-          viewBox="0 0 39.676 39.676"
-          style={{
-            top: 115,
-            left: 135,
-          }}
+
+        <Text
+          style={[
+            styles.inputStyle2,
+            {
+              color: "#4F3C75",
+              top: "8%",
+              left: "-23%",
+            },
+          ]}
         >
-          <Path
-            data-name="Icon material-account-circle"
-            d="M19.838 0a19.838 19.838 0 1019.838 19.838A19.845 19.845 0 0019.838 0zm0 5.951a5.951 5.951 0 11-5.951 5.949 5.943 5.943 0 015.951-5.949zm0 28.17a14.285 14.285 0 01-11.9-6.388c.06-3.948 7.935-6.11 11.9-6.11 3.948 0 11.843 2.162 11.9 6.11a14.285 14.285 0 01-11.9 6.388z"
-            fill="#4f3c75"
-          />
-        </Svg>
+          {this.state.date}
+        </Text>
+        <Image
+        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} //@HadeelHamad change this later
+
+          style={styles.profileImage}
+          source={{
+            uri: this.state.designerProfileImage,
+          }}
+        />
         <Text
           style={[
             styles.inputStyle2,
@@ -174,7 +174,7 @@ export default class GDDetails extends React.Component {
             },
           ]}
         >
-          {this.state.designerFName + " " + this.state.designerLName}
+          {this.state.name}
         </Text>
         <Svg
           width={42}
@@ -201,6 +201,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
+          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}//@HadeelHamad change this later
           style={[
             styles.inputStyle2,
             {
@@ -219,20 +220,21 @@ export default class GDDetails extends React.Component {
               color: "#4F3C75",
               top: "3%",
               left: "0%",
-              textAlign:"center",
+              textAlign: "center",
               fontWeight: "700",
-              width:340,
-              height:150,
+              width: 340,
+              height: 150,
               fontSize: 15,
-              
             },
           ]}
         >
-          {this.state.description}{" "}
+          {this.state.designDescription}{" "}
         </Text>
-        <SvgComponent style={{
-          right:120,
-        }}></SvgComponent>
+        <SvgComponent
+          style={{
+            right: 120,
+          }}
+        ></SvgComponent>
       </View>
     );
   }
@@ -253,7 +255,7 @@ const styles = StyleSheet.create({
     color: "#4F3C75",
   },
   forText2: {
-    position: "absolute",
+    position: "relative",
     top: hp("45%"),
     left: hp("11%"),
     color: "#4F3C75",
@@ -276,5 +278,11 @@ const styles = StyleSheet.create({
     paddingBottom: "2%",
     textAlign: "right",
     top: "0%",
+  },
+  profileImage: {
+    //---------------------------------you may need to modify this @shhdSU
+    width: 40,
+    height: 40,
+    top: "30%",
   },
 });

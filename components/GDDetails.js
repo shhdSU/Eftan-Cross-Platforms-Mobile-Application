@@ -28,6 +28,68 @@ export default class GDDetails extends React.Component {
       description: "بببببببببببببببببببببببببب ببببببببب بببببببببببببببب بببببببببببببببببببب ببببببببببببببب بببببببببببببب بببببب بببببببببببببببب بببببببببببببببببببببببب ببببببببببببببببببببببببببب بببببببببببببب بببببببببببببب بببببببببببببب بببببببب ببببببب ببببببببب ببببببب ببببب",
       isLoading: false,
     };
+
+    //--------------------retreive the JSON obj of the design work from realtime DB
+    firebase
+      .database()
+      .ref("Designs/" + this.state.designId)
+      .on("value", (snap) => {
+        this.updateInputVal(snap.val().designTitle, "designTitle"),
+          this.updateInputVal(
+            snap.val().designDescription,
+            "designDescription"
+          ),
+          this.updateInputVal(snap.val().designUploadingdate, "date"),
+          this.updateInputVal(snap.val().Duid, "Duid"),
+          //-----------------------------retreive designer's profile image
+          firebase
+            .storage()
+            .ref("ProfilePictures/" + this.state.Duid)
+            .getDownloadURL()
+            .then((url) => {
+              this.updateInputVal(url, "designerProfileImage");
+            })
+            .catch((error) => {
+              this.updateInputVal(
+                "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea",
+                "designerProfileImage"
+              );
+              console.log("can not retreive profile img url");
+            });
+      });
+    //----------------------get the URI of the design from storage
+    var p = "";
+    firebase
+      .storage()
+      .ref("DesignWork/" + this.state.designId)
+      .getDownloadURL()
+      .then((url) => {
+        p = url;
+        //return url;
+        this.updateInputVal(p, "localpath");
+      })
+      .catch((error) => {
+        console.log("can not retreive design url");
+      });
+
+    //-----------------------------retreive designer's name
+    var nname = "";
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + this.state.Duid)
+      .on("value", (dataSnapshot) => {
+        if (dataSnapshot.exists()) {
+          firebase
+            .database()
+            .ref(`GraphicDesigner/` + this.state.Duid)
+            .on("value", (dataSnapshot) => {
+              nname =
+                dataSnapshot.child("DFirstName").val() +
+                dataSnapshot.child("DLastName").val();
+              this.updateInputVal(nname, "name");
+            });
+        } else console.log("Duid is not found");
+      });
   }
   updateInputVal = (val, prop) => {
     const state = this.state;

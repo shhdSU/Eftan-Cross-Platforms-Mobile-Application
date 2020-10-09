@@ -11,8 +11,6 @@ import {
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
-import posters from "./posters";
-import filters from "./filters";
 
 var designGallery = [];
 var logo = [];
@@ -45,53 +43,16 @@ class Explore extends Component {
     state[prop] = val;
     this.setState(state);
   };
-  categories = (param) => {
-    switch (param) {
-      case "شعار":
-        this.print(logo);
-        break;
 
-      case "إعلان":
-        this.print(poster);
-        break;
-
-      case "علامة تجارية":
-        this.print(brand);
-        break;
-
-      case "انفوجرافيك":
-        this.print(packag);
-        break;
-
-      case "فن رقمي":
-        this.print(digital);
-        break;
-
-      case "فلتر":
-        this.print(filter);
-        break;
-
-      case "شهادة":
-        this.print(cert);
-        break;
-
-      case "أخرى":
-        this.print(other);
-        break;
-
-      default:
-        this.print(designGallery);
-    }
-  };
   readData = () => {
-    var b,
-      l,
-      f,
-      o,
-      g,
-      c,
-      d,
-      p = 0;
+    var b = 0;
+    var l = 0;
+    var c = 0;
+    var g = 0;
+    var o = 0;
+    var d = 0;
+    var f = 0;
+    var p = 0;
 
     var ref = firebase.database().ref("Designs/");
     ref.on("value", (snapshot) => {
@@ -303,41 +264,91 @@ class Explore extends Component {
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <TouchableOpacity onPress={() => this.categories("شعار")}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: logo,
+                        category: "شعار",
+                      })
+                    }
+                  >
                     <Category imageUri={require("../assets/logo.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.categories("إعلان")}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: poster,
+                        category: "إعلان",
+                      })
+                    }
+                  >
                     <Category imageUri={require("../assets/poster.jpg")} />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => this.categories("علامة تجارية")}
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: brand,
+                        category: "علامة تجارية",
+                      })
+                    }
                   >
                     <Category imageUri={require("../assets/brand.jpg")} />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => this.categories("انفوجرافيك")}
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: packag,
+                        category: "انفوجرافيك",
+                      })
+                    }
                   >
                     <Category imageUri={require("../assets/package.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.categories("فن رقمي")}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: digital,
+                        category: "فن رقمي",
+                      })
+                    }
+                  >
                     <Category imageUri={require("../assets/digital.jpg")} />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("فلاتر سنابتشات")}
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: filter,
+                        category: "فلتر",
+                      })
+                    }
                   >
                     <Category imageUri={require("../assets/filter.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.categories("شهادة")}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: cert,
+                        category: "شهادة",
+                      })
+                    }
+                  >
                     <Category imageUri={require("../assets/cert.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => this.categories("أخرى")}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: other,
+                        category: "أخرى",
+                      })
+                    }
+                  >
                     <Category imageUri={require("../assets/other.jpg")} />
                   </TouchableOpacity>
                 </ScrollView>

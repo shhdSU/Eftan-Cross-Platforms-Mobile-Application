@@ -3,20 +3,86 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   Image,
-  Button,
   Dimensions,
 } from "react-native";
-import Home from "./Explore/Home";
-import Category from "./Explore/Category";
 const { width } = Dimensions.get("window");
 import Svg, { Defs, G, Path } from "react-native-svg";
+var arr = [];
+var cat = "";
+class choice extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      designTitle: "",
+      designDescription: "",
+      category: "",
+      designFileKey: "",
+      designUrl: "",
+      designUploadingdate: "",
+      arr1: [],
+      cat1: "",
+    };
+    const { navigation } = props.navigation;
+    arr = props.navigation.state.params.array;
+    cat = props.navigation.state.params.category;
+    this.updateInputVal(arr, "arr1");
+    this.updateInputVal(cat, "cat1");
 
-class brands extends Component {
+    console.log(arr);
+    console.log(cat);
+  }
+
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+
+  print = (arr) => {
+    return arr.map((element) => {
+      return (
+        <View
+          style={{
+            width: width / 2 - 40,
+            height: width / 2,
+            alignItems: "center",
+            justifyContent: "center",
+            marginVertical: 20,
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <Image
+              style={{
+                flex: 1,
+                width: null,
+                height: null,
+                resizeMode: "contain",
+              }}
+              width={width}
+              source={{ uri: element.designUrl }}
+            />
+          </View>
+
+          <View
+            style={{
+              justifyContent: "space-evenly",
+              paddingLeft: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+            >
+              {"  عنوان العمل:" + element.designTitle}
+            </Text>
+          </View>
+        </View>
+      );
+    });
+  };
+
   render() {
-    const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Svg
@@ -45,22 +111,7 @@ class brands extends Component {
             />
           </G>
         </Svg>
-        <View
-          style={{
-            height: 130,
-            // marginTop: 10,
-            marginBottom: 30,
-            height: this.startHeaderHeight,
 
-            borderBottomWidth: 1,
-            borderBottomColor: "#dddddd",
-          }}
-        >
-          <Category
-            imageUri={require("../assets/brand.jpg")}
-            // name="شعار"
-          />
-        </View>
         <ScrollView scrollEventThrottle={16}>
           <View style={{ flex: 1, paddingTop: 10 }}>
             <View
@@ -72,10 +123,7 @@ class brands extends Component {
                 justifyContent: "space-between",
               }}
             >
-              <Home width={width} imageUri={require("../assets/logo1.jpg")} />
-              <Home width={width} imageUri={require("../assets/logo2.jpg")} />
-              <Home width={width} imageUri={require("../assets/logo3.jpg")} />
-              <Home width={width} imageUri={require("../assets/logo4.jpg")} />
+              {this.print(arr)}
             </View>
           </View>
         </ScrollView>
@@ -83,7 +131,7 @@ class brands extends Component {
     );
   }
 }
-export default brands;
+export default choice;
 
 const styles = StyleSheet.create({
   container: {

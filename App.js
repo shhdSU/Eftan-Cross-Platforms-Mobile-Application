@@ -7,41 +7,31 @@ import DprofileScreen from "./components/DProfile";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import Explore from "./components/Explore";
-import logos from "./components/logos";
-import posters from "./components/posters";
-import brands from "./components/brands";
-import packages from "./components/packages";
-import digitals from "./components/digitals";
-import filters from "./components/filters";
-import certifications from "./components/certifications";
-import others from "./components/others";
 import UploadNewDesign from "./components/UploadNewDesign";
-import test1 from "./components/test1";
+import choice from "./components/choice";
 
 const Navigation = createStackNavigator(
   {
-    تستت: { screen: test1 },
-
-    "رفع تصميم جديد": { screen: UploadNewDesign },
-
-    "صفحة الدخول": { screen: LoginScreen },
-
     اكسبلور: { screen: Explore },
+    الإختيار: { screen: choice },
 
-    شعار: { screen: logos },
-    ملصق: { screen: posters },
-    "علامة تجارية": { screen: brands },
-    "تغليف المنتج": { screen: packages },
-    "الفن الرقمي": { screen: digitals },
-    "فلاتر سنابتشات": { screen: filters },
-    شهادات: { screen: certifications },
-    "غير ذلك": { screen: others },
+    // "رفع تصميم جديد": { screen: UploadNewDesign },
 
-    "صفحة التسجيل": { screen: SignupScreen },
-    "معرض المصمم": { screen: GalleryScreen },
-    "صفحة المصمم": { screen: DprofileScreen },
-    "سياسة الخصوصية": { screen: privacyPolicyScreen },
-    "نسيت كلمة السر!": { screen: ForgotPassword },
+    // "صفحة الدخول": { screen: LoginScreen },
+
+    // شعار: { screen: logos },
+    // ملصق: { screen: posters },
+    // "علامة تجارية": { screen: brands },
+    // "تغليف المنتج": { screen: packages },
+    // "الفن الرقمي": { screen: digitals },
+    // شهادات: { screen: certifications },
+    // "غير ذلك": { screen: others },
+
+    // "صفحة التسجيل": { screen: SignupScreen },
+    // "معرض المصمم": { screen: GalleryScreen },
+    // "صفحة المصمم": { screen: DprofileScreen },
+    // "سياسة الخصوصية": { screen: privacyPolicyScreen },
+    // "نسيت كلمة السر!": { screen: ForgotPassword },
   },
   { headerMode: "none" }
 );

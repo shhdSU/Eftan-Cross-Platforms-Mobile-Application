@@ -15,10 +15,9 @@ const Navigation = createStackNavigator(
     اكسبلور: { screen: Explore },
 
     "صفحة الدخول": { screen: LoginScreen },
+    "رفع تصميم جديد": { screen: UploadNewDesign },
 
     الإختيار: { screen: choice },
-
-    "رفع تصميم جديد": { screen: UploadNewDesign },
 
     // شعار: { screen: logos },
     // ملصق: { screen: posters },

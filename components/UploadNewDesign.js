@@ -23,7 +23,7 @@ firebase
             .ref("DesignWork/" + this.state.designTitle)
             .getDownloadURL()
             .then((url) => {
-              this.updateInputVal(url, "designFileKey");
+              this.updateInputVal(url, "designFile");
               */
 import React, { Component } from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
@@ -42,6 +42,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import firebase from "../database/firebase";
+import uuid from "react-native-uuid";
 
 export default class UploadNewDesign extends Component {
   constructor() {
@@ -51,8 +52,9 @@ export default class UploadNewDesign extends Component {
       designDescription: "",
       category: "",
       designFileKey: "",
-      isLoading: false,
+      uploading: false,
       localpath: "",
+      designUrl: "",
     };
   }
   updateInputVal = (val, prop) => {
@@ -63,20 +65,96 @@ export default class UploadNewDesign extends Component {
 
   onChooseImagePress = async () => {
     //takes image from the mobile gallery
-    let result = await ImagePicker.launchImageLibraryAsync();
-    if (!result.cancelled) this.updateInputVal(result.uri, "localpath");
-  };
-  uploadImage = async (uri, draftName) => {
-    //upload img to storage knowing its local path
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("DesignWork/" + this.state.designFileKey);
-    return ref.put(blob);
+    let SelectResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [3, 3],
+    });
+    if (!SelectResult.cancelled)
+      this.updateInputVal(SelectResult.uri, "localpath");
+    this.handleImageSelected(SelectResult);
   };
 
+  handleImageSelected = async (SelectResult) => {
+    try {
+      this.setState({ uploading: true });
+
+      if (!SelectResult.cancelled) {
+        const uploadUrl = await uploadImageAsync(SelectResult.uri);
+        this.setState({ designUrl: uploadUrl });
+      }
+    } catch (e) {
+      console.log(e);
+      Alert.alert(
+        "تنبيه",
+        "فشل في رفع التصميم ، حاول مرة أخرى ",
+        [{ text: "حسنًا" }],
+        {
+          cancelable: false,
+        }
+      );
+    } finally {
+      this.setState({ uploading: false });
+    }
+  };
+
+  RenderUploading = () => {
+    if (this.state.uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: "rgba(0,0,0,0.4)",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>
+      );
+    }
+  };
+
+  // uploadImage = async (uri, draftName) => {
+  //   //upload img to storage knowing its local path
+  //   const response = await fetch(uri);
+  //   const blob = await response.blob();
+  // var ref = firebase
+  //   .storage()
+  //   .ref()
+  //   .child("DesignWork/" + this.state.designFileKey);
+  // return ref.put(blob);
+  // };
+  // RenderImage = () => {
+  //   let { designUrl } = this.state;
+  //   if (!designUrl) {
+  //     return;
+  //   }
+
+  //   return (
+  //     <View
+  //       style={{
+  //         marginTop: 30,
+  //         width: 250,
+  //         borderRadius: 3,
+  //         elevation: 2,
+  //       }}>
+  //       <View
+  //         style={{
+  //           borderTopRightRadius: 3,
+  //           borderTopLeftRadius: 3,
+  //           shadowColor: 'rgba(0,0,0,1)',
+  //           shadowOpacity: 0.2,
+  //           shadowOffset: { width: 4, height: 4 },
+  //           shadowRadius: 5,
+  //           overflow: 'hidden',
+  //         }}>
+  //         <Image source={{ uri: designUrl }} style={{ width: 100, height: 100 }} />
+  //       </View>
+  //     </View>
+  //   );
+  // };
   uploadDesign() {
     //upload info to realtime DB, retreive their key to be the key of the img in storage
     if (
@@ -103,7 +181,7 @@ export default class UploadNewDesign extends Component {
     if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",
-        "يجب ان يحتوي العنوان على أحرف وأرقامًا فقط",
+        "يجب ان يحتوي العنوان على أحرف وأرقام فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
@@ -119,42 +197,38 @@ export default class UploadNewDesign extends Component {
       .database()
       .ref("Designs/")
       .push({
-        // Duid: user,
+        Duid: "2Uf1Wj14icbxngiiJbjklDDwiZb2", //uid for Hadeel ---------change it later
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
-        designFileKey: "",
+        designUrl: this.state.designUrl,
         designUploadingdate: currentDate,
+        //designFileKey: "",
       })
       .then((key) => {
-        this.updateInputVal(key.key, "designFileKey");
+        //this.updateInputVal(key.key, "designFileKey");
         this.updateInputVal("", "designTitle");
         this.updateInputVal("", "category");
         this.updateInputVal("", "designDescription");
 
-        firebase
-          .database()
-          .ref("Designs/")
-          .child(this.state.designFileKey)
-          .update({ designFileKey: this.state.designFileKey })
-          .then(
-            this.uploadImage(this.state.localpath, this.state.designFileKey),
-            Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
-              cancelable: false,
-            }),
-            this.updateInputVal("", "localPath"),
-
-            this.props.navigation.navigate("اكسبلور")
-          )
-          .catch((error) => {
-            Alert.alert(
-              "حجم الصورة متجاوز للحد المسموح، الرجاء اختيار صورة أخرى",
-              [{ text: "حسنًا" }],
-              {
-                cancelable: false,
-              }
-            );
-          });
+        // firebase
+        //   .database()
+        //   .ref("Designs/")
+        //   .child(this.state.designFileKey)
+        //   .update({ designFileKey: this.state.designFileKey })
+        //   .then(
+        //     this.uploadImage(this.state.localpath, this.state.designFileKey)
+        //   );
+        Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
+          cancelable: false,
+        }),
+          this.updateInputVal("", "localpath"),
+          this.props.navigation.navigate("صفحة المصمم");
+      })
+      .catch((error) => {
+        Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {
+          cancelable: false,
+        });
       });
   }
   setSelectedValue = (val) => {
@@ -173,7 +247,7 @@ export default class UploadNewDesign extends Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-3%", position: "relative" }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -200,7 +274,7 @@ export default class UploadNewDesign extends Component {
             fontSize: 24,
             color: "#4F3C75",
             fontWeight: "700",
-            top: "-11%",
+            top: "-8.5%",
             alignSelf: "center",
             zIndex: 6,
           }}
@@ -209,13 +283,13 @@ export default class UploadNewDesign extends Component {
         </Text>
 
         <SvgComponent
-          style={{ alignSelf: "center", top: "-8.5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-5.5%", position: "relative" }}
         ></SvgComponent>
 
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-5%", fontWeight: "700" },
           ]}
         >
           عنوان العمل *{" "}
@@ -229,7 +303,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-6.5%", fontWeight: "700" },
           ]}
         >
           وصف العمل *{" "}
@@ -242,20 +316,21 @@ export default class UploadNewDesign extends Component {
           onChangeText={(val) => this.updateInputVal(val, "designDescription")}
           scrollEnabled={true}
         />
-        <Image
-          onTouchStart={this.onChooseImagePress}
-          style={styles.tinyLogo}
-          source={require("../assets/upload.png")}
-        />
+
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-10%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-7%", fontWeight: "700" },
           ]}
         >
           اختيار ملف التصميم *{" "}
         </Text>
 
+        <Image
+          onTouchStart={this.onChooseImagePress}
+          style={styles.tinyLogo}
+          source={require("../assets/upload.png")}
+        />
         <Image
           style={styles.preview}
           onTouchStart={this.onChooseImagePress}
@@ -263,6 +338,8 @@ export default class UploadNewDesign extends Component {
             uri: this.state.localpath,
           }}
         />
+        {this.RenderUploading()}
+
         <Text
           style={[
             styles.inputStyle2,
@@ -307,23 +384,33 @@ export default class UploadNewDesign extends Component {
             رفع العمل
           </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("اكسبلور")}
-        >
-          <Text
-            style={{
-              color: "#FFEED6",
-              fontSize: 25,
-            }}
-          >
-            نافقيت للجاليري
-          </Text>
-        </TouchableOpacity>
       </ScrollView>
     );
   } //End of Second return
+}
+
+async function uploadImageAsync(uri) {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      console.log(e);
+      reject(new TypeError("فشل الطلب"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+  var ref = firebase
+    .storage()
+    .ref()
+    .child("DesignWork/" + uuid.v4());
+  const snapshot = await ref.put(blob);
+  blob.close();
+
+  return await snapshot.ref.getDownloadURL();
 }
 
 const styles = StyleSheet.create({
@@ -331,16 +418,16 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    padding: "10%",
+    // padding: "10%",
     backgroundColor: "#fff",
   },
   inputStyleDescription: {
     alignSelf: "center",
     fontSize: 18,
-    width: "100%",
+    width: "80%",
     height: "8%",
     textAlign: "right",
-    top: "-8%",
+    top: "-7%",
     borderColor: "#ccc",
     borderWidth: 2,
   },
@@ -348,7 +435,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     right: "-10%",
-    top: "-7%",
+    top: "-10.5%",
   },
   preview: {
     width: 300,
@@ -362,21 +449,22 @@ const styles = StyleSheet.create({
   inputStyle: {
     fontSize: 18,
     marginTop: "3%",
-    width: "100%",
+    width: "80%",
     alignSelf: "center",
     borderColor: "#ccc",
     borderBottomWidth: 2,
     textAlign: "right",
-    top: "-9%",
+    top: "-7%",
   },
   inputStyle2: {
     fontSize: 18,
     marginTop: "4%",
-    width: "100%",
+    width: "80%",
     marginBottom: "2%",
     paddingBottom: "2%",
     textAlign: "right",
     top: "0%",
+    left: "10%",
   },
   button: {
     alignItems: "center",

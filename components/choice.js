@@ -43,22 +43,26 @@ class choice extends Component {
   print = (arr) => {
     return arr.map((element) => {
       return (
-        <View
-          style={{
-            width: width / 2 - 40,
-            height: width / 2,
-            alignItems: "center",
-            justifyContent: "center",
-            marginVertical: 20,
-          }}
-        >
-          <View style={{ flex: 1 }}>
+        <View style={{ width: width / 2 - 40, height: width / 2 - 20 }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 5,
+              backgroundColor: "white",
+              margin: 10,
+            }}
+          >
             <Image
               style={{
                 flex: 1,
                 width: null,
                 height: null,
                 resizeMode: "contain",
+                margin: 5,
               }}
               width={width}
               source={{ uri: element.designUrl }}
@@ -68,13 +72,13 @@ class choice extends Component {
           <View
             style={{
               justifyContent: "space-evenly",
-              paddingLeft: 10,
+              alignItems: "center",
             }}
           >
             <Text
               style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
             >
-              {"  عنوان العمل:" + element.designTitle}
+              {element.designTitle}
             </Text>
           </View>
         </View>
@@ -85,10 +89,23 @@ class choice extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "700",
+            color: "#4f3c75",
+            alignSelf: "center",
+            top: "7%",
+            position: "absolute",
+            zIndex: 2,
+          }}
+        >
+          {cat}
+        </Text>
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-1%", position: "relative" }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -116,11 +133,14 @@ class choice extends Component {
           <View style={{ flex: 1, paddingTop: 10 }}>
             <View
               style={{
-                paddingHorizontal: 20,
-                marginTop: 20,
+                marginTop: 10,
+                marginBottom: 50,
+                paddingLeft: 30,
+                paddingRight: 30,
+
+                justifyContent: "space-between",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                justifyContent: "space-between",
               }}
             >
               {this.print(arr)}

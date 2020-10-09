@@ -177,8 +177,8 @@ export default class RequestForm extends Component {
     }
   };
   storeResquset = () => {
-    // const Cemail = firebase.auth().currentUser.email;// الطريقة غلط...
-
+    const CID = firebase.auth().currentUser.uid;
+/// HERRRREEEEERRREEERERERE
     firebase
       .database()
       .ref("Forms/")
@@ -191,8 +191,8 @@ export default class RequestForm extends Component {
         category: this.state.category,
         reference: this.state.reference,
         deadLine: this.state.deadLine,
-        // Cemail: Cemail,
-        Demail: "",
+        CID: CID,
+        DID: "", //HHHEEEEEERRRRREEEEEEEE
       })
       .then((key) => {
         this.updateInputVal(key.key, "Imagekey");

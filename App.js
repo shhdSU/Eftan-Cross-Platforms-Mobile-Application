@@ -13,7 +13,7 @@ import designerGallery from "./components/designerGallery";
 
 const Navigation = createStackNavigator(
   {
-
+    designerGallery: { screen: designerGallery },
     "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
     "معرض المصمم": { screen: GalleryScreen },
@@ -23,7 +23,7 @@ const Navigation = createStackNavigator(
     clientedit: { screen: clientedit },
     designerprofile: { screen: designerprofile },
     designeredit: { screen: designeredit },
-    designerGallery: { screen: designerGallery },
+   
   },
   { headerMode: "none" }
 );

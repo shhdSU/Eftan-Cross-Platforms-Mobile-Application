@@ -3,23 +3,30 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
-  TextInput,
-  Platform,
-  StatusBar,
   ScrollView,
   Image,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
 import Category from "./Explore/Category";
-import Home from "./Explore/Home";
 import Svg, { Defs, G, Path } from "react-native-svg";
-import Icon from "react-native-vector-icons/Ionicons";
 import firebase from "../database/firebase";
-var designGallery = [];
+import posters from "./posters";
+import filters from "./filters";
 
-const { width, height } = Dimensions.get("window");
+var designGallery = [];
+var logo = [];
+var brand = [];
+var cert = [];
+var packag = [];
+var other = [];
+var filter = [];
+var poster = [];
+var digital = [];
+
+var design = "";
+var designKeys = "";
+const { width } = Dimensions.get("window");
 
 class Explore extends Component {
   constructor() {
@@ -29,8 +36,8 @@ class Explore extends Component {
       designDescription: "",
       category: "",
       designFileKey: "",
-      isLoading: false,
-      localpath: "",
+      designUrl: "",
+      designUploadingdate: "",
     };
   }
   updateInputVal = (val, prop) => {
@@ -38,19 +45,67 @@ class Explore extends Component {
     state[prop] = val;
     this.setState(state);
   };
+  categories = (param) => {
+    switch (param) {
+      case "شعار":
+        this.print(logo);
+        break;
 
+      case "إعلان":
+        this.print(poster);
+        break;
+
+      case "علامة تجارية":
+        this.print(brand);
+        break;
+
+      case "انفوجرافيك":
+        this.print(packag);
+        break;
+
+      case "فن رقمي":
+        this.print(digital);
+        break;
+
+      case "فلتر":
+        this.print(filter);
+        break;
+
+      case "شهادة":
+        this.print(cert);
+        break;
+
+      case "أخرى":
+        this.print(other);
+        break;
+
+      default:
+        this.print(designGallery);
+    }
+  };
   readData = () => {
-    var ref = firebase.database().ref("Designs");
-    ref.on("value", function (snapshot) {
-      var design = snapshot.val();
-      var designKeys = Object.keys(design);
+    var b,
+      l,
+      f,
+      o,
+      g,
+      c,
+      d,
+      p = 0;
+
+    var ref = firebase.database().ref("Designs/");
+    ref.on("value", (snapshot) => {
+      design = snapshot.val();
+      designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
         var designInfo = designKeys[i];
+
         var categ = design[designInfo].category;
         var desDis = design[designInfo].designDescription;
         var desFileKey = design[designInfo].designFileKey;
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
+        var desUrl = design[designInfo].designUrl;
 
         designGallery[i] = {
           category: categ,
@@ -58,21 +113,121 @@ class Explore extends Component {
           designFileKey: desFileKey,
           designTitle: desTitle,
           designUploadingdate: desUploadingdate,
+          designUrl: desUrl,
         };
+
+        if (categ == "علامة تجارية") {
+          brand[b++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "شعار") {
+          logo[l++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "شهادة") {
+          cert[c++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "انفوجرافيك") {
+          packag[g++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "أخرى") {
+          other[o++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "فلتر") {
+          filter[f++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "إعلان") {
+          poster[p++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "فن رقمي") {
+          digital[d++] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        }
       }
     });
-    return designGallery.map((element) => {
+    return this.print(designGallery);
+  };
+
+  print = (array) => {
+    return array.map((element) => {
       return (
-        <View style={{ marginBottom: 30 }}>
-          <ScrollView>
-            <view>
-              <Image
-                style={{ height: 180, width: 280 }}
-                source={{ uri: element.designFileKey }}
-              />
-              <Text>{"اسم" + elemnt.designTitle}</Text>
-            </view>
-          </ScrollView>
+        <View
+          style={{
+            width: width / 2 - 40,
+            height: width / 2 - 20,
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <Image
+              style={{
+                flex: 1,
+                width: null,
+                height: null,
+                resizeMode: "contain",
+              }}
+              width={width}
+              source={{ uri: element.designUrl }}
+            />
+          </View>
+
+          <View
+            style={{
+              justifyContent: "space-evenly",
+              paddingLeft: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+            >
+              {"  عنوان العمل:" + element.designTitle}
+            </Text>
+          </View>
         </View>
       );
     });
@@ -88,7 +243,7 @@ class Explore extends Component {
             fontWeight: "700",
             color: "#4f3c75",
             alignSelf: "center",
-            top: "8%",
+            top: "7%",
             position: "absolute",
             zIndex: 2,
           }}
@@ -126,46 +281,20 @@ class Explore extends Component {
         <View style={{ flex: 1 }}>
           <View
             style={{
-              height: this.startHeaderHeight,
-              //  backgroundColor: "white",
               borderBottomWidth: 1,
               borderBottomColor: "#dddddd",
-              marginBottom: 30,
+              marginBottom: 25,
             }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                padding: 10,
-                backgroundColor: "white",
-                marginHorizontal: 20,
-                shadowOffset: { width: 0, height: 0 },
-                shadowColor: "black",
-                shadowOpacity: 0.2,
-                top: "35%",
-                elevation: 1,
-                marginTop: Platform.OS == "android" ? 30 : null,
-              }}
-            >
-              <Icon name="ios-search" size={20} style={{ marginRight: 10 }} />
-              <TextInput
-                underlineColorAndroid="transparent"
-                placeholder="ابحث عن مصممك.."
-                placeholderTextColor="#4f3c75"
-                style={{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
-              />
-            </View>
-          </View>
+          ></View>
 
           <ScrollView scrollEventThrottle={16}>
             <View>
               <View
                 style={{
                   height: 130,
-                  marginTop: 90,
-                  marginBottom: 30,
+                  marginTop: 120,
+                  marginBottom: 40,
                   height: this.startHeaderHeight,
-
                   borderBottomWidth: 1,
                   borderBottomColor: "#dddddd",
                 }}
@@ -174,121 +303,62 @@ class Explore extends Component {
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <TouchableOpacity onPress={() => navigation.navigate("شعار")}>
-                    <Category
-                      imageUri={require("../assets/logo.jpg")}
-                      // name="شعار"
-                    />
+                  <TouchableOpacity onPress={() => this.categories("شعار")}>
+                    <Category imageUri={require("../assets/logo.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={() => navigation.navigate("ملصق")}>
-                    <Category
-                      imageUri={require("../assets/poster.jpg")}
-                      //name="ملصق"
-                    />
+                  <TouchableOpacity onPress={() => this.categories("إعلان")}>
+                    <Category imageUri={require("../assets/poster.jpg")} />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("علامة تجارية")}
+                    onPress={() => this.categories("علامة تجارية")}
                   >
-                    <Category
-                      imageUri={require("../assets/brand.jpg")}
-                      // name="علامة تجارية"
-                    />
+                    <Category imageUri={require("../assets/brand.jpg")} />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("تغليف المنتج")}
+                    onPress={() => this.categories("انفوجرافيك")}
                   >
-                    <Category
-                      imageUri={require("../assets/package.jpg")}
-                      //name="تغليف منتج"
-                    />
+                    <Category imageUri={require("../assets/package.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate("الفن الرقمي")}
-                  >
-                    <Category
-                      imageUri={require("../assets/digital.jpg")}
-                      //name="الفن الرقمي"
-                    />
+                  <TouchableOpacity onPress={() => this.categories("فن رقمي")}>
+                    <Category imageUri={require("../assets/digital.jpg")} />
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={() => navigation.navigate("فلاتر سنابتشات")}
                   >
-                    <Category
-                      imageUri={require("../assets/filter.jpg")}
-                      //name="فلاتر سنابتشات"
-                    />
+                    <Category imageUri={require("../assets/filter.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate("شهادات")}
-                  >
-                    <Category
-                      imageUri={require("../assets/cert.jpg")}
-                      //name="شهادات"
-                    />
+                  <TouchableOpacity onPress={() => this.categories("شهادة")}>
+                    <Category imageUri={require("../assets/cert.jpg")} />
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate("غير ذلك")}
-                  >
-                    <Category
-                      imageUri={require("../assets/other.jpg")}
-                      // name="غير ذلك"
-                    />
+                  <TouchableOpacity onPress={() => this.categories("أخرى")}>
+                    <Category imageUri={require("../assets/other.jpg")} />
                   </TouchableOpacity>
                 </ScrollView>
               </View>
 
               <View
                 style={{
-                  //paddingHorizontal: 10,
                   marginTop: 40,
                 }}
               >
-                {this.readData()}
-
-                {/* <View
+                <View
                   style={{
-                    // flex: 1,
-                    // // flexDirection: "row",
-                    // // flexWrap: "wrap",
-                    // // justifyContent: "space-around",
                     paddingHorizontal: 20,
                     marginTop: -60,
-
                     flexDirection: "row",
                     flexWrap: "wrap",
                     justifyContent: "space-between",
                   }}
                 >
-                  <Home
-                    width={width}
-                    name="شعار مشروع مبتدئ"
-                    //imageUri={designTitle}
-                    // imageUri={profileImage}
-                    source={{ uri: url }}
-                  />
-                  <Home
-                    width={width}
-                    name="شعار منشئة"
-                    imageUri={require("../assets/logo2.jpg")}
-                  />
-                  <Home
-                    width={width}
-                    name="شعار سبا "
-                    imageUri={require("../assets/logo3.jpg")}
-                  />
-                  <Home
-                    name="شعار أعمال يدوية"
-                    width={width}
-                    imageUri={require("../assets/logo4.jpg")}
-                  />
-                </View> */}
+                  {this.readData()}
+                </View>
               </View>
             </View>
           </ScrollView>
@@ -314,5 +384,8 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  itemInvisible: {
+    backgroundColor: "transparent",
   },
 });

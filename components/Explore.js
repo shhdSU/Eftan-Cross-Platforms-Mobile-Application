@@ -327,7 +327,7 @@ export default class Explore extends Component {
   };
 */
   render() {
-  //  const { navigation } = this.props;
+  const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text

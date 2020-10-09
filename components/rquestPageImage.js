@@ -9,6 +9,8 @@ function SvgComponent(props) {
       viewBox="0 0 287.653 206.661"
       {...props}
     >
+
+      
       <G data-name="Group 9" transform="translate(-37.424 -559.054)">
         <Path
           data-name="Path 17"

@@ -18,7 +18,7 @@ const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
 
 export default class designerGallery extends React.Component {
-  constructor (props)  {
+  constructor(props) {
     super();
     this.state = {
       firstName: "",
@@ -33,12 +33,12 @@ export default class designerGallery extends React.Component {
       localpath: "",
       designUrl: "",
       propsUser: "",
-      designGalleryState:[]
+      designGalleryState: [],
     };
     const { navigate } = props.navigation;
-   const propsUser = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-   //props.navigation.state.params.uid; //to get parameters=====================================@SarahAlgwaiz don't forget to change it
-    var fName, lName, bio,image;
+    const propsUser = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
+    //props.navigation.state.params.uid; //to get parameters=====================================@SarahAlgwaiz don't forget to change it
+    var fName, lName, bio, image;
     firebase
       .database()
       .ref(`GraphicDesigner/` + user)
@@ -52,48 +52,50 @@ export default class designerGallery extends React.Component {
         this.updateInputVal(lName, "lastName");
         this.updateInputVal(bio, "bio");
       });
-      const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-      profileImage
-        .getDownloadURL()
-        .then((url) => {
-          this.updateInputVal(url, "img");
-        })
-        .catch((error) => {
-          image =
-            "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-          this.updateInputVal(image, "img");
-        });
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    profileImage
+      .getDownloadURL()
+      .then((url) => {
+        this.updateInputVal(url, "img");
+      })
+      .catch((error) => {
+        image =
+          "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+        this.updateInputVal(image, "img");
+      });
 
-//=======================================================
-//const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-//firebase.auth().currentUser.uid;
-var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
-ref.on("value", (snapshot) => {
-  var design = snapshot.val();
-  var designKeys = Object.keys(design);
-  for (var i = 0; i < designKeys.length; i++) {
-    var designInfo = designKeys[i];
-    var categ = design[designInfo].category;
-    var desDis = design[designInfo].designDescription;
-    var desFileKey = design[designInfo].designFileKey;
-    var desTitle = design[designInfo].designTitle;
-    var desUploadingdate = design[designInfo].designUploadingdate;
-    var designUrl = design[designInfo].designUrl;
-    designGallery[i] = {
-      category: categ,
-      designDescription: desDis,
-      designFileKey: desFileKey,
-      designTitle: desTitle,
-      designUploadingdate: desUploadingdate,
-      designUrl: designUrl,
-    };
-  }
-  console.log(designGallery);
-  console.log(designGallery.length);
-  this.updateInputVal(designGallery,"designGalleryState")
-});
-
-
+    //=======================================================
+    //const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
+    //firebase.auth().currentUser.uid;
+    var ref = firebase
+      .database()
+      .ref("Designs/")
+      .orderByChild("Duid")
+      .equalTo(user);
+    ref.on("value", (snapshot) => {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desFileKey = design[designInfo].designFileKey;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var designUrl = design[designInfo].designUrl;
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: desFileKey,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: designUrl,
+        };
+      }
+      console.log(designGallery);
+      console.log(designGallery.length);
+      this.updateInputVal(designGallery, "designGalleryState");
+    });
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -105,8 +107,8 @@ ref.on("value", (snapshot) => {
     this.props.navigation.navigate("صفحة الدخول");
   };
 
-    readData = () => {
-      /*
+  readData = () => {
+    /*
       const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
       //firebase.auth().currentUser.uid;
       var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
@@ -134,51 +136,57 @@ ref.on("value", (snapshot) => {
         console.log(designGallery.length);
       });
       */
-      return this.state.designGalleryState.map((element) => {
-        return (
-          
+    return this.state.designGalleryState.map((element) => {
+      return (
+        <View
+          key={element.designUrl}
+          style={{ width: width / 2 - 40, height: width / 2 - 20 }}
+        >
           <View
-          key={ element.designUrl }
             style={{
-              width: width / 2 - 40,
-              height: width / 2 - 20,
-                    }}
+              flex: 1,
+              alignItems: "center",
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 5,
+              backgroundColor: "white",
+              margin: 10,
+            }}
           >
-            <View style={{ flex: 1 }}>
-              <Image
-                style={{
-                  flex: 1,
-                  width: null,
-                  height: null,
-                  resizeMode: "contain",
-                }}
-                width={width}
-                source={{ uri: element.designUrl }}
-              />
-            </View>
-            <View
+            <Image
               style={{
-                justifyContent: "space-evenly",
-                paddingLeft: 10,
+                flex: 1,
+                width: null,
+                height: null,
+                resizeMode: "contain",
+                margin: 5,
               }}
-            >
-              <Text
-                style={{ fontSize: 12, fontWeight: "bold", color: "#4F3C75" }}
-              >
-                {"  عنوان العمل:" + element.designTitle}
-              </Text>
-            </View>
+              width={width}
+              source={{ uri: element.designUrl }}
+            />
           </View>
-        );
-      });
+          <View
+            style={{
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+            >
+              {element.designTitle}
+            </Text>
+          </View>
+        </View>
+      );
+    });
   };
   render() {
-    
     return (
-      <ScrollView style={{    backgroundColor: "#fff",
-    }}>
-      <View style={styles.container}>
-        <Svg
+      <ScrollView style={{ backgroundColor: "#fff" }}>
+        <View style={styles.container}>
+          <Svg
             width={416}
             height={144}
             style={{ alignSelf: "center", top: "-9%", position: "absolute" }}
@@ -203,35 +211,38 @@ ref.on("value", (snapshot) => {
               />
             </G>
           </Svg>
-        <Text style={styles.forText}>حسابي الشخصي</Text>
-        <Image style={styles.image} source={{ uri: this.state.img }} />
-        <Text style={styles.textStyle2}>الاسم الأول</Text>
-        <Text style={styles.textStyle}>{this.state.firstName}</Text>
-        <Text style={styles.textStyle4}>الاسم الأخير</Text>
-        <Text style={styles.textStyle3}>{this.state.lastName}</Text>
-        <Text style={styles.textStyle8}>نبذة</Text>
-        <Text style={styles.textStyle7}>{this.state.bio}</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.editText} onPress={() => this.props.navigation.navigate("requestForms", {uuid: user})}>
-            طلب تصميم جديد
-          </Text>
-          </TouchableOpacity> 
+          <Text style={styles.forText}>حسابي الشخصي</Text>
+          <Image style={styles.image} source={{ uri: this.state.img }} />
+          <Text style={styles.textStyle2}>الاسم الأول</Text>
+          <Text style={styles.textStyle}>{this.state.firstName}</Text>
+          <Text style={styles.textStyle4}>الاسم الأخير</Text>
+          <Text style={styles.textStyle3}>{this.state.lastName}</Text>
+          <Text style={styles.textStyle8}>نبذة</Text>
+          <Text style={styles.textStyle7}>{this.state.bio}</Text>
+          <TouchableOpacity style={styles.button}>
+            <Text
+              style={styles.editText}
+              onPress={() =>
+                this.props.navigation.navigate("requestForms", { uuid: user })
+              }
+            >
+              طلب تصميم جديد
+            </Text>
+          </TouchableOpacity>
 
-        <View
-          style={{
-            flex: 1,
-            paddingHorizontal: 20,
-            bottom: "-130%",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            alignItems:"center",
-            justifyContent: "",
-          }}
-        >
-          {this.readData()}
+          <View
+            style={{
+              marginTop: -60,
+              paddingLeft: 30,
+              paddingRight: 30,
+              justifyContent: "space-between",
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+          >
+            {this.readData()}
+          </View>
         </View>
-        
-      </View>
       </ScrollView>
     );
   }
@@ -252,11 +263,6 @@ ref.on("value", (snapshot) => {
 //     </ScrollView>
 //   </View>;
 // })}
-
-
-
-
-
 
 //Style sheet
 const styles = StyleSheet.create({
@@ -310,7 +316,7 @@ const styles = StyleSheet.create({
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
-    fontWeight:"700"
+    fontWeight: "700",
   },
   forText2: {
     alignItems: "center",
@@ -435,7 +441,7 @@ const styles = StyleSheet.create({
     paddingTop: "15%",
   },
   textStyle7: {
-    borderWidth:2,
+    borderWidth: 2,
     top: "50%",
     textAlign: "center",
     fontSize: 14,

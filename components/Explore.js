@@ -36,19 +36,9 @@ export default class Explore extends Component {
       category: "",
       designUrl: "",
       designUploadingdate: "",
+      designGalleryState:[]
       
     };
-   
-   
-
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  };
-
-  readData = () => {
     var b = 0;
     var l = 0;
     var c = 0;
@@ -78,7 +68,6 @@ export default class Explore extends Component {
           designUploadingdate: desUploadingdate,
           designUrl: desUrl,
         };
-
         if (categ == "علامة تجارية") {
           brand[b++] = {
             category: categ,
@@ -145,15 +134,127 @@ export default class Explore extends Component {
           };
         }
       }
+      this.updateInputVal(designGallery,"designGalleryState");
     });
 
+   
 
-    return designGallery.map((element) => {
+  }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+
+  readData = () => {
+    /*
+    var b = 0;
+    var l = 0;
+    var c = 0;
+    var g = 0;
+    var o = 0;
+    var d = 0;
+    var f = 0;
+    var p = 0;
+
+    var ref = firebase.database().ref("Designs/");
+    ref.on("value", (snapshot) => {
+      design = snapshot.val();
+      designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var desUrl = design[designInfo].designUrl;
+
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: desUrl,
+        };
+        if (categ == "علامة تجارية") {
+          brand[b++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "شعار") {
+          logo[l++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "شهادة") {
+          cert[c++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "انفوجرافيك") {
+          packag[g++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "أخرى") {
+          other[o++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "فلتر") {
+          filter[f++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "إعلان") {
+          poster[p++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        } else if (categ == "فن رقمي") {
+          digital[d++] = {
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+          };
+        }
+      }
+      this.updateInputVal(designGallery,"designGalleryState");
+    });
+
+   */ 
+
+    return this.state.designGalleryState.map((element) => {
       return ( <View
         style={{
           width: width / 2 - 40,
           height: width / 2 - 20,
         }}
+        key={element.designUrl}
       >
         <View style={{ flex: 1 }}>
           <Image

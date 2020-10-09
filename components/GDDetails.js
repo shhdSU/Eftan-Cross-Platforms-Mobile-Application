@@ -12,17 +12,16 @@ export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      obj= props.navigation.state.params.obj,
-      designTitle: "",
+      designTitle: props.navigation.state.params.obj.designTitle,
       designerProfileImage: "",
-      date: "",
-      designDescription: "",
+      date: props.navigation.state.params.obj.desUploadingdate,
+      designDescription:props.navigation.state.params.obj.designDescription,
       localpath: "",
       name: "",
       Duid: props.navigation.state.params.obj.designerUID,
     };
     const { navigation } = props.navigation;
-    
+    /*
     //--------------------retreive the JSON obj of the design work from realtime DB
     firebase
       .database()
@@ -34,7 +33,7 @@ export default class GDDetails extends React.Component {
             "designDescription"
           ),
           this.updateInputVal(snap.val().designUploadingdate, "date"),
-          this.updateInputVal(snap.val().Duid, "Duid"),
+          this.updateInputVal(snap.val().Duid, "Duid"),*/
           //-----------------------------retreive designer's profile image
           firebase
             .storage()
@@ -50,6 +49,7 @@ export default class GDDetails extends React.Component {
               );
               console.log("can not retreive profile img url");
             });
+            /*
       });
     //----------------------get the URI of the design from storage
     var p = "";
@@ -64,7 +64,7 @@ export default class GDDetails extends React.Component {
       })
       .catch((error) => {
         console.log("can not retreive design url");
-      });
+      });*/
 
     //-----------------------------retreive designer's name
     var nname = "";

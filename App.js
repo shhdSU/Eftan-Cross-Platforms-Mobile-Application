@@ -12,7 +12,7 @@ import designeredit from "./components/designeredit";
 import designerGallery from "./components/designerGallery";
 
 const Navigation = createStackNavigator(
-  {
+  {designerprofile: { screen: designerprofile },
     designerGallery: { screen: designerGallery },
     "صفحة الدخول": { screen: LoginScreen },
     "صفحة التسجيل": { screen: SignupScreen },
@@ -21,7 +21,7 @@ const Navigation = createStackNavigator(
     "نسيت كلمة السر!": { screen: ForgotPassword },
     clientprofile: { screen: clientprofile },
     clientedit: { screen: clientedit },
-    designerprofile: { screen: designerprofile },
+    
     designeredit: { screen: designeredit },
    
   },

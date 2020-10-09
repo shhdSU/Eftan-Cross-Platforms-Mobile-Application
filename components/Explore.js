@@ -65,13 +65,13 @@ class Explore extends Component {
       return (
         <View style={{ marginBottom: 30 }}>
           <ScrollView>
-            <view>
+            <View>
               <Image
                 style={{ height: 180, width: 280 }}
                 source={{ uri: element.designFileKey }}
               />
-              <Text>{"اسم" + elemnt.designTitle}</Text>
-            </view>
+              <Text>{"اسم" + element.designTitle}</Text>
+            </View>
           </ScrollView>
         </View>
       );
@@ -117,6 +117,8 @@ class Explore extends Component {
 
             <Path
               data-name="Icon material-menu"
+              onPress={() => this.props.navigation.toggleDrawer()}
+
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
             />
@@ -177,14 +179,14 @@ class Explore extends Component {
                   <TouchableOpacity onPress={() => navigation.navigate("شعار")}>
                     <Category
                       imageUri={require("../assets/logo.jpg")}
-                      // name="شعار"
+                    // name="شعار"
                     />
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => navigation.navigate("ملصق")}>
                     <Category
                       imageUri={require("../assets/poster.jpg")}
-                      //name="ملصق"
+                    //name="ملصق"
                     />
                   </TouchableOpacity>
 
@@ -193,7 +195,7 @@ class Explore extends Component {
                   >
                     <Category
                       imageUri={require("../assets/brand.jpg")}
-                      // name="علامة تجارية"
+                    // name="علامة تجارية"
                     />
                   </TouchableOpacity>
 
@@ -202,7 +204,7 @@ class Explore extends Component {
                   >
                     <Category
                       imageUri={require("../assets/package.jpg")}
-                      //name="تغليف منتج"
+                    //name="تغليف منتج"
                     />
                   </TouchableOpacity>
 
@@ -211,7 +213,7 @@ class Explore extends Component {
                   >
                     <Category
                       imageUri={require("../assets/digital.jpg")}
-                      //name="الفن الرقمي"
+                    //name="الفن الرقمي"
                     />
                   </TouchableOpacity>
 
@@ -220,7 +222,7 @@ class Explore extends Component {
                   >
                     <Category
                       imageUri={require("../assets/filter.jpg")}
-                      //name="فلاتر سنابتشات"
+                    //name="فلاتر سنابتشات"
                     />
                   </TouchableOpacity>
 
@@ -229,7 +231,7 @@ class Explore extends Component {
                   >
                     <Category
                       imageUri={require("../assets/cert.jpg")}
-                      //name="شهادات"
+                    //name="شهادات"
                     />
                   </TouchableOpacity>
 
@@ -238,7 +240,7 @@ class Explore extends Component {
                   >
                     <Category
                       imageUri={require("../assets/other.jpg")}
-                      // name="غير ذلك"
+                    // name="غير ذلك"
                     />
                   </TouchableOpacity>
                 </ScrollView>

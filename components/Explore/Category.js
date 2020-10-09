@@ -32,7 +32,7 @@ class Category extends Component {
       </View>
     );
   }
-}
+} //comment
 export default Category;
 
 const styles = StyleSheet.create({

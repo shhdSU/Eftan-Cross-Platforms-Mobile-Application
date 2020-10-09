@@ -66,6 +66,11 @@ class choice extends Component {
               }}
               width={width}
               source={{ uri: element.designUrl }}
+              onPress={() =>
+                this.props.navigation.navigate("عرض تفاصيل التصميم", {
+                  obj: element
+                })
+              }
             />
           </View>
 

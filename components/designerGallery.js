@@ -32,16 +32,15 @@ export default class designerGallery extends React.Component {
       isLoading: false,
       localpath: "",
       designUrl: "",
-      propsUser: "",
+      User: props.navigation.state.params.uid ,
       designGalleryState: [],
     };
     const { navigate } = props.navigation;
-    const propsUser = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //props.navigation.state.params.uid; //to get parameters=====================================@SarahAlgwaiz don't forget to change it
-    var fName, lName, bio, image;
+    
+        var fName, lName, bio, image;
     firebase
       .database()
-      .ref(`GraphicDesigner/` + user)
+      .ref(`GraphicDesigner/` + this.state.user)
       .on("value", (dataSnapshot) => {
         fName = dataSnapshot.child("DFirstName").val();
         lName = dataSnapshot.child("DLastName").val();
@@ -52,7 +51,7 @@ export default class designerGallery extends React.Component {
         this.updateInputVal(lName, "lastName");
         this.updateInputVal(bio, "bio");
       });
-    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    const profileImage = firebase.storage().ref("ProfilePictures/" + this.state.user);
     profileImage
       .getDownloadURL()
       .then((url) => {
@@ -65,13 +64,13 @@ export default class designerGallery extends React.Component {
       });
 
     //=======================================================
-    //const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
+    //const user = props.navigation.state.params.uid; 
     //firebase.auth().currentUser.uid;
     var ref = firebase
       .database()
       .ref("Designs/")
       .orderByChild("Duid")
-      .equalTo(user);
+      .equalTo(this.state.user);
     ref.on("value", (snapshot) => {
       var design = snapshot.val();
       var designKeys = Object.keys(design);
@@ -223,7 +222,7 @@ export default class designerGallery extends React.Component {
             <Text
               style={styles.editText}
               onPress={() =>
-                this.props.navigation.navigate("requestForms", { uuid: user })
+                this.props.navigation.navigate("requestForms", { DID: this.state.user })
               }
             >
               طلب تصميم جديد

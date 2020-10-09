@@ -197,7 +197,7 @@ export default class UploadNewDesign extends Component {
       .database()
       .ref("Designs/")
       .push({
-        Duid: "2Uf1Wj14icbxngiiJbjklDDwiZb2", //uid for Hadeel ---------change it later
+        Duid: firebase.auth().currentUser.uid,
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,
@@ -223,7 +223,7 @@ export default class UploadNewDesign extends Component {
           cancelable: false,
         }),
           this.updateInputVal("", "localpath"),
-          this.props.navigation.navigate("صفحة المصمم");
+          this.props.navigation.navigate("معرض");
       })
       .catch((error) => {
         Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {

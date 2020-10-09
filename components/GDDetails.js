@@ -12,16 +12,17 @@ export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      designId: "-MIsiG_yb7Z0SNRIliJK",
+      obj= props.navigation.state.params.obj,
       designTitle: "",
       designerProfileImage: "",
       date: "",
       designDescription: "",
       localpath: "",
       name: "",
-      Duid: "",
+      Duid: props.navigation.state.params.obj.designerUID,
     };
-
+    const { navigation } = props.navigation;
+    
     //--------------------retreive the JSON obj of the design work from realtime DB
     firebase
       .database()
@@ -156,7 +157,7 @@ export default class GDDetails extends React.Component {
           {this.state.date}
         </Text>
         <Image
-        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} //@HadeelHamad change this later
+        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} 
 
           style={styles.profileImage}
           source={{
@@ -173,6 +174,8 @@ export default class GDDetails extends React.Component {
               fontWeight: "700",
             },
           ]}
+          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} 
+
         >
           {this.state.name}
         </Text>
@@ -201,7 +204,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
-          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}//@HadeelHamad change this later
+          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}
           style={[
             styles.inputStyle2,
             {

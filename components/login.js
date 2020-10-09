@@ -17,6 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import App from "../App";
 
 export default class LoginPage extends Component {
   constructor() {
@@ -35,6 +36,7 @@ export default class LoginPage extends Component {
   };
 
   userLogin = () => {
+
     const { email, password } = this.state;
     firebase
       .auth()
@@ -74,10 +76,10 @@ export default class LoginPage extends Component {
                 .database()
                 .ref(`GraphicDesigner/` + user)
                 .on("value", (snapshot) => {
+
                   if (snapshot.exists()) {
                     this.props.navigation.navigate(
-                      "معرض التصاميم من منظور المصمم"
-                    );
+                      "معرض التصاميم من منظور المصمم");
                   }
                   return;
                 });
@@ -180,7 +182,7 @@ export default class LoginPage extends Component {
 
         <View style={styles.loginButton}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("رفع تصميم جديد")}
+            onPress={() => this.userLogin()}
           >
             <Text style={styles.loginButton2}>تسجيل الدخول</Text>
           </TouchableOpacity>

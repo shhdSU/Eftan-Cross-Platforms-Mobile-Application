@@ -16,14 +16,12 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from "react-native";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import LoginScreen from "./components/login";
 import SignupScreen from "./components/signup";
-import ClientGalleryScreen from "./components/ClientGallery";
-import DesignerGalleryScreen from "./components/DesignerGallery";
-// import designerGallery from "./components/designerGallery"; >> هي نفس اللي فوقها بس غيرت المسميات
-//import DprofileScreen from "./components/DProfile"; // Access by Client <<قديمه
+// import ClientGalleryScreen from "./components/ClientGallery";
+import DesignerGalleryScreen from "./components/designerGallery";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
 import ChatPassword from "./components/chat";
@@ -43,30 +41,59 @@ import digitals from "./components/digitals";
 import filters from "./components/filters";
 import certifications from "./components/certifications";
 import others from "./components/others";
-// import UploadNewDesign from "./components/UploadNewDesign";
 import test from "./components/test";
 import DesignDetails from "./components/GDDetails";
+// import firebase from "./database/firebase";
+
 //-------------------------------------------------------
 // 1- login stack >> اساسية
 const LoginStack = createStackNavigator(
   {
-    "صفحة الدخول": LoginScreen,
-    "صفحة التسجيل": SignupScreen,
-    "سياسة الخصوصية": privacyPolicyScreen,
-    "نسيت كلمة السر!": ForgotPassword,
+    "صفحة الدخول": { screen: LoginScreen },
+    "صفحة التسجيل": { screen: SignupScreen },
+    "سياسة الخصوصية": { screen: privacyPolicyScreen },
+    "نسيت كلمة السر!": { screen: ForgotPassword },
+  },
+  {
+    headerMode: "none",
+
+  }
+);
+//-------------------------------------------------------
+const category = createStackNavigator(
+  {
+    "معرض": { screen: Explore },
+    "شعار": { screen: logos },
+    "ملصق": { screen: posters },
+    "علامة تجارية": { screen: brands },
+    "تغليف المنتج": { screen: packages },
+    "الفن الرقمي": { screen: digitals },
+    "فلاتر سنابتشات": { screen: filters },
+    "شهادات": { screen: certifications },
+    "غير ذلك": { screen: others },
   },
   {
     headerMode: "none",
   }
 );
 //-------------------------------------------------------
+const Explorescreen = createStackNavigator(
+  {
+    "معرض": category,
+  },
+  {
+    headerMode: "none",
+  }
+);
+//-------------------------------------------------------
+
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
 const ClientGalleryNavigation = createStackNavigator(
   {
-    "معرض التصاميم من منظور العميل": ClientGalleryScreen,
+    "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
     //" عرض حساب المصمم للطلب":,
-    "طلب تصميم": RequestScreen,
+    "طلب تصميم": { screen: RequestScreen },
   },
   {
     headerMode: "none",
@@ -79,9 +106,9 @@ const ClientGalleryNavigation = createStackNavigator(
 //  designer gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
 const DesignerGalleryNavigation = createStackNavigator(
   {
-    "معرض التصاميم من منظور المصمم": DesignerGalleryScreen,
+    "معرض التصاميم من منظور المصمم": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
-    // عرض حساب المصمم" >> بحيث يختفي زر الطلب" تحت الانشاء
+    //" عرض حساب المصمم":DesignerGalleryScreen,
   },
   {
     headerMode: "none",
@@ -91,15 +118,54 @@ const DesignerGalleryNavigation = createStackNavigator(
   }
 );
 //-------------------------------------------------------
+//client Profile stack
+const ClientProfileNavigation = createStackNavigator(
+  {
+    "عرض حساب العميل": { screen: clientprofile },
+    "تعديل حساب العميل": { screen: clientedit },
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false,
+    },
+  }
+);
+//-------------------------------------------------------
+//  Designer Profile stack
+const DesignerProfileNavigation = createStackNavigator(
+  {
+    "عرض حساب المصمم": { screen: designerprofile },
+    "تعديل حساب المصمم": { screen: designeredit },
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false,
+    },
+  }
+);
+
+
+
+//-------------------------------------------------------
 // export navegtion
+
 export default class App extends Component {
   render() {
-    const DNav = createAppContainer(DPrimaryNav);
-    const CNav = createAppContainer(CPrimaryNav);
-    return (<DNav />), (<CNav />);
+    const Nav = createAppContainer(createSwitchNavigator(
+      {
+        DNav: DPrimaryNav,
+        CNav: CPrimaryNav,
+      }
+    )
+    );
+    return (<Nav />);
+
   }
 }
 //-------------------------------------------------------
+
 // Custom Drawers
 const CustomDrawerComponent = (props) => (
   <SafeAreaView style={{ flex: 1 }}>
@@ -180,42 +246,14 @@ const CustomDrawerComponent = (props) => (
     </ScrollView>
   </SafeAreaView>
 );
-//-------------------------------------------------------
-//Designer drawer navigation
-const DesignerDrawer = createDrawerNavigator(
-  {
-    "معرض التصاميم": DesignerGalleryNavigation,
-    // "حسابي كمصمم": DesignerProfileNavigation,
-    // recived ordered screen
-    "رفع تصميم جديد": { screen: UploadNewDesign },
-    "محادثات": ChatPassword,
-  },
-  {
-    contentComponent: CustomDrawerComponent,
-    gesturesEnabled: false,
-    drawerPosition: "right",
-    drawerType: "slide",
-    drawerWidth: Dimensions.get("window").width - 150,
-    contentOptions: {
-      activeTintColor: "#4F3C75",
-      inactiveTintColor: "#4F3C75",
-      activeBackgroundColor: "#FFEED6",
-      itemStyle: {
-        flexDirection: "row-reverse",
-      },
-    },
-    drawerOpenRoute: "DrawerOpen",
-    drawerCloseRoute: "DrawerClose",
-    drawerToggleRoute: "DrawerToggle",
-  }
-);
+
 //-------------------------------------------------------
 //Client drawer navigation
 const ClientDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": ClientGalleryNavigation,
-    // "حسابي كعميل": ClientProfileNavigation,
-    محادثات: ChatPassword,
+    "عرض حساب العميل": ClientProfileNavigation,
+    //"محادثات": { screen: ChatPassword },
   },
   {
     contentComponent: CustomDrawerComponent,
@@ -237,7 +275,36 @@ const ClientDrawer = createDrawerNavigator(
   }
 );
 //-------------------------------------------------------
-//    كل التنقلات داخل المنيو تصير ستاك
+//Designer drawer navigation
+const DesignerDrawer = createDrawerNavigator(
+  {
+    "معرض التصاميم": DesignerGalleryNavigation,
+    "عرض حساب المصمم": DesignerProfileNavigation,
+    // recived ordered screen
+    "رفع تصميم جديد": { screen: UploadNewDesign },
+    //"محادثات": { screen: ChatPassword },
+  },
+  {
+    contentComponent: CustomDrawerComponent,
+    gesturesEnabled: false,
+    drawerPosition: "right",
+    drawerType: "slide",
+    drawerWidth: Dimensions.get("window").width - 150,
+    contentOptions: {
+      activeTintColor: "#4F3C75",
+      inactiveTintColor: "#4F3C75",
+      activeBackgroundColor: "#FFEED6",
+      itemStyle: {
+        flexDirection: "row-reverse",
+      },
+    },
+    drawerOpenRoute: "DrawerOpen",
+    drawerCloseRoute: "DrawerClose",
+    drawerToggleRoute: "DrawerToggle",
+  }
+);
+//-------------------------------------------------------
+//   كل التنقلات داخل المنيو تصير ستاك
 const CDrawerNavigation = createStackNavigator(
   {
     DrawerStack: ClientDrawer,
@@ -265,63 +332,25 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-    loginStack: { screen: LoginStack },
-    drawer: { screen: CDrawerNavigation },
+    loginStack: LoginStack,
+    "Cdrawer": CDrawerNavigation,
   },
   {
     // Default config for all screens
     headerMode: "none",
-    title: "Main",
+
   }
 );
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
-    loginStack: { screen: LoginStack },
-    drawer: { screen: DDrawerNavigation },
+    loginStack: LoginStack,
+    " Ddrawer": DDrawerNavigation,
   },
   {
     // Default config for all screens
     headerMode: "none",
-    title: "Main",
+
   }
 );
 //-------------------------------------------------------
-//  client Profile stack
-const ClientProfileNavigation = createStackNavigator(
-  {
-    "عرض حساب العميل": clientprofile,
-    "تعديل حساب العميل": clientedit,
-  },
-  {
-    headerMode: "none",
-    navigationOptions: {
-      headerVisible: false,
-    },
-  }
-);
-//-------------------------------------------------------
-//  Designer Profile stack
-const DesignerProfileNavigation = createStackNavigator(
-  {
-    "عرض حساب المصمم": designerprofile,
-    "تعديل حساب المصمم": designeredit,
-  },
-  {
-    headerMode: "none",
-    navigationOptions: {
-      headerVisible: false,
-    },
-  }
-);
-//-------------------------------------------------------
-// تست: { screen: test },
-// اكسبلور: { screen: Explore },
-// شعار: { screen: logos },
-// ملصق: { screen: posters },
-// "علامة تجارية": { screen: brands },
-// "تغليف المنتج": { screen: packages },
-// "الفن الرقمي": { screen: digitals },
-// "فلاتر سنابتشات": { screen: filters },
-// شهادات: { screen: certifications },
-// "غير ذلك": { screen: others },

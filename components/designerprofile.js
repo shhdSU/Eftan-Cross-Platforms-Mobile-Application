@@ -215,7 +215,7 @@ export default class designerprofile extends React.Component {
             // // flexDirection: "row",
             // // flexWrap: "wrap",
             paddingHorizontal: 20,
-            bottom: "180%",
+            bottom: "-180%",
             flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "space-between",

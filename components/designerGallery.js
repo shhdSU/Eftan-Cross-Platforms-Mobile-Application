@@ -33,10 +33,11 @@ export default class designerGallery extends React.Component {
       localpath: "",
       designUrl: "",
       propsUser: "",
+      designGalleryState:[]
     };
     const { navigate } = props.navigation;
-   const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-   //props.navigation.state.params.uid; //to get parameters
+   const propsUser = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
+   //props.navigation.state.params.uid; //to get parameters=====================================@SarahAlgwaiz don't forget to change it
     var fName, lName, bio,image;
     firebase
       .database()
@@ -63,7 +64,34 @@ export default class designerGallery extends React.Component {
           this.updateInputVal(image, "img");
         });
 
-
+//=======================================================
+//const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
+//firebase.auth().currentUser.uid;
+var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
+ref.on("value", (snapshot) => {
+  var design = snapshot.val();
+  var designKeys = Object.keys(design);
+  for (var i = 0; i < designKeys.length; i++) {
+    var designInfo = designKeys[i];
+    var categ = design[designInfo].category;
+    var desDis = design[designInfo].designDescription;
+    var desFileKey = design[designInfo].designFileKey;
+    var desTitle = design[designInfo].designTitle;
+    var desUploadingdate = design[designInfo].designUploadingdate;
+    var designUrl = design[designInfo].designUrl;
+    designGallery[i] = {
+      category: categ,
+      designDescription: desDis,
+      designFileKey: desFileKey,
+      designTitle: desTitle,
+      designUploadingdate: desUploadingdate,
+      designUrl: designUrl,
+    };
+  }
+  console.log(designGallery);
+  console.log(designGallery.length);
+  this.updateInputVal(designGallery,"designGalleryState")
+});
 
 
   }
@@ -78,6 +106,7 @@ export default class designerGallery extends React.Component {
   };
 
     readData = () => {
+      /*
       const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
       //firebase.auth().currentUser.uid;
       var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
@@ -104,10 +133,12 @@ export default class designerGallery extends React.Component {
         console.log(designGallery);
         console.log(designGallery.length);
       });
-      return designGallery.map((element) => {
+      */
+      return this.state.designGalleryState.map((element) => {
         return (
           
           <View
+          key={ element.designUrl }
             style={{
               width: width / 2 - 40,
               height: width / 2 - 20,
@@ -142,6 +173,7 @@ export default class designerGallery extends React.Component {
       });
   };
   render() {
+    
     return (
       <ScrollView style={{    backgroundColor: "#fff",
     }}>

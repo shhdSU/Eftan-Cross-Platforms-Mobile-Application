@@ -25,13 +25,14 @@ export default class designerprofile extends React.Component {
       email: "",
       bio: "",
       img: "",
+      designGalleryState:[]
       // num_rating: 0,
       // total_rating: 0,
     };
     const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
     //firebase.auth().currentUser.uid;
-    var num_rating = 0;
-    var total_rating = 0;
+   // var num_rating = 0;
+    //var total_rating = 0;
     firebase
       .database()
       .ref(`GraphicDesigner/` + user)
@@ -47,6 +48,31 @@ export default class designerprofile extends React.Component {
         this.updateVal(email, "email");
         this.updateVal(bio, "bio");
       });
+
+      //=======================================
+      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
+      ref.on("value", (snapshot) => {
+        var design = snapshot.val();
+        var designKeys = Object.keys(design);
+        for (var i = 0; i < designKeys.length; i++) {
+          var designInfo = designKeys[i];
+          var categ = design[designInfo].category;
+          var desDis = design[designInfo].designDescription;
+          var desFileKey = design[designInfo].designFileKey;
+          var desTitle = design[designInfo].designTitle;
+          var desUploadingdate = design[designInfo].designUploadingdate;
+          var designUrl = design[designInfo].designUrl;
+          designGallery[i] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: designUrl,
+          };
+        }
+     this.updateVal(designGallery,"designGalleryState");
+      });
   }
   updateVal(val, prop) {
     const state = this.state;
@@ -58,6 +84,7 @@ export default class designerprofile extends React.Component {
     this.props.navigation.navigate("صفحة الدخول");
   };
   readData = () => {
+    /*
     const user = firebase.auth().currentUser.uid;
     var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
     ref.on("value", (snapshot) => {
@@ -83,9 +110,11 @@ export default class designerprofile extends React.Component {
       console.log(designGallery);
       console.log(designGallery.length);
     });
-    return designGallery.map((element) => {
+    */
+    return this.state.designGalleryState.map((element) => {
       return (
         <View
+        key={element.designUrl}
           style={{
             width: width / 2 - 40,
             height: width / 2 - 20,

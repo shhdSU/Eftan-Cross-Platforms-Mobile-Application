@@ -33,7 +33,6 @@ class Explore extends Component {
       designTitle: "",
       designDescription: "",
       category: "",
-      designFileKey: "",
       designUrl: "",
       designUploadingdate: "",
     };
@@ -63,7 +62,6 @@ class Explore extends Component {
 
         var categ = design[designInfo].category;
         var desDis = design[designInfo].designDescription;
-        var desFileKey = design[designInfo].designFileKey;
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
@@ -71,7 +69,6 @@ class Explore extends Component {
         designGallery[i] = {
           category: categ,
           designDescription: desDis,
-          designFileKey: desFileKey,
           designTitle: desTitle,
           designUploadingdate: desUploadingdate,
           designUrl: desUrl,
@@ -81,7 +78,6 @@ class Explore extends Component {
           brand[b++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -90,7 +86,6 @@ class Explore extends Component {
           logo[l++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -99,7 +94,6 @@ class Explore extends Component {
           cert[c++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -108,7 +102,6 @@ class Explore extends Component {
           packag[g++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -117,7 +110,6 @@ class Explore extends Component {
           other[o++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -126,7 +118,6 @@ class Explore extends Component {
           filter[f++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -135,7 +126,6 @@ class Explore extends Component {
           poster[p++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
@@ -144,7 +134,6 @@ class Explore extends Component {
           digital[d++] = {
             category: categ,
             designDescription: desDis,
-            designFileKey: desFileKey,
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,

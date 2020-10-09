@@ -178,7 +178,7 @@ export default class RequestForm extends Component {
   };
   storeResquset = () => {
     const CID = firebase.auth().currentUser.uid;
-/// HERRRREEEEERRREEERERERE
+    /// HERRRREEEEERRREEERERERE
     firebase
       .database()
       .ref("Forms/")
@@ -192,7 +192,7 @@ export default class RequestForm extends Component {
         reference: this.state.reference,
         deadLine: this.state.deadLine,
         CID: CID,
-        DID: "", //HHHEEEEEERRRRREEEEEEEE
+        DID: "", // HHHEEEEEERRRRREEEEEEEE
       })
       .then((key) => {
         this.updateInputVal(key.key, "Imagekey");

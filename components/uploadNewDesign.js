@@ -405,13 +405,6 @@ async function uploadImageAsync(uri) {
     xhr.open('GET', uri, true);
     xhr.send(null);
   });
-
-  // const ref = firebase
-  //   .storage()
-  //   .ref()
-  //   .child(uuid.v4());
-  // const snapshot = await ref.put(blob);
-  // blob.close();
   var ref = firebase
       .storage()
       .ref()

@@ -13,11 +13,12 @@ import choice from "./components/choice";
 const Navigation = createStackNavigator(
   {
     اكسبلور: { screen: Explore },
+
+    "صفحة الدخول": { screen: LoginScreen },
+
     الإختيار: { screen: choice },
 
-    // "رفع تصميم جديد": { screen: UploadNewDesign },
-
-    // "صفحة الدخول": { screen: LoginScreen },
+    "رفع تصميم جديد": { screen: UploadNewDesign },
 
     // شعار: { screen: logos },
     // ملصق: { screen: posters },
@@ -27,7 +28,7 @@ const Navigation = createStackNavigator(
     // شهادات: { screen: certifications },
     // "غير ذلك": { screen: others },
 
-    // "صفحة التسجيل": { screen: SignupScreen },
+    "صفحة التسجيل": { screen: SignupScreen },
     // "معرض المصمم": { screen: GalleryScreen },
     // "صفحة المصمم": { screen: DprofileScreen },
     // "سياسة الخصوصية": { screen: privacyPolicyScreen },

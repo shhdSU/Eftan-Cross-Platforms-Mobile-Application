@@ -24,7 +24,7 @@ var digital = [];
 
 var design = "";
 var designKeys = "";
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 class Explore extends Component {
   constructor() {
@@ -160,17 +160,38 @@ class Explore extends Component {
       return (
         <View
           style={{
-            width: width / 2 - 40,
-            height: width / 2 - 20,
+            // width: width / 2 - 40,
+            // // height: width / 2 - 20,
+            // alignItems: "center",
+            // justifyContent: "center",
+            // margin: 1,
+            // height: width / 2 - 20,
+            flex: 1,
+            width: width - 20,
+            height: height / 3,
+            backgroundColor: "white",
+            margin: 10,
+            borderRadius: 10,
+            shadowColor: "#000",
+            shadowOffset: { width: 0.5, height: 0.5 },
+            shadowOpacity: 0.5,
+            shadowRadius: 3,
+            elevation: 5,
+            flexDirection: "row",
           }}
         >
-          <View style={{ flex: 1 }}>
+          <View>
             <Image
               style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
+                // flex: 1,
+                // width: 290,
+                // height: 180,
+                // marginLeft: 10,
+                // marginTop: 12,
+                //resizeMode: "contain",
+                width: width - 20,
+                height: height / 3,
+                borderRadius: 10,
               }}
               width={width}
               source={{ uri: element.designUrl }}
@@ -360,13 +381,14 @@ class Explore extends Component {
                 }}
               >
                 <View
-                  style={{
-                    paddingHorizontal: 20,
-                    marginTop: -60,
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                  }}
+                  style={
+                    {
+                      // paddingHorizontal: 20,
+                      // marginTop: -60,
+                      // flexDirection: "row",
+                      // flexWrap: "wrap",
+                    }
+                  }
                 >
                   {this.readData()}
                 </View>

@@ -32,6 +32,7 @@ export default class designerGallery extends React.Component {
       isLoading: false,
       localpath: "",
       designUrl: "",
+      propsUser: "",
     };
     const { navigate } = props.navigation;
    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"

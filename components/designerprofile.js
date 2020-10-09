@@ -4,16 +4,17 @@ import {
   Image,
   Button,
   StyleSheet,
+  Dimensions,
+
   TouchableOpacity,
 } from "react-native";
 import FirebaseAuth from "../database/firebase";
 import firebase from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+var designGallery = new Array();
+const { width, height } = Dimensions.get("window");
+
 var fName, lName, email, bio,image;
 export default class designerprofile extends React.Component {
   constructor(props) {
@@ -56,6 +57,68 @@ export default class designerprofile extends React.Component {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
   };
+  readData = () => {
+    const user = firebase.auth().currentUser.uid;
+    var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
+    ref.on("value", (snapshot) => {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desFileKey = design[designInfo].designFileKey;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var designUrl = design[designInfo].designUrl;
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: desFileKey,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: designUrl,
+        };
+      }
+      console.log(designGallery);
+      console.log(designGallery.length);
+    });
+    return designGallery.map((element) => {
+      return (
+        <View
+          style={{
+            width: width / 2 - 40,
+            height: width / 2 - 20,
+                  }}
+        >
+          <View style={{ flex: 1 }}>
+            <Image
+              style={{
+                flex: 1,
+                width: null,
+                height: null,
+                resizeMode: "contain",
+              }}
+              width={width}
+              source={{ uri: element.designUrl }}
+            />
+          </View>
+          <View
+            style={{
+              justifyContent: "space-evenly",
+              paddingLeft: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4F3C75" }}
+            >
+              {"  عنوان العمل:" + element.designTitle}
+            </Text>
+          </View>
+        </View>
+      );
+    });
+};
   render() {
     const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
     //firebase.auth().currentUser.uid;
@@ -117,6 +180,20 @@ export default class designerprofile extends React.Component {
         >
           <Text style={styles.editText}>تعديل بيانات الحساب</Text>
         </TouchableOpacity>
+        <View
+          style={{
+            flex: 1,
+            // // flexDirection: "row",
+            // // flexWrap: "wrap",
+            paddingHorizontal: 20,
+            bottom: "180%",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          {this.readData()}
+        </View>
       </View>
     );
   }

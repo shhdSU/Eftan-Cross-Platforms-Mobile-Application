@@ -19,8 +19,8 @@
     "expo-image-picker": "^8.4.0",
     "expo-linear-gradient": "^8.3.1",
     "expo-status-bar": "^1.0.0",
-    "firebase": "^7.21.0",
-    "formik": "^2.1.5",
+    "firebase": "^7.22.1",
+    "formik": "^2.1.7",
     "native-base": "^2.13.14",
     "navigation": "^5.3.1",
     "react": "16.11.0",
@@ -45,6 +45,7 @@
     "react-native-screens": "~2.9.0",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-svg": "^12.1.0",
+    "react-native-uuid": "^1.4.9",
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.4.2",
     "react-navigation-drawer": "^2.5.1",
@@ -58,7 +59,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
-    "babel-preset-expo": "^8.2.3"
+    "babel-preset-expo": "^8.3.0"
   },
   "private": true
 }

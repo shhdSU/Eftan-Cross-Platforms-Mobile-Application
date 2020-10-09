@@ -12,7 +12,8 @@ import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
 
-var designGallery = [];
+var designGallery = new Array();
+
 var logo = [];
 var brand = [];
 var cert = [];
@@ -26,7 +27,7 @@ var design = "";
 var designKeys = "";
 const { width } = Dimensions.get("window");
 
-class Explore extends Component {
+export default class Explore extends Component {
   constructor() {
     super();
     this.state = {
@@ -35,7 +36,11 @@ class Explore extends Component {
       category: "",
       designUrl: "",
       designUploadingdate: "",
+      
     };
+   
+   
+
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -141,9 +146,46 @@ class Explore extends Component {
         }
       }
     });
-    return this.print(designGallery);
-  };
 
+
+    return designGallery.map((element) => {
+      return ( <View
+        style={{
+          width: width / 2 - 40,
+          height: width / 2 - 20,
+        }}
+      >
+        <View style={{ flex: 1 }}>
+          <Image
+            style={{
+              flex: 1,
+              width: null,
+              height: null,
+              resizeMode: "contain",
+            }}
+            width={width}
+            source={{ uri: element.designUrl }}
+          />
+        </View>
+
+        <View
+          style={{
+            justifyContent: "space-evenly",
+            paddingLeft: 10,
+          }}
+        >
+          <Text
+            style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+          >
+            {"  عنوان العمل:" + element.designTitle}
+          </Text>
+        </View>
+      </View>
+    );
+        
+    //return this.print(designGallery);
+  });};
+/*
   print = (array) => {
     return array.map((element) => {
       return (
@@ -182,9 +224,9 @@ class Explore extends Component {
       );
     });
   };
-
+*/
   render() {
-    const { navigation } = this.props;
+  //  const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
@@ -367,7 +409,6 @@ class Explore extends Component {
     );
   }
 }
-export default Explore;
 
 const styles = StyleSheet.create({
   container: {

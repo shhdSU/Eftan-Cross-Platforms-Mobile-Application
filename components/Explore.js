@@ -25,7 +25,7 @@ var digital = [];
 
 var design = "";
 var designKeys = "";
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export default class Explore extends Component {
   constructor() {
@@ -36,8 +36,7 @@ export default class Explore extends Component {
       category: "",
       designUrl: "",
       designUploadingdate: "",
-      designGalleryState:[]
-      
+      designGalleryState: [],
     };
     var b = 0;
     var l = 0;
@@ -134,11 +133,8 @@ export default class Explore extends Component {
           };
         }
       }
-      this.updateInputVal(designGallery,"designGalleryState");
+      this.updateInputVal(designGallery, "designGalleryState");
     });
-
-   
-
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -246,63 +242,95 @@ export default class Explore extends Component {
       this.updateInputVal(designGallery,"designGalleryState");
     });
 
-   */ 
+   */
 
     return this.state.designGalleryState.map((element) => {
-      return ( <View
-        style={{
-          width: width / 2 - 40,
-          height: width / 2 - 20,
-        }}
-        key={element.designUrl}
-      >
-        <View style={{ flex: 1 }}>
-          <Image
-            style={{
-              flex: 1,
-              width: null,
-              height: null,
-              resizeMode: "contain",
-            }}
-            width={width}
-            source={{ uri: element.designUrl }}
-          />
-        </View>
-
-        <View
-          style={{
-            justifyContent: "space-evenly",
-            paddingLeft: 10,
-          }}
-        >
-          <Text
-            style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
-          >
-            {"  عنوان العمل:" + element.designTitle}
-          </Text>
-        </View>
-      </View>
-    );
-        
-    //return this.print(designGallery);
-  });};
-/*
-  print = (array) => {
-    return array.map((element) => {
       return (
         <View
-          style={{
-            width: width / 2 - 40,
-            height: width / 2 - 20,
-          }}
+          style={{ width: width / 2 - 40, height: width / 2 - 20 }}
+          key={element.designUrl}
         >
-          <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 5,
+              backgroundColor: "white",
+              margin: 10,
+            }}
+          >
             <Image
               style={{
                 flex: 1,
                 width: null,
                 height: null,
                 resizeMode: "contain",
+                margin: 5,
+              }}
+              width={width}
+              source={{ uri: element.designUrl }}
+            />
+          </View>
+
+          <View
+            style={{
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+            >
+              {element.designTitle}
+            </Text>
+          </View>
+        </View>
+      );
+
+      //return this.print(designGallery);
+    });
+  };
+  /*
+  print = (array) => {
+    return array.map((element) => {
+      return (
+        <View
+          style={{
+            // width: width / 2 - 40,
+            // // height: width / 2 - 20,
+            // alignItems: "center",
+            // justifyContent: "center",
+            // margin: 1,
+            // height: width / 2 - 20,
+            flex: 1,
+            width: width - 20,
+            height: height / 3,
+            backgroundColor: "white",
+            margin: 10,
+            borderRadius: 10,
+            shadowColor: "#000",
+            shadowOffset: { width: 0.5, height: 0.5 },
+            shadowOpacity: 0.5,
+            shadowRadius: 3,
+            elevation: 5,
+            flexDirection: "row",
+          }}
+        >
+          <View>
+            <Image
+              style={{
+                // flex: 1,
+                // width: 290,
+                // height: 180,
+                // marginLeft: 10,
+                // marginTop: 12,
+                //resizeMode: "contain",
+                width: width - 20,
+                height: height / 3,
+                borderRadius: 10,
               }}
               width={width}
               source={{ uri: element.designUrl }}
@@ -327,7 +355,7 @@ export default class Explore extends Component {
   };
 */
   render() {
-  //  const { navigation } = this.props;
+    //  const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
@@ -493,11 +521,12 @@ export default class Explore extends Component {
               >
                 <View
                   style={{
-                    paddingHorizontal: 20,
                     marginTop: -60,
+                    paddingLeft: 30,
+                    paddingRight: 30,
+                    justifyContent: "space-between",
                     flexDirection: "row",
                     flexWrap: "wrap",
-                    justifyContent: "space-between",
                   }}
                 >
                   {this.readData()}

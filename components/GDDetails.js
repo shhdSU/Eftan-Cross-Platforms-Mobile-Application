@@ -165,8 +165,8 @@ console.log("can not retreive design url");
             styles.inputStyle2,
             {
               color: "#4F3C75",
-              top: "8%",
-              left: "-23%",
+              top: "14%",
+              right: "70%",
             },
           ]}
         >
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     height: 280,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "12.5%",
+    top: "15%",
     borderRadius: 35,
     alignSelf: "center",
   },
@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 40,
     height: 40,
-    top: "30%",
+    top: "14%",
+    left:"36%"
   },
 });

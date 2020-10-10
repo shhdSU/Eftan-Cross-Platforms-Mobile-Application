@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   },
   editText: {
     fontSize: 25,
-    color: "#fff",
+    color: "#FFEED6",
     marginTop: "1%",
     textAlign: "center",
     alignItems: "center",
@@ -365,6 +365,8 @@ const styles = StyleSheet.create({
     paddingTop: "15%",
   },
   textStyle7: {
+    paddingRight:"5%",
+    paddingLeft:"5%",
     top: "64%",
     textAlign: "center",
     fontSize: 14,

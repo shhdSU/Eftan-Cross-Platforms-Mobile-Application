@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
 
   editText: {
     fontSize: 25,
-    color: "#fff",
+    color: "#FFEED6",
     marginTop: "1%",
     textAlign: "center",
     alignItems: "center",

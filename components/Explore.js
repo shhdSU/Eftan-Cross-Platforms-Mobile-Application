@@ -46,21 +46,21 @@ export default class explore extends Component {
     var d = 0;
     var f = 0;
     var p = 0;
-
+    
     var ref = firebase.database().ref("Designs/");
     ref.on("value", (snapshot) => {
       design = snapshot.val();
       designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
         var designInfo = designKeys[i];
-
+        var duid = design[designInfo].Duid;
         var categ = design[designInfo].category;
         var desDis = design[designInfo].designDescription;
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
-
         designGallery[i] = {
+          duid: duid,
           category: categ,
           designDescription: desDis,
           designTitle: desTitle,
@@ -69,6 +69,7 @@ export default class explore extends Component {
         };
         if (categ == "علامة تجارية") {
           brand[b++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -77,6 +78,7 @@ export default class explore extends Component {
           };
         } else if (categ == "شعار") {
           logo[l++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -85,6 +87,7 @@ export default class explore extends Component {
           };
         } else if (categ == "شهادة") {
           cert[c++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -93,6 +96,7 @@ export default class explore extends Component {
           };
         } else if (categ == "انفوجرافيك") {
           packag[g++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -101,6 +105,7 @@ export default class explore extends Component {
           };
         } else if (categ == "أخرى") {
           other[o++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -109,6 +114,7 @@ export default class explore extends Component {
           };
         } else if (categ == "فلتر") {
           filter[f++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -117,6 +123,7 @@ export default class explore extends Component {
           };
         } else if (categ == "إعلان") {
           poster[p++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -125,6 +132,7 @@ export default class explore extends Component {
           };
         } else if (categ == "فن رقمي") {
           digital[d++] = {
+            duid: duid,
             category: categ,
             designDescription: desDis,
             designTitle: desTitle,
@@ -261,7 +269,11 @@ export default class explore extends Component {
               backgroundColor: "white",
               margin: 10,
             }}
+            
           >
+       <TouchableOpacity
+                       onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", {obj: element})}
+                        >
             <Image
               style={{
                 flex: 1,
@@ -273,6 +285,7 @@ export default class explore extends Component {
               width={width}
               source={{ uri: element.designUrl }}
             />
+      </TouchableOpacity>
           </View>
 
           <View
@@ -283,6 +296,8 @@ export default class explore extends Component {
           >
             <Text
               style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", {obj: element})}
+
             >
               {element.designTitle}
             </Text>

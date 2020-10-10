@@ -9312,13 +9312,6 @@ react-native-ratings@^7.2.0:
     lodash "^4.17.15"
     prop-types "^15.7.2"
 
-react-native-reanimated@^1.9.0:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.13.1.tgz#c370c32cc4d447ae896cb029bb9c6a2f7608c5b4"
-  integrity sha512-3sF46jts9MbktgIasf0sTM8uhOYO5a5Q3YyQ4X1jjSE82n/fY2nW3XTFsLGfLEpK2ir4XSDhQWVgFHazaXZTww==
-  dependencies:
-    fbjs "^1.0.0"
-
 react-native-responsive-screen@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-responsive-screen/-/react-native-responsive-screen-1.4.1.tgz#0270bc8f03a208b578299c1594495db69aff506b"
@@ -9436,7 +9429,7 @@ react-native-web@~0.11.7:
     use-subscription "^1.0.0"
     whatwg-fetch "^3.0.0"
 
-react-navigation-drawer@^2.5.1:
+react-navigation-drawer@^2.5.2:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/react-navigation-drawer/-/react-navigation-drawer-2.5.2.tgz#ab6338596008ffc6198edf6126419f77936a5be1"
   integrity sha512-t8zp2o7h4rCOz5us1jv7Z6LZ7Bl1IIXnNmJMpMXxcSYxvpcDLDm4PPn74M6Mw1yTuDyKI5EhTo+gGAewnxTf5Q==

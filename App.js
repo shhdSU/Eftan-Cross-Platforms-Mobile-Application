@@ -151,8 +151,8 @@ export default class App extends Component {
 //-------------------------------------------------------
 
 // Custom Drawers
-const CustomDrawerComponent = (props) =>
-  (
+const CustomDrawerComponent = (props) => (
+    
   <SafeAreaView style={{ flex: 1 }}>
   <View
     style={{
@@ -229,8 +229,9 @@ const CustomDrawerComponent = (props) =>
       </Text>
     </TouchableOpacity>
   </ScrollView>
-</SafeAreaView>);
+</SafeAreaView>
 
+);
 
 
 //-------------------------------------------------------

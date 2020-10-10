@@ -28,7 +28,7 @@ export default class designerprofile extends React.Component {
       // num_rating: 0,
       // total_rating: 0,
     };
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
+    const user = firebase.auth().currentUser.uid;
     //firebase.auth().currentUser.uid;
     // var num_rating = 0;
     //var total_rating = 0;
@@ -55,6 +55,9 @@ export default class designerprofile extends React.Component {
       .orderByChild("Duid")
       .equalTo(user);
     ref.on("value", (snapshot) => {
+      if(!snapshot.exists()){
+        Alert.alert("No images found");
+      }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -161,8 +164,7 @@ export default class designerprofile extends React.Component {
     });
   };
   render() {
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser.uid;
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
     profileImage
       .getDownloadURL()

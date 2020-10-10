@@ -151,46 +151,8 @@ export default class App extends Component {
 //-------------------------------------------------------
 
 // Custom Drawers
-class CustomDrawerComponent {
-  constructor(props){
-  this.state = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    img: "",
-  };
-  var fName, lName, email,image;
-  const user = firebase.auth().currentUser.uid;
-  firebase
-  .database()
-  .ref(`Client/` + user)
-  .on("value", (dataSnapshot) => {
-    fName = dataSnapshot.child("CFirstName").val();
-    lName = dataSnapshot.child("CLastName").val();
-    email = dataSnapshot.child("email").val();
-    updateVal(fName, "firstName");
-    updateVal(lName, "lastName");
-    updateVal(email, "email");
-  });
-  const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-    profileImage
-      .getDownloadURL()
-      .then((url) => {
-        updateVal(url, "img");
-      })
-      .catch((error) => {
-        image =
-          "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-        updateVal(image, "img");
-      });
-  }
-  updateVal(val, prop) {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  }
-  print() {
-    return(
+const CustomDrawerComponent = (props) =>
+  (
   <SafeAreaView style={{ flex: 1 }}>
   <View
     style={{
@@ -269,13 +231,6 @@ class CustomDrawerComponent {
   </ScrollView>
 </SafeAreaView>);
 
-  }
-  render(){
-  return (
-    {this.print()}
-  );
-}
-};
 
 
 //-------------------------------------------------------
@@ -287,7 +242,7 @@ const ClientDrawer = createDrawerNavigator(
     //"محادثات": { screen: ChatPassword },
   },
   {
-    contentComponent: CustomDrawerComponent.print(),
+    contentComponent: CustomDrawerComponent,
     gesturesEnabled: false,
     drawerPosition: "right",
     drawerType: "slide",

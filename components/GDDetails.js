@@ -9,33 +9,30 @@ import SvgComponent from "./GD_detailsImage";
 import firebase from "../database/firebase";
 
 export default class GDDetails extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
-    var design = props.navigation.state.params.obj;
-
     this.state = {
-      Duid: design.duid,
-      designTitle: design.designTitle,
-      designerProfileImage:"",
-      date: design.designUploadingdate,
-      designDescription: design.designDescription,
-      localpath: design.designUrl,
+      designId: "-MIsiG_yb7Z0SNRIliJK",
+      designTitle: "",
+      designerProfileImage: "",
+      date: "",
+      designDescription: "",
+      localpath: "",
       name: "",
+      Duid: "",
     };
-
-
     //--------------------retreive the JSON obj of the design work from realtime DB
-    // firebase
-    //   .database()
-    //   .ref("Designs/" + this.state.designId)
-    //   .on("value", (snap) => {
-    //     this.updateInputVal(snap.val().designTitle, "designTitle"),
-    //       this.updateInputVal(
-    //         snap.val().designDescription,
-    //         "designDescription"
-    //       ),
-    //       this.updateInputVal(snap.val().designUploadingdate, "date"),
-    //       this.updateInputVal(snap.val().Duid, "Duid"),
+    firebase
+      .database()
+      .ref("Designs/" + this.state.designId)
+      .on("value", (snap) => {
+        this.updateInputVal(snap.val().designTitle, "designTitle"),
+          this.updateInputVal(
+            snap.val().designDescription,
+            "designDescription"
+          ),
+          this.updateInputVal(snap.val().designUploadingdate, "date"),
+          this.updateInputVal(snap.val().Duid, "Duid"),*/
           //-----------------------------retreive designer's profile image
           firebase
             .storage()
@@ -87,8 +84,7 @@ export default class GDDetails extends React.Component {
         } else console.log("Duid is not found");
       });
   }
-  
-
+}
 
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -97,12 +93,6 @@ export default class GDDetails extends React.Component {
   };
 
   render() {
-    console.log(this.state.designTitle);
-    console.log(this.state.date);
-    console.log(this.state.localpath);
-    console.log(this.state.designerProfileImage);
-    console.log(this.state.name);
-
     return (
       <View style={styles.container}>
         <Text
@@ -167,7 +157,7 @@ export default class GDDetails extends React.Component {
           {this.state.date}
         </Text>
         <Image
-        ontouchstart= {this.props.navigation.navigate("designerGallery",{duid: this.state.Duid})} 
+        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} //@HadeelHamad change this later
 
           style={styles.profileImage}
           source={{
@@ -212,7 +202,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
-          ontouchstart= {this.props.navigation.navigate("designerGallery", {duid: this.state.Duid})}
+          ontouchstart= {this.props.navigation.navigate("designerGallery")}//@HadeelHamad change this later
           style={[
             styles.inputStyle2,
             {
@@ -291,6 +281,7 @@ const styles = StyleSheet.create({
     top: "0%",
   },
   profileImage: {
+    //---------------------------------you may need to modify this @shhdSU
     width: 40,
     height: 40,
     top: "30%",

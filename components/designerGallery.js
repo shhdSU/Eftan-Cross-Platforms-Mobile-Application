@@ -232,8 +232,7 @@ export default class designerGallery extends React.Component {
             </Text>
           </TouchableOpacity>
 
-          {/* 
-          --------here is lujain's comments-----
+
           <View
             style={{
               marginTop: -60,
@@ -245,7 +244,7 @@ export default class designerGallery extends React.Component {
             }}
           >
             {this.readData()}
-          </View> */}
+          </View>
         </View>
       </ScrollView>
     );
@@ -303,6 +302,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     position: "absolute",
+    zIndex: 70,
   },
   editText: {
     fontSize: 25,

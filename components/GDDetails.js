@@ -173,8 +173,7 @@ console.log("can not retreive design url");
           {this.state.date}
         </Text>
         <Image
-          ontouchstart={this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
-
+          onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
           style={styles.profileImage}
           source={{
             uri: this.state.designerProfileImage,
@@ -190,6 +189,8 @@ console.log("can not retreive design url");
               fontWeight: "700",
             },
           ]}
+          onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
+
         >
           {this.state.name}
         </Text>
@@ -218,7 +219,6 @@ console.log("can not retreive design url");
           />
         </Svg>
         <Text
-          ontouchstart={this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
           style={[
             styles.inputStyle2,
             {

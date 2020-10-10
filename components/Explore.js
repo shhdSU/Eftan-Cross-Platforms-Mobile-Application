@@ -258,6 +258,9 @@ export default class explore extends Component {
           style={{ width: width / 2 - 40, height: width / 2 - 20 }}
           key={element.designUrl}
         >
+
+
+
           <View
             style={{
               flex: 1,
@@ -271,21 +274,19 @@ export default class explore extends Component {
             }}
 
           >
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
-            >
-              <Image
-                style={{
-                  flex: 1,
-                  width: null,
-                  height: null,
-                  resizeMode: "contain",
-                  margin: 5,
-                }}
-                width={width}
-                source={{ uri: element.designUrl }}
-              />
-            </TouchableOpacity>
+
+            <Image
+              style={{
+                flex: 1,
+                width: null,
+                height: null,
+                resizeMode: "contain",
+                margin: 5,
+              }}
+              width={width}
+              source={{ uri: element.designUrl }}
+
+            />
           </View>
 
           <View

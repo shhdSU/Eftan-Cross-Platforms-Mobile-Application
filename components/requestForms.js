@@ -18,6 +18,7 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import { fromHsv, TriangleColorPicker, toHsv } from "react-native-color-picker";
 import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
+import { Entypo } from '@expo/vector-icons';
 
 export default class RequestForm extends Component {
   constructor(props) {
@@ -419,7 +420,7 @@ export default class RequestForm extends Component {
 
                 <DatePicker
                   style={{ width: 200 }}
-                  date={this.state.date}
+                  date={this.state.deadLine}
                   mode="date"
                   placeholder="آخر موعد للتسليم"
                   format="YYYY-MM-DD"
@@ -428,10 +429,8 @@ export default class RequestForm extends Component {
                   locale={"ar"}
                   cancelBtnText="إلغاء"
                   iconComponent={
-                    <TouchableOpacity style={styles.dateIcon}>
-                      <Image source={require("../assets/DateIcon.png")}
-                      />
-                    </TouchableOpacity>
+                    <Entypo style = {styles.dateIcon} name="calendar" size={35} color="#ccc" />
+                     
                   }
                   customStyles={{
                     placeholder: {
@@ -447,7 +446,7 @@ export default class RequestForm extends Component {
                     // ... You can check the source to find the other keys.
                   }}
                   onDateChange={(date) => {
-                    this.setState({ date: date });
+                    this.updateInputVal( date, "deadLine" );
                   }}
                 />
               </View>

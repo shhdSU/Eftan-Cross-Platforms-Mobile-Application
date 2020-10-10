@@ -71,10 +71,9 @@ export default class clientedit extends React.Component {
           profileImage.getDownloadURL().then((url) => {
             this.updateInputVal(url, "img");
           });
-          Alert.alert("Success");
         })
         .catch((error) => {
-          Alert.alert(error);
+          console.log("error")
         });
     }
   };

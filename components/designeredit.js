@@ -36,7 +36,7 @@ export default class designeredit extends React.Component {
             .on("value", (dataSnapshot) => {
               fName = dataSnapshot.child("DFirstName").val();
               lName = dataSnapshot.child("DLastName").val();
-              email = dataSnapshot.child("Demail").val();
+              email = dataSnapshot.child("DEmail").val();
               bio = dataSnapshot.child("bio").val();
               //   num_rating = dataSnapshot.child("number_of_rating").val();
               //  total_rating = dataSnapshot.child("total_rating").val();
@@ -123,7 +123,7 @@ export default class designeredit extends React.Component {
       .set({
         DFirstName: this.state.firstName,
         DLastName: this.state.lastName,
-        Demail: this.state.email,
+        DEmail: this.state.email,
         //   number_of_rating: this.state.num_rating,
         //  total_rating: this.state.total_rating,
         bio: this.state.bio,
@@ -157,10 +157,9 @@ export default class designeredit extends React.Component {
           profileImage.getDownloadURL().then((url) => {
             this.updateInputVal(url, "img");
           });
-          Alert.alert("Success");
         })
         .catch((error) => {
-          Alert.alert(error);
+          console.log("error")
         });
     }
   };

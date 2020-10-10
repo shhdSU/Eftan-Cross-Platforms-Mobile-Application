@@ -3,6 +3,7 @@ import {
   Text,
   Image,
   Button,
+  Alert,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
@@ -58,26 +59,29 @@ export default class designerprofile extends React.Component {
       if (!snapshot.exists()) {
         Alert.alert("No images found");
       }
-      var design = snapshot.val();
-      var designKeys = Object.keys(design);
-      for (var i = 0; i < designKeys.length; i++) {
-        var designInfo = designKeys[i];
-        var categ = design[designInfo].category;
-        var desDis = design[designInfo].designDescription;
-        var desFileKey = design[designInfo].designFileKey;
-        var desTitle = design[designInfo].designTitle;
-        var desUploadingdate = design[designInfo].designUploadingdate;
-        var designUrl = design[designInfo].designUrl;
-        designGallery[i] = {
-          category: categ,
-          designDescription: desDis,
-          designFileKey: desFileKey,
-          designTitle: desTitle,
-          designUploadingdate: desUploadingdate,
-          designUrl: designUrl,
-        };
+      else {
+        var design = snapshot.val();
+        var designKeys = Object.keys(design);
+        for (var i = 0; i < designKeys.length; i++) {
+          var designInfo = designKeys[i];
+          var categ = design[designInfo].category;
+          var desDis = design[designInfo].designDescription;
+          var desFileKey = design[designInfo].designFileKey;
+          var desTitle = design[designInfo].designTitle;
+          var desUploadingdate = design[designInfo].designUploadingdate;
+          var designUrl = design[designInfo].designUrl;
+          designGallery[i] = {
+            category: categ,
+            designDescription: desDis,
+            designFileKey: desFileKey,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: designUrl,
+          };
+        }
+        this.updateVal(designGallery, "designGalleryState");
       }
-      this.updateVal(designGallery, "designGalleryState");
+
     });
   }
   updateVal(val, prop) {

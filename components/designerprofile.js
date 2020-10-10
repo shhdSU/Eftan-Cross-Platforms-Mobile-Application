@@ -28,7 +28,7 @@ export default class designerprofile extends React.Component {
       // num_rating: 0,
       // total_rating: 0,
     };
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
+    const user = firebase.auth().currentUser.uid;
     //firebase.auth().currentUser.uid;
     // var num_rating = 0;
     //var total_rating = 0;
@@ -164,8 +164,7 @@ export default class designerprofile extends React.Component {
     });
   };
   render() {
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser.uid;
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
     profileImage
       .getDownloadURL()

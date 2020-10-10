@@ -92,7 +92,7 @@ const DesignerGalleryNavigation = createStackNavigator(
   {
     "معرض التصاميم من منظور المصمم": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
-    " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+    " عرض حساب المصمم للطلب": DesignerGalleryScreen, //  ينرفع الزر ضروري التعديل
   },
   {
     headerMode: "none",
@@ -197,7 +197,7 @@ const CustomDrawerComponent = (props) => (
         justifyContent: "center",
       }}
     >
-      <ImageBackground
+      {/* <ImageBackground
         source={require("./assets/background.png")}
         style={{ width: undefined, padding: 50, paddingTop: 80 }}
       >
@@ -225,7 +225,7 @@ const CustomDrawerComponent = (props) => (
         >
           sara@gmail.com
         </Text>
-      </ImageBackground>
+      </ImageBackground> */}
     </View>
     <ScrollView>
       <DrawerItems {...props} />

@@ -398,6 +398,7 @@ export default class explore extends Component {
     };
   */
   render() {
+    console.log(poster.length)
     //  const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>

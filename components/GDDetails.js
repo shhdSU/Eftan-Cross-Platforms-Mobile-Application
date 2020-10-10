@@ -15,8 +15,8 @@ export default class GDDetails extends React.Component {
       designId: "-MIsiG_yb7Z0SNRIliJK",
       designTitle: "",
       designerProfileImage: "",
-      date: props.navigation.state.params.obj.desUploadingdate,
-      designDescription:props.navigation.state.params.obj.designDescription,
+      date: "",
+      designDescription: "",
       localpath: "",
       name: "",
       Duid: "",
@@ -84,6 +84,7 @@ export default class GDDetails extends React.Component {
         } else console.log("Duid is not found");
       });
   }
+}
 
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -201,7 +202,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
-          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}//@HadeelHamad change this later
+          ontouchstart= {this.props.navigation.navigate("designerGallery")}//@HadeelHamad change this later
           style={[
             styles.inputStyle2,
             {

@@ -76,7 +76,7 @@ const ClientGalleryNavigation = createStackNavigator(
   {
     "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
-    //" عرض حساب المصمم للطلب":,
+    " عرض حساب المصمم للطلب": DesignerGalleryScreen,
     "طلب تصميم": { screen: RequestScreen },
   },
   {
@@ -92,7 +92,7 @@ const DesignerGalleryNavigation = createStackNavigator(
   {
     "معرض التصاميم من منظور المصمم": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
-    //" عرض حساب المصمم":DesignerGalleryScreen,
+    " عرض حساب المصمم للطلب": DesignerGalleryScreen,
   },
   {
     headerMode: "none",
@@ -143,7 +143,6 @@ export default class App extends Component {
     )
     );
     return (<Nav />);
-
   }
 }
 //-------------------------------------------------------
@@ -214,7 +213,7 @@ const CustomDrawerComponent = (props) => (
             textAlign: "center",
           }}
         >
-          sarah alqahatni{" "}
+          sarah alqahatni
         </Text>
         <Text
           style={{
@@ -224,7 +223,7 @@ const CustomDrawerComponent = (props) => (
             textAlign: "center",
           }}
         >
-          sara@gmail.com{" "}
+          sara@gmail.com
         </Text>
       </ImageBackground>
     </View>

@@ -223,7 +223,7 @@ export default class UploadNewDesign extends Component {
           cancelable: false,
         }),
           this.updateInputVal("", "localpath"),
-          this.props.navigation.navigate("صفحة المصمم");
+          this.props.navigation.navigate("معرض التصاميم من منظور المصمم");
       })
       .catch((error) => {
         Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {

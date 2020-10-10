@@ -128,7 +128,7 @@ export default class clientedit extends React.Component {
         CLastName: this.state.lastName,
         Cemail: this.state.email,
       });
-    this.props.navigation.navigate("clientprofile");
+    this.props.navigation.navigate("عرض حساب العميل");
   };
   signOutUser = () => {
     firebase.auth().signOut();

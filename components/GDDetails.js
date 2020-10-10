@@ -12,16 +12,21 @@ export default class GDDetails extends React.Component {
   constructor(props) {
     super();
     var design = props.navigation.state.params.obj;
-
     this.state = {
-      Duid: design.duid,
-      designTitle: design.designTitle,
-      designerProfileImage:"",
-      date: design.designUploadingdate,
-      designDescription: design.designDescription,
-      localpath: design.designUrl,
+      Duid: "",
+      designTitle: "",
+      designerProfileImage: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea",
+      date: "",
+      designDescription: "",
+      localpath: "",
       name: "",
     };
+    this.updateInputVal(design.duid, "Duid")
+    this.updateInputVal(design.designTitle, "designTitle")
+    this.updateInputVal(design.designUploadingdate, "date")
+    this.updateInputVal(design.designDescription, "designDescription")
+    this.updateInputVal(design.designUrl, "localpath")
+
 
 
     //--------------------retreive the JSON obj of the design work from realtime DB
@@ -36,37 +41,34 @@ export default class GDDetails extends React.Component {
     //       ),
     //       this.updateInputVal(snap.val().designUploadingdate, "date"),
     //       this.updateInputVal(snap.val().Duid, "Duid"),
-          //-----------------------------retreive designer's profile image
-          firebase
-            .storage()
-            .ref("ProfilePictures/" + this.state.Duid)
-            .getDownloadURL()
-            .then((url) => {
-              this.updateInputVal(url, "designerProfileImage");
-            })
-            .catch((error) => {
-              this.updateInputVal(
-                "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea",
-                "designerProfileImage"
-              );
-              console.log("can not retreive profile img url");
-            });
-            /*
-      });
-    //----------------------get the URI of the design from storage
-    var p = "";
+    //-----------------------------retreive designer's profile image
     firebase
       .storage()
-      .ref("DesignWork/" + this.state.designId)
+      .ref("ProfilePictures/" + this.state.Duid)
       .getDownloadURL()
       .then((url) => {
-        p = url;
-        //return url;
-        this.updateInputVal(p, "localpath");
+        this.updateInputVal(url, "designerProfileImage");
       })
       .catch((error) => {
-        console.log("can not retreive design url");
-      });*/
+
+        console.log("can not retreive profile img url");
+      });
+    /*
+});
+//----------------------get the URI of the design from storage
+var p = "";
+firebase
+.storage()
+.ref("DesignWork/" + this.state.designId)
+.getDownloadURL()
+.then((url) => {
+p = url;
+//return url;
+this.updateInputVal(p, "localpath");
+})
+.catch((error) => {
+console.log("can not retreive design url");
+});*/
 
     //-----------------------------retreive designer's name
     var nname = "";
@@ -87,7 +89,7 @@ export default class GDDetails extends React.Component {
         } else console.log("Duid is not found");
       });
   }
-  
+
 
 
   updateInputVal = (val, prop) => {
@@ -102,6 +104,8 @@ export default class GDDetails extends React.Component {
     console.log(this.state.localpath);
     console.log(this.state.designerProfileImage);
     console.log(this.state.name);
+    console.log(this.state.designDescription);
+
 
     return (
       <View style={styles.container}>
@@ -120,6 +124,8 @@ export default class GDDetails extends React.Component {
             },
           ]}
         >
+
+
           {this.state.designTitle}
         </Text>
         <Svg
@@ -167,7 +173,7 @@ export default class GDDetails extends React.Component {
           {this.state.date}
         </Text>
         <Image
-        ontouchstart= {this.props.navigation.navigate("designerGallery",{duid: this.state.Duid})} 
+          ontouchstart={this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
 
           style={styles.profileImage}
           source={{
@@ -212,7 +218,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
-          ontouchstart= {this.props.navigation.navigate("designerGallery", {duid: this.state.Duid})}
+          ontouchstart={this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
           style={[
             styles.inputStyle2,
             {
@@ -239,7 +245,7 @@ export default class GDDetails extends React.Component {
             },
           ]}
         >
-          {this.state.designDescription}{" "}
+          {this.state.designDescription}
         </Text>
         <SvgComponent
           style={{

@@ -35,11 +35,11 @@ export default class designerGallery extends React.Component {
       propsUser: "",
       designGalleryState: [],
     };
-    const propsUser = props.navigation.state.params.duid; 
-    this.updateInputVal(propsUser,"propsUser");
+    const propsUser = props.navigation.state.params.duid;
+    this.updateInputVal(propsUser, "propsUser");
     var fName, lName, bio, image;
     firebase
-      .database() 
+      .database()
       .ref(`GraphicDesigner/` + propsUser)
       .on("value", (dataSnapshot) => {
         fName = dataSnapshot.child("DFirstName").val();
@@ -72,7 +72,7 @@ export default class designerGallery extends React.Component {
       .orderByChild("Duid")
       .equalTo(propsUser);
     ref.on("value", (snapshot) => {
-      if(!snapshot.exists()){
+      if (!snapshot.exists()) {
         Alert.alert("No images found");
       }
       var design = snapshot.val();
@@ -104,10 +104,10 @@ export default class designerGallery extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-  signOutUser = () => {
-    firebase.auth().signOut();
-    this.props.navigation.navigate("صفحة الدخول");
-  };
+  // signOutUser = () => {
+  //   firebase.auth().signOut();
+  //   this.props.navigation.navigate("صفحة الدخول");
+  // };
 
   readData = () => {
     /*
@@ -225,7 +225,7 @@ export default class designerGallery extends React.Component {
             <Text
               style={styles.editText}
               onPress={() =>
-                this.props.navigation.navigate("requestForms", { DID: this.state.propsUser })
+                this.props.navigation.navigate("طلب تصميم", { DID: this.state.propsUser })
               }
             >
               طلب تصميم جديد

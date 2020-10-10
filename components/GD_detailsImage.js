@@ -16,9 +16,6 @@ function SvgComponent(props) {
           fill="#f2f2f2"
         />
 
-
-
-        //
         <Ellipse
           data-name="Ellipse 24"
           cx={33.059}

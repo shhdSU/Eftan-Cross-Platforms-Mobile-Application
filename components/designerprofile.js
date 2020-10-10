@@ -221,7 +221,7 @@ export default class designerprofile extends React.Component {
         <Text>{this.state.total_rating}</Text> */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate("designeredit")}
+          onPress={() => this.props.navigation.navigate("تعديل حساب المصمم")}
         >
           <Text style={styles.editText}>تعديل بيانات الحساب</Text>
         </TouchableOpacity>

@@ -128,7 +128,7 @@ export default class designeredit extends React.Component {
         //  total_rating: this.state.total_rating,
         bio: this.state.bio,
       });
-    this.props.navigation.navigate("designerprofile");
+    this.props.navigation.navigate("عرض حساب المصمم");
   };
 
   uploadImage = async (uri, draftName) => {

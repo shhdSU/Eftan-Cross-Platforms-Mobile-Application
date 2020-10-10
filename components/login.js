@@ -66,7 +66,7 @@ export default class LoginPage extends Component {
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
                     this.props.navigation.navigate(
-                      "معرض التصاميم من منظور العميل"
+                      "Cdrawer"
                     );
                   }
                   return;
@@ -79,7 +79,7 @@ export default class LoginPage extends Component {
 
                   if (snapshot.exists()) {
                     this.props.navigation.navigate(
-                      "معرض التصاميم من منظور المصمم");
+                      "Ddrawer");
                   }
                   return;
                 });

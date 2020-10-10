@@ -164,8 +164,7 @@ export default class designerprofile extends React.Component {
     });
   };
   render() {
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser.uid;
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
     profileImage
       .getDownloadURL()

@@ -42,7 +42,10 @@ export default class RequestForm extends Component {
       popup: false,
       colorNum: 0,
       mainStep: true,
+      DID: "",
     };
+    const DID = props.navigation.state.params.DID;
+    this.updateInputVal(DID,"DID");
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -178,7 +181,6 @@ export default class RequestForm extends Component {
   };
   storeResquset = () => {
     const CID = firebase.auth().currentUser.uid;
-    /// HERRRREEEEERRREEERERERE
     firebase
       .database()
       .ref("Forms/")
@@ -192,7 +194,7 @@ export default class RequestForm extends Component {
         reference: this.state.reference,
         deadLine: this.state.deadLine,
         CID: CID,
-        DID: "", // HHHEEEEEERRRRREEEEEEEE
+        DID: this.state.DID,
       })
       .then((key) => {
         this.updateInputVal(key.key, "Imagekey");

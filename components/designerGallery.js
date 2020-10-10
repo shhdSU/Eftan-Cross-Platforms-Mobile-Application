@@ -35,13 +35,12 @@ export default class designerGallery extends React.Component {
       propsUser: "",
       designGalleryState: [],
     };
-    const { navigate } = props.navigation;
-    const propsUser = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //props.navigation.state.params.uid; //to get parameters=====================================@SarahAlgwaiz don't forget to change it
+    const propsUser = props.navigation.state.params.duid; 
+    this.updateInputVal(propsUser,"propsUser");
     var fName, lName, bio, image;
     firebase
-      .database()
-      .ref(`GraphicDesigner/` + user)
+      .database() 
+      .ref(`GraphicDesigner/` + propsUser)
       .on("value", (dataSnapshot) => {
         fName = dataSnapshot.child("DFirstName").val();
         lName = dataSnapshot.child("DLastName").val();
@@ -52,7 +51,7 @@ export default class designerGallery extends React.Component {
         this.updateInputVal(lName, "lastName");
         this.updateInputVal(bio, "bio");
       });
-    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    const profileImage = firebase.storage().ref("ProfilePictures/" + propsUser);
     profileImage
       .getDownloadURL()
       .then((url) => {
@@ -71,8 +70,11 @@ export default class designerGallery extends React.Component {
       .database()
       .ref("Designs/")
       .orderByChild("Duid")
-      .equalTo(user);
+      .equalTo(propsUser);
     ref.on("value", (snapshot) => {
+      if(!snapshot.exists()){
+        Alert.alert("No images found");
+      }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -223,7 +225,7 @@ export default class designerGallery extends React.Component {
             <Text
               style={styles.editText}
               onPress={() =>
-                this.props.navigation.navigate("requestForms", { uuid: user })
+                this.props.navigation.navigate("requestForms", { DID: this.state.propsUser })
               }
             >
               طلب تصميم جديد

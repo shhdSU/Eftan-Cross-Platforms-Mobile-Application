@@ -46,7 +46,7 @@ export default class explore extends Component {
     var d = 0;
     var f = 0;
     var p = 0;
-    
+
     var ref = firebase.database().ref("Designs/");
     ref.on("value", (snapshot) => {
       design = snapshot.val();
@@ -269,23 +269,23 @@ export default class explore extends Component {
               backgroundColor: "white",
               margin: 10,
             }}
-            
+
           >
-       <TouchableOpacity
-                       onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", {obj: element})}
-                        >
-            <Image
-              style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
-                margin: 5,
-              }}
-              width={width}
-              source={{ uri: element.designUrl }}
-            />
-      </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
+            >
+              <Image
+                style={{
+                  flex: 1,
+                  width: null,
+                  height: null,
+                  resizeMode: "contain",
+                  margin: 5,
+                }}
+                width={width}
+                source={{ uri: element.designUrl }}
+              />
+            </TouchableOpacity>
           </View>
 
           <View
@@ -296,7 +296,7 @@ export default class explore extends Component {
           >
             <Text
               style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
-              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", {obj: element})}
+              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
 
             >
               {element.designTitle}
@@ -352,23 +352,49 @@ export default class explore extends Component {
             />
           </View>
 
-          <View
-            style={{
-              justifyContent: "space-evenly",
-              paddingLeft: 10,
-            }}
-          >
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
-            >
-              {"  عنوان العمل:" + element.designTitle}
-            </Text>
-          </View>
-        </View>
-      );
+      //return this.print(designGallery);
     });
   };
-*/
+  /*
+    print = (array) => {
+      return array.map((element) => {
+        return (
+          <View
+            style={{
+              width: width / 2 - 40,
+              height: width / 2 - 20,
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Image
+                style={{
+                  flex: 1,
+                  width: null,
+                  height: null,
+                  resizeMode: "contain",
+                }}
+                width={width}
+                source={{ uri: element.designUrl }}
+              />
+            </View>
+  
+            <View
+              style={{
+                justifyContent: "space-evenly",
+                paddingLeft: 10,
+              }}
+            >
+              <Text
+                style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+              >
+                {"  عنوان العمل:" + element.designTitle}
+              </Text>
+            </View>
+          </View>
+        );
+      });
+    };
+  */
   render() {
     //  const { navigation } = this.props;
     return (
@@ -408,6 +434,7 @@ export default class explore extends Component {
 
             <Path
               data-name="Icon material-menu"
+              onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
             />

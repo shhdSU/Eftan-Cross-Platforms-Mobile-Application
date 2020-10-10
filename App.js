@@ -130,8 +130,6 @@ const DesignerProfileNavigation = createStackNavigator(
   }
 );
 
-
-
 //-------------------------------------------------------
 // export navegtion
 

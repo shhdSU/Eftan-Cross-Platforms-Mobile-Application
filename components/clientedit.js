@@ -118,16 +118,18 @@ export default class clientedit extends React.Component {
         { cancelable: false }
       );
     }
-    const user = firebase.auth().currentUser;
-    firebase
-      .database()
-      .ref("Client/" + user.uid)
-      .set({
-        CFirstName: this.state.firstName,
-        CLastName: this.state.lastName,
-        Cemail: this.state.email,
-      });
-    this.props.navigation.navigate("عرض حساب العميل");
+    else {
+      const user = firebase.auth().currentUser;
+      firebase
+        .database()
+        .ref("Client/" + user.uid)
+        .set({
+          CFirstName: this.state.firstName,
+          CLastName: this.state.lastName,
+          Cemail: this.state.email,
+        });
+      this.props.navigation.navigate("عرض حساب العميل");
+    }
   };
   signOutUser = () => {
     firebase.auth().signOut();

@@ -115,20 +115,21 @@ export default class designeredit extends React.Component {
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
+    } else {
+      const user = firebase.auth().currentUser.uid;
+      firebase
+        .database()
+        .ref("GraphicDesigner/" + user)
+        .set({
+          DFirstName: this.state.firstName,
+          DLastName: this.state.lastName,
+          DEmail: this.state.email,
+          //   number_of_rating: this.state.num_rating,
+          //  total_rating: this.state.total_rating,
+          bio: this.state.bio,
+        });
+      this.props.navigation.navigate("عرض حساب المصمم");
     }
-    const user = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref("GraphicDesigner/" + user)
-      .set({
-        DFirstName: this.state.firstName,
-        DLastName: this.state.lastName,
-        DEmail: this.state.email,
-        //   number_of_rating: this.state.num_rating,
-        //  total_rating: this.state.total_rating,
-        bio: this.state.bio,
-      });
-    this.props.navigation.navigate("عرض حساب المصمم");
   };
 
   uploadImage = async (uri, draftName) => {

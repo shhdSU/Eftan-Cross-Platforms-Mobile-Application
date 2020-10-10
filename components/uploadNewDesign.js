@@ -170,6 +170,20 @@ export default class UploadNewDesign extends Component {
       );
       return;
     }
+
+    if (
+      this.state.designTitle.trim() == "" ||
+      this.state.designDescription.trim() == ""
+    ) {
+      Alert.alert(
+        "تنبيه",
+        "الرجاء التأكد من إدخال جميع البيانات المطلوبة",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      return;
+    }
+
     if (this.state.localpath === "") {
       Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
         cancelable: false,

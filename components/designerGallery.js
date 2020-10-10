@@ -34,7 +34,9 @@ export default class designerGallery extends React.Component {
       designUrl: "",
       propsUser: "",
       designGalleryState: [],
+      isClient : false,
     };
+   
     const propsUser = props.navigation.state.params.duid;
     this.updateInputVal(propsUser, "propsUser");
     var fName, lName, bio, image;
@@ -98,6 +100,18 @@ export default class designerGallery extends React.Component {
       console.log(designGallery.length);
       this.updateInputVal(designGallery, "designGalleryState");
     });
+
+    const user = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref(`Client/` + user)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          this.updateInputVal(true,"isClient");
+        
+        }
+      });
+
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -142,7 +156,7 @@ export default class designerGallery extends React.Component {
       return (
         <View
           key={element.designUrl}
-          style={{ width: width / 2 - 40, height: width / 2 - 20 }}
+          style={{ width: width / 2 - 40, height: width / 2 - 20,  }}
         >
           <View
             style={{
@@ -221,7 +235,9 @@ export default class designerGallery extends React.Component {
           <Text style={styles.textStyle3}>{this.state.lastName}</Text>
           <Text style={styles.textStyle8}>نبذة</Text>
           <Text style={styles.textStyle7}>{this.state.bio}</Text>
-          <TouchableOpacity style={styles.button}>
+
+
+         {this.state.isClient && <TouchableOpacity style={styles.button}>
             <Text
               style={styles.editText}
               onPress={() =>
@@ -230,12 +246,12 @@ export default class designerGallery extends React.Component {
             >
               طلب تصميم جديد
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
 
 
           <View
             style={{
-              marginTop: -60,
+              top: "150%",
               paddingLeft: 30,
               paddingRight: 30,
               justifyContent: "space-between",
@@ -289,14 +305,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffeed6",
     alignItems: "center",
     borderRadius: 150 / 2,
-    top: "12%",
+    top: "21%",
     left: "30%",
     right: "5%",
   },
   button: {
-    top: "65%",
+    top: "100%",
     backgroundColor: "#4F3C75",
-    height: "6%",
+    height: "9%",
     width: "80%",
     borderRadius: 25,
     alignSelf: "center",
@@ -306,7 +322,7 @@ const styles = StyleSheet.create({
   },
   editText: {
     fontSize: 25,
-    color: "#fff",
+    color: "#FFEED6",
     marginTop: "1%",
     textAlign: "center",
     alignItems: "center",
@@ -316,7 +332,7 @@ const styles = StyleSheet.create({
 
   forText: {
     position: "absolute",
-    top: "2%",
+    top: "6%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
@@ -345,13 +361,13 @@ const styles = StyleSheet.create({
     height: 50,
   },
   textStyle: {
-    top: "35%",
+    top: "55%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
-    left: "40%",
-    right: "5%",
+    right: "40%",
+    left: "5%",
     justifyContent: "center",
   },
 
@@ -396,31 +412,31 @@ const styles = StyleSheet.create({
     top: "60%",
   },
   textStyle2: {
-    top: "35%",
+    top: "55%",
     textAlign: "center",
     fontSize: 19,
     justifyContent: "center",
     color: "#4F3C75",
     position: "absolute",
-    right: "55%",
+    left: "55%",
   },
   textStyle3: {
-    top: "40%",
+    top: "65%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
     justifyContent: "center",
-    left: "40%",
-    right: "5%",
+    right: "40%",
+    left: "5%",
   },
   textStyle4: {
-    top: "40%",
+    top: "65%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
-    right: "55%",
+    left: "55%",
 
     justifyContent: "center",
   },
@@ -445,8 +461,9 @@ const styles = StyleSheet.create({
     paddingTop: "15%",
   },
   textStyle7: {
-    borderWidth: 2,
-    top: "50%",
+    paddingLeft:"5%",
+    paddingRight:"5%",
+    top: "75%",
     textAlign: "center",
     fontSize: 14,
     color: "#4F3C75",
@@ -456,7 +473,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle8: {
-    top: "45%",
+    top: "75%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",

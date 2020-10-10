@@ -59,6 +59,7 @@ export default class explore extends Component {
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
+        var desUID=design[designInfo].Duid;
 
         designGallery[i] = {
           category: categ,
@@ -66,6 +67,7 @@ export default class explore extends Component {
           designTitle: desTitle,
           designUploadingdate: desUploadingdate,
           designUrl: desUrl,
+          designerUID:desUID
         };
         if (categ == "علامة تجارية") {
           brand[b++] = {
@@ -74,6 +76,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "شعار") {
           logo[l++] = {
@@ -82,6 +85,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "شهادة") {
           cert[c++] = {
@@ -90,6 +94,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "انفوجرافيك") {
           packag[g++] = {
@@ -98,6 +103,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "أخرى") {
           other[o++] = {
@@ -106,6 +112,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "فلتر") {
           filter[f++] = {
@@ -114,6 +121,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "إعلان") {
           poster[p++] = {
@@ -122,6 +130,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         } else if (categ == "فن رقمي") {
           digital[d++] = {
@@ -130,6 +139,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designerUID:desUID
           };
         }
       }
@@ -272,6 +282,11 @@ export default class explore extends Component {
               }}
               width={width}
               source={{ uri: element.designUrl }}
+              onPress={() =>
+                this.props.navigation.navigate("عرض تفاصيل التصميم", {
+                  obj: element
+                })
+              }
             />
           </View>
 
@@ -355,7 +370,7 @@ export default class explore extends Component {
   };
 */
   render() {
-    //  const { navigation } = this.props;
+      const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text

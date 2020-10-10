@@ -12,16 +12,16 @@ export default class GDDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      designId: "-MIsiG_yb7Z0SNRIliJK",
-      designTitle: "",
+      designTitle: props.navigation.state.params.obj.designTitle,
       designerProfileImage: "",
-      date: "",
-      designDescription: "",
+      date: props.navigation.state.params.obj.desUploadingdate,
+      designDescription:props.navigation.state.params.obj.designDescription,
       localpath: "",
       name: "",
-      Duid: "",
+      Duid: props.navigation.state.params.obj.designerUID,
     };
-
+    const { navigation } = props.navigation;
+    /*
     //--------------------retreive the JSON obj of the design work from realtime DB
     firebase
       .database()
@@ -33,7 +33,7 @@ export default class GDDetails extends React.Component {
             "designDescription"
           ),
           this.updateInputVal(snap.val().designUploadingdate, "date"),
-          this.updateInputVal(snap.val().Duid, "Duid"),
+          this.updateInputVal(snap.val().Duid, "Duid"),*/
           //-----------------------------retreive designer's profile image
           firebase
             .storage()
@@ -49,6 +49,7 @@ export default class GDDetails extends React.Component {
               );
               console.log("can not retreive profile img url");
             });
+            /*
       });
     //----------------------get the URI of the design from storage
     var p = "";
@@ -63,7 +64,7 @@ export default class GDDetails extends React.Component {
       })
       .catch((error) => {
         console.log("can not retreive design url");
-      });
+      });*/
 
     //-----------------------------retreive designer's name
     var nname = "";
@@ -156,7 +157,7 @@ export default class GDDetails extends React.Component {
           {this.state.date}
         </Text>
         <Image
-        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} //@HadeelHamad change this later
+        ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} 
 
           style={styles.profileImage}
           source={{
@@ -173,6 +174,8 @@ export default class GDDetails extends React.Component {
               fontWeight: "700",
             },
           ]}
+          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})} 
+
         >
           {this.state.name}
         </Text>
@@ -201,7 +204,7 @@ export default class GDDetails extends React.Component {
           />
         </Svg>
         <Text
-          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}//@HadeelHamad change this later
+          ontouchstart= {this.props.navigation.navigate("designerGallery",{uid: this.state.Duid})}
           style={[
             styles.inputStyle2,
             {

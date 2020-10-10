@@ -5,7 +5,6 @@ import {
   Button,
   StyleSheet,
   Dimensions,
-
   TouchableOpacity,
 } from "react-native";
 import FirebaseAuth from "../database/firebase";
@@ -15,7 +14,7 @@ import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 var designGallery = new Array();
 const { width, height } = Dimensions.get("window");
 
-var fName, lName, email, bio,image;
+var fName, lName, email, bio, image;
 export default class designerprofile extends React.Component {
   constructor(props) {
     super();
@@ -25,13 +24,13 @@ export default class designerprofile extends React.Component {
       email: "",
       bio: "",
       img: "",
-      designGalleryState:[]
+      designGalleryState: [],
       // num_rating: 0,
       // total_rating: 0,
     };
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
+    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
     //firebase.auth().currentUser.uid;
-   // var num_rating = 0;
+    // var num_rating = 0;
     //var total_rating = 0;
     firebase
       .database()
@@ -49,30 +48,34 @@ export default class designerprofile extends React.Component {
         this.updateVal(bio, "bio");
       });
 
-      //=======================================
-      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
-      ref.on("value", (snapshot) => {
-        var design = snapshot.val();
-        var designKeys = Object.keys(design);
-        for (var i = 0; i < designKeys.length; i++) {
-          var designInfo = designKeys[i];
-          var categ = design[designInfo].category;
-          var desDis = design[designInfo].designDescription;
-          var desFileKey = design[designInfo].designFileKey;
-          var desTitle = design[designInfo].designTitle;
-          var desUploadingdate = design[designInfo].designUploadingdate;
-          var designUrl = design[designInfo].designUrl;
-          designGallery[i] = {
-            category: categ,
-            designDescription: desDis,
-            designFileKey: desFileKey,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: designUrl,
-          };
-        }
-     this.updateVal(designGallery,"designGalleryState");
-      });
+    //=======================================
+    var ref = firebase
+      .database()
+      .ref("Designs/")
+      .orderByChild("Duid")
+      .equalTo(user);
+    ref.on("value", (snapshot) => {
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desFileKey = design[designInfo].designFileKey;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var designUrl = design[designInfo].designUrl;
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: desFileKey,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: designUrl,
+        };
+      }
+      this.updateVal(designGallery, "designGalleryState");
+    });
   }
   updateVal(val, prop) {
     const state = this.state;
@@ -114,19 +117,28 @@ export default class designerprofile extends React.Component {
     return this.state.designGalleryState.map((element) => {
       return (
         <View
-        key={element.designUrl}
-          style={{
-            width: width / 2 - 40,
-            height: width / 2 - 20,
-                  }}
+          key={element.designUrl}
+          style={{ width: width / 2 - 40, height: width / 2 - 20 }}
         >
-          <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 5,
+              backgroundColor: "white",
+              margin: 10,
+            }}
+          >
             <Image
               style={{
                 flex: 1,
                 width: null,
                 height: null,
                 resizeMode: "contain",
+                margin: 5,
               }}
               width={width}
               source={{ uri: element.designUrl }}
@@ -135,21 +147,21 @@ export default class designerprofile extends React.Component {
           <View
             style={{
               justifyContent: "space-evenly",
-              paddingLeft: 10,
+              alignItems: "center",
             }}
           >
             <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4F3C75" }}
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
             >
-              {"  عنوان العمل:" + element.designTitle}
+              {element.designTitle}
             </Text>
           </View>
         </View>
       );
     });
-};
+  };
   render() {
-    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
+    const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
     //firebase.auth().currentUser.uid;
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
     profileImage
@@ -209,20 +221,21 @@ export default class designerprofile extends React.Component {
         >
           <Text style={styles.editText}>تعديل بيانات الحساب</Text>
         </TouchableOpacity>
+        {/* 
+                  --------here is lujain's comments-----
+
         <View
           style={{
-            flex: 1,
-            // // flexDirection: "row",
-            // // flexWrap: "wrap",
-            paddingHorizontal: 20,
-            bottom: "-180%",
+            marginTop: -60,
+            paddingLeft: 30,
+            paddingRight: 30,
+            justifyContent: "space-between",
             flexDirection: "row",
             flexWrap: "wrap",
-            justifyContent: "space-between",
           }}
         >
           {this.readData()}
-        </View>
+        </View> */}
       </View>
     );
   }

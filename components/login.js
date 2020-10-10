@@ -145,7 +145,6 @@ export default class LoginPage extends Component {
       );
     }
     return (
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <LoginScrees style={styles.svgComponant} />
 
@@ -192,7 +191,6 @@ export default class LoginPage extends Component {
           </TouchableOpacity>
         </View>
       </View>
-      </TouchableWithoutFeedback>
     );
   }
 }

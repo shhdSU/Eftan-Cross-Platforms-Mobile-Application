@@ -54,7 +54,7 @@ const LoginStack = createStackNavigator(
 const category = createStackNavigator(
   {
     "معرض": { screen: Explore },
-    "الإختيار": {screen: choice},
+    "الإختيار": { screen: choice },
   },
   {
     headerMode: "none",
@@ -151,7 +151,6 @@ export default class App extends Component {
 //-------------------------------------------------------
 
 // Custom Drawers
-    lName = dataSnapshot.child("CLastName").val();
 const CustomDrawerComponent = (props) => (
 
   // constructor(props){
@@ -192,86 +191,86 @@ const CustomDrawerComponent = (props) => (
   //   this.setState(state);
   // }
   // print() {
-    
-  <SafeAreaView style={{ flex: 1 }}>
-  <View
-    style={{
-      height: 290,
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <ImageBackground
-      source={require("./assets/background.png")}
-      style={{ width: undefined, padding: 50, paddingTop: 80 }}
-    >
-      <Image
-        source={require("./assets/profile-pic.png")}
-        style={{ height: 120, width: 120, borderRadius: 60 }}
-      />
-      <Text
-        style={{
-          color: "#4F3C75",
-          fontSize: 15,
-          marginVertical: 8,
-          textAlign: "center",
-        }}
-      >
-        sarah alqahatni{" "}
-      </Text>
-      <Text
-        style={{
-          color: "#4F3C75",
-          fontSize: 12,
-          marginVertical: 8,
-          textAlign: "center",
-        }}
-      >
-        sara@gmail.com{" "}
-      </Text>
-    </ImageBackground>
-  </View>
-  <ScrollView>
-    <DrawerItems {...props} />
-    <TouchableOpacity
-      onPress={() =>
-        Alert.alert(
-          "تسجيل خروج",
-          "هل انت متأكد من تسجيل خروجك ؟",
-          [
-            {
-              text: "الغاء",
-              onPress: () => {
-                this.props.navigation.dispatch(DrawerActions.closeDrawer());
-              },
-            },
-            {
-              text: "تأكيد",
-              onPress: () => {
-                AsyncStorage.clear();
-                props.navigation.navigate("صفحة الدخول");
-              },
-            },
-          ],
-          { cancelable: false }
-        )
-      }
-    >
-      <Text
-        style={{
-          margin: 16,
-          fontWeight: "bold",
-          color: "red",
-          textAlign: "right",
-        }}
-      >
-        تسجيل خروج
-      </Text>
-    </TouchableOpacity>
-  </ScrollView>
-</SafeAreaView>
 
-  
+  <SafeAreaView style={{ flex: 1 }}>
+    <View
+      style={{
+        height: 290,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <ImageBackground
+        source={require("./assets/background.png")}
+        style={{ width: undefined, padding: 50, paddingTop: 80 }}
+      >
+        <Image
+          source={require("./assets/profile-pic.png")}
+          style={{ height: 120, width: 120, borderRadius: 60 }}
+        />
+        <Text
+          style={{
+            color: "#4F3C75",
+            fontSize: 15,
+            marginVertical: 8,
+            textAlign: "center",
+          }}
+        >
+          sarah alqahatni{" "}
+        </Text>
+        <Text
+          style={{
+            color: "#4F3C75",
+            fontSize: 12,
+            marginVertical: 8,
+            textAlign: "center",
+          }}
+        >
+          sara@gmail.com{" "}
+        </Text>
+      </ImageBackground>
+    </View>
+    <ScrollView>
+      <DrawerItems {...props} />
+      <TouchableOpacity
+        onPress={() =>
+          Alert.alert(
+            "تسجيل خروج",
+            "هل انت متأكد من تسجيل خروجك ؟",
+            [
+              {
+                text: "الغاء",
+                onPress: () => {
+                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                },
+              },
+              {
+                text: "تأكيد",
+                onPress: () => {
+                  AsyncStorage.clear();
+                  props.navigation.navigate("صفحة الدخول");
+                },
+              },
+            ],
+            { cancelable: false }
+          )
+        }
+      >
+        <Text
+          style={{
+            margin: 16,
+            fontWeight: "bold",
+            color: "red",
+            textAlign: "right",
+          }}
+        >
+          تسجيل خروج
+      </Text>
+      </TouchableOpacity>
+    </ScrollView>
+  </SafeAreaView>
+
+
   // render(){
   // return (
   //   {this.print()}

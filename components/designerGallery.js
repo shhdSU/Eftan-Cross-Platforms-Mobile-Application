@@ -34,9 +34,9 @@ export default class designerGallery extends React.Component {
       designUrl: "",
       propsUser: "",
       designGalleryState: [],
-      isClient : false,
+      isClient: false,
     };
-   
+
     const propsUser = props.navigation.state.params.duid;
     this.updateInputVal(propsUser, "propsUser");
     var fName, lName, bio, image;
@@ -107,8 +107,8 @@ export default class designerGallery extends React.Component {
       .ref(`Client/` + user)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
-          this.updateInputVal(true,"isClient");
-        
+          this.updateInputVal(true, "isClient");
+
         }
       });
 
@@ -156,7 +156,7 @@ export default class designerGallery extends React.Component {
       return (
         <View
           key={element.designUrl}
-          style={{ width: width / 2 - 40, height: width / 2 - 20,  }}
+          style={{ width: width / 2 - 40, height: width / 2 - 20, }}
         >
           <View
             style={{
@@ -217,17 +217,18 @@ export default class designerGallery extends React.Component {
               </G>
               <Path
                 data-name="Icon ionic-ios-arrow-back"
+                onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
                 fill="#4f3c75"
               />
-              <Path
+              {/* <Path
                 data-name="Icon material-menu"
                 d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
                 fill="#4f3c75"
-              />
+              /> */}
             </G>
           </Svg>
-          <Text style={styles.forText}>حسابي الشخصي</Text>
+          <Text style={styles.forText}>حساب المصمم</Text>
           <Image style={styles.image} source={{ uri: this.state.img }} />
           <Text style={styles.textStyle2}>الاسم الأول</Text>
           <Text style={styles.textStyle}>{this.state.firstName}</Text>
@@ -237,7 +238,7 @@ export default class designerGallery extends React.Component {
           <Text style={styles.textStyle7}>{this.state.bio}</Text>
 
 
-         {this.state.isClient && <TouchableOpacity style={styles.button}>
+          {this.state.isClient && <TouchableOpacity style={styles.button}>
             <Text
               style={styles.editText}
               onPress={() =>
@@ -461,8 +462,8 @@ const styles = StyleSheet.create({
     paddingTop: "15%",
   },
   textStyle7: {
-    paddingLeft:"5%",
-    paddingRight:"5%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     top: "75%",
     textAlign: "center",
     fontSize: 14,

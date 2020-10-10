@@ -51,7 +51,7 @@ const LoginStack = createStackNavigator(
   }
 );
 //-------------------------------------------------------
-const category = createStackNavigator(
+const Explorescreen = createStackNavigator(
   {
     "معرض": { screen: Explore },
     "الإختيار": { screen: choice },
@@ -61,14 +61,14 @@ const category = createStackNavigator(
   }
 );
 //-------------------------------------------------------
-const Explorescreen = createStackNavigator(
-  {
-    "معرض": category,
-  },
-  {
-    headerMode: "none",
-  }
-);
+// const Explorescreen = createStackNavigator(
+//   {
+//     "معرض": category,
+//   },
+//   {
+//     headerMode: "none",
+//   }
+// );
 //-------------------------------------------------------
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو

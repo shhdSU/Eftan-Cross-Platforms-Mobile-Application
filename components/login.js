@@ -9,6 +9,8 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
@@ -136,12 +138,14 @@ export default class LoginPage extends Component {
   render() {
     if (this.state.isLoading) {
       return (
+       
         <View style={styles.preloader}>
           <ActivityIndicator size="large" color="#9E9E9E" />
         </View>
       );
     }
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <LoginScrees style={styles.svgComponant} />
 
@@ -188,6 +192,7 @@ export default class LoginPage extends Component {
           </TouchableOpacity>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

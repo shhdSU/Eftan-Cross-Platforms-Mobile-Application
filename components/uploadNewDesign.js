@@ -192,12 +192,12 @@ export default class UploadNewDesign extends Component {
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
     var currentDate = date + "/" + month + "/" + year;
-    //const user = firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser.uid;
     firebase
       .database()
       .ref("Designs/")
       .push({
-        Duid: "2Uf1Wj14icbxngiiJbjklDDwiZb2", //uid for Hadeel ---------change it later
+        Duid: user,
         designTitle: this.state.designTitle,
         designDescription: this.state.designDescription,
         category: this.state.category,

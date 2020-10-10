@@ -141,7 +141,8 @@ export default class explore extends Component {
           };
         }
       }
-      this.updateInputVal(designGallery, "designGalleryState");
+      if (this.state.designGalleryState.length != designGallery.length)
+        this.updateInputVal(designGallery, "designGalleryState");
     });
   }
   updateInputVal = (val, prop) => {

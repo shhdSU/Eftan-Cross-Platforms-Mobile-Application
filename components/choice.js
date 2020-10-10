@@ -77,6 +77,7 @@ class choice extends Component {
           >
             <Text
               style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
             >
               {element.designTitle}
             </Text>

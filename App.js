@@ -151,85 +151,132 @@ export default class App extends Component {
 //-------------------------------------------------------
 
 // Custom Drawers
-const CustomDrawerComponent = (props) => (
+class CustomDrawerComponent {
+  constructor(props){
+  this.state = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    img: "",
+  };
+  var fName, lName, email,image;
+  const user = firebase.auth().currentUser.uid;
+  firebase
+  .database()
+  .ref(`Client/` + user)
+  .on("value", (dataSnapshot) => {
+    fName = dataSnapshot.child("CFirstName").val();
+    lName = dataSnapshot.child("CLastName").val();
+    email = dataSnapshot.child("email").val();
+    updateVal(fName, "firstName");
+    updateVal(lName, "lastName");
+    updateVal(email, "email");
+  });
+  const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    profileImage
+      .getDownloadURL()
+      .then((url) => {
+        updateVal(url, "img");
+      })
+      .catch((error) => {
+        image =
+          "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+        updateVal(image, "img");
+      });
+  }
+  updateVal(val, prop) {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  }
+  print() {
+    return(
   <SafeAreaView style={{ flex: 1 }}>
-    <View
-      style={{
-        height: 290,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+  <View
+    style={{
+      height: 290,
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <ImageBackground
+      source={require("./assets/background.png")}
+      style={{ width: undefined, padding: 50, paddingTop: 80 }}
     >
-      <ImageBackground
-        source={require("./assets/background.png")}
-        style={{ width: undefined, padding: 50, paddingTop: 80 }}
+      <Image
+        source={require("./assets/profile-pic.png")}
+        style={{ height: 120, width: 120, borderRadius: 60 }}
+      />
+      <Text
+        style={{
+          color: "#4F3C75",
+          fontSize: 15,
+          marginVertical: 8,
+          textAlign: "center",
+        }}
       >
-        <Image
-          source={require("./assets/profile-pic.png")}
-          style={{ height: 120, width: 120, borderRadius: 60 }}
-        />
-        <Text
-          style={{
-            color: "#4F3C75",
-            fontSize: 15,
-            marginVertical: 8,
-            textAlign: "center",
-          }}
-        >
-          sarah alqahatni{" "}
-        </Text>
-        <Text
-          style={{
-            color: "#4F3C75",
-            fontSize: 12,
-            marginVertical: 8,
-            textAlign: "center",
-          }}
-        >
-          sara@gmail.com{" "}
-        </Text>
-      </ImageBackground>
-    </View>
-    <ScrollView>
-      <DrawerItems {...props} />
-      <TouchableOpacity
-        onPress={() =>
-          Alert.alert(
-            "تسجيل خروج",
-            "هل انت متأكد من تسجيل خروجك ؟",
-            [
-              {
-                text: "الغاء",
-                onPress: () => {
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
-                },
-              },
-              {
-                text: "تأكيد",
-                onPress: () => {
-                  AsyncStorage.clear();
-                  props.navigation.navigate("صفحة الدخول");
-                },
-              },
-            ],
-            { cancelable: false }
-          )
-        }
+        sarah alqahatni{" "}
+      </Text>
+      <Text
+        style={{
+          color: "#4F3C75",
+          fontSize: 12,
+          marginVertical: 8,
+          textAlign: "center",
+        }}
       >
-        <Text
-          style={{
-            margin: 16,
-            fontWeight: "bold",
-            color: "red",
-            textAlign: "right",
-          }}
-        >
-          تسجيل خروج
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
-  </SafeAreaView>
-);
+        sara@gmail.com{" "}
+      </Text>
+    </ImageBackground>
+  </View>
+  <ScrollView>
+    <DrawerItems {...props} />
+    <TouchableOpacity
+      onPress={() =>
+        Alert.alert(
+          "تسجيل خروج",
+          "هل انت متأكد من تسجيل خروجك ؟",
+          [
+            {
+              text: "الغاء",
+              onPress: () => {
+                this.props.navigation.dispatch(DrawerActions.closeDrawer());
+              },
+            },
+            {
+              text: "تأكيد",
+              onPress: () => {
+                AsyncStorage.clear();
+                props.navigation.navigate("صفحة الدخول");
+              },
+            },
+          ],
+          { cancelable: false }
+        )
+      }
+    >
+      <Text
+        style={{
+          margin: 16,
+          fontWeight: "bold",
+          color: "red",
+          textAlign: "right",
+        }}
+      >
+        تسجيل خروج
+      </Text>
+    </TouchableOpacity>
+  </ScrollView>
+</SafeAreaView>);
+
+  }
+  render(){
+  return (
+    {this.print()}
+  );
+}
+};
+
 
 //-------------------------------------------------------
 //Client drawer navigation
@@ -240,7 +287,7 @@ const ClientDrawer = createDrawerNavigator(
     //"محادثات": { screen: ChatPassword },
   },
   {
-    contentComponent: CustomDrawerComponent,
+    contentComponent: CustomDrawerComponent.print(),
     gesturesEnabled: false,
     drawerPosition: "right",
     drawerType: "slide",

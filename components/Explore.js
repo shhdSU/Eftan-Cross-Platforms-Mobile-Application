@@ -27,7 +27,7 @@ var design = "";
 var designKeys = "";
 const { width, height } = Dimensions.get("window");
 
-export default class Explore extends Component {
+export default class explore extends Component {
   constructor() {
     super();
     this.state = {

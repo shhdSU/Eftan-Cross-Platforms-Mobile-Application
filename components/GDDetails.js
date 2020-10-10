@@ -82,8 +82,8 @@ console.log("can not retreive design url");
             .ref(`GraphicDesigner/` + this.state.Duid)
             .on("value", (dataSnapshot) => {
               nname =
-                dataSnapshot.child("DFirstName").val() +
-                dataSnapshot.child("DLastName").val();
+                dataSnapshot.child("DFirstName").val() + " "+
+                dataSnapshot.child("DLastName").val() ;
               this.updateInputVal(nname, "name");
             });
         } else console.log("Duid is not found");
@@ -300,6 +300,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     top: "14%",
-    left:"36%"
+    left:"36%",
+    borderRadius:35,
   },
 });

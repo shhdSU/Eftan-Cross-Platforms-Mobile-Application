@@ -55,6 +55,9 @@ export default class designerprofile extends React.Component {
       .orderByChild("Duid")
       .equalTo(user);
     ref.on("value", (snapshot) => {
+      if(!snapshot.exists()){
+        Alert.alert("No images found");
+      }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {

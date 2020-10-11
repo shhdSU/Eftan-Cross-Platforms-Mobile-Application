@@ -248,6 +248,18 @@ export default class designerGallery extends React.Component {
               طلب تصميم جديد
             </Text>
           </TouchableOpacity>}
+          {!this.state.isClient &&  
+            <Text
+            style ={{
+              top:"100%",
+              left:"5%",
+              color:"#4F3C75",
+              
+            }}
+            >
+_________________________________________            </Text>
+        }
+
 
 
           <View

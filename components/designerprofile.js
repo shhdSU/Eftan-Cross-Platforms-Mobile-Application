@@ -228,12 +228,10 @@ export default class designerprofile extends React.Component {
         >
           <Text style={styles.editText}>تعديل بيانات الحساب</Text>
         </TouchableOpacity>
-        {/* 
-                  --------here is lujain's comments-----
 
         <View
           style={{
-            marginTop: -60,
+            top: "150%",
             paddingLeft: 30,
             paddingRight: 30,
             justifyContent: "space-between",
@@ -242,7 +240,7 @@ export default class designerprofile extends React.Component {
           }}
         >
           {this.readData()}
-        </View> */}
+        </View>
       </View>
     );
   }

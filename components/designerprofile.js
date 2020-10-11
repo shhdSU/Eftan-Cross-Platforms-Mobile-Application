@@ -231,7 +231,7 @@ export default class designerprofile extends React.Component {
 
         <View
           style={{
-            top: "150%",
+            top: "175%",
             paddingLeft: 30,
             paddingRight: 30,
             justifyContent: "space-between",
@@ -267,12 +267,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffeed6",
     alignItems: "center",
     borderRadius: 150 / 2,
-    top: "15%",
+    top: "10%",
     left: "30%",
     right: "5%",
   },
   button: {
-    top: "80%",
+    top: "70%",
     backgroundColor: "#4F3C75",
     height: "6%",
     width: "80%",
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   textStyle: {
-    top: "45%",
+    top: "40%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle2: {
-    top: "40%",
+    top: "35%",
     textAlign: "center",
     fontSize: 19,
     justifyContent: "center",
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     left: "55%",
   },
   textStyle3: {
-    top: "40%",
+    top: "35%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     left: "5%",
   },
   textStyle4: {
-    top: "45%",
+    top: "40%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle5: {
-    top: "52%",
+    top: "45%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle6: {
-    top: "48%",
+    top: "40%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
   textStyle7: {
     paddingRight:"5%",
     paddingLeft:"5%",
-    top: "64%",
+    top: "58%",
     textAlign: "center",
     fontSize: 14,
     color: "#4F3C75",
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle8: {
-    top: "67%",
+    top: "60%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",

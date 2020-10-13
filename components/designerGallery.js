@@ -227,7 +227,7 @@ export default class designerGallery extends React.Component {
               />
             </G>
           </Svg>
-          <Text style={styles.forText}>حسابي الشخصي</Text>
+          <Text style={styles.forText}> حساب المصمم</Text>
           <Image style={styles.image} source={{ uri: this.state.img }} />
           <Text style={styles.textStyle2}>الاسم الأول</Text>
           <Text style={styles.textStyle}>{this.state.firstName}</Text>
@@ -250,7 +250,7 @@ export default class designerGallery extends React.Component {
           {!this.state.isClient &&  
             <Text
             style ={{
-              top:"100%",
+              top:"150%",
               left:"5%",
               color:"#4F3C75",
               
@@ -317,12 +317,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffeed6",
     alignItems: "center",
     borderRadius: 150 / 2,
-    top: "21%",
+    top: "35%",
     left: "30%",
     right: "5%",
   },
   button: {
-    top: "100%",
+    top: "70%",
     backgroundColor: "#4F3C75",
     height: "9%",
     width: "80%",
@@ -338,13 +338,13 @@ const styles = StyleSheet.create({
     marginTop: "1%",
     textAlign: "center",
     alignItems: "center",
-    top: "5%",
+    top: "15%",
     zIndex: 10,
   },
 
   forText: {
     position: "absolute",
-    top: "6%",
+    top: "13%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   textStyle: {
-    top: "55%",
+    top: "85%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
     top: "60%",
   },
   textStyle2: {
-    top: "55%",
+    top: "85%",
     textAlign: "center",
     fontSize: 19,
     justifyContent: "center",
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
     left: "55%",
   },
   textStyle3: {
-    top: "65%",
+    top: "95%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     left: "5%",
   },
   textStyle4: {
-    top: "65%",
+    top: "95%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
   textStyle7: {
     paddingLeft:"5%",
     paddingRight:"5%",
-    top: "75%",
+    top: "110%",
     textAlign: "center",
     fontSize: 14,
     color: "#4F3C75",
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle8: {
-    top: "75%",
+    top: "115%",
     textAlign: "center",
     fontSize: 19,
     color: "#4F3C75",

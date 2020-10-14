@@ -35,7 +35,8 @@ import designeredit from "./components/designeredit";
 import Explore from "./components/Explore";
 import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
-// import firebase from "./database/firebase";
+//import designerPortfolio from "./components/designerPortfolio";
+
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -78,6 +79,7 @@ const ClientGalleryNavigation = createStackNavigator(
     "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
     " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+    // "أعمال مصمم معين":designerPortfolio,
     "طلب تصميم": { screen: RequestScreen },
   },
   {
@@ -147,8 +149,7 @@ export default class App extends Component {
   }
 }
 //-------------------------------------------------------
-
-// Custom Drawers
+// retreive image 
 
 const profilePicture = () => {
   var URL = "";
@@ -166,7 +167,8 @@ const profilePicture = () => {
       return URL;
     });
 }
-
+//-------------------------------------------------------
+// retreive name 
 function name() {
   var name = "";
   var fName, lName;
@@ -193,7 +195,8 @@ function name() {
     });
   return name;
 }
-
+//-------------------------------------------------------
+// retreive email 
 function email() {
   var email = "";
   const user = firebase.auth().currentUser.uid;
@@ -217,7 +220,8 @@ function email() {
 
   return email;
 }
-
+//-------------------------------------------------------
+// Custom Drawers
 const CustomDrawerComponent = (props) => (
 
   <SafeAreaView style={{ flex: 1 }}>
@@ -233,7 +237,7 @@ const CustomDrawerComponent = (props) => (
         style={{ width: undefined, padding: 50, paddingTop: 80 }}
       >
         <Image
-          source={{ uri: profilePicture }}
+          //source={{ uri: profilePicture }}
           style={{ height: 120, width: 120, borderRadius: 60 }}
         />
         <Text
@@ -269,7 +273,7 @@ const CustomDrawerComponent = (props) => (
               {
                 text: "الغاء",
                 onPress: () => {
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  props.navigation.closeDrawer();
                 },
               },
               {

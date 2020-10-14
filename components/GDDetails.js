@@ -249,7 +249,8 @@ console.log("can not retreive design url");
               borderWidth:1,
               borderColor:"#4F3C75",
               borderRadius:25,
-padding:"7%"            },
+padding:"7%"          
+  },
           ]}
         >
           {this.state.designDescription}
@@ -320,6 +321,15 @@ backgroundColor:"#4F3C75",
 width:"87%",
 borderRadius:25,
 top:"8%",
-height:"10%"
+height:"10%",
+shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 0,
+},
+shadowOpacity: 1.48,
+shadowRadius: 2.95,
+
+elevation: 19,
   },
 });

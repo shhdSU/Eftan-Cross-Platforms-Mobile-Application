@@ -89,11 +89,11 @@ export default class choice extends Component {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 25,
             fontWeight: "700",
             color: "#4f3c75",
             alignSelf: "center",
-            top: "7%",
+            top: "8%",
             position: "absolute",
             zIndex: 2,
           }}

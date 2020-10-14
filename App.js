@@ -149,7 +149,7 @@ export default class App extends Component {
 //-------------------------------------------------------
 
 // Custom Drawers
-
+/*
  const profilePicture = () => {
  var URL = "";
   const user = firebase.auth().currentUser.uid;
@@ -165,7 +165,7 @@ export default class App extends Component {
      console.log(URL);
      return URL;
     });
-}
+}*/
 
 function name ()  {
   var name = "";
@@ -233,8 +233,9 @@ const CustomDrawerComponent = (props) => (
         style={{ width: undefined, padding: 50, paddingTop: 80 }}
       >
 <Image
+/*
       source={{ uri: profilePicture}}
-      style={{ height: 120, width: 120, borderRadius: 60 }}
+      style={{ height: 120, width: 120, borderRadius: 60 }}*/
     />      
         <Text
           style={{

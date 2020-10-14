@@ -16,7 +16,7 @@ import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
-
+var shownDesigns = new Array();
 export default class designerGallery extends React.Component {
   constructor(props) {
     super();
@@ -35,6 +35,8 @@ export default class designerGallery extends React.Component {
       propsUser: "",
       designGalleryState: [],
       isClient: false,
+      designShownState:[]
+    
     };
 
     const propsUser = props.navigation.state.params.duid;
@@ -75,7 +77,7 @@ export default class designerGallery extends React.Component {
       .equalTo(propsUser);
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
-        Alert.alert("No images found");
+       
       }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
@@ -95,10 +97,18 @@ export default class designerGallery extends React.Component {
           designUploadingdate: desUploadingdate,
           designUrl: designUrl,
         };
+
       }
-      console.log(designGallery);
-      console.log(designGallery.length);
-      this.updateInputVal(designGallery, "designGalleryState");
+          this.updateInputVal(designGallery, "designGalleryState");
+          if(designGallery.length>=2){
+          for (var i = 0; i < 2; i++) {
+            shownDesigns[i]=designGallery[i];
+          }
+          this.updateInputVal(shownDesigns, "designShownState");
+        }else{
+          this.updateInputVal(designGallery, "designShownState");
+          }
+           
     });
 
     const user = firebase.auth().currentUser.uid;
@@ -118,41 +128,9 @@ export default class designerGallery extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-  // signOutUser = () => {
-  //   firebase.auth().signOut();
-  //   this.props.navigation.navigate("صفحة الدخول");
-  // };
-
+ 
   readData = () => {
-    /*
-      const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-      //firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
-      ref.on("value", (snapshot) => {
-        var design = snapshot.val();
-        var designKeys = Object.keys(design);
-        for (var i = 0; i < designKeys.length; i++) {
-          var designInfo = designKeys[i];
-          var categ = design[designInfo].category;
-          var desDis = design[designInfo].designDescription;
-          var desFileKey = design[designInfo].designFileKey;
-          var desTitle = design[designInfo].designTitle;
-          var desUploadingdate = design[designInfo].designUploadingdate;
-          var designUrl = design[designInfo].designUrl;
-          designGallery[i] = {
-            category: categ,
-            designDescription: desDis,
-            designFileKey: desFileKey,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: designUrl,
-          };
-        }
-        console.log(designGallery);
-        console.log(designGallery.length);
-      });
-      */
-    return this.state.designGalleryState.map((element) => {
+       return this.state.designShownState.map((element) => {
       return (
         <View
           key={element.designUrl}
@@ -275,6 +253,20 @@ _________________________________________            </Text>
             {this.readData()}
           </View>
         </View>
+
+        <TouchableOpacity
+         style={styles.button}
+         onPress={() => this.props.navigation.navigate("أعمال مصمم معين", { arr: this.state.designGalleryState })}
+         
+      >
+        <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 20,
+            }}
+          >
+           المزيد من أعمال المصمم         </Text>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
@@ -296,7 +288,7 @@ _________________________________________            </Text>
 //   </View>;
 // })}
 
-//Style sheet
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -351,24 +343,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "700",
   },
-  forText2: {
-    alignItems: "center",
-    position: "absolute",
-    top: "45%",
-    color: "#4F3C75",
-    fontSize: 15,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
-  forText3: {
-    alignItems: "center",
-    position: "absolute",
-    top: "77%",
-    color: "#4F3C75",
-    fontSize: 18,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
+  
   profileImg: {
     width: 50,
     height: 50,

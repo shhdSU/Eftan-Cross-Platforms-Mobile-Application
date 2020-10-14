@@ -241,7 +241,6 @@ export default class explore extends Component {
             }}
 
           >
-
             <Image
               style={{
                 flex: 1,
@@ -252,10 +251,8 @@ export default class explore extends Component {
               }}
               width={width}
               source={{ uri: element.designUrl }}
-
             />
           </View>
-
           <View
             style={{
               justifyContent: "space-evenly",

@@ -27,7 +27,7 @@ export default class GDDetails extends React.Component {
     this.updateInputVal(design.designDescription, "designDescription")
     this.updateInputVal(design.designUrl, "localpath")
 
-    console.log(this.state.Duid)
+   
 
     //--------------------retreive the JSON obj of the design work from realtime DB
     // firebase

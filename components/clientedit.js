@@ -20,6 +20,7 @@ export default class clientedit extends React.Component {
       lastName: "",
       email: "",
       img: "",
+      resultUri:"",
     };
     const user = firebase.auth().currentUser.uid;
     var fName, lName, email, image;
@@ -60,21 +61,10 @@ export default class clientedit extends React.Component {
     this.setState(state);
   };
   onChooseImagePress = async () => {
-    const user = firebase.auth().currentUser.uid;
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      this.uploadImage(result.uri, user)
-        .then(() => {
-          const profileImage = firebase
-            .storage()
-            .ref("ProfilePictures/" + user);
-          profileImage.getDownloadURL().then((url) => {
-            this.updateInputVal(url, "img");
-          });
-        })
-        .catch((error) => {
-          console.log("error")
-        });
+      this.updateInputVal(result.uri,"resultUri");
+      this.updateInputVal(result.uri,"img");
     }
   };
   uploadImage = async (uri, draftName) => {
@@ -88,6 +78,7 @@ export default class clientedit extends React.Component {
   };
 
   confirmChanges = () => {
+    
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
@@ -119,18 +110,50 @@ export default class clientedit extends React.Component {
       );
     }
     else {
-      const user = firebase.auth().currentUser;
-      firebase
-        .database()
-        .ref("Client/" + user.uid)
-        .set({
-          CFirstName: this.state.firstName,
-          CLastName: this.state.lastName,
-          Cemail: this.state.email,
-        });
-      this.props.navigation.navigate("عرض حساب العميل");
+      Alert.alert(
+        "تنبيه",
+        "هل ترغب في حفظ تغييراتك؟",
+        [{ text: "نعم", onPress: () => this.saveChanges() }, {text: "لا"}],
+        { cancelable: false }
+      );     
+    
     }
   };
+  saveChanges =() =>{ 
+    const user = firebase.auth().currentUser.uid;
+    this.uploadImage(this.state.resultUri, user)
+    .then(() => {
+      const profileImage = firebase
+        .storage()
+        .ref("ProfilePictures/" + user);
+      profileImage.getDownloadURL().then((url) => {
+        this.updateInputVal(url, "img");
+      });
+    })
+    .catch((error) => {
+      console.log("error")
+    });
+    Alert.alert(
+      "رسالة", " تم رفع الصورة بنجاح، نرجو الانتظار قليلًأ حتى تظهر في حسابك الشخصي  "
+      [{ text: "حسنًا" }],
+      { cancelable: false }
+    );
+    firebase
+      .database()
+      .ref("Client/" + user)
+      .set({
+        CFirstName: this.state.firstName,
+        CLastName: this.state.lastName,
+        Cemail: this.state.email,
+      });
+      Alert.alert(
+        "رسالة",
+        "تم حفظ التغييرات بنجاح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+       this.props.navigation.navigate("عرض حساب العميل");
+  }
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");
@@ -278,7 +301,7 @@ const styles = StyleSheet.create({
   },
 
   editText: {
-    fontSize: 25,
+    fontSize: 20,
     color: "#FFEED6",
     marginTop: "1%",
     textAlign: "center",

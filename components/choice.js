@@ -9,10 +9,8 @@ import {
 } from "react-native";
 const { width } = Dimensions.get("window");
 import Svg, { Defs, G, Path } from "react-native-svg";
-var arr = [];
 var cat = "";
-var arr1 = [];
-class choice extends Component {
+export default class choice extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -22,76 +20,15 @@ class choice extends Component {
       designFileKey: "",
       designUrl: "",
       designUploadingdate: "",
-      logo: [],
-      brand: [],
-      cert: [],
-      packag: [],
-      other: [],
-      filter: [],
-      poster: [],
-      digital: [],
-
       cat1: "",
+      arr: [],
     };
     const { navigation } = props.navigation;
-    arr = props.navigation.state.params.array;
     cat = props.navigation.state.params.category;
+    console.log(props.navigation.state.params.array);
+    this.updateInputVal(props.navigation.state.params.array,"arr");
     this.updateInputVal(cat, "cat1");
-    if (cat == "شعار") {
-      if (arr.length != this.state.logo.length) {
-        this.updateInputVal(arr, "logo");
-      }
-      arr1 = this.state.logo;
-    } else
-      if (cat == "إعلان") {
-        if (arr.length != this.state.poster.length) {
-          this.updateInputVal(arr, "poster");
-        }
-
-        arr1 = this.state.poster;
-      } else
-        if (cat == "فلتر") {
-          if (arr.length != this.state.filter.length)
-            this.updateInputVal(arr, "filter");
-          arr1 = this.state.filter;
-
-        } else
-          if (cat == "فن رقمي") {
-            if (arr.length != this.state.digital.length)
-              this.updateInputVal(arr, "digital");
-            arr1 = this.state.digital;
-
-          } else
-            if (cat == "علامة تجارية") {
-              if (arr.length != this.state.brand.length)
-                this.updateInputVal(arr, "brand");
-              arr1 = this.state.brand;
-
-            } else
-              if (cat == "شهادة") {
-                if (arr.length != this.state.cert.length)
-                  this.updateInputVal(arr, "cert");
-                arr1 = this.state.cert;
-
-              } else
-                if (cat == "انفوجرافيك") {
-
-                  if (arr.length != this.state.packag.length)
-                    this.updateInputVal(arr, "packag");
-                  arr1 = this.state.packag;
-
-                } else
-                  if (cat == "أخرى") {
-
-                    if (arr.length != this.state.other.length)
-                      this.updateInputVal(arr, "other");
-                    arr1 = this.state.other;
-
-
-
-                  }
-    console.log(arr1);
-    console.log(cat);
+    console.log(this.state.arr);
   }
 
   updateInputVal = (val, prop) => {
@@ -205,7 +142,7 @@ class choice extends Component {
                 flexWrap: "wrap",
               }}
             >
-              {this.print(arr1)}
+              {this.print(this.state.arr)}
             </View>
           </View>
         </ScrollView>
@@ -213,7 +150,6 @@ class choice extends Component {
     );
   }
 }
-export default choice;
 
 const styles = StyleSheet.create({
   container: {

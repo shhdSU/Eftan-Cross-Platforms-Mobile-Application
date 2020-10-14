@@ -35,7 +35,7 @@ import designeredit from "./components/designeredit";
 import Explore from "./components/Explore";
 import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
-//import designerPortfolio from "./components/designerPortfolio";
+import designerPortfolio from "./components/designerPortfolio";
 
 
 //-------------------------------------------------------
@@ -79,7 +79,7 @@ const ClientGalleryNavigation = createStackNavigator(
     "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
     " عرض حساب المصمم للطلب": DesignerGalleryScreen,
-    // "أعمال مصمم معين":designerPortfolio,
+     "أعمال مصمم معين":designerPortfolio,
     "طلب تصميم": { screen: RequestScreen },
   },
   {

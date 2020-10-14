@@ -301,11 +301,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     top: "14%",
-<<<<<<< HEAD
-    left: "36%"
-=======
     left:"36%",
     borderRadius:35,
->>>>>>> 1f41c9224f8b775d18c7212e72228a8d0485a7da
   },
 });

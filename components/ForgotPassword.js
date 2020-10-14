@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { Text, View, Alert, TextInput, StyleSheet,TouchableOpacity } from "react-native";
+import { Text, View, Alert, TextInput, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import firebase from "../database/firebase";
 import {

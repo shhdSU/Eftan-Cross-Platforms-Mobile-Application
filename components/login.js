@@ -11,10 +11,10 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
-  TouchableOpacity
 } from "react-native";
 import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

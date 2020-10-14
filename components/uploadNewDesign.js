@@ -312,8 +312,6 @@ export default class UploadNewDesign extends Component {
         <TextInput
           style={styles.inputStyle}
           value={this.state.designTitle}
-          maxLength={20}
-          placeholder="الحد الأقصى 20 حرف"
           onChangeText={(val) => this.updateInputVal(val, "designTitle")}
         />
 
@@ -327,7 +325,6 @@ export default class UploadNewDesign extends Component {
         </Text>
         <TextInput
           style={styles.inputStyleDescription}
-          placeholder="الحد الأقصى 250 حرف"
           maxLength={250}
           multiline={true}
           value={this.state.designDescription}
@@ -389,38 +386,14 @@ export default class UploadNewDesign extends Component {
           <Picker.Item label="أخرى" value="أخرى" />
         </Picker>
 
-        
-
-
-
         <TouchableOpacity
-         style={styles.button}
-        onPress={() =>
-          Alert.alert(
-            "تأكيد رفع العمل",
-            "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
-            [
-             
-              {
-                text: "تأكيد",
-                onPress: () => {
-                this.uploadDesign()
-                },
-              }, {
-                text: "إلغاء",
-                onPress: () => {
-                //this.uploadDesign()
-                },
-              },
-            ],
-            { cancelable: false }
-          )
-        }
-      >
-        <Text
+          style={styles.button}
+          onPress={() => this.uploadDesign()}
+        >
+          <Text
             style={{
               color: "#FFEED6",
-              fontSize: 20,
+              fontSize: 25,
             }}
           >
             رفع العمل
@@ -516,10 +489,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "80%",
     height: "3.5%",
-    alignSelf:"center",
+    alignSelf: "center",
     bottom: "15%",
   },
-  
 
   preloader: {
     position: "relative",
@@ -527,7 +499,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff",
   },
-  
+  radio: {
+    top: "-4%",
+    left: "23%",
+    alignItems: "flex-start",
+    justifyContent: "space-evenly",
+    zIndex: 6,
+  },
 
   SvgComponentStyle: {
     top: "-8%",

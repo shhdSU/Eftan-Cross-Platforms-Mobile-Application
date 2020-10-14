@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import {
@@ -173,6 +173,7 @@ console.log("can not retreive design url");
         >
           {this.state.date}
         </Text>
+        <TouchableOpacity>
         <Image
           onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
           style={styles.profileImage}
@@ -194,7 +195,7 @@ console.log("can not retreive design url");
 
         >
           {this.state.name}
-        </Text>
+        </Text></TouchableOpacity>
         <Svg
           width={42}
           height={42}
@@ -253,6 +254,20 @@ console.log("can not retreive design url");
             right: 120,
           }}
         ></SvgComponent>
+        <TouchableOpacity
+         style={styles.button}
+         onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
+         
+      >
+        <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 20,
+            }}
+          >
+           المزيد عن المصمم
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -266,19 +281,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
   },
-  forText: {
-    position: "relative",
-    top: wp("-200%"),
-    left: hp("2%"),
-    color: "#4F3C75",
-  },
-  forText2: {
-    position: "relative",
-    top: hp("45%"),
-    left: hp("11%"),
-    color: "#4F3C75",
-    fontSize: 30,
-  },
   preview: {
     width: 330,
     height: 280,
@@ -287,9 +289,19 @@ const styles = StyleSheet.create({
     top: "15%",
     borderRadius: 35,
     alignSelf: "center",
+  },button: {
+    alignItems: "center",
+    backgroundColor: "#4F3C75",
+    padding: "1%",
+    justifyContent: "center",
+    borderRadius: 25,
+    width: "60%",
+    height: "3.5%",
+    alignSelf:"center",
+    bottom: "15%",
   },
   inputStyle2: {
-    fontSize: 18,
+    fontSize: 16,
     marginTop: "4%",
     width: "100%",
     marginBottom: "2%",
@@ -301,11 +313,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     top: "14%",
-<<<<<<< HEAD
-    left: "36%"
-=======
     left:"36%",
     borderRadius:35,
->>>>>>> 1f41c9224f8b775d18c7212e72228a8d0485a7da
   },
 });

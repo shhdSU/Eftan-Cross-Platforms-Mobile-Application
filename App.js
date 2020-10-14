@@ -4,6 +4,7 @@ import {
   DrawerItems,
   DrawerActions,
 } from "react-navigation-drawer";
+import firebase from "./database/firebase";
 import {
   ImageBackground,
   Text,
@@ -34,7 +35,8 @@ import designeredit from "./components/designeredit";
 import Explore from "./components/Explore";
 import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
-// import firebase from "./database/firebase";
+import designerPortfolio from "./components/designerPortfolio";
+
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -51,7 +53,7 @@ const LoginStack = createStackNavigator(
   }
 );
 //-------------------------------------------------------
-const category = createStackNavigator(
+const Explorescreen = createStackNavigator(
   {
     "معرض": { screen: Explore },
     "الإختيار": { screen: choice },
@@ -61,14 +63,14 @@ const category = createStackNavigator(
   }
 );
 //-------------------------------------------------------
-const Explorescreen = createStackNavigator(
-  {
-    "معرض": category,
-  },
-  {
-    headerMode: "none",
-  }
-);
+// const Explorescreen = createStackNavigator(
+//   {
+//     "معرض": category,
+//   },
+//   {
+//     headerMode: "none",
+//   }
+// );
 //-------------------------------------------------------
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
@@ -77,6 +79,7 @@ const ClientGalleryNavigation = createStackNavigator(
     "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
     " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+     "أعمال مصمم معين":designerPortfolio,
     "طلب تصميم": { screen: RequestScreen },
   },
   {
@@ -146,48 +149,80 @@ export default class App extends Component {
   }
 }
 //-------------------------------------------------------
+// retreive image 
 
+const profilePicture = () => {
+  var URL = "";
+  const user = firebase.auth().currentUser.uid;
+  const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+  profileImage
+    .getDownloadURL()
+    .then((url) => {
+      console.log(url);
+      return url;
+    })
+    .catch((error) => {
+      URL = "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+      console.log(URL);
+      return URL;
+    });
+}
+//-------------------------------------------------------
+// retreive name 
+function name() {
+  var name = "";
+  var fName, lName;
+  const user = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref(`GraphicDesigner/` + user)
+    .on("value", (dataSnapshot) => {
+      if (dataSnapshot.exists()) {
+        fName = dataSnapshot.child("DFirstName").val();
+        lName = dataSnapshot.child("DLastName").val();
+        name = fName + " " + lName;
+      }
+    });
+  firebase
+    .database()
+    .ref(`Client/` + user)
+    .on("value", (dataSnapshot) => {
+      if (dataSnapshot.exists()) {
+        fName = dataSnapshot.child("CFirstName").val();
+        lName = dataSnapshot.child("CLastName").val();
+        name = fName + " " + lName;
+      }
+    });
+  return name;
+}
+//-------------------------------------------------------
+// retreive email 
+function email() {
+  var email = "";
+  const user = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref(`Client/` + user)
+    .on("value", (dataSnapshot) => {
+      if (dataSnapshot.exists()) {
+        email = dataSnapshot.child("Cemail").val();
+      }
+    });
+
+  firebase
+    .database()
+    .ref(`GraphicDesigner/` + user)
+    .on("value", (dataSnapshot) => {
+      if (dataSnapshot.exists()) {
+        email = dataSnapshot.child("DEmail").val();
+      }
+    });
+
+  return email;
+}
+//-------------------------------------------------------
 // Custom Drawers
 const CustomDrawerComponent = (props) => (
-
-  // constructor(props){
-  // this.state = {
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "",
-  //   img: "",
-  // };
-  // var fName, lName, email,image;
-  // const user = firebase.auth().currentUser.uid;
-  // firebase
-  // .database()
-  // .ref(`Client/` + user)
-  // .on("value", (dataSnapshot) => {
-  //   fName = dataSnapshot.child("CFirstName").val();
-  //   lName = dataSnapshot.child("CLastName").val();
-  //   email = dataSnapshot.child("email").val();
-  //   updateVal(fName, "firstName");
-  //   updateVal(lName, "lastName");
-  //   updateVal(email, "email");
-  // });
-  // const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-  //   profileImage
-  //     .getDownloadURL()
-  //     .then((url) => {
-  //       updateVal(url, "img");
-  //     })
-  //     .catch((error) => {
-  //       image =
-  //         "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-  //       updateVal(image, "img");
-  //     });
-  // }
-  // updateVal(val, prop) {
-  //   const state = this.state;
-  //   state[prop] = val;
-  //   this.setState(state);
-  // }
-  // print() {
 
   <SafeAreaView style={{ flex: 1 }}>
     <View
@@ -197,12 +232,12 @@ const CustomDrawerComponent = (props) => (
         justifyContent: "center",
       }}
     >
-      {/* <ImageBackground
+      <ImageBackground
         source={require("./assets/background.png")}
         style={{ width: undefined, padding: 50, paddingTop: 80 }}
       >
         <Image
-          source={require("./assets/profile-pic.png")}
+          //source={{ uri: profilePicture }}
           style={{ height: 120, width: 120, borderRadius: 60 }}
         />
         <Text
@@ -213,7 +248,7 @@ const CustomDrawerComponent = (props) => (
             textAlign: "center",
           }}
         >
-          sarah alqahatni
+          {name()}
         </Text>
         <Text
           style={{
@@ -223,9 +258,9 @@ const CustomDrawerComponent = (props) => (
             textAlign: "center",
           }}
         >
-          sara@gmail.com
+          {email()}
         </Text>
-      </ImageBackground> */}
+      </ImageBackground>
     </View>
     <ScrollView>
       <DrawerItems {...props} />
@@ -238,7 +273,7 @@ const CustomDrawerComponent = (props) => (
               {
                 text: "الغاء",
                 onPress: () => {
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  props.navigation.closeDrawer();
                 },
               },
               {
@@ -268,10 +303,6 @@ const CustomDrawerComponent = (props) => (
   </SafeAreaView>
 
 
-  // render(){
-  // return (
-  //   {this.print()}
-  // );
 );
 
 
@@ -284,8 +315,11 @@ const ClientDrawer = createDrawerNavigator(
     //"محادثات": { screen: ChatPassword },
   },
   {
+    defaultNavigationOptions: {
+      drawerLockMode: 'locked-closed',
+    },
     contentComponent: CustomDrawerComponent,
-    gesturesEnabled: false,
+    gesturesEnabled: true,
     drawerPosition: "right",
     drawerType: "slide",
     drawerWidth: Dimensions.get("window").width - 150,
@@ -313,8 +347,11 @@ const DesignerDrawer = createDrawerNavigator(
     //"محادثات": { screen: ChatPassword },
   },
   {
+    defaultNavigationOptions: {
+      drawerLockMode: 'locked-closed',
+    },
     contentComponent: CustomDrawerComponent,
-    gesturesEnabled: false,
+    gesturesEnabled: true,
     drawerPosition: "right",
     drawerType: "slide",
     drawerWidth: Dimensions.get("window").width - 150,

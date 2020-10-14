@@ -16,7 +16,7 @@ import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
-
+var shownDesigns = new Array();
 export default class designerGallery extends React.Component {
   constructor(props) {
     super();
@@ -34,9 +34,11 @@ export default class designerGallery extends React.Component {
       designUrl: "",
       propsUser: "",
       designGalleryState: [],
-      isClient : false,
+      isClient: false,
+      designShownState:[]
+    
     };
-   
+
     const propsUser = props.navigation.state.params.duid;
     this.updateInputVal(propsUser, "propsUser");
     var fName, lName, bio, image;
@@ -75,7 +77,7 @@ export default class designerGallery extends React.Component {
       .equalTo(propsUser);
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
-        Alert.alert("No images found");
+       
       }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
@@ -95,10 +97,18 @@ export default class designerGallery extends React.Component {
           designUploadingdate: desUploadingdate,
           designUrl: designUrl,
         };
+
       }
-      console.log(designGallery);
-      console.log(designGallery.length);
-      this.updateInputVal(designGallery, "designGalleryState");
+          this.updateInputVal(designGallery, "designGalleryState");
+          if(designGallery.length>=2){
+          for (var i = 0; i < 2; i++) {
+            shownDesigns[i]=designGallery[i];
+          }
+          this.updateInputVal(shownDesigns, "designShownState");
+        }else{
+          this.updateInputVal(designGallery, "designShownState");
+          }
+           
     });
 
     const user = firebase.auth().currentUser.uid;
@@ -107,8 +117,8 @@ export default class designerGallery extends React.Component {
       .ref(`Client/` + user)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
-          this.updateInputVal(true,"isClient");
-        
+          this.updateInputVal(true, "isClient");
+
         }
       });
 
@@ -118,45 +128,13 @@ export default class designerGallery extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-  // signOutUser = () => {
-  //   firebase.auth().signOut();
-  //   this.props.navigation.navigate("صفحة الدخول");
-  // };
-
+ 
   readData = () => {
-    /*
-      const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-      //firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
-      ref.on("value", (snapshot) => {
-        var design = snapshot.val();
-        var designKeys = Object.keys(design);
-        for (var i = 0; i < designKeys.length; i++) {
-          var designInfo = designKeys[i];
-          var categ = design[designInfo].category;
-          var desDis = design[designInfo].designDescription;
-          var desFileKey = design[designInfo].designFileKey;
-          var desTitle = design[designInfo].designTitle;
-          var desUploadingdate = design[designInfo].designUploadingdate;
-          var designUrl = design[designInfo].designUrl;
-          designGallery[i] = {
-            category: categ,
-            designDescription: desDis,
-            designFileKey: desFileKey,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: designUrl,
-          };
-        }
-        console.log(designGallery);
-        console.log(designGallery.length);
-      });
-      */
-    return this.state.designGalleryState.map((element) => {
+       return this.state.designShownState.map((element) => {
       return (
         <View
           key={element.designUrl}
-          style={{ width: width / 2 - 40, height: width / 2 - 20,  }}
+          style={{ width: width / 2 - 40, height: width / 2 - 20, }}
         >
           <View
             style={{
@@ -217,17 +195,18 @@ export default class designerGallery extends React.Component {
               </G>
               <Path
                 data-name="Icon ionic-ios-arrow-back"
+                onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
                 fill="#4f3c75"
               />
-              <Path
+              {/* <Path
                 data-name="Icon material-menu"
                 d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
                 fill="#4f3c75"
-              />
+              /> */}
             </G>
           </Svg>
-          <Text style={styles.forText}> حساب المصمم</Text>
+          <Text style={styles.forText}>حساب المصمم</Text>
           <Image style={styles.image} source={{ uri: this.state.img }} />
           <Text style={styles.textStyle2}>الاسم الأول</Text>
           <Text style={styles.textStyle}>{this.state.firstName}</Text>
@@ -237,7 +216,7 @@ export default class designerGallery extends React.Component {
           <Text style={styles.textStyle7}>{this.state.bio}</Text>
 
 
-         {this.state.isClient && <TouchableOpacity style={styles.button}>
+          {this.state.isClient && <TouchableOpacity style={styles.button}>
             <Text
               style={styles.editText}
               onPress={() =>
@@ -274,6 +253,20 @@ _________________________________________            </Text>
             {this.readData()}
           </View>
         </View>
+
+        <TouchableOpacity
+         style={styles.button}
+         onPress={() => this.props.navigation.navigate("أعمال مصمم معين", { arr: this.state.designGalleryState })}
+         
+      >
+        <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 20,
+            }}
+          >
+           المزيد من أعمال المصمم         </Text>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
@@ -295,7 +288,7 @@ _________________________________________            </Text>
 //   </View>;
 // })}
 
-//Style sheet
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -350,24 +343,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "700",
   },
-  forText2: {
-    alignItems: "center",
-    position: "absolute",
-    top: "45%",
-    color: "#4F3C75",
-    fontSize: 15,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
-  forText3: {
-    alignItems: "center",
-    position: "absolute",
-    top: "77%",
-    color: "#4F3C75",
-    fontSize: 18,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
+  
   profileImg: {
     width: 50,
     height: 50,
@@ -473,9 +449,9 @@ const styles = StyleSheet.create({
     paddingTop: "15%",
   },
   textStyle7: {
-    paddingLeft:"5%",
-    paddingRight:"5%",
-    top: "110%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    top: "75%",
     textAlign: "center",
     fontSize: 14,
     color: "#4F3C75",

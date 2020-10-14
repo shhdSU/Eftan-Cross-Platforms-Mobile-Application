@@ -13,7 +13,9 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
 
 var designGallery = new Array();
-
+var design = "";
+var designKeys = "";
+const { width, height } = Dimensions.get("window");
 var logo = [];
 var brand = [];
 var cert = [];
@@ -22,11 +24,6 @@ var other = [];
 var filter = [];
 var poster = [];
 var digital = [];
-
-var design = "";
-var designKeys = "";
-const { width, height } = Dimensions.get("window");
-
 export default class explore extends Component {
   constructor() {
     super();
@@ -37,18 +34,58 @@ export default class explore extends Component {
       designUrl: "",
       designUploadingdate: "",
       designGalleryState: [],
+      logo: [],
+       brand: [],
+       cert : [],
+       packag : [],
+       other :[],
+       filter : [],
+       poster : [],
+       digital : [],
+       b:0,
+       l:0,
+       c:0,
+       g:0,
+       o:0,
+       d:0,
+       f:0,
+       p:0,
     };
-    var b = 0;
-    var l = 0;
-    var c = 0;
-    var g = 0;
-    var o = 0;
-    var d = 0;
-    var f = 0;
-    var p = 0;
+    logo = [];
+    brand = [];
+    cert = [];
+    packag = [];
+    other = [];
+    filter = [];
+    poster = [];
+    digital = [];
+    // this.updateInputVal(0,"d");
+    // this.updateInputVal(0,"l");
+    // this.updateInputVal(0,"o");
+    // this.updateInputVal(0,"g");
+    // this.updateInputVal(0,"p");
+    // this.updateInputVal(0,"b");
+    // this.updateInputVal(0,"f");
+    // this.updateInputVal(0,"c");
+    this.updateInputVal([],"logo");
+    this.updateInputVal([],"brand");
+    this.updateInputVal([],"other");
+    this.updateInputVal([],"digital");
+    this.updateInputVal([],"cert");
+    this.updateInputVal([],"packag");
+    this.updateInputVal([],"poster");
+    this.updateInputVal([],"filter");
 
     var ref = firebase.database().ref("Designs/");
     ref.on("value", (snapshot) => {
+      logo = [];
+      brand = [];
+      cert = [];
+      packag = [];
+      other = [];
+      filter = [];
+      poster = [];
+      digital = [];
       design = snapshot.val();
       designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -59,6 +96,7 @@ export default class explore extends Component {
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
+        
         designGallery[i] = {
           duid: duid,
           category: categ,
@@ -68,7 +106,7 @@ export default class explore extends Component {
           designUrl: desUrl,
         };
         if (categ == "علامة تجارية") {
-          brand[b++] = {
+          brand[brand.length++] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -76,8 +114,9 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.b+1,"b")
         } else if (categ == "شعار") {
-          logo[l++] = {
+          logo[logo.length++] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -85,8 +124,10 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.l+1,"l")
+
         } else if (categ == "شهادة") {
-          cert[c++] = {
+          cert[this.state.c] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -94,8 +135,10 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.c+1,"c")
+
         } else if (categ == "انفوجرافيك") {
-          packag[g++] = {
+          packag[this.state.g] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -103,8 +146,10 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.g+1,"g")
+
         } else if (categ == "أخرى") {
-          other[o++] = {
+          other[this.state.o] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -112,8 +157,10 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.o+1,"o")
+
         } else if (categ == "فلتر") {
-          filter[f++] = {
+          filter[this.state.f] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -121,8 +168,10 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.f+1,"f")
+
         } else if (categ == "إعلان") {
-          poster[p++] = {
+          poster[this.state.p] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -130,8 +179,10 @@ export default class explore extends Component {
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
           };
+          this.updateInputVal(this.state.p+1,"p")
+
         } else if (categ == "فن رقمي") {
-          digital[d++] = {
+          digital[digital.length] = {
             duid: duid,
             category: categ,
             designDescription: desDis,
@@ -143,7 +194,22 @@ export default class explore extends Component {
       }
       if (this.state.designGalleryState.length != designGallery.length)
         this.updateInputVal(designGallery, "designGalleryState");
+
+      this.updateInputVal(digital,"digital");
+      this.updateInputVal(logo,"logo");
+      this.updateInputVal(other,"other");
+      this.updateInputVal(packag,"packag");
+      this.updateInputVal(poster,"poster");
+      this.updateInputVal(brand,"brand");
+      this.updateInputVal(filter,"filter");
+      this.updateInputVal(cert,"cert");
+
+
+
+
     });
+   
+   
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -152,107 +218,7 @@ export default class explore extends Component {
   };
 
   readData = () => {
-    /*
-    var b = 0;
-    var l = 0;
-    var c = 0;
-    var g = 0;
-    var o = 0;
-    var d = 0;
-    var f = 0;
-    var p = 0;
-
-    var ref = firebase.database().ref("Designs/");
-    ref.on("value", (snapshot) => {
-      design = snapshot.val();
-      designKeys = Object.keys(design);
-      for (var i = 0; i < designKeys.length; i++) {
-        var designInfo = designKeys[i];
-
-        var categ = design[designInfo].category;
-        var desDis = design[designInfo].designDescription;
-        var desTitle = design[designInfo].designTitle;
-        var desUploadingdate = design[designInfo].designUploadingdate;
-        var desUrl = design[designInfo].designUrl;
-
-        designGallery[i] = {
-          category: categ,
-          designDescription: desDis,
-          designTitle: desTitle,
-          designUploadingdate: desUploadingdate,
-          designUrl: desUrl,
-        };
-        if (categ == "علامة تجارية") {
-          brand[b++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "شعار") {
-          logo[l++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "شهادة") {
-          cert[c++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "انفوجرافيك") {
-          packag[g++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "أخرى") {
-          other[o++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "فلتر") {
-          filter[f++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "إعلان") {
-          poster[p++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        } else if (categ == "فن رقمي") {
-          digital[d++] = {
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-          };
-        }
-      }
-      this.updateInputVal(designGallery,"designGalleryState");
-    });
-
-   */
-
+  
     return this.state.designGalleryState.map((element) => {
       return (
         <View
@@ -275,7 +241,6 @@ export default class explore extends Component {
             }}
 
           >
-
             <Image
               style={{
                 flex: 1,
@@ -286,10 +251,8 @@ export default class explore extends Component {
               }}
               width={width}
               source={{ uri: element.designUrl }}
-
             />
           </View>
-
           <View
             style={{
               justifyContent: "space-evenly",
@@ -310,96 +273,10 @@ export default class explore extends Component {
       //return this.print(designGallery);
     });
   };
-  /*
-  print = (array) => {
-    return array.map((element) => {
-      return (
-        <View
-          style={{
-            // width: width / 2 - 40,
-            // // height: width / 2 - 20,
-            // alignItems: "center",
-            // justifyContent: "center",
-            // margin: 1,
-            // height: width / 2 - 20,
-            flex: 1,
-            width: width - 20,
-            height: height / 3,
-            backgroundColor: "white",
-            margin: 10,
-            borderRadius: 10,
-            shadowColor: "#000",
-            shadowOffset: { width: 0.5, height: 0.5 },
-            shadowOpacity: 0.5,
-            shadowRadius: 3,
-            elevation: 5,
-            flexDirection: "row",
-          }}
-        >
-          <View>
-            <Image
-              style={{
-                // flex: 1,
-                // width: 290,
-                // height: 180,
-                // marginLeft: 10,
-                // marginTop: 12,
-                //resizeMode: "contain",
-                width: width - 20,
-                height: height / 3,
-                borderRadius: 10,
-              }}
-              width={width}
-              source={{ uri: element.designUrl }}
-            />
-          </View>
-
-      //return this.print(designGallery);
-    });
-  };
-  /*
-    print = (array) => {
-      return array.map((element) => {
-        return (
-          <View
-            style={{
-              width: width / 2 - 40,
-              height: width / 2 - 20,
-            }}
-          >
-            <View style={{ flex: 1 }}>
-              <Image
-                style={{
-                  flex: 1,
-                  width: null,
-                  height: null,
-                  resizeMode: "contain",
-                }}
-                width={width}
-                source={{ uri: element.designUrl }}
-              />
-            </View>
   
-            <View
-              style={{
-                justifyContent: "space-evenly",
-                paddingLeft: 10,
-              }}
-            >
-              <Text
-                style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
-              >
-                {"  عنوان العمل:" + element.designTitle}
-              </Text>
-            </View>
-          </View>
-        );
-      });
-    };
-  */
   render() {
-    console.log(poster.length)
-    //  const { navigation } = this.props;
+    console.log(this.state.digital);
+    console.log(digital);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
@@ -472,7 +349,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: logo,
+                        array: this.state.logo,
                         category: "شعار",
                       })
                     }
@@ -483,7 +360,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: poster,
+                        array: this.state.poster,
                         category: "إعلان",
                       })
                     }
@@ -494,7 +371,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: brand,
+                        array: this.state.brand,
                         category: "علامة تجارية",
                       })
                     }
@@ -505,7 +382,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: packag,
+                        array: this.state.packag,
                         category: "انفوجرافيك",
                       })
                     }
@@ -516,7 +393,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: digital,
+                        array: this.state.digital,
                         category: "فن رقمي",
                       })
                     }
@@ -527,7 +404,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: filter,
+                        array: this.state.filter,
                         category: "فلتر",
                       })
                     }
@@ -538,7 +415,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: cert,
+                        array: this.state.cert,
                         category: "شهادة",
                       })
                     }
@@ -549,7 +426,7 @@ export default class explore extends Component {
                   <TouchableOpacity
                     onPress={() =>
                       this.props.navigation.navigate("الإختيار", {
-                        array: other,
+                        array: this.state.other,
                         category: "أخرى",
                       })
                     }

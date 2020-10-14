@@ -271,13 +271,14 @@ export default class UploadNewDesign extends Component {
                 fill="#ffeed6"
               />
             </G>
-            <Path
+            {/* <Path
               data-name="Icon ionic-ios-arrow-back"
               d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
               fill="#4f3c75"
-            />
+            /> */}
             <Path
               data-name="Icon material-menu"
+              onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
             />
@@ -311,6 +312,8 @@ export default class UploadNewDesign extends Component {
         <TextInput
           style={styles.inputStyle}
           value={this.state.designTitle}
+          maxLength={20}
+          placeholder="الحد الأقصى 20 حرف"
           onChangeText={(val) => this.updateInputVal(val, "designTitle")}
         />
 
@@ -324,6 +327,7 @@ export default class UploadNewDesign extends Component {
         </Text>
         <TextInput
           style={styles.inputStyleDescription}
+          placeholder="الحد الأقصى 250 حرف"
           maxLength={250}
           multiline={true}
           value={this.state.designDescription}
@@ -385,14 +389,38 @@ export default class UploadNewDesign extends Component {
           <Picker.Item label="أخرى" value="أخرى" />
         </Picker>
 
+        
+
+
+
         <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.uploadDesign()}
-        >
-          <Text
+         style={styles.button}
+        onPress={() =>
+          Alert.alert(
+            "تأكيد رفع العمل",
+            "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+            [
+             
+              {
+                text: "تأكيد",
+                onPress: () => {
+                this.uploadDesign()
+                },
+              }, {
+                text: "إلغاء",
+                onPress: () => {
+                //this.uploadDesign()
+                },
+              },
+            ],
+            { cancelable: false }
+          )
+        }
+      >
+        <Text
             style={{
               color: "#FFEED6",
-              fontSize: 25,
+              fontSize: 20,
             }}
           >
             رفع العمل
@@ -488,9 +516,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "80%",
     height: "3.5%",
-    alignSelf: "center",
+    alignSelf:"center",
     bottom: "15%",
   },
+  
 
   preloader: {
     position: "relative",
@@ -498,13 +527,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff",
   },
-  radio: {
-    top: "-4%",
-    left: "23%",
-    alignItems: "flex-start",
-    justifyContent: "space-evenly",
-    zIndex: 6,
-  },
+  
 
   SvgComponentStyle: {
     top: "-8%",

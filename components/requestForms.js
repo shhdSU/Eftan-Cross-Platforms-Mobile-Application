@@ -296,6 +296,7 @@ export default class RequestForm extends Component {
             <View style={styles.mainScreen}>
               <TextInput
                 style={styles.inputStyle}
+                maxLength={20}
                 placeholder="عنوان الطلب*"
                 value={this.state.title}
                 onChangeText={(val) => this.updateInputVal(val, "title")}

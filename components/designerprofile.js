@@ -57,7 +57,7 @@ export default class designerprofile extends React.Component {
       .equalTo(user);
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
-        Alert.alert("No images found");
+        // Alert.alert("No images found");
       }
       else {
         var design = snapshot.val();

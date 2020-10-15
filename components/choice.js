@@ -103,7 +103,7 @@ export default class choice extends Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-1%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-2%", position: "relative" }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">

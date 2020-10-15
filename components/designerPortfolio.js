@@ -117,7 +117,7 @@ import {
             
             <View
               style={{
-                top: "150%",
+                top: "20%",
                 paddingLeft: 30,
                 paddingRight: 30,
                 justifyContent: "space-between",
@@ -162,6 +162,14 @@ import {
       backgroundColor: "#fff",
       top: "5%",
       padding: "1%",
-    },   
+    },  
+    forText:{
+      position: "absolute",
+    top: "2%",
+    color: "#4F3C75",
+    fontSize: 25,
+    textAlign: "center",
+    fontWeight: "700",
+    } 
   });
   

@@ -177,6 +177,44 @@ export default class RequestForm extends Component {
       this.updateInputVal(result.uri, "ImagePath");
     }
   };
+  cancelproccess = () =>{
+    Alert.alert(
+      "تراجع عن الطلب",
+      "هل انت متأكد من إلغاء الطلب سيتم حذف جميع البيانات المدخلة",
+      [
+        {
+          text: "الغاء",
+        },
+        {
+          text: "تأكيد",
+          onPress: () => {
+            this.props.navigation.goBack()
+          },
+        },
+      ],
+      { cancelable: false }
+    )
+  }
+
+  doneButton = () =>{
+    Alert.alert(
+      "تأكيد رفع الطلب",
+      "هل انت متأكد من رفع طلبك",
+      [
+        {
+          text: "الغاء",
+        },
+        {
+          text: "تأكيد",
+          onPress: () => {
+            this.storeResquset()
+          },
+        },
+      ],
+      { cancelable: false }
+    )
+  }
+
   storeResquset = () => {
     const CID = firebase.auth().currentUser.uid;
     firebase
@@ -217,7 +255,7 @@ export default class RequestForm extends Component {
               fontSize: 30,
               color: "#4F3C75",
               fontWeight: "700",
-              top: "5%",
+              top: "6.5%",
               alignSelf: "center",
               position: "absolute",
               zIndex: 10,
@@ -228,7 +266,7 @@ export default class RequestForm extends Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+            style={{ alignSelf: "center", top: "-2%", position: "relative" }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">
@@ -238,20 +276,21 @@ export default class RequestForm extends Component {
                   fill="#ffeed6"
                 />
               </G>
-              <Path
+              <Path 
+              onPress={() => this.cancelproccess()}
                 data-name="Icon ionic-ios-arrow-back"
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
                 fill="#4f3c75"
               />
-              <Path
+              {/* <Path
                 data-name="Icon material-menu"
                 d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
                 fill="#4f3c75"
-              />
+              /> */}
             </G>
           </Svg>
           <SvgComponent
-            style={{ alignSelf: "center", top: "-5%", position: "relative" }}
+            style={{ alignSelf: "center", top: "-2%", position: "relative" }}
           ></SvgComponent>
           {this.state.mainStep && (
             <View style={styles.mainScreen}>
@@ -275,7 +314,7 @@ export default class RequestForm extends Component {
                 style={{
                   fontSize: 20,
                   alignSelf: "flex-end",
-                  top: "-25%",
+                  top: "-10%",
                   color: "#4F3C75",
                   fontWeight: "700",
                   marginRight: "10%",
@@ -288,7 +327,7 @@ export default class RequestForm extends Component {
                 style={{
                   height: "22%",
                   width: "80%",
-                  top: "-25%",
+                  top: "-13%",
                   alignSelf: "center",
                 }}
                 onValueChange={(itemValue, itemIndex) =>
@@ -305,12 +344,24 @@ export default class RequestForm extends Component {
                 <Picker.Item label="فن رقمي" value="فن رقمي" />
                 <Picker.Item label="أخرى" value="أخرى" />
               </Picker>
+
+
+              <View style={{flexDirection: "row",}}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.cancelproccess()}
+              >
+                <Text style={styles.buttonText}>إلغاء</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.shownexStep()}
               >
                 <Text style={styles.buttonText}>التالي</Text>
               </TouchableOpacity>
+              </View>
+
+
             </View>
           )}
 
@@ -399,7 +450,7 @@ export default class RequestForm extends Component {
                   width={30}
                   height={30}
                   onPress={() => this.onChooseImagePress()}
-                  style={{ marginTop: "-25%", marginLeft: "-5%" }}
+                  style={{ marginTop: "-28%", marginLeft: "-5%" }}
                 >
                   <G
                     data-name="Icon feather-upload"
@@ -450,40 +501,20 @@ export default class RequestForm extends Component {
                   }}
                 />
               </View>
-              <View>
-                <TouchableOpacity
-                  style={{
-                    alignItems: "center",
-                    backgroundColor: "#4F3C75",
-                    borderRadius: 25,
-                    width: "70%",
-                    height: "30%",
-                    justifyContent: "center",
-                    position: "relative",
-                    alignSelf: "center",
-                    left: "20%",
-                    top: "30%",
-                  }}
-                  onPress={() => this.storeResquset()}
-                >
-                  <Text style={styles.buttonText}> رفع الطلب </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    alignItems: "center",
-                    backgroundColor: "#4F3C75",
-                    borderRadius: 25,
-                    width: "140%",
-                    height: "30%",
-                    justifyContent: "center",
-                    position: "relative",
-                    alignSelf: "center",
-                    left: "-20%",
-                  }}
+              <View style={{flexDirection: "row" , top:"10%"}}>
+              <TouchableOpacity
+                  style={[styles.button,{height:"50%"}]}
                   onPress={() => this.updateInputVal(true, "mainStep")}
                 >
                   <Text style={styles.buttonText}> السابق </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button,{height:"50%"}]}
+                  onPress={() => this.doneButton()}
+                >
+                  <Text style={styles.buttonText}> رفع الطلب </Text>
+                </TouchableOpacity>
+               
               </View>
             </Animatable.View>
           )}
@@ -605,8 +636,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#4F3C75",
     borderRadius: 25,
-    width: "70%",
-    height: "10%",
+    margin:"2%",
+    width: "40%",
+    height: "40%",
     alignSelf: "center",
     justifyContent: "center",
   },
@@ -623,7 +655,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     width: "80%",
     textAlign: "right",
-    top: "-25%",
+    top: "-10%",
     borderColor: "#ccc",
     borderBottomWidth: 2,
     padding: "3%",
@@ -635,7 +667,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "25%",
     textAlign: "right",
-    top: "-25%",
+    top: "-10%",
     borderColor: "#ccc",
     borderWidth: 2,
     padding: "3%",
@@ -648,7 +680,7 @@ const styles = StyleSheet.create({
     width: "20%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "20%",
+    marginTop: "15%",
     marginLeft: "2.5%",
     marginRight: "2.5%",
   },

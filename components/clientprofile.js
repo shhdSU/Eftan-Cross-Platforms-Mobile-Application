@@ -115,15 +115,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     top: "5%",
   },
-  // ImageBack:{
-  //   backgroundColor: "#ffeed6",
-  //   width: "40%",
-  //   height: "55%",
-  //   borderRadius: 150 / 2,
-  //   position:"absolute",
-  //   top: "12.5%",
-  //   left: "57.5%",
-  // },
   infoContainer:{
 backgroundColor:"#4F3C75",
 height:"70%",

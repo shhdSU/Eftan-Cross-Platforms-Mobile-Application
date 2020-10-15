@@ -255,7 +255,7 @@ export default class designerGallery extends React.Component {
     textDecorationLine:"underline",
             }}
           >
-           المزيد من أعمال المصمم >        </Text>
+           المزيد من أعمال المصمم {">"}        </Text>
         </TouchableOpacity>
       </ScrollView>
     );

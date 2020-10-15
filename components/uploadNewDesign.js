@@ -286,12 +286,13 @@ export default class UploadNewDesign extends Component {
         </Svg>
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 25,
             color: "#4F3C75",
             fontWeight: "700",
             top: "-8.5%",
             alignSelf: "center",
             zIndex: 6,
+            fontWeight:"700",
           }}
         >
           رفع تصميم جديد

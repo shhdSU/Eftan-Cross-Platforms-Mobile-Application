@@ -89,8 +89,8 @@ export default class clientprofile extends React.Component {
         <View style={styles.infoContainer}>
        
         <Text style={styles.textStyle}>{this.state.firstName + " " + this.state.lastName}</Text>
-        <Text style={styles.textStyle6}>البريد الالكتروني:</Text>
-        <Text style={styles.textStyle5}>{this.state.cemail}</Text>
+        <Text style={styles.emailStyle}>البريد الالكتروني:</Text>
+        <Text style={styles.cemailStyle}>{this.state.cemail}</Text>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("تعديل حساب العميل")}
         >
@@ -166,7 +166,7 @@ elevation: 19,
     fontWeight:"400",
   },
   
-  textStyle5: {
+  cemailStyle: {
     top: "82%",
     fontSize: 20,
     color: "#ffeed6",
@@ -176,7 +176,7 @@ elevation: 19,
     fontWeight:"200",
 
   },
-  textStyle6: {
+  emailStyle: {
     top: "75%",
     fontSize: 20,
     color: "#ffeed6",

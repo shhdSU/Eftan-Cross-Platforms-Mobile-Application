@@ -14,6 +14,8 @@ import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 var designGallery = new Array();
 const { width, height } = Dimensions.get("window");
+import { AntDesign } from '@expo/vector-icons';
+
 
 var fName, lName, email, bio, image;
 export default class designerprofile extends React.Component {
@@ -208,28 +210,31 @@ export default class designerprofile extends React.Component {
             />
           </G>
         </Svg>
+
+<View style={styles.infoContainer}>
         <Text style={styles.forText}>حسابي الشخصي</Text>
         <Image style={styles.image} source={{ uri: this.state.img }} />
-        <Text style={styles.textStyle2}>الاسم الأول</Text>
-        <Text style={styles.textStyle3}>{this.state.firstName}</Text>
-        <Text style={styles.textStyle4}>الاسم الأخير</Text>
-        <Text style={styles.textStyle}>{this.state.lastName}</Text>
-        <Text style={styles.textStyle6}>البريد الالكتروني</Text>
-        <Text style={styles.textStyle5}>{this.state.email}</Text>
-        <Text style={styles.textStyle8}>نبذة</Text>
-        <Text style={styles.textStyle7}>{this.state.bio}</Text>
+        <Text style={styles.nameStyle}>{this.state.firstName + ' ' + this.state.lastName}</Text>
+        <Text style={styles.emailStyle}>البريد الالكتروني</Text>
+        <Text style={styles.gemailStyle}>{this.state.email}</Text>
+        <Text style={styles.aboutStyle}>نبذتي الشخصية</Text>
+        <Text style={styles.bioStyle}>{this.state.bio}</Text>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate("تعديل حساب المصمم")}
+        >
+          <AntDesign name="edit" size={35} color="#ffeed6" 
+       style={{position:"absolute" , left:"5%",marginTop:"153%",zIndex:50,}}
+       />
+        </TouchableOpacity>
+        </View>
+
         {/* <Text>Number of ratings:</Text>
         <Text>{this.state.num_rating}</Text>
         <Text>Total rating:</Text>
         <Text>{this.state.total_rating}</Text> */}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("تعديل حساب المصمم")}
-        >
-          <Text style={styles.editText}>تعديل بيانات الحساب</Text>
-        </TouchableOpacity>
-
-        <View
+        
+      
+        {/* <View
           style={{
             top: "175%",
             paddingLeft: 30,
@@ -240,7 +245,7 @@ export default class designerprofile extends React.Component {
           }}
         >
           {this.readData()}
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -259,128 +264,94 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#ffeed6",
-    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 150 / 2,
-    top: "10%",
-    left: "30%",
-    right: "5%",
-  },
-  button: {
-    top: "70%",
-    backgroundColor: "#4F3C75",
-    height: "6%",
-    width: "80%",
-    borderRadius: 25,
-    alignSelf: "center",
-    alignItems: "center",
-    position: "absolute",
-  },
-  editText: {
-    fontSize: 25,
-    color: "#FFEED6",
-    marginTop: "1%",
-    textAlign: "center",
-    alignItems: "center",
     top: "5%",
-    zIndex: 10,
+    borderColor:"#ffeed6",
+    borderWidth:3,
   },
   forText: {
     position: "absolute",
-    top: "1.5%",
+    top: "-16.5%",
     color: "#4F3C75",
     fontSize: 25,
-    textAlign: "center",
+    alignSelf: "center",
     fontWeight: "700",
+    zIndex:5,
   },
-  profileImg: {
-    width: 50,
-    height: 50,
-  },
-  textStyle: {
-    top: "40%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    right: "40%",
-    left: "5%",
-    justifyContent: "center",
-  },
-  textStyle2: {
-    top: "35%",
-    textAlign: "center",
-    fontSize: 19,
-    justifyContent: "center",
-    color: "#4F3C75",
-    position: "absolute",
-    left: "55%",
-  },
-  textStyle3: {
-    top: "35%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
+  infoContainer:{
+    backgroundColor:"#4F3C75",
+    height:"70%",
+    width:"90%",
+    borderRadius:35,
+    top:"-2%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1.48,
+    shadowRadius: 15.95,
+    elevation: 19, 
+  }, 
+  nameStyle: {
+    top: "28%",
+    alignSelf: "center",
+    fontSize: 30,
+    color: "#ffeed6",
     position: "absolute",
     justifyContent: "center",
+    fontWeight: "400",
+  },
+  gemailStyle: {
+    top: "83%",
+    fontSize: 20,
+    color: "#ffeed6",
+    position: "absolute",
+    alignSelf:"center",
+    justifyContent: "center",
+    fontWeight:"200",
 
-    right: "40%",
-    left: "5%",
   },
-  textStyle4: {
-    top: "40%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    left: "55%",
-
-    justifyContent: "center",
-  },
-  textStyle5: {
-    top: "45%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    textAlign: "center",
-    paddingTop: "15%",
-    justifyContent: "center",
-  },
-  textStyle6: {
-    top: "40%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
+  emailStyle: {
+    top: "76%",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
     justifyContent: "center",
     textAlign: "center",
-    paddingTop: "15%",
+    fontWeight:"200",
+    alignSelf:"center",
   },
-  textStyle7: {
-    paddingRight:"5%",
-    paddingLeft:"5%",
-    top: "58%",
-    textAlign: "center",
-    fontSize: 14,
-    color: "#4F3C75",
+  bioStyle: {
+    top: "41%",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
-    textAlign: "center",
-    paddingTop: "15%",
-    justifyContent: "center",
+    alignSelf: "center",
+    borderWidth:1,
+    borderColor:"#ffeed6",
+    fontWeight:"200",
+    height:"30%",
+    width:"95%",
+    alignItems:"center",
+    textAlign:"center",
+    padding:"5%",
+    borderRadius:15,
   },
-  textStyle8: {
-    top: "60%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
+  aboutStyle: {
+    top: "38.5%",
+    alignSelf: "center",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
-    justifyContent: "center",
-    textAlign: "center",
+    fontWeight:"200",
+    backgroundColor:"#4F3C75",
+    zIndex:2,
   },
 });

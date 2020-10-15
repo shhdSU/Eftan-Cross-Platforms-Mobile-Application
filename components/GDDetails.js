@@ -27,7 +27,7 @@ export default class GDDetails extends React.Component {
     this.updateInputVal(design.designDescription, "designDescription")
     this.updateInputVal(design.designUrl, "localpath")
 
-    console.log(this.state.Duid)
+   
 
     //--------------------retreive the JSON obj of the design work from realtime DB
     // firebase
@@ -110,19 +110,18 @@ console.log("can not retreive design url");
     return (
       <View style={styles.container}>
         <Text
-          style={[
-            styles.inputStyle2,
+          style={
             {
               color: "#4F3C75",
-              top: "5%",
+              top: "7.5%",
               fontWeight: "700",
               position: "absolute",
-              fontSize: 30,
+              fontSize: 25,
               textAlign: "center",
               alignSelf: "center",
               zIndex: 1,
-            },
-          ]}
+            }
+          }
         >
 
 
@@ -166,15 +165,16 @@ console.log("can not retreive design url");
             styles.inputStyle2,
             {
               color: "#4F3C75",
-              top: "14%",
-              right: "70%",
+              top: "42%",
+              right: "15%",
             },
           ]}
         >
           {this.state.date}
         </Text>
-        <TouchableOpacity>
-        <Image
+
+        <View style={styles.infoCont}>
+<Image
           onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
           style={styles.profileImage}
           source={{
@@ -183,51 +183,53 @@ console.log("can not retreive design url");
         />
         <Text
           style={[
-            styles.inputStyle2,
             {
-              color: "#4F3C75",
-              top: "8%",
-              left: "-23%",
-              fontWeight: "700",
+              color: "#ffeed6",
+              top: "-50%",
+              left: "43%",
+              fontWeight: "200",
+              fontSize:25,
             },
           ]}
           onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
 
         >
           {this.state.name}
-        </Text></TouchableOpacity>
-        <Svg
-          width={42}
-          height={42}
-          viewBox="0 0 42 42"
-          style={{
-            top: 70,
-            left: 135,
-          }}
-        >
-          <G
-            data-name="Ellipse 26"
-            fill="rgba(255,255,255,0.62)"
-            stroke="#4f3c75"
-            strokeWidth={2}
+        </Text>
+        <TouchableOpacity
+         
+         onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
+         
+      >
+        <Text
+            style={{
+              color: "#ffeed6",
+              fontSize: 14,
+              textDecorationLine:"underline",
+              top:"-190%",
+              left:"42%",
+              fontWeight:"200",
+            }}
           >
-            <Circle cx={21} cy={21} r={21} stroke="none" />
-            <Circle cx={21} cy={21} r={20} fill="none" />
-          </G>
-          <Path
-            data-name="Icon awesome-sticky-note"
-            d="M25.17 23.964H32V10.705A1.2 1.2 0 0030.795 9.5h-20.09A1.2 1.2 0 009.5 10.705v20.09A1.2 1.2 0 0010.705 32h13.259v-6.83a1.209 1.209 0 011.206-1.206zm6.479 2.762l-2.625 2.624-2.3 2.3a1.2 1.2 0 01-.854.352h-.3v-6.431H32v.306a1.2 1.2 0 01-.352.85z"
-            fill="#4f3c75"
-          />
-        </Svg>
+           المزيد عن المصمم
+          </Text>
+        </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity>
+        </TouchableOpacity>
         <Text
           style={[
             styles.inputStyle2,
             {
               color: "#4F3C75",
-              top: "2%",
-              left: "-23.5%",
+              top: "7%",
+              right: "-23.5%",
               fontWeight: "700",
+              backgroundColor:"#fff",
+              height:"2.5%",
+              width:"23%",
+              zIndex:2,
             },
           ]}
         >
@@ -237,14 +239,18 @@ console.log("can not retreive design url");
           style={[
             {
               color: "#4F3C75",
-              top: "3%",
+              top: "5%",
               left: "0%",
-              textAlign: "center",
+              textAlign: "right",
               fontWeight: "700",
-              width: 340,
-              height: 150,
+              width: "87%",
+              height: "20%",
               fontSize: 15,
-            },
+              borderWidth:1,
+              borderColor:"#4F3C75",
+              borderRadius:25,
+padding:"7%"          
+  },
           ]}
         >
           {this.state.designDescription}
@@ -254,20 +260,10 @@ console.log("can not retreive design url");
             right: 120,
           }}
         ></SvgComponent>
-        <TouchableOpacity
-         style={styles.button}
-         onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
-         
-      >
-        <Text
-            style={{
-              color: "#FFEED6",
-              fontSize: 20,
-            }}
-          >
-           المزيد عن المصمم
-          </Text>
-        </TouchableOpacity>
+
+
+
+
       </View>
     );
   }
@@ -286,10 +282,11 @@ const styles = StyleSheet.create({
     height: 280,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "15%",
+    top: "13%",
     borderRadius: 35,
     alignSelf: "center",
-  },button: {
+  },
+  button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
     padding: "1%",
@@ -310,10 +307,29 @@ const styles = StyleSheet.create({
     top: "0%",
   },
   profileImage: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     top: "14%",
-    left:"36%",
+    left:"76%",
     borderRadius:35,
+    borderColor:"#ffeed6",
+    borderWidth:2,
+    backgroundColor:"#fff"
+  },
+  infoCont:{
+backgroundColor:"#4F3C75",
+width:"87%",
+borderRadius:25,
+top:"8%",
+height:"10%",
+shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 0,
+},
+shadowOpacity: 1.48,
+shadowRadius: 2.95,
+
+elevation: 19,
   },
 });

@@ -5,10 +5,12 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
+import { AntDesign } from '@expo/vector-icons';
 var fName, lName, email, image;
 export default class clientprofile extends React.Component {
   constructor() {
@@ -84,18 +86,20 @@ export default class clientprofile extends React.Component {
         </Svg>
         <Text style={styles.forText}>حسابي الشخصي</Text>
         <Image style={styles.image} source={{ uri: this.state.img }} />
-        <Text style={styles.textStyle2}>الاسم الأول</Text>
-        <Text style={styles.textStyle}>{this.state.firstName}</Text>
-        <Text style={styles.textStyle4}>الاسم الأخير</Text>
-        <Text style={styles.textStyle3}>{this.state.lastName}</Text>
-        <Text style={styles.textStyle6}>البريد الالكتروني</Text>
-        <Text style={styles.textStyle5}>{this.state.cemail}</Text>
+        <View style={styles.infoContainer}>
+       
+        <Text style={styles.textStyle}>{this.state.firstName + " " + this.state.lastName}</Text>
+        <Text style={styles.emailStyle}>البريد الالكتروني:</Text>
+        <Text style={styles.cemailStyle}>{this.state.cemail}</Text>
         <TouchableOpacity
-          style={styles.button}
           onPress={() => this.props.navigation.navigate("تعديل حساب العميل")}
         >
-          <Text style={styles.editText}>تعديل بيانات الحساب</Text>
+       <AntDesign name="edit" size={35} color="#ffeed6" 
+       style={{position:"absolute" , left:"5%",marginTop:"153%"}}
+       />
         </TouchableOpacity>
+        </View>
+       
       </View>
     );
   }
@@ -111,108 +115,75 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     top: "5%",
   },
+  infoContainer:{
+backgroundColor:"#4F3C75",
+height:"70%",
+width:"90%",
+borderRadius:35,
+top:"-2%",
+shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 0,
+},
+shadowOpacity: 1.48,
+shadowRadius: 15.95,
+
+elevation: 19,
+  },
   image: {
     flex: 1,
-    width: 150,
-    height: 150,
+    width: "65%",
+    height: "30%",
     position: "absolute",
-    alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#ffeed6",
-    alignItems: "center",
-    borderRadius: 150 / 2,
-    top: "15%",
-    left: "30%",
-    right: "5%",
-  },
-  button: {
-    top: "75%",
-    backgroundColor: "#4F3C75",
-    height: "6%",
-    width: "80%",
-    borderRadius: 25,
     alignSelf: "center",
-    alignItems: "center",
-    position: "absolute",
+    borderRadius: 550,
+    top: "20%",
+    zIndex:20,
+    borderColor:"#ffeed6",
+    borderWidth:3,
   },
-  editText: {
-    fontSize: 25,
-    color: "#fff",
-    marginTop: "1%",
-    textAlign: "center",
-    alignItems: "center",
-    top: "5%",
-    zIndex: 10,
-  },
+ 
   forText: {
     position: "absolute",
     top: "1.5%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
+    fontWeight:"700",
+
   },
-  profileImg: {
-    width: 50,
-    height: 50,
-  },
+ 
   textStyle: {
-    top: "35%",
+    top: "57%",
     textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
+    fontSize: 30,
+    color: "#ffeed6",
     position: "absolute",
-    right: "40%",
-    left: "5%",
     justifyContent: "center",
+    alignSelf:"center",
+    fontWeight:"400",
   },
-  textStyle2: {
-    top: "35%",
-    textAlign: "center",
-    fontSize: 19,
-    justifyContent: "center",
-    color: "#4F3C75",
+  
+  cemailStyle: {
+    top: "82%",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
-    left: "55%",
-  },
-  textStyle3: {
-    top: "40%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
+    alignSelf:"center",
     justifyContent: "center",
+    fontWeight:"200",
 
-    right: "40%",
-    left: "5%",
   },
-  textStyle4: {
-    top: "40%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    left: "55%",
-
-    justifyContent: "center",
-  },
-  textStyle5: {
-    top: "50%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    textAlign: "center",
-    paddingTop: "15%",
-    justifyContent: "center",
-  },
-  textStyle6: {
-    top: "45%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
+  emailStyle: {
+    top: "75%",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
     justifyContent: "center",
     textAlign: "center",
-    paddingTop: "15%",
+    fontWeight:"200",
+alignSelf:"center",
   },
 });

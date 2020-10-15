@@ -16,7 +16,7 @@ import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
-
+var shownDesigns = new Array();
 export default class designerGallery extends React.Component {
   constructor(props) {
     super();
@@ -35,6 +35,8 @@ export default class designerGallery extends React.Component {
       propsUser: "",
       designGalleryState: [],
       isClient: false,
+      designShownState:[]
+    
     };
 
     const propsUser = props.navigation.state.params.duid;
@@ -75,7 +77,7 @@ export default class designerGallery extends React.Component {
       .equalTo(propsUser);
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
-        Alert.alert("No images found");
+       
       }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
@@ -95,10 +97,18 @@ export default class designerGallery extends React.Component {
           designUploadingdate: desUploadingdate,
           designUrl: designUrl,
         };
+
       }
-      console.log(designGallery);
-      console.log(designGallery.length);
-      this.updateInputVal(designGallery, "designGalleryState");
+          this.updateInputVal(designGallery, "designGalleryState");
+          if(designGallery.length>=2){
+          for (var i = 0; i < 2; i++) {
+            shownDesigns[i]=designGallery[i];
+          }
+          this.updateInputVal(shownDesigns, "designShownState");
+        }else{
+          this.updateInputVal(designGallery, "designShownState");
+          }
+           
     });
 
     const user = firebase.auth().currentUser.uid;
@@ -118,41 +128,9 @@ export default class designerGallery extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-  // signOutUser = () => {
-  //   firebase.auth().signOut();
-  //   this.props.navigation.navigate("صفحة الدخول");
-  // };
-
+ 
   readData = () => {
-    /*
-      const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-      //firebase.auth().currentUser.uid;
-      var ref = firebase.database().ref("Designs/").orderByChild("Duid").equalTo(user);
-      ref.on("value", (snapshot) => {
-        var design = snapshot.val();
-        var designKeys = Object.keys(design);
-        for (var i = 0; i < designKeys.length; i++) {
-          var designInfo = designKeys[i];
-          var categ = design[designInfo].category;
-          var desDis = design[designInfo].designDescription;
-          var desFileKey = design[designInfo].designFileKey;
-          var desTitle = design[designInfo].designTitle;
-          var desUploadingdate = design[designInfo].designUploadingdate;
-          var designUrl = design[designInfo].designUrl;
-          designGallery[i] = {
-            category: categ,
-            designDescription: desDis,
-            designFileKey: desFileKey,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: designUrl,
-          };
-        }
-        console.log(designGallery);
-        console.log(designGallery.length);
-      });
-      */
-    return this.state.designGalleryState.map((element) => {
+       return this.state.designShownState.map((element) => {
       return (
         <View
           key={element.designUrl}
@@ -205,7 +183,7 @@ export default class designerGallery extends React.Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-9%", position: "absolute" }}
+            style={{ alignSelf: "center", top: "-13%", position: "absolute" }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">
@@ -229,16 +207,19 @@ export default class designerGallery extends React.Component {
             </G>
           </Svg>
           <Text style={styles.forText}>حساب المصمم</Text>
+
+
+<View style={styles.infoContt}>
           <Image style={styles.image} source={{ uri: this.state.img }} />
-          <Text style={styles.textStyle2}>الاسم الأول</Text>
-          <Text style={styles.textStyle}>{this.state.firstName}</Text>
-          <Text style={styles.textStyle4}>الاسم الأخير</Text>
-          <Text style={styles.textStyle3}>{this.state.lastName}</Text>
-          <Text style={styles.textStyle8}>نبذة</Text>
-          <Text style={styles.textStyle7}>{this.state.bio}</Text>
+          <Text style={styles.nameStyle}>{this.state.firstName +" "+ this.state.lastName}</Text>
+          <Text style={styles.aboutStyle}> نبذة عن{this.state.firstName}  </Text>
+          <Text style={styles.bioStyle}>{this.state.bio}</Text>
+          </View>
 
 
-          {this.state.isClient && <TouchableOpacity style={styles.button}>
+
+
+          {this.state.isClient && <TouchableOpacity style={styles.Reuestbutton}>
             <Text
               style={styles.editText}
               onPress={() =>
@@ -248,23 +229,9 @@ export default class designerGallery extends React.Component {
               طلب تصميم جديد
             </Text>
           </TouchableOpacity>}
-          {!this.state.isClient &&  
-            <Text
-            style ={{
-              top:"100%",
-              left:"5%",
-              color:"#4F3C75",
-              
-            }}
-            >
-_________________________________________            </Text>
-        }
-
-
-
           <View
             style={{
-              top: "150%",
+              top: "100%",
               paddingLeft: 30,
               paddingRight: 30,
               justifyContent: "space-between",
@@ -275,6 +242,21 @@ _________________________________________            </Text>
             {this.readData()}
           </View>
         </View>
+
+        <TouchableOpacity
+         style={styles.Morebutton}
+         onPress={() => this.props.navigation.navigate("أعمال مصمم معين", { arr: this.state.designGalleryState })}
+         
+      >
+        <Text
+            style={{
+              fontSize: 20,
+    color: "#4F3C75",
+    textDecorationLine:"underline",
+            }}
+          >
+           المزيد من أعمال المصمم {">"}        </Text>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
@@ -296,7 +278,7 @@ _________________________________________            </Text>
 //   </View>;
 // })}
 
-//Style sheet
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -310,188 +292,99 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#ffeed6",
-    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 150 / 2,
-    top: "21%",
-    left: "30%",
-    right: "5%",
+    top: "5%",
+    borderColor:"#ffeed6",
+    borderWidth:3,
+
   },
-  button: {
-    top: "100%",
+  Morebutton: {
+    top: "410%",
+    height: "30%",
+    width: "90%",
+alignSelf:"center",
+alignItems:"center",
+    position: "absolute",
+    justifyContent:"center",
+  },
+  Reuestbutton:{
+    top: "285%",
     backgroundColor: "#4F3C75",
-    height: "9%",
-    width: "80%",
+    height: "30%",
+    width: "90%",
     borderRadius: 25,
     alignSelf: "center",
     alignItems: "center",
     position: "absolute",
-    zIndex: 70,
+    justifyContent:"center",
   },
   editText: {
     fontSize: 25,
     color: "#FFEED6",
-    marginTop: "1%",
-    textAlign: "center",
-    alignItems: "center",
-    top: "5%",
-    zIndex: 10,
   },
 
   forText: {
     position: "absolute",
-    top: "6%",
+    top: "33%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
     fontWeight: "700",
   },
-  forText2: {
-    alignItems: "center",
+  nameStyle: {
+    top: "42%",
+    alignSelf: "center",
+    fontSize: 30,
+    color: "#ffeed6",
     position: "absolute",
-    top: "45%",
-    color: "#4F3C75",
-    fontSize: 15,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
-  forText3: {
-    alignItems: "center",
-    position: "absolute",
-    top: "77%",
-    color: "#4F3C75",
-    fontSize: 18,
-    textAlign: "center",
-    textDecorationLine: "underline",
-  },
-  profileImg: {
-    width: 50,
-    height: 50,
-  },
-  textStyle: {
-    top: "55%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    right: "40%",
-    left: "5%",
     justifyContent: "center",
+    fontWeight: "400",
   },
-
-  inputStyle: {
+  bioStyle: {
+    top: "65%",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
-    fontSize: 18,
-    marginTop: "4%",
-    width: "100%",
-    marginBottom: "2%",
-    paddingBottom: "2%",
     alignSelf: "center",
-    borderColor: "#ccc",
-    borderBottomWidth: 3,
-    textAlign: "right",
-    top: "46%",
-    left: "10%",
+    borderWidth:1,
+    borderColor:"#ffeed6",
+    fontWeight:"200",
+    height:"30%",
+    width:"95%",
+    alignItems:"center",
+    textAlign:"center",
+    padding:"5%",
+borderRadius:15,
   },
-  inputStyle2: {
-    position: "absolute",
-    fontSize: 18,
-    marginTop: "4%",
-    width: "100%",
-    marginBottom: "2%",
-    paddingBottom: "2%",
-    alignSelf: "center",
-    borderColor: "#ccc",
-    borderBottomWidth: 3,
-    textAlign: "right",
-    top: "53%",
-  },
-  inputStyle3: {
-    position: "absolute",
-    fontSize: 18,
-    marginTop: "4%",
-    width: "100%",
-    marginBottom: "2%",
-    paddingBottom: "2%",
-    alignSelf: "center",
-    borderColor: "#ccc",
-    borderBottomWidth: 3,
-    textAlign: "right",
+  aboutStyle: {
     top: "60%",
-  },
-  textStyle2: {
-    top: "55%",
-    textAlign: "center",
-    fontSize: 19,
-    justifyContent: "center",
-    color: "#4F3C75",
+    alignSelf: "center",
+    fontSize: 20,
+    color: "#ffeed6",
     position: "absolute",
-    left: "55%",
+    fontWeight:"200",
+    backgroundColor:"#4F3C75",
+zIndex:2,
   },
-  textStyle3: {
-    top: "65%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    justifyContent: "center",
-    right: "40%",
-    left: "5%",
-  },
-  textStyle4: {
-    top: "65%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    left: "55%",
-
-    justifyContent: "center",
-  },
-  textStyle5: {
-    top: "55%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    textAlign: "center",
-    paddingTop: "15%",
-    justifyContent: "center",
-  },
-  textStyle6: {
-    top: "50%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    justifyContent: "center",
-    textAlign: "center",
-    paddingTop: "15%",
-  },
-  textStyle7: {
-    paddingLeft: "5%",
-    paddingRight: "5%",
-    top: "75%",
-    textAlign: "center",
-    fontSize: 14,
-    color: "#4F3C75",
-    position: "absolute",
-    textAlign: "center",
-    paddingTop: "15%",
-    justifyContent: "center",
-  },
-  textStyle8: {
-    top: "75%",
-    textAlign: "center",
-    fontSize: 19,
-    color: "#4F3C75",
-    position: "absolute",
-    justifyContent: "center",
-    textAlign: "center",
-  },
+  infoContt:{
+    backgroundColor:"#4F3C75",
+height:"200%",
+width:"90%",
+borderRadius:35,
+top:"175%",
+shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 0,
+},
+shadowOpacity: 1.48,
+shadowRadius: 15.95,
+elevation: 19,
+  }
 });

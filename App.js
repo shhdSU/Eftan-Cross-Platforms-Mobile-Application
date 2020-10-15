@@ -35,7 +35,8 @@ import designeredit from "./components/designeredit";
 import Explore from "./components/Explore";
 import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
-// import firebase from "./database/firebase";
+import designerPortfolio from "./components/designerPortfolio";
+
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -78,6 +79,7 @@ const ClientGalleryNavigation = createStackNavigator(
     "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
     " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+     "أعمال مصمم معين":designerPortfolio,
     "طلب تصميم": { screen: RequestScreen },
   },
   {
@@ -147,54 +149,55 @@ export default class App extends Component {
   }
 }
 //-------------------------------------------------------
+// retreive image 
 
-// Custom Drawers
-
- const profilePicture = () => {
- var URL = "";
+const profilePicture = () => {
+  var URL = "";
   const user = firebase.auth().currentUser.uid;
   const profileImage = firebase.storage().ref("ProfilePictures/" + user);
   profileImage
     .getDownloadURL()
     .then((url) => {
       console.log(url);
-    return  url;
+      return url;
     })
     .catch((error) => {
-     URL = "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-     console.log(URL);
-     return URL;
+      URL = "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+      console.log(URL);
+      return URL;
     });
 }
-
-function name ()  {
+//-------------------------------------------------------
+// retreive name 
+function name() {
   var name = "";
-  var fName,lName;
+  var fName, lName;
   const user = firebase.auth().currentUser.uid;
   firebase
     .database()
     .ref(`GraphicDesigner/` + user)
     .on("value", (dataSnapshot) => {
       if (dataSnapshot.exists()) {
-      fName = dataSnapshot.child("DFirstName").val();
-      lName = dataSnapshot.child("DLastName").val();
-      name = fName + " " + lName;
+        fName = dataSnapshot.child("DFirstName").val();
+        lName = dataSnapshot.child("DLastName").val();
+        name = fName + " " + lName;
       }
     });
-    firebase
+  firebase
     .database()
     .ref(`Client/` + user)
     .on("value", (dataSnapshot) => {
       if (dataSnapshot.exists()) {
-      fName = dataSnapshot.child("CFirstName").val();
-      lName = dataSnapshot.child("CLastName").val();
-      name = fName + " " + lName;
+        fName = dataSnapshot.child("CFirstName").val();
+        lName = dataSnapshot.child("CLastName").val();
+        name = fName + " " + lName;
       }
     });
-    return name;
+  return name;
 }
-
-function email  () {
+//-------------------------------------------------------
+// retreive email 
+function email() {
   var email = "";
   const user = firebase.auth().currentUser.uid;
   firebase
@@ -202,22 +205,23 @@ function email  () {
     .ref(`Client/` + user)
     .on("value", (dataSnapshot) => {
       if (dataSnapshot.exists()) {
-      email = dataSnapshot.child("Cemail").val();
+        email = dataSnapshot.child("Cemail").val();
       }
     });
 
-    firebase
+  firebase
     .database()
     .ref(`GraphicDesigner/` + user)
     .on("value", (dataSnapshot) => {
       if (dataSnapshot.exists()) {
-      email = dataSnapshot.child("DEmail").val();
+        email = dataSnapshot.child("DEmail").val();
       }
     });
 
-    return email;
+  return email;
 }
-
+//-------------------------------------------------------
+// Custom Drawers
 const CustomDrawerComponent = (props) => (
 
   <SafeAreaView style={{ flex: 1 }}>
@@ -228,14 +232,14 @@ const CustomDrawerComponent = (props) => (
         justifyContent: "center",
       }}
     >
-       <ImageBackground
+      <ImageBackground
         source={require("./assets/background.png")}
         style={{ width: undefined, padding: 50, paddingTop: 80 }}
       >
-<Image
-      source={{ uri: profilePicture}}
-      style={{ height: 120, width: 120, borderRadius: 60 }}
-    />      
+        <Image
+          //source={{ uri: profilePicture }}
+          style={{ height: 120, width: 120, borderRadius: 60 }}
+        />
         <Text
           style={{
             color: "#4F3C75",
@@ -256,7 +260,7 @@ const CustomDrawerComponent = (props) => (
         >
           {email()}
         </Text>
-      </ImageBackground> 
+      </ImageBackground>
     </View>
     <ScrollView>
       <DrawerItems {...props} />
@@ -269,7 +273,7 @@ const CustomDrawerComponent = (props) => (
               {
                 text: "الغاء",
                 onPress: () => {
-                  this.props.navigation.dispatch(DrawerActions.closeDrawer());
+                  props.navigation.closeDrawer();
                 },
               },
               {
@@ -311,8 +315,11 @@ const ClientDrawer = createDrawerNavigator(
     //"محادثات": { screen: ChatPassword },
   },
   {
+    defaultNavigationOptions: {
+      drawerLockMode: 'locked-closed',
+    },
     contentComponent: CustomDrawerComponent,
-    gesturesEnabled: false,
+    gesturesEnabled: true,
     drawerPosition: "right",
     drawerType: "slide",
     drawerWidth: Dimensions.get("window").width - 150,
@@ -340,8 +347,11 @@ const DesignerDrawer = createDrawerNavigator(
     //"محادثات": { screen: ChatPassword },
   },
   {
+    defaultNavigationOptions: {
+      drawerLockMode: 'locked-closed',
+    },
     contentComponent: CustomDrawerComponent,
-    gesturesEnabled: false,
+    gesturesEnabled: true,
     drawerPosition: "right",
     drawerType: "slide",
     drawerWidth: Dimensions.get("window").width - 150,

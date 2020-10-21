@@ -85,7 +85,7 @@ export default class LoginPage extends Component {
 
                   if (snapshot.exists()) {
                     this.props.navigation.navigate(
-                      "معرض التصاميم من منظور المصمم");
+                      "نسيت كلمة السر!");
                   }
                   return;
                 });
@@ -142,56 +142,78 @@ export default class LoginPage extends Component {
       });
   };
 
-  //notifications method
-  registerForPushNotificationsAsync = async(user) => {
-    let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
+   registerForPushNotificationsAsync = async() => {
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = status;
+
+    if(status !== 'granted'){
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+    if(finalStatus !== 'granted'){
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    //console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
 
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
+    // let token  = await Notifications.getExpoPushTokenAsync();
+    // return fetch('https://exp.host/--/api/v2/push/send', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     token: {
+    //       value: token,
+    //     }
+    //   })
+    // });
   }
-console.log("user is" + user);
-  //inserting token in database
-               firebase
-                .database()
-                .ref(`Client/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                  firebase.database().ref(`Client/` + user.uid).update({notificationsKey: token});
-                  }
-                });
-              firebase
-                .database()
-                .ref(`GraphicDesigner/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                    firebase.database().ref(`GraphicDesigner/` + user).update({notificationsKey: token});
-                  }
-                });
+  //notifications method
+//   registerForPushNotificationsAsync = async(user) => {
+//     let token;
+//   if (Constants.isDevice) {
+//     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+//     let finalStatus = existingStatus;
+//     if (existingStatus !== 'granted') {
+//       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+//       finalStatus = status;
+//     }
+//     if (finalStatus !== 'granted') {
+//       alert('Failed to get push token for push notification!');
+//       return;
+//     }
+//     token = (await Notifications.getExpoPushTokenAsync()).data;
+//     //console.log(token);
+//   } else {
+//     alert('Must use physical device for Push Notifications');
+//   }
 
-  return token;
+//   if (Platform.OS === 'android') {
+//     Notifications.setNotificationChannelAsync('default', {
+//       name: 'default',
+//       importance: Notifications.AndroidImportance.MAX,
+//       vibrationPattern: [0, 250, 250, 250],
+//       lightColor: '#FF231F7C',
+//     });
+//   }
+// console.log("user is" + user);
+//   //inserting token in database
+//                firebase
+//                 .database()
+//                 .ref(`Client/` + user)
+//                 .on("value", (snapshot) => {
+//                   if (snapshot.exists()) {
+//                   firebase.database().ref(`Client/` + user.uid).update({notificationsKey: token});
+//                   }
+//                 });
+//               firebase
+//                 .database()
+//                 .ref(`GraphicDesigner/` + user)
+//                 .on("value", (snapshot) => {
+//                   if (snapshot.exists()) {
+//                     firebase.database().ref(`GraphicDesigner/` + user).update({notificationsKey: token});
+//                   }
+//                 });
 
-  }
+//   return token;
+
+//   }
   render() {
     if (this.state.isLoading) {
       return (

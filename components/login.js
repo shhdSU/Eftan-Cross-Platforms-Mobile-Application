@@ -20,6 +20,9 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import App from "../App";
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 export default class LoginPage extends Component {
   constructor() {
@@ -39,7 +42,7 @@ export default class LoginPage extends Component {
 
 
   userLogin = () => {
-
+    var that = this;
     const { email, password } = this.state;
     firebase
       .auth()
@@ -92,9 +95,11 @@ export default class LoginPage extends Component {
                 password: "",
               });
             }
+            that.registerForPushNotificationsAsync(firebase.auth().currentUser.uid);
           }
+
         });
-    registerForPushNotificationsAsync(user);
+
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -152,7 +157,7 @@ export default class LoginPage extends Component {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    //console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -165,16 +170,14 @@ export default class LoginPage extends Component {
       lightColor: '#FF231F7C',
     });
   }
-  var update = {};
-  update['/notificationKey/' + token] = token;
-
+console.log("user is" + user);
   //inserting token in database
                firebase
                 .database()
                 .ref(`Client/` + user)
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
-                  firebase.database().ref("Client/" + user).update(update);
+                  firebase.database().ref(`Client/` + user.uid).update({notificationsKey: token});
                   }
                 });
               firebase
@@ -182,7 +185,7 @@ export default class LoginPage extends Component {
                 .ref(`GraphicDesigner/` + user)
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
-                    firebase.database().ref("GraphicDesigner/" + user).update(update);
+                    firebase.database().ref(`GraphicDesigner/` + user).update({notificationsKey: token});
                   }
                 });
 

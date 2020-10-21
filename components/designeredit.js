@@ -116,22 +116,36 @@ export default class designeredit extends React.Component {
         { cancelable: false }
       );
     } else {
-      const user = firebase.auth().currentUser.uid;
-      firebase
-        .database()
-        .ref("GraphicDesigner/" + user)
-        .set({
-          DFirstName: this.state.firstName,
-          DLastName: this.state.lastName,
-          DEmail: this.state.email,
-          //   number_of_rating: this.state.num_rating,
-          //  total_rating: this.state.total_rating,
-          bio: this.state.bio,
-        });
-      this.props.navigation.navigate("عرض حساب المصمم");
+      Alert.alert(
+        "تنبيه",
+        "هل ترغب في حفظ تغييراتك؟",
+        [{ text: "نعم", onPress: () => this.saveChanges() }, {text: "لا"}],
+        { cancelable: false }
+      );     
     }
   };
 
+  saveChanges =() =>{ 
+     const user = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + user)
+      .set({
+        DFirstName: this.state.firstName,
+        DLastName: this.state.lastName,
+        DEmail: this.state.email,
+        //   number_of_rating: this.state.num_rating,
+        //  total_rating: this.state.total_rating,
+        bio: this.state.bio,
+      });
+      Alert.alert(
+        "رسالة",
+        "تم حفظ التغييرات بنجاح",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    this.props.navigation.navigate("عرض حساب المصمم");
+  }
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -162,6 +176,11 @@ export default class designeredit extends React.Component {
         .catch((error) => {
           console.log("error")
         });
+        Alert.alert(
+          "رسالة", " تم رفع الصورة بنجاح، نرجو الانتظار قليلًأ حتى تظهر في حسابك الشخصي  "
+          [{ text: "حسنًا" }],
+          { cancelable: false }
+        );
     }
   };
   render() {

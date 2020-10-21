@@ -276,7 +276,7 @@ RenderUploading = () => {
     const CID = firebase.auth().currentUser.uid;
     firebase
       .database()
-      .ref("Forms/")
+      .ref("Forms/"+this.state.DID)
       .push({
         title: this.state.title,
         description: this.state.description,

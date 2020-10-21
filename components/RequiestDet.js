@@ -3,11 +3,14 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 
+
+
+
 export default class RequiestDet extends React.Component {
   constructor(props) {
     super();
     // var Requiest = props.navigation.state.params.obj; هنا بناخذ من شهد (obj) فيه الريكويست المنضغط حاليا
-    var design = props.navigation.state.params.obj;
+    //var design = props.navigation.state.params.obj;
 
     this.state = {
       CID: "",
@@ -25,17 +28,17 @@ export default class RequiestDet extends React.Component {
       ClientProfileImage: "",
     };
 
-    this.updateInputVal(Requiest.CID, "CID");
-    this.updateInputVal(Requiest.DID, "DID");
-    this.updateInputVal(Requiest.color1, "color1");
-    this.updateInputVal(Requiest.color2, "color2");
-    this.updateInputVal(Requiest.color3, "color3");
-    this.updateInputVal(Requiest.deadLine, "deadLine");
-    this.updateInputVal(Requiest.description, "description");
-    this.updateInputVal(Requiest.status, "status");
-    this.updateInputVal(Requiest.submissionDate, "submissionDate");
-    this.updateInputVal(Requiest.submissionUrl, "submissionUrl");
-    this.updateInputVal(Requiest.title, "title");
+    // this.updateInputVal(Requiest.CID, "CID");
+    // this.updateInputVal(Requiest.DID, "DID");
+    // this.updateInputVal(Requiest.color1, "color1");
+    // this.updateInputVal(Requiest.color2, "color2");
+    // this.updateInputVal(Requiest.color3, "color3");
+    // this.updateInputVal(Requiest.deadLine, "deadLine");
+    // this.updateInputVal(Requiest.description, "description");
+    // this.updateInputVal(Requiest.status, "status");
+    // this.updateInputVal(Requiest.submissionDate, "submissionDate");
+    // this.updateInputVal(Requiest.submissionUrl, "submissionUrl");
+    // this.updateInputVal(Requiest.title, "title");
 
     //-----------------------------retreive designer's profile image
     firebase
@@ -64,7 +67,7 @@ export default class RequiestDet extends React.Component {
                 dataSnapshot.child("DFirstName").val() +
                 " " +
                 dataSnapshot.child("DLastName").val();
-              this.updateInputVal(Cname, "name");
+              this.updateInputVal(" لجين المحيذيف", "name");
             });
         } else console.log("CID is not found");
       });
@@ -76,6 +79,17 @@ export default class RequiestDet extends React.Component {
     this.setState(state);
   };
 
+  onclick_accept = () => {
+    this.updateInputVal("R", "status");
+    //نرسله لشهد 
+    // اشعار للعميل بان طلبه قبِل
+  }
+  onclick_reject = () => {
+    this.updateInputVal("D", "status");
+    //نرسله لشهد 
+    // اشعار للعميل بان طلبه رفض
+
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -115,6 +129,57 @@ export default class RequiestDet extends React.Component {
             />
           </G>
         </Svg>
+        <View style={styles.infoCont}>
+
+          <Image
+            onPress={() =>
+              this.props.navigation.navigate(" عرض حساب المصمم للطلب", {
+                duid: this.state.Duid,
+              })
+            }
+            style={styles.profileImage}
+            source={{
+              uri: this.state.designerProfileImage,
+            }}
+          />
+
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "-40%",
+                left: "42%",
+                fontWeight: "200",
+                fontSize: 20,
+              },
+            ]}
+          >
+            {this.state.name}
+          </Text>
+          <TouchableOpacity
+            onPress={() => this.onclick_accept()}
+            onPress={() => this.props.navigation.navigate("عرض سجل الطلبات الحالية", { obj: Requiest })}
+
+          >
+            <Image
+              style={styles.accject}
+              source={require('../assets/accept.png')}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => this.onclick_reject()}
+            onPress={() => this.props.navigation.navigate("عرض سجل الطلبات المنجزة", { obj: Requiest })}
+
+          >
+            <Image
+              style={styles.accject}
+              source={require('../assets/reject.png')}
+            />
+          </TouchableOpacity>
+
+        </View>
+
         <Image
           style={styles.preview}
           source={{
@@ -135,57 +200,7 @@ export default class RequiestDet extends React.Component {
           {this.state.date}
         </Text>
 
-        <View style={styles.infoCont}>
-          <Image
-            onPress={() =>
-              this.props.navigation.navigate(" عرض حساب المصمم للطلب", {
-                duid: this.state.Duid,
-              })
-            }
-            style={styles.profileImage}
-            source={{
-              uri: this.state.designerProfileImage,
-            }}
-          />
-          <Text
-            style={[
-              {
-                color: "#ffeed6",
-                top: "-50%",
-                left: "43%",
-                fontWeight: "200",
-                fontSize: 25,
-              },
-            ]}
-            onPress={() =>
-              this.props.navigation.navigate(" عرض حساب المصمم للطلب", {
-                duid: this.state.Duid,
-              })
-            }
-          >
-            {this.state.name}
-          </Text>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate(" عرض حساب المصمم للطلب", {
-                duid: this.state.Duid,
-              })
-            }
-          >
-            <Text
-              style={{
-                color: "#ffeed6",
-                fontSize: 14,
-                textDecorationLine: "underline",
-                top: "-190%",
-                left: "42%",
-                fontWeight: "200",
-              }}
-            >
-              المزيد عن المصمم
-            </Text>
-          </TouchableOpacity>
-        </View>
+
 
         <TouchableOpacity></TouchableOpacity>
         <Text
@@ -226,11 +241,7 @@ export default class RequiestDet extends React.Component {
           {this.state.designDescription}
         </Text>
 
-        <SvgComponent
-          style={{
-            right: 120,
-          }}
-        ></SvgComponent>
+
       </View>
     );
   }
@@ -283,11 +294,24 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#fff",
   },
+  accject: {
+    width: 30,
+    height: 30,
+    top: "-20%",
+    left: "20%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+
+
+
+
+  },
   infoCont: {
-    backgroundColor: "#4F3C75",
-    width: "87%",
+    backgroundColor: "#EFEEFF",
+    width: "96%",
     borderRadius: 25,
-    top: "8%",
+    top: "4.5%",
     height: "10%",
     shadowColor: "#000",
     shadowOffset: {

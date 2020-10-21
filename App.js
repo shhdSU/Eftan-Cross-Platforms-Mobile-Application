@@ -392,7 +392,7 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-    RequiestDet: RequiestDet,
+    "RequiestDet": RequiestDet,
     //loginStack: LoginStack,
     Cdrawer: CDrawerNavigation,
   },
@@ -404,7 +404,7 @@ const CPrimaryNav = createStackNavigator(
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
-    RequiestDet: RequiestDet,
+    "RequiestDet": RequiestDet,
     //loginStack: LoginStack,
     " Ddrawer": DDrawerNavigation,
   },

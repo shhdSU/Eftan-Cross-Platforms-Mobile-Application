@@ -37,6 +37,9 @@ import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
 import designerPortfolio from "./components/designerPortfolio";
 import RequiestDet from "./components/RequiestDet";
+import recivedReqLS from "./components/recivedReqLS";
+
+
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -393,6 +396,7 @@ const DDrawerNavigation = createStackNavigator(
 const CPrimaryNav = createStackNavigator(
   {
     "RequiestDet": RequiestDet,
+    "recivedReqLS": recivedReqLS,
     //loginStack: LoginStack,
     Cdrawer: CDrawerNavigation,
   },
@@ -405,6 +409,7 @@ const CPrimaryNav = createStackNavigator(
 const DPrimaryNav = createStackNavigator(
   {
     "RequiestDet": RequiestDet,
+    "recivedReqLS": recivedReqLS,
     //loginStack: LoginStack,
     " Ddrawer": DDrawerNavigation,
   },

@@ -1,18 +1,15 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Dimensions } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
-
-
-
 
 export default class RequiestDet extends React.Component {
   constructor(props) {
     super();
     // var Requiest = props.navigation.state.params.obj; هنا بناخذ من شهد (obj) فيه الريكويست المنضغط حاليا
-    //var design = props.navigation.state.params.obj;
 
     this.state = {
+      ImageKey: "-MKBNrLIm9j3xHDDflVE", // will be empty
       CID: "",
       DID: "",
       category: "",
@@ -22,12 +19,16 @@ export default class RequiestDet extends React.Component {
       deadLine: "",
       description: "",
       status: "",
-      submissionDate: "",
-      submissionUrl: "",
+      reference: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2Ff5364a5c-ae40-4a41-814d-b9651c8b57fd?alt=media&token=8a81fd40-294f-4e79-8a5a-99a4302e40fa",
       title: "السلام عليكم",
-      ClientProfileImage: "",
+      ClientProfileImage: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/DesignWork%2F87f1e3c3-592d-4f17-beb7-2ab9af535d01?alt=media&token=9fa71a9c-bd48-4ec5-be9d-9008dbc25273",
+      // submissionDate: "",
+      // submissionUrl: "",
+
+
     };
 
+    // this.updateInputVal(Requiest.ImageKey, "ImageKey");
     // this.updateInputVal(Requiest.CID, "CID");
     // this.updateInputVal(Requiest.DID, "DID");
     // this.updateInputVal(Requiest.color1, "color1");
@@ -36,11 +37,13 @@ export default class RequiestDet extends React.Component {
     // this.updateInputVal(Requiest.deadLine, "deadLine");
     // this.updateInputVal(Requiest.description, "description");
     // this.updateInputVal(Requiest.status, "status");
+    // this.updateInputVal(Requiest.reference, "reference");
+    // this.updateInputVal(Requiest.title, "title");
     // this.updateInputVal(Requiest.submissionDate, "submissionDate");
     // this.updateInputVal(Requiest.submissionUrl, "submissionUrl");
-    // this.updateInputVal(Requiest.title, "title");
 
-    //-----------------------------retreive designer's profile image
+
+    //-----------------------------retreive client's profile image
     firebase
       .storage()
       .ref("ProfilePictures/" + this.state.CID)
@@ -52,7 +55,7 @@ export default class RequiestDet extends React.Component {
         console.log("can not retreive profile img url");
       });
 
-    //-----------------------------retreive designer's name
+    //-----------------------------retreive cilent's name
     var Cname = "";
     firebase
       .database()
@@ -79,169 +82,230 @@ export default class RequiestDet extends React.Component {
     this.setState(state);
   };
 
-  onclick_accept = () => {
-    this.updateInputVal("R", "status");
-    //نرسله لشهد 
-    // اشعار للعميل بان طلبه قبِل
-  }
-  onclick_reject = () => {
-    this.updateInputVal("D", "status");
-    //نرسله لشهد 
-    // اشعار للعميل بان طلبه رفض
+  //----------------------------- update status Changes + remove request
 
+  UpdateStatusAfterAccepted = () => {
+    this.updateInputVal("P", "status")
+    firebase
+      .database()
+      .ref("Forms/" + "ImageKey")
+      .update({ status: this.state.status })
+    console.log(this.state.CID)
+    this.props.navigation.navigate("recivedReqLS");
   }
+  RemoveRequest = () => {
+    firebase.database().ref('/Forms/' + this.state.ImageKey).remove()
+    this.props.navigation.navigate("recivedReqLS");// تغيير الانتقال الى سجل الطلبات مع حذف الطلب  
+  }
+  //----------------------------- 
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text
-          style={{
-            color: "#4F3C75",
-            top: "7.5%",
-            fontWeight: "700",
-            position: "absolute",
-            fontSize: 25,
-            textAlign: "center",
-            alignSelf: "center",
-            zIndex: 1,
-          }}
-        >
-          {this.state.title}
-        </Text>
+      <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Text
+            style={{
+              color: "#4F3C75",
+              top: "7.5%",
+              fontWeight: "700",
+              position: "absolute",
+              fontSize: 25,
+              textAlign: "center",
+              alignSelf: "center",
+              zIndex: 1,
+            }}
+          >
+            {this.state.title}
+          </Text>
 
-        <Svg
-          width={416}
-          height={144}
-          style={{ alignSelf: "center", top: "-2%", position: "absolute" }}
-        >
-          <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+          <Svg
+            width={416}
+            height={144}
+            style={{ alignSelf: "center", top: "-2%", position: "absolute" }}
+          >
+            <G data-name="Group 7">
+              <G filter="url(#prefix__a)">
+                <Path
+                  data-name="Path 117"
+                  d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
+                  fill="#ffeed6"
+                />
+              </G>
               <Path
-                data-name="Path 117"
-                d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
-                fill="#ffeed6"
+                data-name="Icon ionic-ios-arrow-back"
+                onPress={() => this.props.navigation.goBack()}
+                d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+                fill="#4f3c75"
               />
             </G>
-            <Path
-              data-name="Icon ionic-ios-arrow-back"
-              onPress={() => this.props.navigation.goBack()}
-              d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-              fill="#4f3c75"
+          </Svg>
+
+          <View style={styles.infoCont}>
+
+            <Image
+              style={styles.profileImage}
+              source={{ uri: this.state.ClientProfileImage, }}
             />
-          </G>
-        </Svg>
-        <View style={styles.infoCont}>
+
+            <Text
+              style={[
+                {
+                  color: "#4F3C75",
+                  top: "-40%",
+                  left: "42%",
+                  fontWeight: "300",
+                  fontSize: 20,
+                },
+              ]}
+            >
+              {this.state.name}
+            </Text>
+            <View
+              style={{
+                marginTop: 10,
+                marginBottom: 50,
+                paddingLeft: 30,
+                paddingRight: 30,
+
+                justifyContent: "space-between",
+                flexDirection: "row",
+                flexWrap: "wrap",
+              }}
+            >
+              <TouchableOpacity
+
+                onPress={() => this.UpdateStatusAfterAccepted()}
+              >
+                <Image
+                  style={styles.accject}
+                  source={require('../assets/accept.png')}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() =>
+                  Alert.alert(
+                    "تنبيه",
+                    "هل انت متأكد من رفض الطلب ؟",
+                    [
+                      {
+                        text: "الغاء",
+                        onPress: () => {
+                          this.props.navigation.navigate("RequiestDet");
+                        },
+                      },
+                      {
+                        text: "تأكيد",
+                        onPress: () => { this.RemoveRequest() },
+                      },
+                    ],
+                    { cancelable: false }
+                  )
+                }
+              >
+                <Image
+                  style={styles.accject, { left: -240, top: -76, }}
+                  source={require('../assets/reject.png')}
+                />
+
+              </TouchableOpacity>
+            </View>
+          </View>
+
 
           <Image
-            onPress={() =>
-              this.props.navigation.navigate(" عرض حساب المصمم للطلب", {
-                duid: this.state.Duid,
-              })
-            }
-            style={styles.profileImage}
+            style={styles.preview}
             source={{
-              uri: this.state.designerProfileImage,
+              uri: this.state.reference,
             }}
           />
 
           <Text
             style={[
+              styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "-40%",
-                left: "42%",
-                fontWeight: "200",
-                fontSize: 20,
+                top: "42%",
+                right: "15%",
               },
             ]}
           >
-            {this.state.name}
+            {this.state.date}
           </Text>
-          <TouchableOpacity
-            onPress={() => this.onclick_accept()}
-            onPress={() => this.props.navigation.navigate("عرض سجل الطلبات الحالية", { obj: Requiest })}
-
+          <Text
+            style={[
+              styles.inputStyle2,
+              {
+                color: "#4F3C75",
+                top: "7%",
+                right: "-23.5%",
+                fontWeight: "700",
+                backgroundColor: "#fff",
+                height: "2.5%",
+                width: "23%",
+                zIndex: 2,
+              },
+            ]}
           >
-            <Image
-              style={styles.accject}
-              source={require('../assets/accept.png')}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => this.onclick_reject()}
-            onPress={() => this.props.navigation.navigate("عرض سجل الطلبات المنجزة", { obj: Requiest })}
-
+            وصف العمل
+        </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "5%",
+                left: "0%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "87%",
+                height: "20%",
+                fontSize: 15,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+                padding: "7%",
+              },
+            ]}
           >
-            <Image
-              style={styles.accject}
-              source={require('../assets/reject.png')}
-            />
-          </TouchableOpacity>
+            {this.state.designDescription}
+          </Text>
+
+          <Text
+            style={[
+              styles.inputStyle2,
+              {
+                color: "#4F3C75",
+                top: "10%",
+                right: "-23.5%",
+                fontWeight: "700",
+                backgroundColor: "#fff",
+                height: "2.5%",
+                width: "27%",
+                zIndex: 2,
+              },
+            ]}
+          >
+            صنف التصميم        </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "8%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "87%",
+                height: "6%",
+                fontSize: 15,
+                borderWidth: 1,
+                borderColor: "#4F3C75",
+                borderRadius: 25,
+              },
+            ]}
+          >
+            {this.state.category}
+          </Text>
 
         </View>
-
-        <Image
-          style={styles.preview}
-          source={{
-            uri: this.state.localpath,
-          }}
-        />
-
-        <Text
-          style={[
-            styles.inputStyle2,
-            {
-              color: "#4F3C75",
-              top: "42%",
-              right: "15%",
-            },
-          ]}
-        >
-          {this.state.date}
-        </Text>
-
-
-
-        <TouchableOpacity></TouchableOpacity>
-        <Text
-          style={[
-            styles.inputStyle2,
-            {
-              color: "#4F3C75",
-              top: "7%",
-              right: "-23.5%",
-              fontWeight: "700",
-              backgroundColor: "#fff",
-              height: "2.5%",
-              width: "23%",
-              zIndex: 2,
-            },
-          ]}
-        >
-          وصف العمل
-        </Text>
-        <Text
-          style={[
-            {
-              color: "#4F3C75",
-              top: "5%",
-              left: "0%",
-              textAlign: "right",
-              fontWeight: "700",
-              width: "87%",
-              height: "20%",
-              fontSize: 15,
-              borderWidth: 1,
-              borderColor: "#4F3C75",
-              borderRadius: 25,
-              padding: "7%",
-            },
-          ]}
-        >
-          {this.state.designDescription}
-        </Text>
-
-
       </View>
     );
   }
@@ -294,24 +358,21 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#fff",
   },
+
   accject: {
-    width: 30,
-    height: 30,
-    top: "-20%",
-    left: "20%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-
-
-
+    width: 34,
+    height: 35,
+    right: 20,
+    top: -75,
+    paddingRight: 35,
+    backgroundColor: "#fff",
 
   },
   infoCont: {
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
-    top: "4.5%",
+    top: "10%",
     height: "10%",
     shadowColor: "#000",
     shadowOffset: {

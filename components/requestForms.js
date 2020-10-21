@@ -10,7 +10,8 @@ import {
   Picker,
   Keyboard,
   TouchableWithoutFeedback,
-  Image,
+  ActivityIndicator,
+
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-datepicker";
@@ -19,6 +20,8 @@ import { fromHsv, TriangleColorPicker, toHsv } from "react-native-color-picker";
 import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
+import uuid from "react-native-uuid";
+
 
 export default class RequestForm extends Component {
   constructor(props) {
@@ -35,12 +38,13 @@ export default class RequestForm extends Component {
       Cemail: "",
       Demail: "",
       ImagePath: "",
-      ImageURL: "",
+      reference: "",
       Imagekey: "",
       popup: false,
       colorNum: 0,
       mainStep: true,
       DID: "",
+      uploading:false,
     };
     const DID = props.navigation.state.params.DID;
     this.updateInputVal(DID, "DID");
@@ -161,22 +165,75 @@ export default class RequestForm extends Component {
     else console.log("Method fail");
   };
 
-  uploadImage = async (uri, draftName) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
+  // uploadImage = async (uri, draftName) => {
+  //   const response = await fetch(uri);
+  //   const blob = await response.blob();
 
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("Draft/" + draftName);
-    return ref.put(blob);
-  };
+  //   var ref = firebase
+  //     .storage()
+  //     .ref()
+  //     .child("Draft/" + draftName).getDownloadURL().then((url) =>{
+  //       firebase.database().ref("/Draft").child(this.state.Imagekey).update({
+  //         reference: url,
+  //         Imagekey:this.state.Imagekey
+  //       })
+  //     })
+  //   return ref.put(blob);
+  // };
+
   onChooseImagePress = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync();
-    if (!result.cancelled) {
-      this.updateInputVal(result.uri, "ImagePath");
+let SelectResult = await ImagePicker.launchImageLibraryAsync({
+  allowsEditing: true,
+  aspect: [3, 3],
+});
+if (!SelectResult.cancelled)
+  this.updateInputVal(SelectResult.uri, "ImagePath");
+this.handleImageSelected(SelectResult);
+};
+
+handleImageSelected = async (SelectResult) => {
+  try {
+    this.setState({ uploading: true });
+
+    if (!SelectResult.cancelled) {
+      const uploadUrl = await uploadImageAsync(SelectResult.uri);
+      this.setState({ reference: uploadUrl });
     }
-  };
+  } catch (e) {
+    console.log(e);
+    Alert.alert(
+      "تنبيه",
+      "فشل في رفع المسودة ، حاول مرة أخرى ",
+      [{ text: "حسنًا" }],
+      {
+        cancelable: false,
+      }
+    );
+  } finally {
+    this.setState({ uploading: false });
+  }
+};
+
+RenderUploading = () => {
+  if (this.state.uploading) {
+    return (
+      <View
+        style={[
+          StyleSheet.absoluteFill,
+          {
+            backgroundColor: "rgba(0,0,0,0.4)",
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <ActivityIndicator color="#fff" animating size="large" />
+      </View>
+    );
+  }
+};
+
+
   cancelproccess = () =>{
     Alert.alert(
       "تراجع عن الطلب",
@@ -227,19 +284,20 @@ export default class RequestForm extends Component {
         color2: this.state.color2,
         color3: this.state.color3,
         category: this.state.category,
-        reference: this.state.reference,
         deadLine: this.state.deadLine,
         CID: CID,
         DID: this.state.DID,
+        status:'w',
+        reference: this.state.reference,
       })
       .then((key) => {
-        this.updateInputVal(key.key, "Imagekey");
-        this.uploadImage(this.state.ImagePath, this.state.Imagekey);
         firebase
           .database()
           .ref("Forms/")
-          .child(this.state.Imagekey)
-          .update({ Imagekey: this.state.Imagekey });
+         .child(key.key)
+         .update({ Imagekey: key.key })
+        
+        
       });
     Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
@@ -445,7 +503,7 @@ export default class RequestForm extends Component {
                 placeholder="رفع رسم توضيحي"
                 onTouchStart={() => this.onChooseImagePress()}
               />
-
+{this.RenderUploading()}
               <View>
                 <Svg
                   width={30}
@@ -603,6 +661,30 @@ export default class RequestForm extends Component {
     ); // end of render return
   } //End of render
 } //End of class
+
+async function uploadImageAsync(uri) {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      console.log(e);
+      reject(new TypeError("فشل الطلب"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+  var ref = firebase
+    .storage()
+    .ref()
+    .child("Drafts/" + uuid.v4());
+  const snapshot = await ref.put(blob);
+  blob.close();
+
+  return await snapshot.ref.getDownloadURL();
+}
 
 const styles = StyleSheet.create({
   container: {

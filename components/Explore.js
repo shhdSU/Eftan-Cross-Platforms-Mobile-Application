@@ -209,70 +209,13 @@ export default class explore extends Component {
 
 
     });
-   
-    //notifications
-    const user = firebase.auth().currentUser.uid;
-    firebase.auth().registerForPushNotificationsAsync(user);
 
-   
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
-  //notifications method
-  registerForPushNotificationsAsync = async(user) => {
-    let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-  var update = {};
-  update['/notificationKey/' + token] = token;
-
-  //inserting token in database
-               firebase
-                .database()
-                .ref(`Client/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                  firebase.database().ref("Client/" + user).update(update);
-                  }
-                });
-              firebase
-                .database()
-                .ref(`GraphicDesigner/` + user)
-                .on("value", (snapshot) => {
-                  if (snapshot.exists()) {
-                    firebase.database().ref("GraphicDesigner/" + user).update(update);
-                  }
-                });
-
-  return token;
-
-  }
   readData = () => {
   
     return this.state.designGalleryState.map((element) => {

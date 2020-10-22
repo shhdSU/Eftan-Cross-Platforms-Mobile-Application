@@ -274,7 +274,6 @@ export default class explore extends Component {
         </View>
       );
 
-      //return this.print(designGallery);
     });
   };
   

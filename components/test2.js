@@ -27,8 +27,7 @@ function test2 (){
   
 
     useEffect(() => {
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-    
+        registerForPushNotificationsAsync(firebase.auth().currentUser.uid).then(token => setExpoPushToken(token));
         // This listener is fired whenever a notification is received while the app is foregrounded
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
           setNotification(notification);

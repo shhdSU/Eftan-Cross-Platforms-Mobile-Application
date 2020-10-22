@@ -27,8 +27,11 @@ function test2 (){
   
 
     useEffect(() => {
+        console.log("Iam in useEffect1  ")
         registerForPushNotificationsAsync(firebase.auth().currentUser.uid).then(token => setExpoPushToken(token));
         // This listener is fired whenever a notification is received while the app is foregrounded
+        console.log("Iam in useEffect2  ")
+
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
           setNotification(notification);
         });
@@ -70,6 +73,7 @@ function test2 (){
 
   const registerForPushNotificationsAsync = async(user) => {
     let token;
+    console.log("Iam in register")
   if (Constants.isDevice) {
     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
@@ -79,14 +83,19 @@ function test2 (){
     }
     if (finalStatus !== 'granted') {
       alert('Failed to get push token for push notification!');
+      console.log("Iam in register, NOT granted")
       return;
     }
+    console.log("Iam in register, YYYEEESSS granted")
     token = (await Notifications.getExpoPushTokenAsync()).data;
+   console.log("token is 90  : " + token);
+    console.log("after token assignment  ")
   } else {
     alert('Must use physical device for Push Notifications');
   }
 
   if (Platform.OS === 'android') {
+    console.log("Iam in Android")
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',
       importance: Notifications.AndroidImportance.MAX,
@@ -143,7 +152,16 @@ const sendPushNotification = async (expoPushToken) =>{
        },
      body: JSON.stringify(
           message
-          ),});
+          ),}).then((response) => response.json())
+          .then((responseJson) => {
+            console.log(responseJson);
+            console.log(responseJson.data);
+          })
+                 .catch((error) => {
+                    console.log("error "+ error);
+                  });
+
+
 
 }
 

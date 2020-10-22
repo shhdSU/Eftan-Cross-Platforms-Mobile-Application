@@ -461,7 +461,6 @@ export default class explore extends Component {
             </View>
           </ScrollView>
         </View>
-        <Test2/>
       </View>
     );
   }

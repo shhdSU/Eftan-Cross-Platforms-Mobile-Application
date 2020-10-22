@@ -11,7 +11,7 @@ import {
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
-
+import Test2 from "./test2"
 var designGallery = new Array();
 var design = "";
 var designKeys = "";
@@ -215,6 +215,12 @@ export default class explore extends Component {
     state[prop] = val;
     this.setState(state);
   };
+
+ 
+      
+    
+    
+  
   readData = () => {
   
     return this.state.designGalleryState.map((element) => {
@@ -317,7 +323,9 @@ export default class explore extends Component {
             />
           </G>
         </Svg>
+       
 
+          
         <View style={{ flex: 1 }}>
           <View
             style={{
@@ -454,6 +462,7 @@ export default class explore extends Component {
             </View>
           </ScrollView>
         </View>
+        <Test2/>
       </View>
     );
   }

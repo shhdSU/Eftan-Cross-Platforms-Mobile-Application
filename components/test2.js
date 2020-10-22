@@ -1,129 +1,152 @@
-// import { Expo } from 'expo-server-sdk';
-// import React, { Component, Fragment, useEffect } from "react";
-// import { Text, View, Alert, TextInput, StyleSheet,TouchableOpacity } from "react-native";
-// import * as Permissions from 'expo-permissions';
-// import * as Notifications from 'expo-notifications';
-// import Constants from 'expo-constants';
-// import firebase from "../database/firebase";
-// import FC from 'react';
-// import {
-//   widthPercentageToDP as wp,
-//   heightPercentageToDP as hp,
-// } from "react-native-responsive-screen";
-// import Svg, { Defs, ClipPath, Path, G } from "react-native-svg";
-// const test2 = () => {
-
-// const sendNotification = async (token) => {
-//         const message = {
-//           to: token ,
-//           sound: 'default',
-//           title: 'افتن',
-//           body: 'And here is the body!',
-//           data: { data: 'goes here' },
-//         };
-      
-//         await fetch('https://exp.host/--/api/v2/push/send', {
-//           method: 'POST',
-//           headers: {
-//             Accept: 'application/json',
-//             'Accept-encoding': 'gzip, deflate',
-//             'Content-Type': 'application/json',
-//           },
-//           body: JSON.stringify(message),
-//         });
-//       }
-// }
+ import React, { Component,useRef, useEffect, useState } from "react";
+import { Text, View, Alert, TextInput, StyleSheet,TouchableOpacity } from "react-native";
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import firebase from "../database/firebase";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 
-// // const registerForPushNotificationsAsync = async () => {
-// //     let token;
-// //     if (Constants.isDevice) {
-// //       const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-// //       let finalStatus = existingStatus;
-// //       if (existingStatus !== 'granted') {
-// //         const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-// //         finalStatus = status;
-// //       }
-// //       if (finalStatus !== 'granted') {
-// //         alert('Failed to get push token for push notification!');
-// //         return;
-// //       }
-// //       token = (await Notifications.getExpoPushTokenAsync()).data;
-// //       console.log(token);
-// //     } else {
-// //       alert('Must use physical device for Push Notifications');
-// //     }
 
-// //     if(token){
-// //         const res = await firebase.database().ref("GraphicDesigner/"+firebase.auth().currentUser.uid).update({notificationsKey: token});
-// //     }
-// //     const user = firebase.auth().currentUser.uid;
-// //  const res = await firebase.database().ref("GraphicDesigner/"+user).update({notificationsKey: token});
-    // if (Platform.OS === 'android') {
-    //   Notifications.setNotificationChannelAsync('default', {
-    //     name: 'default',
-    //     importance: Notifications.AndroidImportance.MAX,
-    //     vibrationPattern: [0, 250, 250, 250],
-    //     lightColor: '#FF231F7C',
-    //   });
-    // }
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
   
-// //     return token;
-// //   }
+function test2 (){
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+  
 
-//     return (
-//       <View style={styles.container}>
-//         <TouchableOpacity
-//           onPress={() => sendNotification()}
-//           style={styles.buttonContainer}
-//         >
-//           <Text style={styles.buttonText}>إرسال</Text>
-//         </TouchableOpacity>
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    
+        // This listener is fired whenever a notification is received while the app is foregrounded
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+          setNotification(notification);
+        });
 
-      
-//       </View>
-//     );
-//   //}
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log(response);
+          });
+        return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+      }}>
+      <Text>Your expo push token: {expoPushToken}</Text>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Title: {notification && notification.request.content.title} </Text>
+        <Text>Body: {notification && notification.request.content.body}</Text>
+        <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+      </View>
+      <TouchableOpacity
+       onPress={async () => {
+        await sendPushNotification(expoPushToken); }}>
+          <Text>
+        "Press to Send Notification" </Text>
+       
+       
+      </TouchableOpacity>
+    </View>
+  );
+    }
+    
+
+  const registerForPushNotificationsAsync = async(user) => {
+    let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+console.log("token is: " + token);
+  
+
+console.log("user is" + user);
+ const user1 = firebase.auth().currentUser.uid;
+    //inserting token in database
+                firebase
+                 .database()
+                 .ref(`Client/` + user1)
+                 .on("value", (snapshot) => {
+                   if (snapshot.exists()) {
+                   firebase.database().ref(`Client/` + user1).update({notificationsKey: token});
+                   }
+                 });
+               firebase
+                 .database()
+                 .ref(`GraphicDesigner/` + user1)
+                 .on("value", (snapshot) => {
+                   if (snapshot.exists()) {
+                     firebase.database().ref(`GraphicDesigner/` + user1).update({notificationsKey: token});
+                   }
+          });
+
+         return token;
+          
+  }
 
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//   },
+const sendPushNotification = async (expoPushToken) =>{
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: 'بشرنا بما يسرنا يا كريم',
+    body: 'And here is the body!',
+    data: { data: 'goes here' },
+  };
 
-//   buttonContainer: {
-//     marginTop: wp("90%"),
-//     alignItems: "center",
-//     backgroundColor: "#4F3C75",
-//     padding: wp("3%"),
-//     borderRadius: 25,
-//     width: wp("80%"),
-//     height: hp("7%"),
-//     alignSelf: "center",
-//   },
-//   Text: {
-//     fontSize: 12,
-//     color: "#4F3C75",
-//     left: wp("13%"),
-//     top: hp("35%"),
-//   },
-//   inputStyle: {
-//     fontSize: 18,
-//     height: hp("7%"),
-//     width: wp("80%"),
-//     marginBottom: wp("15%"),
-//     paddingBottom: wp("5%"),
-//     alignSelf: "center",
-//     borderColor: "#ccc",
-//     borderBottomWidth: 3,
-//     textAlign: "right",
-//     top: hp("40%"),
-//     zIndex: 10,
-//   },
-//   buttonText: {
-//     fontSize: 23,
-//     color: "#FFEED6",
-//   },
-// });
-// export default test2;
+  
+  await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+            'Accept': 'application/json',
+           'Content-Type': 'application/json',
+           'accept-encoding': 'gzip, deflate',
+           'host': 'exp.host'
+       },
+     body: JSON.stringify(
+          message
+          ),});
+
+}
+
+
+export default test2;

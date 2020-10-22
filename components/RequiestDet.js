@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
@@ -13,9 +13,9 @@ export default class RequiestDet extends React.Component {
       CID: "",
       DID: "",
       category: "",
-      color1: "",
-      color2: "",
-      color3: "",
+      color1: "#4F3C75",
+      color2: "#4F3C75",
+      color3: "#4F3C75",
       deadLine: "",
       description: "",
       status: "",
@@ -24,8 +24,6 @@ export default class RequiestDet extends React.Component {
       ClientProfileImage: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/DesignWork%2F87f1e3c3-592d-4f17-beb7-2ab9af535d01?alt=media&token=9fa71a9c-bd48-4ec5-be9d-9008dbc25273",
       // submissionDate: "",
       // submissionUrl: "",
-
-
     };
 
     // this.updateInputVal(Requiest.ImageKey, "ImageKey");
@@ -102,6 +100,7 @@ export default class RequiestDet extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+
         <View style={styles.container}>
           <Text
             style={{
@@ -140,6 +139,7 @@ export default class RequiestDet extends React.Component {
             </G>
           </Svg>
 
+
           <View style={styles.infoCont}>
 
             <Image
@@ -151,7 +151,7 @@ export default class RequiestDet extends React.Component {
               style={[
                 {
                   color: "#4F3C75",
-                  top: "-40%",
+                  top: "-50%",
                   left: "42%",
                   fontWeight: "300",
                   fontSize: 20,
@@ -213,69 +213,21 @@ export default class RequiestDet extends React.Component {
           </View>
 
 
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
           <Image
             style={styles.preview}
             source={{
               uri: this.state.reference,
             }}
           />
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
           <Text
             style={[
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "42%",
-                right: "15%",
-              },
-            ]}
-          >
-            {this.state.date}
-          </Text>
-          <Text
-            style={[
-              styles.inputStyle2,
-              {
-                color: "#4F3C75",
-                top: "7%",
-                right: "-23.5%",
-                fontWeight: "700",
-                backgroundColor: "#fff",
-                height: "2.5%",
-                width: "23%",
-                zIndex: 2,
-              },
-            ]}
-          >
-            وصف العمل
-        </Text>
-          <Text
-            style={[
-              {
-                color: "#4F3C75",
-                top: "5%",
-                left: "0%",
-                textAlign: "right",
-                fontWeight: "700",
-                width: "87%",
-                height: "20%",
-                fontSize: 15,
-                borderWidth: 2,
-                borderColor: "#ccc",
-                borderRadius: 25,
-                padding: "7%",
-              },
-            ]}
-          >
-            {this.state.designDescription}
-          </Text>
-
-          <Text
-            style={[
-              styles.inputStyle2,
-              {
-                color: "#4F3C75",
-                top: "10%",
+                top: "13%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -290,27 +242,187 @@ export default class RequiestDet extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "8%",
+                top: "11%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
                 height: "6%",
                 fontSize: 15,
-                borderWidth: 1,
-                borderColor: "#4F3C75",
+                borderWidth: 2,
+                borderColor: "#ccc",
                 borderRadius: 25,
               },
             ]}
           >
             {this.state.category}
           </Text>
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+
+          <Text
+            style={[
+              styles.inputStyle2,
+              {
+                color: "#4F3C75",
+                top: "10%",
+                right: "-23.5%",
+                fontWeight: "700",
+                backgroundColor: "#fff",
+                height: "2.5%",
+                width: "23%",
+                zIndex: 2,
+              },
+            ]}
+          >
+             وصف العمل
+          </Text>
+
+          <Text style={[
+            {
+              color: "#4F3C75",
+              top: "8%",
+              left: "0%",
+              textAlign: "right",
+              fontWeight: "700",
+              width: "87%",
+              height: "10%",
+              fontSize: 15,
+              borderWidth: 2,
+              borderColor: "#ccc",
+              borderRadius: 25,
+              padding: "7%",
+            },
+          ]}
+          >
+            {this.state.description}
+          </Text>
+
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+
+          <Text
+            style={[
+              styles.inputStyle2,
+              {
+                color: "#4F3C75",
+                top: "7%",
+                right: "-23.5%",
+                fontWeight: "700",
+                backgroundColor: "#fff",
+                height: "2.5%",
+                width: "27%",
+                zIndex: 2,
+              },
+            ]}
+          >
+            موعد التسليم   </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "5%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "87%",
+                height: "6%",
+                fontSize: 15,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+              },
+            ]}
+          >
+            {this.state.deadLine}
+          </Text>
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+          <Text
+            style={[
+              styles.inputStyle2,
+              {
+                color: "#4F3C75",
+                top: "4%",
+                right: "-23.5%",
+                fontWeight: "700",
+                backgroundColor: "#fff",
+                height: "2.5%",
+                width: "27%",
+                zIndex: 2,
+              },
+            ]}
+          >
+            ألوان التصميم   </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "4%",
+                right: "32%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "21%",
+                height: "5%",
+                fontSize: 13,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+                paddingTop: 10,
+                paddingRight: 9,
+              },
+            ]}
+          >
+            {this.state.color1}
+          </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "-.8%",
+                right: "11%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "21%",
+                height: "5%",
+                fontSize: 13,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+                paddingTop: 10,
+                paddingRight: 9,
+              },
+            ]}
+          >
+            {this.state.color2}
+          </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "-5.8%",
+                right: "-10%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "21%",
+                height: "5%",
+                fontSize: 13,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+                paddingTop: 10,
+                paddingRight: 9,
+              },
+            ]}
+          >
+            {this.state.color3}
+          </Text>
+
+             {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
         </View>
+
       </View>
+
+
     );
   }
 }
-
 //Style sheet
 const styles = StyleSheet.create({
   container: {
@@ -320,11 +432,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   preview: {
-    width: 330,
-    height: 280,
+    width: 320,
+    height: 250,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "13%",
+    top: "15%",
     borderRadius: 35,
     alignSelf: "center",
   },
@@ -351,7 +463,7 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 60,
     height: 60,
-    top: "14%",
+    top: "9%",
     left: "76%",
     borderRadius: 35,
     borderColor: "#ffeed6",
@@ -372,8 +484,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
-    top: "10%",
-    height: "10%",
+    top: "14%",
+    height: "9%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -384,4 +496,6 @@ const styles = StyleSheet.create({
 
     elevation: 19,
   },
+
+
 });

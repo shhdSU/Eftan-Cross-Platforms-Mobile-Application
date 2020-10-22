@@ -40,8 +40,8 @@ import WRequiestDet from "./components/WRequiestDet";
 import PRequiestDet from "./components/PRequiestDet";
 import DRequiestDet from "./components/DRequiestDet";
 import recivedReqLS from "./components/recivedReqLS";
-
-
+import SubmitDesign from "./components/SubmitDesign";
+import DisplayRequest from "./components/DisplayRequest";
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -397,10 +397,15 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-    "DRequiestDet": DRequiestDet,
-    "PRequiestDet": PRequiestDet,
-    "WRequiestDet": WRequiestDet,
-    "recivedReqLS": recivedReqLS,
+    DisplayRequest: DisplayRequest,
+    PRequiestDet: PRequiestDet,
+    SubmitDesign: SubmitDesign,
+
+    DRequiestDet: DRequiestDet,
+
+    WRequiestDet: WRequiestDet,
+
+    recivedReqLS: recivedReqLS,
     //loginStack: LoginStack,
     Cdrawer: CDrawerNavigation,
   },
@@ -412,10 +417,16 @@ const CPrimaryNav = createStackNavigator(
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
-    "DRequiestDet": DRequiestDet,
-    "PRequiestDet": PRequiestDet,
-    "WRequiestDet": WRequiestDet,
-    "recivedReqLS": recivedReqLS,
+    DisplayRequest: DisplayRequest,
+
+    PRequiestDet: PRequiestDet,
+    SubmitDesign: SubmitDesign,
+
+    DRequiestDet: DRequiestDet,
+
+    WRequiestDet: WRequiestDet,
+
+    recivedReqLS: recivedReqLS,
     //loginStack: LoginStack,
     " Ddrawer": DDrawerNavigation,
   },

@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+} from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
@@ -6,40 +14,35 @@ import firebase from "../database/firebase";
 export default class PRequiestDet extends React.Component {
   constructor(props) {
     super();
-    // var Requiest = props.navigation.state.params.obj; هنا بناخذ من شهد (obj) فيه الريكويست المنضغط حاليا
-
+    var Requiest = props.navigation.state.params.obj;
+    var element = Requiest;
     this.state = {
-      ImageKey: "-MKBNrLIm9j3xHDDflVE", // will be empty
+      Imagekey: "",
       CID: "",
       DID: "",
       category: "",
-      color1: "pink",
-      color2: "#4F3C75",
-      color3: "#fff000",
+      color1: "",
+      color2: "",
+      color3: "",
       deadLine: "",
-      description: "السلام عليكم ورحمة الله وبركاته كيف الحال عساكم طيبين؟السلام عليكم ورحمة الله وبركاته كيف الحال عساكم طيبين؟",
+      description: "",
       status: "",
-      reference: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2Ff5364a5c-ae40-4a41-814d-b9651c8b57fd?alt=media&token=8a81fd40-294f-4e79-8a5a-99a4302e40fa",
-      title: "السلام عليكم",
-      ClientProfileImage: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/DesignWork%2F87f1e3c3-592d-4f17-beb7-2ab9af535d01?alt=media&token=9fa71a9c-bd48-4ec5-be9d-9008dbc25273",
-      // submissionDate: "",
-      // submissionUrl: "",
+      reference: "",
+      title: "",
+      ClientProfileImage: "",
     };
 
-    // this.updateInputVal(Requiest.ImageKey, "ImageKey");
-    // this.updateInputVal(Requiest.CID, "CID");
-    // this.updateInputVal(Requiest.DID, "DID");
-    // this.updateInputVal(Requiest.color1, "color1");
-    // this.updateInputVal(Requiest.color2, "color2");
-    // this.updateInputVal(Requiest.color3, "color3");
-    // this.updateInputVal(Requiest.deadLine, "deadLine");
-    // this.updateInputVal(Requiest.description, "description");
-    // this.updateInputVal(Requiest.status, "status");
-    // this.updateInputVal(Requiest.reference, "reference");
-    // this.updateInputVal(Requiest.title, "title");
-    // this.updateInputVal(Requiest.submissionDate, "submissionDate");
-    // this.updateInputVal(Requiest.submissionUrl, "submissionUrl");
-
+    this.updateInputVal(Requiest.Imagekey, "Imagekey");
+    this.updateInputVal(Requiest.CID, "CID");
+    this.updateInputVal(Requiest.DID, "DID");
+    this.updateInputVal(Requiest.color1, "color1");
+    this.updateInputVal(Requiest.color2, "color2");
+    this.updateInputVal(Requiest.color3, "color3");
+    this.updateInputVal(Requiest.deadLine, "deadLine");
+    this.updateInputVal(Requiest.description, "description");
+    this.updateInputVal(Requiest.status, "status");
+    this.updateInputVal(Requiest.reference, "reference");
+    this.updateInputVal(Requiest.title, "title");
 
     //-----------------------------retreive client's profile image
     firebase
@@ -57,20 +60,13 @@ export default class PRequiestDet extends React.Component {
     var Cname = "";
     firebase
       .database()
-      .ref(`Client/` + this.state.CID)
+      .ref("Client/" + this.state.CID)
       .on("value", (dataSnapshot) => {
-        if (dataSnapshot.exists()) {
-          firebase
-            .database()
-            .ref(`Client/` + this.state.CID)
-            .on("value", (dataSnapshot) => {
-              Cname =
-                dataSnapshot.child("DFirstName").val() +
-                " " +
-                dataSnapshot.child("DLastName").val();
-              this.updateInputVal(" لجين المحيذيف", "name");
-            });
-        } else console.log("CID is not found");
+        Cname =
+          dataSnapshot.child("CFirstName").val() +
+          " " +
+          dataSnapshot.child("CLastName").val();
+        this.updateInputVal(Cname, "name");
       });
   }
 
@@ -80,27 +76,9 @@ export default class PRequiestDet extends React.Component {
     this.setState(state);
   };
 
-  //----------------------------- update status Changes + remove request
-
-  UpdateStatusAfterAccepted = () => {
-    this.updateInputVal("P", "status")
-    firebase
-      .database()
-      .ref("Forms/" + "ImageKey")
-      .update({ status: this.state.status })
-    console.log(this.state.CID)
-    this.props.navigation.navigate("recivedReqLS");
-  }
-  RemoveRequest = () => {
-    firebase.database().ref('/Forms/' + this.state.ImageKey).remove()
-    this.props.navigation.navigate("recivedReqLS");// تغيير الانتقال الى سجل الطلبات مع حذف الطلب  
-  }
-  //----------------------------- 
-
   render() {
     return (
       <View style={{ flex: 1 }}>
-
         <View style={styles.container}>
           <Text
             style={{
@@ -139,12 +117,10 @@ export default class PRequiestDet extends React.Component {
             </G>
           </Svg>
 
-
           <View style={styles.infoCont}>
-
             <Image
               style={styles.profileImage}
-              source={{ uri: this.state.ClientProfileImage, }}
+              source={{ uri: this.state.ClientProfileImage }}
             />
 
             <Text
@@ -173,21 +149,19 @@ export default class PRequiestDet extends React.Component {
               }}
             >
               <TouchableOpacity
-
-                onPress={() => this.UpdateStatusAfterAccepted()}
-              //() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
-
+                onPress={() => this.props.navigation.navigate("SubmitDesign")}
+                //   this.props.navigation.navigate("SubmitDesign", {
+                //     objs: Requiest,
+                //   })
+                // }
               >
                 <Image
                   style={styles.accject}
-                  source={require('../assets/sent.png')}
+                  source={require("../assets/sent.png")}
                 />
               </TouchableOpacity>
-
-
             </View>
           </View>
-
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
           <Image
@@ -213,7 +187,8 @@ export default class PRequiestDet extends React.Component {
               },
             ]}
           >
-            صنف التصميم        </Text>
+            صنف التصميم
+          </Text>
           <Text
             style={[
               {
@@ -228,7 +203,6 @@ export default class PRequiestDet extends React.Component {
                 borderColor: "#ccc",
                 borderRadius: 25,
                 fontWeight: "400",
-
               },
             ]}
           >
@@ -255,28 +229,28 @@ export default class PRequiestDet extends React.Component {
             وصف العمل
           </Text>
 
-          <Text style={[
-            {
-              color: "#4F3C75",
-              top: "8%",
-              left: "0%",
-              textAlign: "right",
-              fontWeight: "700",
-              width: "87%",
-              height: "10%",
-              fontSize: 13,
-              borderWidth: 2,
-              borderColor: "#ccc",
-              borderRadius: 25,
-              padding: "7%",
-              minHeight: 50,
-              paddingLeft: 5,
-              paddingTop: 10,
-              paddingBottom: 5,
-              fontWeight: "400",
-
-            },
-          ]}
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "8%",
+                left: "0%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "87%",
+                height: "10%",
+                fontSize: 13,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+                padding: "7%",
+                minHeight: 50,
+                paddingLeft: 5,
+                paddingTop: 10,
+                paddingBottom: 5,
+                fontWeight: "400",
+              },
+            ]}
           >
             {this.state.description}
           </Text>
@@ -298,7 +272,8 @@ export default class PRequiestDet extends React.Component {
               },
             ]}
           >
-            موعد التسليم   </Text>
+            موعد التسليم{" "}
+          </Text>
           <Text
             style={[
               {
@@ -335,7 +310,8 @@ export default class PRequiestDet extends React.Component {
               },
             ]}
           >
-            ألوان التصميم   </Text>
+            ألوان التصميم{" "}
+          </Text>
           <Text
             style={[
               {
@@ -353,8 +329,7 @@ export default class PRequiestDet extends React.Component {
                 paddingTop: 10,
                 paddingRight: 9,
                 backgroundColor: this.state.color1,
-                overflow: 'hidden'
-
+                overflow: "hidden",
               },
             ]}
           >
@@ -377,8 +352,7 @@ export default class PRequiestDet extends React.Component {
                 paddingTop: 10,
                 paddingRight: 9,
                 backgroundColor: this.state.color2,
-                overflow: 'hidden'
-
+                overflow: "hidden",
               },
             ]}
           >
@@ -401,20 +375,15 @@ export default class PRequiestDet extends React.Component {
                 paddingTop: 10,
                 paddingRight: 9,
                 backgroundColor: this.state.color3,
-                overflow: 'hidden'
-
+                overflow: "hidden",
               },
             ]}
           >
             {this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
-
         </View>
-
       </View>
-
-
     );
   }
 }
@@ -473,7 +442,6 @@ const styles = StyleSheet.create({
     top: -75,
     paddingRight: 35,
     backgroundColor: "#fff",
-
   },
   infoCont: {
     backgroundColor: "#EFEEFF",
@@ -491,6 +459,4 @@ const styles = StyleSheet.create({
 
     elevation: 19,
   },
-
-
 });

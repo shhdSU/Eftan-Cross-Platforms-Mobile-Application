@@ -11,7 +11,6 @@ import {
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
-import Test2 from "./test2"
 var designGallery = new Array();
 var design = "";
 var designKeys = "";

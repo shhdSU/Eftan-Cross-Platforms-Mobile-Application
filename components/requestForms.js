@@ -11,7 +11,6 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ActivityIndicator,
-
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-datepicker";
@@ -21,7 +20,7 @@ import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
-
+import Notifications from "./notifications"
 
 export default class RequestForm extends Component {
   constructor(props) {
@@ -45,9 +44,13 @@ export default class RequestForm extends Component {
       mainStep: true,
       DID: "",
       uploading:false,
+      designerToken: "",
     };
     const DID = props.navigation.state.params.DID;
     this.updateInputVal(DID, "DID");
+    firebase.database().ref('GraphicDesigner/'+DID).child("notificationsKey").on(('value'), (dataSnapshot)=> {
+      this.updateInputVal(dataSnapshot.val(),"designerToken");
+    })
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -265,7 +268,8 @@ RenderUploading = () => {
           text: "تأكيد",
           onPress: () => {
             this.storeResquset()
-          },
+          , async () => {
+             Notifications(this.state.designerToken); }},
         },
       ],
       { cancelable: false }

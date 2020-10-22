@@ -49,8 +49,11 @@ export default class RequestForm extends Component {
     const DID = props.navigation.state.params.DID;
     this.updateInputVal(DID, "DID");
     firebase.database().ref('GraphicDesigner/'+DID).child("notificationsKey").on(('value'), (dataSnapshot)=> {
+      console.log("dataSnapshot   "+ dataSnapshot.val())
       this.updateInputVal(dataSnapshot.val(),"designerToken");
+      console.log("designer token    "+this.state.designerToken)
     })
+    console.log("designer token    "+this.state.designerToken)
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -266,10 +269,10 @@ RenderUploading = () => {
         },
         {
           text: "تأكيد",
-          onPress: () => {
+          onPress: () => {async () => {
+          <Notifications designerToken= {this.state.designerToken}/>},
             this.storeResquset()
-          , async () => {
-             Notifications(this.state.designerToken); }},
+           },
         },
       ],
       { cancelable: false }

@@ -19,12 +19,13 @@ Notifications.setNotificationHandler({
     }),
   });
   
-function notifications (recipientToken){
+ function notifications (){
     const [expoPushToken, setExpoPushToken] = useState('');
     const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
     const responseListener = useRef();
   
+  const designerToken = this.props.designerToken;
 
     useEffect(() => {
         registerForPushNotificationsAsync(firebase.auth().currentUser.uid).then(token => setExpoPushToken(token));
@@ -44,12 +45,10 @@ function notifications (recipientToken){
   }, []);
 
   return (
-      <TouchableOpacity
-       onPress={async () => {
-        await sendPushNotification(recipientToken); }}>
-          <Text>
-        "Press to Send Notification" </Text>
-      </TouchableOpacity>
+      
+        await sendPushNotification(designerToken)
+      
+        
   );
     }
     

@@ -36,7 +36,9 @@ import Explore from "./components/Explore";
 import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
 import designerPortfolio from "./components/designerPortfolio";
-import RequiestDet from "./components/RequiestDet";
+import WRequiestDet from "./components/WRequiestDet";
+import PRequiestDet from "./components/PRequiestDet";
+import DRequiestDet from "./components/DRequiestDet";
 import recivedReqLS from "./components/recivedReqLS";
 
 
@@ -395,7 +397,9 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-    "RequiestDet": RequiestDet,
+    "DRequiestDet": DRequiestDet,
+    "PRequiestDet": PRequiestDet,
+    "WRequiestDet": WRequiestDet,
     "recivedReqLS": recivedReqLS,
     //loginStack: LoginStack,
     Cdrawer: CDrawerNavigation,
@@ -408,7 +412,9 @@ const CPrimaryNav = createStackNavigator(
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
-    "RequiestDet": RequiestDet,
+    "DRequiestDet": DRequiestDet,
+    "PRequiestDet": PRequiestDet,
+    "WRequiestDet": WRequiestDet,
     "recivedReqLS": recivedReqLS,
     //loginStack: LoginStack,
     " Ddrawer": DDrawerNavigation,

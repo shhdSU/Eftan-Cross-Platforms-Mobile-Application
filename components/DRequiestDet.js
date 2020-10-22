@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 
-export default class RequiestDet extends React.Component {
+export default class DRequiestDet extends React.Component {
   constructor(props) {
     super();
     // var Requiest = props.navigation.state.params.obj; هنا بناخذ من شهد (obj) فيه الريكويست المنضغط حاليا
@@ -13,11 +13,11 @@ export default class RequiestDet extends React.Component {
       CID: "",
       DID: "",
       category: "",
-      color1: "#4F3C75",
+      color1: "pink",
       color2: "#4F3C75",
-      color3: "#4F3C75",
+      color3: "#fff000",
       deadLine: "",
-      description: "",
+      description: "السلام عليكم ورحمة الله وبركاته كيف الحال عساكم طيبين؟السلام عليكم ورحمة الله وبركاته كيف الحال عساكم طيبين؟",
       status: "",
       reference: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2Ff5364a5c-ae40-4a41-814d-b9651c8b57fd?alt=media&token=8a81fd40-294f-4e79-8a5a-99a4302e40fa",
       title: "السلام عليكم",
@@ -172,43 +172,7 @@ export default class RequiestDet extends React.Component {
                 flexWrap: "wrap",
               }}
             >
-              <TouchableOpacity
 
-                onPress={() => this.UpdateStatusAfterAccepted()}
-              >
-                <Image
-                  style={styles.accject}
-                  source={require('../assets/accept.png')}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() =>
-                  Alert.alert(
-                    "تنبيه",
-                    "هل انت متأكد من رفض الطلب ؟",
-                    [
-                      {
-                        text: "الغاء",
-                        onPress: () => {
-                          this.props.navigation.navigate("RequiestDet");
-                        },
-                      },
-                      {
-                        text: "تأكيد",
-                        onPress: () => { this.RemoveRequest() },
-                      },
-                    ],
-                    { cancelable: false }
-                  )
-                }
-              >
-                <Image
-                  style={styles.accject, { left: -240, top: -76, }}
-                  source={require('../assets/reject.png')}
-                />
-
-              </TouchableOpacity>
             </View>
           </View>
 
@@ -251,6 +215,8 @@ export default class RequiestDet extends React.Component {
                 borderWidth: 2,
                 borderColor: "#ccc",
                 borderRadius: 25,
+                fontWeight: "400",
+
               },
             ]}
           >
@@ -262,6 +228,7 @@ export default class RequiestDet extends React.Component {
             style={[
               styles.inputStyle2,
               {
+                flexShrink: 1,
                 color: "#4F3C75",
                 top: "10%",
                 right: "-23.5%",
@@ -273,7 +240,7 @@ export default class RequiestDet extends React.Component {
               },
             ]}
           >
-             وصف العمل
+            وصف العمل
           </Text>
 
           <Text style={[
@@ -290,6 +257,11 @@ export default class RequiestDet extends React.Component {
               borderColor: "#ccc",
               borderRadius: 25,
               padding: "7%",
+              minHeight: 50,
+              paddingLeft: 5,
+              paddingTop: 10,
+              paddingBottom: 5,
+              fontWeight: "400",
             },
           ]}
           >
@@ -327,12 +299,15 @@ export default class RequiestDet extends React.Component {
                 borderWidth: 2,
                 borderColor: "#ccc",
                 borderRadius: 25,
+                fontWeight: "400",
+
               },
             ]}
           >
             {this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+
           <Text
             style={[
               styles.inputStyle2,
@@ -354,7 +329,7 @@ export default class RequiestDet extends React.Component {
               {
                 color: "#4F3C75",
                 top: "4%",
-                right: "32%",
+                right: "14%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "21%",
@@ -362,9 +337,12 @@ export default class RequiestDet extends React.Component {
                 fontSize: 13,
                 borderWidth: 2,
                 borderColor: "#ccc",
-                borderRadius: 25,
+                borderRadius: 20,
                 paddingTop: 10,
                 paddingRight: 9,
+                backgroundColor: this.state.color1,
+                overflow: 'hidden'
+
               },
             ]}
           >
@@ -375,7 +353,7 @@ export default class RequiestDet extends React.Component {
               {
                 color: "#4F3C75",
                 top: "-.8%",
-                right: "11%",
+                right: "-8%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "21%",
@@ -383,9 +361,12 @@ export default class RequiestDet extends React.Component {
                 fontSize: 13,
                 borderWidth: 2,
                 borderColor: "#ccc",
-                borderRadius: 25,
+                borderRadius: 20,
                 paddingTop: 10,
                 paddingRight: 9,
+                backgroundColor: this.state.color2,
+                overflow: 'hidden'
+
               },
             ]}
           >
@@ -396,7 +377,7 @@ export default class RequiestDet extends React.Component {
               {
                 color: "#4F3C75",
                 top: "-5.8%",
-                right: "-10%",
+                right: "-30%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "21%",
@@ -404,16 +385,18 @@ export default class RequiestDet extends React.Component {
                 fontSize: 13,
                 borderWidth: 2,
                 borderColor: "#ccc",
-                borderRadius: 25,
+                borderRadius: 20,
                 paddingTop: 10,
                 paddingRight: 9,
+                backgroundColor: this.state.color3,
+                overflow: 'hidden'
+
               },
             ]}
           >
             {this.state.color3}
           </Text>
-
-             {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
         </View>
 

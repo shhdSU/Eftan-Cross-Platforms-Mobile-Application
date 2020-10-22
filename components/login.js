@@ -32,6 +32,7 @@ export default class LoginPage extends Component {
       password: "",
       isLoading: false,
     };
+    
   }
 
   updateInputVal = (val, prop) => {
@@ -85,7 +86,7 @@ export default class LoginPage extends Component {
 
                   if (snapshot.exists()) {
                     this.props.navigation.navigate(
-                      "نسيت كلمة السر!");
+                      "معرض التصاميم من منظور المصمم");
                   }
                   return;
                 });
@@ -95,9 +96,10 @@ export default class LoginPage extends Component {
                 password: "",
               });
             }
-            that.registerForPushNotificationsAsync(firebase.auth().currentUser.uid);
+           that.registerForPushNotificationsAsync(firebase.auth().currentUser.uid);
           }
-
+         //   this.notify();
+         //   this.componentDidMount();
         });
 
       })
@@ -141,79 +143,198 @@ export default class LoginPage extends Component {
         });
       });
   };
+ //notifications method
+   registerForPushNotificationsAsync = async(user) => {
+     let token;
+   if (Constants.isDevice) {
+     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+     let finalStatus = existingStatus;
+     if (existingStatus !== 'granted') {
+       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+       finalStatus = status;
+     }
+     if (finalStatus !== 'granted') {
+       alert('Failed to get push token for push notification!');
+       return;
+     }
+     token = (await Notifications.getExpoPushTokenAsync()).data;
+     //console.log(token);
+   } else {
+     alert('Must use physical device for Push Notifications');
+   }
 
-   registerForPushNotificationsAsync = async() => {
-    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = status;
+   if (Platform.OS === 'android') {
+     Notifications.setNotificationChannelAsync('default', {
+       name: 'default',
+       importance: Notifications.AndroidImportance.MAX,
+       vibrationPattern: [0, 250, 250, 250],
+       lightColor: '#FF231F7C',
+     });
+   }
 
-    if(status !== 'granted'){
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    if(finalStatus !== 'granted'){
-      return;
-    }
+console.log("token is: " + token);
+   
+   fetch('https://exp.host/--/api/v2/push/send', {
+       method: 'POST',
+       headers: {
+             'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'accept-encoding': 'gzip, deflate',
+            'host': 'exp.host'
+        },
+      body: JSON.stringify({
+            to: token,
+            title: 'New Notification',
+            body: 'The notification worked!',
+            priority: "high",
+            sound:"default",
+            channelId:"default",
+                }),
+    }).then((response) => response.json())
+             .then((responseJson) => {
+               console.log(responseJson);
+               console.log(responseJson.data);
+             })
+                    .catch((error) => {
+                       console.log("error "+ error);
+                     });
 
-    // let token  = await Notifications.getExpoPushTokenAsync();
-    // return fetch('https://exp.host/--/api/v2/push/send', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     token: {
-    //       value: token,
-    //     }
-    //   })
-    // });
-  }
-  //notifications method
-//   registerForPushNotificationsAsync = async(user) => {
-//     let token;
-//   if (Constants.isDevice) {
-//     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+
+ console.log("user is" + user);
+  
+   return token;
+
+   }
+
+// async componentDidMount(){
+//   // get expo push token
+//   console.log("componentDidMount");
+
+//   const { status: existingStatus } = await Permissions.getAsync(
+//       Permissions.NOTIFICATIONS
+//     );
 //     let finalStatus = existingStatus;
+//     console.log("final status = " + finalStatus);
 //     if (existingStatus !== 'granted') {
 //       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-//       finalStatus = status;
-//     }
-//     if (finalStatus !== 'granted') {
-//       alert('Failed to get push token for push notification!');
-//       return;
-//     }
-//     token = (await Notifications.getExpoPushTokenAsync()).data;
-//     //console.log(token);
-//   } else {
-//     alert('Must use physical device for Push Notifications');
-//   }
+//     finalStatus = status;
+// }//end if
+// console.log("final status = " + finalStatus);
 
-//   if (Platform.OS === 'android') {
-//     Notifications.setNotificationChannelAsync('default', {
-//       name: 'default',
-//       importance: Notifications.AndroidImportance.MAX,
-//       vibrationPattern: [0, 250, 250, 250],
-//       lightColor: '#FF231F7C',
-//     });
-//   }
-// console.log("user is" + user);
-//   //inserting token in database
+// if (finalStatus === 'granted'){
+//   console.log("final status = " + finalStatus);
+//   let token = await Notifications.getExpoPushTokenAsync();
+//   fetch('https://exp.host/--/api/v2/push/send', {
+//        method: 'POST',
+//        headers: {
+//              'Accept': 'application/json',
+//             'Content-Type': 'application/json',
+//             'accept-encoding': 'gzip, deflate',
+//             'host': 'exp.host'
+//         },
+//       body: JSON.stringify({
+//             to: token.data,
+//             title: 'New Notification',
+//             body: 'The notification worked!',
+//             priority: "high",
+//             sound:"default",
+//             channelId:"default",
+//                 }),
+//     }).then((response) => response.json())
+//              .then((responseJson) => {
+//                console.log(responseJson);
+//                console.log(responseJson.data);
+//              })
+//                     .catch((error) => {
+//                        console.log("error "+ error);
+//                      });
+// const user = firebase.auth().currentUser.uid;
+//     //inserting token in database
+//                 firebase
+//                  .database()
+//                  .ref(`Client/` + user)
+//                  .on("value", (snapshot) => {
+//                    if (snapshot.exists()) {
+//                    firebase.database().ref(`Client/` + user.uid).update({notificationsKey: token});
+//                    }
+//                  });
 //                firebase
-//                 .database()
-//                 .ref(`Client/` + user)
-//                 .on("value", (snapshot) => {
-//                   if (snapshot.exists()) {
-//                   firebase.database().ref(`Client/` + user.uid).update({notificationsKey: token});
-//                   }
-//                 });
-//               firebase
-//                 .database()
-//                 .ref(`GraphicDesigner/` + user)
-//                 .on("value", (snapshot) => {
-//                   if (snapshot.exists()) {
-//                     firebase.database().ref(`GraphicDesigner/` + user).update({notificationsKey: token});
-//                   }
-//                 });
+//                  .database()
+//                  .ref(`GraphicDesigner/` + user)
+//                  .on("value", (snapshot) => {
+//                    if (snapshot.exists()) {
+//                      firebase.database().ref(`GraphicDesigner/` + user).update({notificationsKey: token});
+//                    }
+//           });
+// }
 
-//   return token;
 
-//   }
+//      console.log("who cares");
+
+// }//componentDidMount end
+
+notify = async () => {
+  console.log("componentDidMount");
+
+  const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    console.log("final status = " + finalStatus);
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+}//end if
+console.log("final status = " + finalStatus);
+
+if (finalStatus === 'granted'){
+  console.log("final status = " + finalStatus);
+  let token = await Notifications.getExpoPushTokenAsync();
+  fetch('https://exp.host/--/api/v2/push/send', {
+       method: 'POST',
+       headers: {
+             'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'accept-encoding': 'gzip, deflate',
+            'host': 'exp.host'
+        },
+      body: JSON.stringify({
+            to: token,
+            title: 'New Notification',
+            body: 'The notification worked!',
+            priority: "high",
+            sound:"default",
+            channelId:"default",
+                }),
+    }).then((response) => response.json())
+             .then((responseJson) => {
+               console.log(responseJson);
+               console.log(responseJson.data);
+             })
+                    .catch((error) => {
+                       console.log("error "+ error);
+                     });
+                     const user = firebase.auth().currentUser.uid;
+                     //inserting token in database
+                                 firebase
+                                  .database()
+                                  .ref(`Client/` + user)
+                                  .on("value", (snapshot) => {
+                                    if (snapshot.exists()) {
+                                    firebase.database().ref(`Client/` + user.uid).update({notificationsKey: token});
+                                    }
+                                  });
+                                firebase
+                                  .database()
+                                  .ref(`GraphicDesigner/` + user)
+                                  .on("value", (snapshot) => {
+                                    if (snapshot.exists()) {
+                                      firebase.database().ref(`GraphicDesigner/` + user).update({notificationsKey: token});
+                                    }
+                           });
+}
+
+}
   render() {
     if (this.state.isLoading) {
       return (

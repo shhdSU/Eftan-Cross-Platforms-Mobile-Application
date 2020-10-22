@@ -273,8 +273,7 @@ export default class explore extends Component {
   };
   
   render() {
-    console.log(this.state.digital);
-    console.log(digital);
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text

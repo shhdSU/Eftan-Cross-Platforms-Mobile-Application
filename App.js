@@ -24,7 +24,7 @@ import SignupScreen from "./components/signup";
 // import ClientGalleryScreen from "./components/ClientGallery";
 import DesignerGalleryScreen from "./components/designerGallery";
 import privacyPolicyScreen from "./components/privacyPolicy";
-import ForgotPassword from "./components/test2";
+import ForgotPassword from "./components/ForgotPassword";
 import React, { Component } from "react";
 import RequestScreen from "./components/requestForms";
 import UploadNewDesign from "./components/uploadNewDesign";

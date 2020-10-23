@@ -29,6 +29,9 @@ export default class PRequiestDet extends React.Component {
       status: "",
       reference: "",
       title: "",
+      done:false,
+      dname: "",
+      doneMessage: "",
       ClientProfileImage: "",
       clientToken: "",
     };
@@ -77,7 +80,21 @@ export default class PRequiestDet extends React.Component {
         })
     }
   })
+  var designerName;
+    firebase
+    .database()
+    .ref("GraphicDesigner/" + this.state.DID)
+    .on("value", (dataSnapshot) => {
+      designerName =
+        dataSnapshot.child("DFirstName").val() +
+        " " +
+        dataSnapshot.child("DLastName").val();
+      this.updateInputVal(designerName, "dname");
+    });
+    var doneMessage = "لقد تم إنجاز طلبك من قبل المصمم" + this.state.dname;
+    this.updateInputVal(doneMessage,"doneMessage");
 
+    console.log(doneMessage);
   }
 
   updateInputVal = (val, prop) => {
@@ -86,7 +103,7 @@ export default class PRequiestDet extends React.Component {
     this.setState(state);
   };
 navigateToSubmit = () => {
-<Notify token = {this.state.clientToken} title = "اِفتَنْ" message = "تم تسليم طلبك"/>
+  this.updateInputVal(true,"done");
   this.props.navigation.navigate("SubmitDesign", {
     obj: this.props.navigation.state.params.obj
   })
@@ -109,6 +126,7 @@ navigateToSubmit = () => {
           >
             {this.state.title}
           </Text>
+          {this.state.done &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.doneMessage}/>}
 
           <Svg
             width={416}

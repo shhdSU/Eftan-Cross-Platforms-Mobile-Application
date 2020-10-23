@@ -19,7 +19,7 @@ Notifications.setNotificationHandler({
     }),
   });
   
- function notifications (){
+  export default function Notify (){
     const [expoPushToken, setExpoPushToken] = useState('');
     const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
@@ -28,7 +28,7 @@ Notifications.setNotificationHandler({
   const designerToken = this.props.designerToken;
 
     useEffect(() => {
-        registerForPushNotificationsAsync(firebase.auth().currentUser.uid).then(token => setExpoPushToken(token));
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
         // This listener is fired whenever a notification is received while the app is foregrounded
 
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -46,14 +46,14 @@ Notifications.setNotificationHandler({
 
   return (
       
-        await sendPushNotification(designerToken)
-      
-        
+    async () => {
+      await sendPushNotification(designerToken);}
+    
   );
     }
     
 
-  const registerForPushNotificationsAsync = async(user) => {
+    async function registerForPushNotificationsAsync (){
     let token;
   if (Constants.isDevice) {
     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
@@ -104,11 +104,11 @@ Notifications.setNotificationHandler({
   }
 
 
-const sendPushNotification = async (expoPushToken) =>{
+  async function sendPushNotification (expoPushToken) {
   const message = {
     to: expoPushToken,
     sound: 'default',
-    title: 'من ساره إلى هديل هل تسمعني حول',
+    title: 'عند رفع الطلب',
     body: 'جزء من النص مفقود...',
     data: { data: 'goes here' },
   };
@@ -137,5 +137,3 @@ const sendPushNotification = async (expoPushToken) =>{
 
 }
 
-
-export default notifications;

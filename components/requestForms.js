@@ -20,7 +20,7 @@ import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
-import Notifications from "./notifications"
+import Notify from "./notifications"
 
 export default class RequestForm extends Component {
   constructor(props) {
@@ -269,8 +269,8 @@ RenderUploading = () => {
         },
         {
           text: "تأكيد",
-          onPress: () => {async () => {
-          <Notifications designerToken= {this.state.designerToken}/>},
+          onPress: () => {
+          <Notify designerToken= {this.state.designerToken}/>,
             this.storeResquset()
            },
         },

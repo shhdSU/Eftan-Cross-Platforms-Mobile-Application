@@ -39,7 +39,6 @@ import designerPortfolio from "./components/designerPortfolio";
 import WRequiestDet from "./components/WRequiestDet";
 import PRequiestDet from "./components/PRequiestDet";
 import DRequiestDet from "./components/DRequiestDet";
-import recivedReqLS from "./components/recivedReqLS";
 import SubmitDesign from "./components/SubmitDesign";
 import DisplayRequest from "./components/DisplayRequest";
 
@@ -67,14 +66,18 @@ const Explorescreen = createStackNavigator(
   }
 );
 //-------------------------------------------------------
-// const Explorescreen = createStackNavigator(
-//   {
-//     "معرض": category,
-//   },
-//   {
-//     headerMode: "none",
-//   }
-// );
+const recievedOrderScreens = createStackNavigator(
+  {
+    DisplayRequest: DisplayRequest,
+    WRequiestDet: WRequiestDet,
+    PRequiestDet: PRequiestDet,
+    SubmitDesign: SubmitDesign,
+    DRequiestDet: DRequiestDet,
+  },
+  {
+    headerMode: "none",
+  }
+);
 //-------------------------------------------------------
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
@@ -342,7 +345,7 @@ const DesignerDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": DesignerGalleryNavigation,
     "عرض حساب المصمم": DesignerProfileNavigation,
-    // recived ordered screen
+    "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
     //"محادثات": { screen: ChatPassword },
   },
@@ -397,17 +400,9 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-    DisplayRequest: DisplayRequest,
-    PRequiestDet: PRequiestDet,
-    SubmitDesign: SubmitDesign,
 
-    DRequiestDet: DRequiestDet,
-
-    WRequiestDet: WRequiestDet,
-
-    recivedReqLS: recivedReqLS,
-    //loginStack: LoginStack,
-    Cdrawer: CDrawerNavigation,
+    loginStack: LoginStack,
+    "Cdrawer": CDrawerNavigation,
   },
   {
     // Default config for all screens
@@ -417,18 +412,9 @@ const CPrimaryNav = createStackNavigator(
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
-    DisplayRequest: DisplayRequest,
 
-    PRequiestDet: PRequiestDet,
-    SubmitDesign: SubmitDesign,
-
-    DRequiestDet: DRequiestDet,
-
-    WRequiestDet: WRequiestDet,
-
-    recivedReqLS: recivedReqLS,
-    //loginStack: LoginStack,
-    " Ddrawer": DDrawerNavigation,
+    loginStack: LoginStack,
+    "Ddrawer": DDrawerNavigation,
   },
   {
     // Default config for all screens

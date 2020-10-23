@@ -15,16 +15,71 @@ import {
 } from "react-native";
 import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
-
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import App from "../App";
+import NotifyPermission from './reqNotifyPermission';
 import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 
+
+async function registerForPushNotificationsAsync (){
+  let token;
+  console.log("begin register");
+
+if (Constants.isDevice) {
+  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  let finalStatus = existingStatus;
+  if (existingStatus !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+  if (finalStatus !== 'granted') {
+    alert('Failed to get push token for push notification!');
+    return;
+  }
+  console.log("before");
+  token = (await Notifications.getExpoPushTokenAsync()).data;
+  console.log("after")
+} else {
+  alert('Must use physical device for Push Notifications');
+}
+
+if (Platform.OS === 'android') {
+  Notifications.setNotificationChannelAsync('default', {
+    name: 'default',
+    importance: Notifications.AndroidImportance.MAX,
+    vibrationPattern: [0, 250, 250, 250],
+    lightColor: '#FF231F7C',
+  });
+}
+console.log("end register");
+
+const x = firebase.auth().currentUser.uid;
+  //inserting token in database
+              firebase
+               .database()
+               .ref(`Client/` + x)
+               .on("value", (snapshot) => {
+                 if (snapshot.exists()) {
+                 firebase.database().ref(`Client/` + x).update({notificationsKey: token});
+                 }
+               });
+             firebase
+               .database()
+               .ref(`GraphicDesigner/` + x)
+               .on("value", (snapshot) => {
+                 if (snapshot.exists()) {
+                   firebase.database().ref(`GraphicDesigner/` + x).update({notificationsKey: token});
+                 }
+        });
+
+       return token;
+        
+}
 export default class LoginPage extends Component {
   constructor() {
     super();
@@ -66,13 +121,15 @@ export default class LoginPage extends Component {
                 email: "",
                 password: "",
               });
-
+              <NotifyPermission />
+              registerForPushNotificationsAsync();
               const user = firebase.auth().currentUser.uid;
               firebase
                 .database()
                 .ref(`Client/` + user)
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
+                    console.log('I am here');
                     this.props.navigation.navigate(
                       "معرض التصاميم من منظور العميل"
                     );
@@ -99,7 +156,7 @@ export default class LoginPage extends Component {
             }
            
           }
-         
+
         });
 
       })

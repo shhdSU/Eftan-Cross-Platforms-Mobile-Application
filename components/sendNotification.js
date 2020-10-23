@@ -29,7 +29,6 @@ Notifications.setNotificationHandler({
 
  export default function Notify (props){    //should have a parameter
 
-   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
  const notificationListener = useRef();
  const responseListener = useRef();
@@ -38,7 +37,6 @@ Notifications.setNotificationHandler({
 
   useEffect(() => {
     console.log("in useEffect");
-      registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
       // This listener is fired whenever a notification is received while the app is foregrounded
       console.log("afterRegister");
 
@@ -83,59 +81,7 @@ return (
   }
 
 
-  async function registerForPushNotificationsAsync (){
-  let token;
-  console.log("begin register");
-
-if (Constants.isDevice) {
-  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  let finalStatus = existingStatus;
-  if (existingStatus !== 'granted') {
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    finalStatus = status;
-  }
-  if (finalStatus !== 'granted') {
-    alert('Failed to get push token for push notification!');
-    return;
-  }
-  token = (await Notifications.getExpoPushTokenAsync()).data;
-} else {
-  alert('Must use physical device for Push Notifications');
-}
-
-if (Platform.OS === 'android') {
-  Notifications.setNotificationChannelAsync('default', {
-    name: 'default',
-    importance: Notifications.AndroidImportance.MAX,
-    vibrationPattern: [0, 250, 250, 250],
-    lightColor: '#FF231F7C',
-  });
-}
-console.log("end register");
-
-const x = firebase.auth().currentUser.uid;
-  //inserting token in database
-              firebase
-               .database()
-               .ref(`Client/` + x)
-               .on("value", (snapshot) => {
-                 if (snapshot.exists()) {
-                 firebase.database().ref(`Client/` + x).update({notificationsKey: token});
-                 }
-               });
-             firebase
-               .database()
-               .ref(`GraphicDesigner/` + x)
-               .on("value", (snapshot) => {
-                 if (snapshot.exists()) {
-                   firebase.database().ref(`GraphicDesigner/` + x).update({notificationsKey: token});
-                 }
-        });
-
-       return token;
-        
-}
-
+ 
 
 async function sendPushNotification (designerToken) {
 const message = {

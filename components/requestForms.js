@@ -19,7 +19,7 @@ import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
-import Notify from "./notifications";
+import Notify from "./sendNotification";
 import React, { Component} from "react";
 // import * as Permissions from 'expo-permissions';
 // import * as Notifications from 'expo-notifications';

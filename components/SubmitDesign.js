@@ -16,6 +16,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import firebase from "../database/firebase";
 import uuid from "react-native-uuid";
+import Notify from "./sendNotification";
 
 export default class SubmitDesign extends React.Component {
   constructor(props) {
@@ -27,10 +28,36 @@ export default class SubmitDesign extends React.Component {
       localpath: "",
       submissionUrl: "",
       status: "",
+      done:false,
+      dname: "",
+      doneMessage: "",
+      clientToken:"",
     };
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.status, "status");
+  //---------------clientToken-------------------
+  firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+    if(dataSnapshot.exists()){
+      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+        this.updateInputVal(dataSnapshot.val(),"clientToken");
+    })
+}
+})
+var designerName;
+firebase
+.database()
+.ref("GraphicDesigner/" + this.state.DID)
+.on("value", (dataSnapshot) => {
+  designerName =
+    dataSnapshot.child("DFirstName").val() +
+    " " +
+    dataSnapshot.child("DLastName").val();
+  this.updateInputVal(designerName, "dname");
+});
+var doneMessage = "لقد تم إنجاز طلبك من قبل المصمم" + this.state.dname;
+this.updateInputVal(doneMessage,"doneMessage");
 
+console.log(doneMessage);
 
   }
   updateInputVal = (val, prop) => {
@@ -48,6 +75,8 @@ export default class SubmitDesign extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
+      this.updateInputVal(true,"done");
+
     this.props.navigation.navigate("DisplayRequest");
   };
 
@@ -257,6 +286,7 @@ export default class SubmitDesign extends React.Component {
           >
             تسليم الطلب
           </Text>
+          {this.state.done &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.doneMessage}/>}
         </TouchableOpacity>
       </ScrollView>
     );

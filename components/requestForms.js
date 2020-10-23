@@ -1,5 +1,4 @@
 import firebase from "../database/firebase";
-import React, { Component } from "react";
 import {
   Text,
   StyleSheet,
@@ -20,7 +19,14 @@ import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
-import Notify from "./notifications"
+import Notify from "./notifications";
+import React, { Component,useRef, useEffect, useState } from "react";
+// import * as Permissions from 'expo-permissions';
+// import * as Notifications from 'expo-notifications';
+// import Constants from 'expo-constants';
+
+
+
 
 export default class RequestForm extends Component {
   constructor(props) {
@@ -45,6 +51,7 @@ export default class RequestForm extends Component {
       DID: "",
       uploading:false,
       designerToken: "",
+      notify:false,
     };
     const DID = props.navigation.state.params.DID;
     this.updateInputVal(DID, "DID");
@@ -54,6 +61,9 @@ export default class RequestForm extends Component {
       console.log("designer token    "+this.state.designerToken)
     })
     console.log("designer token    "+this.state.designerToken)
+
+
+  
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -270,7 +280,7 @@ RenderUploading = () => {
         {
           text: "تأكيد",
           onPress: () => {
-          <Notify designerToken= {this.state.designerToken}/>,
+            
             this.storeResquset()
            },
         },
@@ -306,9 +316,11 @@ RenderUploading = () => {
         
         
       });
+      this.updateInputVal(true,"notify");
     Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
     });
+
     this.props.navigation.navigate("معرض التصاميم من منظور العميل");
   };
   render() {
@@ -567,6 +579,7 @@ RenderUploading = () => {
                   }}
                 />
               </View>
+              {this.state.notify &&  Notify()}
               <View style={{flexDirection: "row" , top:"10%"}}>
               <TouchableOpacity
                   style={[styles.button,{height:"50%"}]}
@@ -664,7 +677,9 @@ RenderUploading = () => {
             </Animatable.View>
           )}
         </View>
+     
       </TouchableWithoutFeedback>
+  
     ); // end of render return
   } //End of render
 } //End of class
@@ -692,6 +707,7 @@ async function uploadImageAsync(uri) {
 
   return await snapshot.ref.getDownloadURL();
 }
+
 
 const styles = StyleSheet.create({
   container: {

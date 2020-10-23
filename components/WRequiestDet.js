@@ -18,7 +18,6 @@ export default class WRequiestDet extends React.Component {
     this.state = {
       Imagekey: "",
       CID: "",
-      DID: "",
       category: "",
       color1: "",
       color2: "",
@@ -35,7 +34,6 @@ export default class WRequiestDet extends React.Component {
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.category, "category");
     this.updateInputVal(Requiest.CID, "CID");
-    this.updateInputVal(Requiest.DID, "DID");
     this.updateInputVal(Requiest.color1, "color1");
     this.updateInputVal(Requiest.color2, "color2");
     this.updateInputVal(Requiest.color3, "color3");
@@ -80,11 +78,12 @@ export default class WRequiestDet extends React.Component {
 
   //---------------(تحديث حالة الطلب من (تحت الانتظار) الى (قيد العمل--------------
   UpdateStatusAfterAccepted = () => {
+    const DID = firebase.auth().currentUser.uid;
     var key = this.state.Imagekey;
     this.updateInputVal("p", "status");
     firebase
       .database()
-      .ref("Forms/" + key)
+      .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
     this.props.navigation.navigate("DisplayRequest");
   };

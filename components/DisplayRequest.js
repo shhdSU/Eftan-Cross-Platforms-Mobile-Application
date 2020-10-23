@@ -33,35 +33,38 @@ export default class DisplayRequest extends React.Component {
     }; //End of status
 
     //START RETURN ALL FORMS
-    //   const DID = firebase.auth().currentUser.uid;
+    const DID = firebase.auth().currentUser.uid;
     firebase
       .database()
-      .ref("Forms/")
+      .ref("Forms/" + DID)
       .on("value", (snapshot) => {
         //put DID after Path
         forms = snapshot.val();
       }); //End of on method
 
     //START sepreate them based on their status
-    var formsKeys = Object.keys(forms);
-    var waitingLoop = 0;
-    var inProgressLoop = 0;
-    var doneLoop = 0;
-    for (var i = 0; i < formsKeys.length; i++) {
-      if (forms[formsKeys[i]].status === "w") {
-        waitingForms[waitingLoop] = forms[formsKeys[i]];
-        waitingLoop++;
-      } else if (forms[formsKeys[i]].status === "p") {
-        inProgressForms[inProgressLoop] = forms[formsKeys[i]];
-        inProgressLoop++;
-      } else {
-        doneForms[doneLoop] = forms[formsKeys[i]];
-        doneLoop++;
-      }
-    } //End of for loop
-    this.updateInputVal(waitingForms, "displayedWatingForms");
-    this.updateInputVal(inProgressForms, "displayedCurrentForms");
-    this.updateInputVal(doneForms, "displayedDoneForms");
+    if (forms != null) {
+      var formsKeys = Object.keys(forms);
+      var waitingLoop = 0;
+      var inProgressLoop = 0;
+      var doneLoop = 0;
+      for (var i = 0; i < formsKeys.length; i++) {
+        if (forms[formsKeys[i]].status === "w") {
+          waitingForms[waitingLoop] = forms[formsKeys[i]];
+          waitingLoop++;
+        } else if (forms[formsKeys[i]].status === "p") {
+          inProgressForms[inProgressLoop] = forms[formsKeys[i]];
+          inProgressLoop++;
+        } else {
+          doneForms[doneLoop] = forms[formsKeys[i]];
+          doneLoop++;
+        }
+      } //End of for loop
+
+      this.updateInputVal(waitingForms, "displayedWatingForms");
+      this.updateInputVal(inProgressForms, "displayedCurrentForms");
+      this.updateInputVal(doneForms, "displayedDoneForms");
+    }
   } //End of constructor
 
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))

@@ -85,7 +85,7 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-    this.props.navigation.navigate("DisplayRequest");
+    this.props.navigation.navigate("DisplayRequest", { status: this.state.status });
   };
 
   //---------------حذف طلب--------------

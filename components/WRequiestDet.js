@@ -172,6 +172,7 @@ export default class WRequiestDet extends React.Component {
               }}
             >
               <TouchableOpacity
+                // اذا ضغط المصمم زر قبول الطلب يصل للعميل اشعار >> تم قبول الطلب  
 
                 onPress={() =>
                   Alert.alert(
@@ -209,6 +210,7 @@ export default class WRequiestDet extends React.Component {
                         },
                       },
                       {
+                        // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب  
                         text: "تأكيد",
                         onPress: () => {
                           this.RemoveRequest();

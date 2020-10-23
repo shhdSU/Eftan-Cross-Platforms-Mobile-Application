@@ -15,7 +15,6 @@ export default class PRequiestDet extends React.Component {
   constructor(props) {
     super();
     var Requiest = props.navigation.state.params.obj;
-    var element = Requiest;
     this.state = {
       Imagekey: "",
       CID: "",
@@ -149,11 +148,12 @@ export default class PRequiestDet extends React.Component {
               }}
             >
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("SubmitDesign")}
-              //   this.props.navigation.navigate("SubmitDesign", {
-              //     objs: Requiest,
-              //   })
-              // }
+                // اذا ضغط المصمم زر تسليم الطلب يصل للعميل اشعار >> تم تسليم الطلب  
+                onPress={() =>
+                  this.props.navigation.navigate("SubmitDesign", {
+                    obj: this.props.navigation.state.params.obj
+                  })
+                }
               >
                 <Image
                   style={styles.accject}

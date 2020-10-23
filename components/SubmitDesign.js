@@ -20,7 +20,7 @@ import uuid from "react-native-uuid";
 export default class SubmitDesign extends React.Component {
   constructor(props) {
     super();
-    // var Requiest = props.navigation.state.params.objs;
+    var Requiest = props.navigation.state.params.obj;
     this.state = {
       Imagekey: "", // @HadeelHamad
       uploading: false,
@@ -28,10 +28,9 @@ export default class SubmitDesign extends React.Component {
       submissionUrl: "",
       status: "",
     };
-    // this.updateInputVal(Requiest.Imagekey, "Imagekey");
-    // this.updateInputVal(Requiest.status, "status");
+    this.updateInputVal(Requiest.Imagekey, "Imagekey");
+    this.updateInputVal(Requiest.status, "status");
 
-    //  this.updateInputVal(obj.Imagekey, "Imagekey")      @HadeelHamad
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -106,13 +105,14 @@ export default class SubmitDesign extends React.Component {
   uploadDesign() {
     //upload info to realtime DB
 
-    if (this.state.localpath === "") {
+    if (this.state.localpath === '') {
       Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
         cancelable: false,
       });
-      this.UpdateStatusAfterAccepted();
+
       return;
     }
+    this.UpdateStatusAfterAccepted();
 
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month

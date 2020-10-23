@@ -104,6 +104,7 @@ export default class SignupScreen extends Component {
                     CFirstName: this.state.firstName,
                     CLastName: this.state.lastName,
                     Cemail: this.state.email,
+                    notificationsKey: "",
                   });
               } else {
                 firebase
@@ -113,6 +114,8 @@ export default class SignupScreen extends Component {
                     DFirstName: this.state.firstName,
                     DLastName: this.state.lastName,
                     DEmail: this.state.email,
+                    notificationsKey: "",
+
                   });
               }
 

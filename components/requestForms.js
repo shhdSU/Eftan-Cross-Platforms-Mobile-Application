@@ -1,5 +1,4 @@
 import firebase from "../database/firebase";
-import React, { Component } from "react";
 import {
   Text,
   StyleSheet,
@@ -11,7 +10,6 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ActivityIndicator,
-
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from "react-native-datepicker";
@@ -21,6 +19,13 @@ import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
+import Notify from "./sendNotification";
+import React, { Component} from "react";
+// import * as Permissions from 'expo-permissions';
+// import * as Notifications from 'expo-notifications';
+// import Constants from 'expo-constants';
+
+
 
 
 export default class RequestForm extends Component {
@@ -45,9 +50,20 @@ export default class RequestForm extends Component {
       mainStep: true,
       DID: "",
       uploading:false,
+      designerToken: "",
+      notify:false,
     };
     const DID = props.navigation.state.params.DID;
     this.updateInputVal(DID, "DID");
+    firebase.database().ref('GraphicDesigner/'+DID).child("notificationsKey").on(('value'), (dataSnapshot)=> {
+      console.log("dataSnapshot   "+ dataSnapshot.val())
+      this.updateInputVal(dataSnapshot.val(),"designerToken");
+      console.log("designer token    "+this.state.designerToken)
+    })
+    console.log("designer token    "+this.state.designerToken)
+
+
+  
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -264,8 +280,9 @@ RenderUploading = () => {
         {
           text: "تأكيد",
           onPress: () => {
+            
             this.storeResquset()
-          },
+           },
         },
       ],
       { cancelable: false }
@@ -299,9 +316,12 @@ RenderUploading = () => {
         
         
       });
+      this.updateInputVal(true,"notify");
+      <Notify designerToken = {this.state.designerToken}/>
     Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
     });
+
     this.props.navigation.navigate("معرض التصاميم من منظور العميل");
   };
   render() {
@@ -560,6 +580,7 @@ RenderUploading = () => {
                   }}
                 />
               </View>
+              {this.state.notify &&  <Notify designerToken = {this.state.designerToken}/>}
               <View style={{flexDirection: "row" , top:"10%"}}>
               <TouchableOpacity
                   style={[styles.button,{height:"50%"}]}
@@ -657,11 +678,15 @@ RenderUploading = () => {
             </Animatable.View>
           )}
         </View>
+     
       </TouchableWithoutFeedback>
+  
     ); // end of render return
   } //End of render
 } //End of class
-
+function notify(){
+  return (<Notify designerToken = {this.state.designerToken}/>);
+}
 async function uploadImageAsync(uri) {
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -685,6 +710,7 @@ async function uploadImageAsync(uri) {
 
   return await snapshot.ref.getDownloadURL();
 }
+
 
 const styles = StyleSheet.create({
   container: {

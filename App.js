@@ -102,7 +102,8 @@ const DesignerGalleryNavigation = createStackNavigator(
   {
     "معرض التصاميم من منظور المصمم": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
-    " عرض حساب المصمم للطلب": DesignerGalleryScreen, //  ينرفع الزر ضروري التعديل
+    " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+    "أعمال مصمم معين": designerPortfolio,
   },
   {
     headerMode: "none",

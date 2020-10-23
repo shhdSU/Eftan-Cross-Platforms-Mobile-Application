@@ -31,6 +31,7 @@ export default class SubmitDesign extends React.Component {
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.status, "status");
 
+
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -40,11 +41,12 @@ export default class SubmitDesign extends React.Component {
 
   //---------------تحديث حالة الطلب من (الحالية) الى (المنجزة) --------------
   UpdateStatusAfterAccepted = () => {
+    const DID = firebase.auth().currentUser.uid;
     var key = this.state.Imagekey;
     this.updateInputVal("d", "status");
     firebase
       .database()
-      .ref("Forms/" + key)
+      .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
     this.props.navigation.navigate("DisplayRequest");
   };

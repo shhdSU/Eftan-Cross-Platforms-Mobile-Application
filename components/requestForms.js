@@ -198,59 +198,59 @@ export default class RequestForm extends Component {
   // };
 
   onChooseImagePress = async () => {
-let SelectResult = await ImagePicker.launchImageLibraryAsync({
-  allowsEditing: true,
-  aspect: [3, 3],
-});
-if (!SelectResult.cancelled)
-  this.updateInputVal(SelectResult.uri, "ImagePath");
-this.handleImageSelected(SelectResult);
-};
+    let SelectResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [3, 3],
+    });
+    if (!SelectResult.cancelled)
+      this.updateInputVal(SelectResult.uri, "ImagePath");
+    this.handleImageSelected(SelectResult);
+  };
 
-handleImageSelected = async (SelectResult) => {
-  try {
-    this.setState({ uploading: true });
+  handleImageSelected = async (SelectResult) => {
+    try {
+      this.setState({ uploading: true });
 
-    if (!SelectResult.cancelled) {
-      const uploadUrl = await uploadImageAsync(SelectResult.uri);
-      this.setState({ reference: uploadUrl });
-    }
-  } catch (e) {
-    console.log(e);
-    Alert.alert(
-      "تنبيه",
-      "فشل في رفع المسودة ، حاول مرة أخرى ",
-      [{ text: "حسنًا" }],
-      {
-        cancelable: false,
+      if (!SelectResult.cancelled) {
+        const uploadUrl = await uploadImageAsync(SelectResult.uri);
+        this.setState({ reference: uploadUrl });
       }
-    );
-  } finally {
-    this.setState({ uploading: false });
-  }
-};
+    } catch (e) {
+      console.log(e);
+      Alert.alert(
+        "تنبيه",
+        "فشل في رفع المسودة ، حاول مرة أخرى ",
+        [{ text: "حسنًا" }],
+        {
+          cancelable: false,
+        }
+      );
+    } finally {
+      this.setState({ uploading: false });
+    }
+  };
 
-RenderUploading = () => {
-  if (this.state.uploading) {
-    return (
-      <View
-        style={[
-          StyleSheet.absoluteFill,
-          {
-            backgroundColor: "rgba(0,0,0,0.4)",
-            alignItems: "center",
-            justifyContent: "center",
-          },
-        ]}
-      >
-        <ActivityIndicator color="#fff" animating size="large" />
-      </View>
-    );
-  }
-};
+  RenderUploading = () => {
+    if (this.state.uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: "rgba(0,0,0,0.4)",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>
+      );
+    }
+  };
 
 
-  cancelproccess = () =>{
+  cancelproccess = () => {
     Alert.alert(
       "تراجع عن الطلب",
       "هل انت متأكد من إلغاء الطلب سيتم حذف جميع البيانات المدخلة",
@@ -269,7 +269,7 @@ RenderUploading = () => {
     )
   }
 
-  doneButton = () =>{
+  doneButton = () => {
     Alert.alert(
       "تأكيد رفع الطلب",
       "هل انت متأكد من رفع طلبك",
@@ -304,7 +304,7 @@ RenderUploading = () => {
         deadLine: this.state.deadLine,
         CID: CID,
         DID: this.state.DID,
-        status:'w',
+        status: 'w',
         reference: this.state.reference,
       })
       .then((key) => {
@@ -354,8 +354,8 @@ RenderUploading = () => {
                   fill="#ffeed6"
                 />
               </G>
-              <Path 
-              onPress={() => this.cancelproccess()}
+              <Path
+                onPress={() => this.cancelproccess()}
                 data-name="Icon ionic-ios-arrow-back"
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
                 fill="#4f3c75"
@@ -425,19 +425,19 @@ RenderUploading = () => {
               </Picker>
 
 
-              <View style={{flexDirection: "row",}}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.cancelproccess()}
-              >
-                <Text style={styles.buttonText}>إلغاء</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.shownexStep()}
-              >
-                <Text style={styles.buttonText}>التالي</Text>
-              </TouchableOpacity>
+              <View style={{ flexDirection: "row", }}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.cancelproccess()}
+                >
+                  <Text style={styles.buttonText}>إلغاء</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.shownexStep()}
+                >
+                  <Text style={styles.buttonText}>التالي</Text>
+                </TouchableOpacity>
               </View>
 
 
@@ -523,7 +523,7 @@ RenderUploading = () => {
                 placeholder="رفع رسم توضيحي"
                 onTouchStart={() => this.onChooseImagePress()}
               />
-{this.RenderUploading()}
+              {this.RenderUploading()}
               <View>
                 <Svg
                   width={30}
@@ -559,8 +559,8 @@ RenderUploading = () => {
                   locale={"ar"}
                   cancelBtnText="إلغاء"
                   iconComponent={
-                    <Entypo style = {styles.dateIcon} name="calendar" size={35} color="#ccc" />
-                     
+                    <Entypo style={styles.dateIcon} name="calendar" size={35} color="#ccc" />
+
                   }
                   customStyles={{
                     placeholder: {
@@ -576,7 +576,7 @@ RenderUploading = () => {
                     // ... You can check the source to find the other keys.
                   }}
                   onDateChange={(date) => {
-                    this.updateInputVal( date, "deadLine" );
+                    this.updateInputVal(date, "deadLine");
                   }}
                 />
               </View>
@@ -589,12 +589,12 @@ RenderUploading = () => {
                   <Text style={styles.buttonText}> السابق </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.button,{height:"50%"}]}
+                  style={[styles.button, { height: "50%" }]}
                   onPress={() => this.doneButton()}
                 >
                   <Text style={styles.buttonText}> رفع الطلب </Text>
                 </TouchableOpacity>
-               
+
               </View>
             </Animatable.View>
           )}
@@ -743,7 +743,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#4F3C75",
     borderRadius: 25,
-    margin:"2%",
+    margin: "2%",
     width: "40%",
     height: "40%",
     alignSelf: "center",

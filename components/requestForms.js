@@ -293,12 +293,12 @@ export default class RequestForm extends Component {
       .then((key) => {
         firebase
           .database()
-          .ref("Forms/")
+          .ref("Forms/" + this.state.DID)
           .child(key.key)
           .update({ Imagekey: key.key })
-
-
       });
+    this.updateInputVal(true, "notify");
+    <Notify token={this.state.designerToken} title="اِفتَنْ" message="" />
     Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
     });

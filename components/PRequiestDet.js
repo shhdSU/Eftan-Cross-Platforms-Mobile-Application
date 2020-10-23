@@ -150,15 +150,23 @@ export default class PRequiestDet extends React.Component {
             >
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("SubmitDesign")}
-                //   this.props.navigation.navigate("SubmitDesign", {
-                //     objs: Requiest,
-                //   })
-                // }
+              //   this.props.navigation.navigate("SubmitDesign", {
+              //     objs: Requiest,
+              //   })
+              // }
               >
                 <Image
                   style={styles.accject}
                   source={require("../assets/sent.png")}
                 />
+                <Text style={{
+                  color: "#949494",
+                  width: 200,
+                  height: 35,
+                  left: -10,
+                  top: -83,
+                  fontSize: 10,
+                }}>تسليم الطلب</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -203,6 +211,8 @@ export default class PRequiestDet extends React.Component {
                 borderColor: "#ccc",
                 borderRadius: 25,
                 fontWeight: "400",
+                paddingRight: 25,
+                paddingTop: 15,
               },
             ]}
           >
@@ -238,8 +248,8 @@ export default class PRequiestDet extends React.Component {
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
-                height: "10%",
-                fontSize: 13,
+                height: "12%",
+                fontSize: 12,
                 borderWidth: 2,
                 borderColor: "#ccc",
                 borderRadius: 25,
@@ -272,7 +282,7 @@ export default class PRequiestDet extends React.Component {
               },
             ]}
           >
-            موعد التسليم{" "}
+            موعد التسليم
           </Text>
           <Text
             style={[
@@ -288,6 +298,8 @@ export default class PRequiestDet extends React.Component {
                 borderColor: "#ccc",
                 borderRadius: 25,
                 fontWeight: "400",
+                paddingRight: 25,
+                paddingTop: 15,
               },
             ]}
           >
@@ -396,8 +408,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   preview: {
-    width: 320,
-    height: 250,
+    width: 300,
+    height: 235,
     borderColor: "#ccc",
     borderWidth: 2,
     top: "15%",
@@ -441,7 +453,6 @@ const styles = StyleSheet.create({
     right: 1,
     top: -75,
     paddingRight: 35,
-    backgroundColor: "#fff",
   },
   infoCont: {
     backgroundColor: "#EFEEFF",

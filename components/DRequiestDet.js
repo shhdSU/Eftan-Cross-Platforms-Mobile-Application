@@ -209,6 +209,8 @@ export default class DRequiestDet extends React.Component {
                 borderColor: "#ccc",
                 borderRadius: 25,
                 fontWeight: "400",
+                paddingRight: 25,
+                paddingTop: 15,
               },
             ]}
           >
@@ -244,8 +246,8 @@ export default class DRequiestDet extends React.Component {
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
-                height: "10%",
-                fontSize: 15,
+                height: "12%",
+                fontSize: 12,
                 borderWidth: 2,
                 borderColor: "#ccc",
                 borderRadius: 25,
@@ -294,6 +296,8 @@ export default class DRequiestDet extends React.Component {
                 borderColor: "#ccc",
                 borderRadius: 25,
                 fontWeight: "400",
+                paddingRight: 25,
+                paddingTop: 15,
               },
             ]}
           >
@@ -402,8 +406,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   preview: {
-    width: 320,
-    height: 250,
+    width: 300,
+    height: 235,
     borderColor: "#ccc",
     borderWidth: 2,
     top: "15%",

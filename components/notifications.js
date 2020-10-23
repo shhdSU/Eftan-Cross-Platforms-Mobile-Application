@@ -27,31 +27,38 @@ Notifications.setNotificationHandler({
   }),
 });
 
- export default function Notify (){    //should have a parameter
+ export default function Notify (props){    //should have a parameter
 
    const [expoPushToken, setExpoPushToken] = useState('');
-  // const [notification, setNotification] = useState(false);
-  // const notificationListener = useRef();
-  // const responseListener = useRef();
-  //const designerToken = this.props.designerToken;
-
+  const [notification, setNotification] = useState(false);
+ const notificationListener = useRef();
+ const responseListener = useRef();
+  const designerToken = props.designerToken;
 
 
   useEffect(() => {
-      registerForPushNotificationsAsync()//.then(token => setExpoPushToken(token));
+    console.log("in useEffect");
+      registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
       // This listener is fired whenever a notification is received while the app is foregrounded
+      console.log("afterRegister");
 
-    //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //     setNotification(notification);
-    //   });
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        setNotification(notification);
+      });
 
-    //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //       console.log(response);
-    //     });
-    //   return () => {
-    // Notifications.removeNotificationSubscription(notificationListener);
-    // Notifications.removeNotificationSubscription(responseListener);
-  //};
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+          console.log(response);
+        });
+        console.log("before send");
+
+           sendPushNotification(designerToken);
+        
+        console.log("sent!");
+
+      return () => {
+    Notifications.removeNotificationSubscription(notificationListener);
+    Notifications.removeNotificationSubscription(responseListener);
+  };
 }, []);
 
 return (
@@ -65,11 +72,11 @@ return (
   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
    
   </View>
-  <TouchableOpacity>
-    <Text>"Press to Send Notification"</Text>
-    onPress={async () => {
+  <TouchableOpacity onPress={async () => {
       await sendPushNotification();
-    }}
+    }}>
+    <Text>"Press to Send Notification"</Text>
+  
   </TouchableOpacity>
 </View>
 );
@@ -78,6 +85,8 @@ return (
 
   async function registerForPushNotificationsAsync (){
   let token;
+  console.log("begin register");
+
 if (Constants.isDevice) {
   const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   let finalStatus = existingStatus;
@@ -102,23 +111,24 @@ if (Platform.OS === 'android') {
     lightColor: '#FF231F7C',
   });
 }
+console.log("end register");
 
-const user1 = firebase.auth().currentUser.uid;
+const x = firebase.auth().currentUser.uid;
   //inserting token in database
               firebase
                .database()
-               .ref(`Client/` + user1)
+               .ref(`Client/` + x)
                .on("value", (snapshot) => {
                  if (snapshot.exists()) {
-                 firebase.database().ref(`Client/` + user1).update({notificationsKey: token});
+                 firebase.database().ref(`Client/` + x).update({notificationsKey: token});
                  }
                });
              firebase
                .database()
-               .ref(`GraphicDesigner/` + user1)
+               .ref(`GraphicDesigner/` + x)
                .on("value", (snapshot) => {
                  if (snapshot.exists()) {
-                   firebase.database().ref(`GraphicDesigner/` + user1).update({notificationsKey: token});
+                   firebase.database().ref(`GraphicDesigner/` + x).update({notificationsKey: token});
                  }
         });
 
@@ -127,16 +137,16 @@ const user1 = firebase.auth().currentUser.uid;
 }
 
 
-async function sendPushNotification () {////////////////////////////
+async function sendPushNotification (designerToken) {
 const message = {
-  to:"ExponentPushToken[nH02kWJeynyhaF9YXqpVSm]", //expoPushToken,  
+  to: designerToken, 
   sound: 'default',
   title: 'عند رفع الطلب',
-  body: 'جزء من النص مفقود...',
+  body: 'تم بحمد الله',
   data: { data: 'goes here' },
 };
 
-
+console.log("in send function");
 await fetch('https://exp.host/--/api/v2/push/send', {
     method: 'POST',
     headers: {
@@ -155,6 +165,8 @@ await fetch('https://exp.host/--/api/v2/push/send', {
                .catch((error) => {
                   console.log("error "+ error);
                 });
+                console.log("after sending");
+
 }
 
 //خططططررررررررر!!!!!!!!!!!!!!!!!!!!!!!

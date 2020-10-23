@@ -20,7 +20,7 @@ import * as Animatable from "react-native-animatable";
 import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
 import Notify from "./notifications";
-import React, { Component,useRef, useEffect, useState } from "react";
+import React, { Component} from "react";
 // import * as Permissions from 'expo-permissions';
 // import * as Notifications from 'expo-notifications';
 // import Constants from 'expo-constants';
@@ -317,6 +317,7 @@ RenderUploading = () => {
         
       });
       this.updateInputVal(true,"notify");
+      <Notify designerToken = {this.state.designerToken}/>
     Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
     });
@@ -579,7 +580,7 @@ RenderUploading = () => {
                   }}
                 />
               </View>
-              {this.state.notify &&  Notify()}
+              {this.state.notify &&  <Notify designerToken = {this.state.designerToken}/>}
               <View style={{flexDirection: "row" , top:"10%"}}>
               <TouchableOpacity
                   style={[styles.button,{height:"50%"}]}
@@ -683,7 +684,9 @@ RenderUploading = () => {
     ); // end of render return
   } //End of render
 } //End of class
-
+function notify(){
+  return (<Notify designerToken = {this.state.designerToken}/>);
+}
 async function uploadImageAsync(uri) {
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();

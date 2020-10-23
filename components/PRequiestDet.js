@@ -29,6 +29,7 @@ export default class PRequiestDet extends React.Component {
       reference: "",
       title: "",
       ClientProfileImage: "",
+      clientToken: "",
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -67,6 +68,15 @@ export default class PRequiestDet extends React.Component {
           dataSnapshot.child("CLastName").val();
         this.updateInputVal(Cname, "name");
       });
+      //---------------clientToken-------------------
+      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+        if(dataSnapshot.exists()){
+          firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+            this.updateInputVal(dataSnapshot.val(),"clientToken");
+        })
+    }
+  })
+
   }
 
   updateInputVal = (val, prop) => {
@@ -74,7 +84,12 @@ export default class PRequiestDet extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-
+navigateToSubmit = () => {
+<Notify token = {this.state.designerToken} title = "اِفتَنْ" message = ""/>
+  this.props.navigation.navigate("SubmitDesign", {
+    obj: this.props.navigation.state.params.obj
+  })
+}
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -150,9 +165,7 @@ export default class PRequiestDet extends React.Component {
               <TouchableOpacity
                 // اذا ضغط المصمم زر تسليم الطلب يصل للعميل اشعار >> تم تسليم الطلب  
                 onPress={() =>
-                  this.props.navigation.navigate("SubmitDesign", {
-                    obj: this.props.navigation.state.params.obj
-                  })
+                    this.navigateToSubmit()
                 }
               >
                 <Image

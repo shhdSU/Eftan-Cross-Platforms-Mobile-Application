@@ -32,7 +32,9 @@ Notifications.setNotificationHandler({
   const [notification, setNotification] = useState(false);
  const notificationListener = useRef();
  const responseListener = useRef();
-  const designerToken = props.designerToken;
+  const token = props.token;
+  const title = props.tite;
+  const message = props.message;
 
 
   useEffect(() => {
@@ -49,7 +51,7 @@ Notifications.setNotificationHandler({
         });
         console.log("before send");
 
-           sendPushNotification(designerToken);
+           sendPushNotification(token,title,message);
         
         console.log("sent!");
 
@@ -83,12 +85,12 @@ return (
 
  
 
-async function sendPushNotification (designerToken) {
+async function sendPushNotification (designerToken,title,message) {
 const message = {
   to: designerToken, 
   sound: 'default',
-  title: 'عند رفع الطلب',
-  body: 'تم بحمد الله',
+  title: title,
+  body: message,
   data: { data: 'goes here' },
 };
 

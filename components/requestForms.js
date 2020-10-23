@@ -317,7 +317,7 @@ RenderUploading = () => {
         
       });
       this.updateInputVal(true,"notify");
-      <Notify designerToken = {this.state.designerToken}/>
+      <Notify token = {this.state.designerToken} title = "اِفتَنْ" message = ""/>
     Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
     });

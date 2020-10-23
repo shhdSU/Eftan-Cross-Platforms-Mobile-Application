@@ -9,6 +9,7 @@ import {
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
+import Notify from "./sendNotification";
 
 export default class WRequiestDet extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ export default class WRequiestDet extends React.Component {
       title: "",
       ClientProfileImage: "",
       name: "",
+      clientToken: "",
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -69,6 +71,15 @@ export default class WRequiestDet extends React.Component {
           dataSnapshot.child("CLastName").val();
         this.updateInputVal(Cname, "name");
       });
+    //---------------clientToken-------------------
+      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+          if(dataSnapshot.exists()){
+            firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+              this.updateInputVal(dataSnapshot.val(),"clientToken");
+          })
+      }
+    })
+  
   }
   //---------------تحديث قيم--------------
 
@@ -86,6 +97,7 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + key)
       .update({ status: this.state.status });
+      <Notify token = {this.state.clientToken} title = "اِفتَنْ" message = ""/>
     this.props.navigation.navigate("DisplayRequest");
   };
 
@@ -95,6 +107,7 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("/Forms/" + this.state.Imagekey)
       .remove();
+      <Notify token = {this.state.clientToken} title = "اِفتَنْ" message = ""/>
     this.props.navigation.navigate("DisplayRequest");
   };
   //------------------------------------

@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
+import Notify from "./sendNotification";
 
 export default class PRequiestDet extends React.Component {
   constructor(props) {
@@ -85,7 +86,7 @@ export default class PRequiestDet extends React.Component {
     this.setState(state);
   };
 navigateToSubmit = () => {
-<Notify token = {this.state.designerToken} title = "اِفتَنْ" message = ""/>
+<Notify token = {this.state.clientToken} title = "اِفتَنْ" message = "تم تسليم طلبك"/>
   this.props.navigation.navigate("SubmitDesign", {
     obj: this.props.navigation.state.params.obj
   })

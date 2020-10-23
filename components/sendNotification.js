@@ -33,8 +33,9 @@ Notifications.setNotificationHandler({
  const notificationListener = useRef();
  const responseListener = useRef();
   const token = props.token;
-  const title = props.tite;
-  const message = props.message;
+ const title = props.myTitle;
+ const message = props.myMessage;
+  console.log("designer token is   "+token)
 
 
   useEffect(() => {
@@ -85,12 +86,12 @@ return (
 
  
 
-async function sendPushNotification (designerToken,title,message) {
+async function sendPushNotification (expoToken,title,myMessage) {
 const message = {
-  to: designerToken, 
+  to: expoToken, 
   sound: 'default',
   title: title,
-  body: message,
+  body: myMessage,
   data: { data: 'goes here' },
 };
 

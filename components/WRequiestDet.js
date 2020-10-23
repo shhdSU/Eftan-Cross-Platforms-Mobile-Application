@@ -10,7 +10,6 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
-
 export default class WRequiestDet extends React.Component {
   constructor(props) {
     super();
@@ -32,6 +31,11 @@ export default class WRequiestDet extends React.Component {
       ClientProfileImage: "",
       name: "",
       clientToken: "",
+      accepted:false,
+      rejected: false,
+      dname: "",
+      acceptedMessage: "",
+      rejectedMessage: "",      
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -79,7 +83,25 @@ export default class WRequiestDet extends React.Component {
           })
       }
     })
-  
+    var designerName;
+    firebase
+    .database()
+    .ref("GraphicDesigner/" + this.state.DID)
+    .on("value", (dataSnapshot) => {
+      designerName =
+        dataSnapshot.child("DFirstName").val() +
+        " " +
+        dataSnapshot.child("DLastName").val();
+      this.updateInputVal(designerName, "dname");
+    });
+    var acceptedmessage = "لقد تم قبول طلبك من قبل المصمم" + this.state.dname;
+    var rejectedmessage = "لم يتمكن المصمم "+ this.state.dname + " من قبول طلبك";
+    this.updateInputVal(acceptedmessage,"acceptedMessage");
+    this.updateInputVal(rejectedmessage,"rejectedMessage");
+
+    console.log(acceptedmessage);
+    console.log(rejectedmessage);
+
   }
   //---------------تحديث قيم--------------
 
@@ -97,7 +119,8 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + key)
       .update({ status: this.state.status });
-      <Notify token = {this.state.clientToken} title = "اِفتَنْ" message = ""/>
+      this.updateInputVal(true,"accepted");
+
     this.props.navigation.navigate("DisplayRequest");
   };
 
@@ -107,7 +130,7 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("/Forms/" + this.state.Imagekey)
       .remove();
-      <Notify token = {this.state.clientToken} title = "اِفتَنْ" message = ""/>
+      this.updateInputVal(true,"rejected");
     this.props.navigation.navigate("DisplayRequest");
   };
   //------------------------------------
@@ -130,6 +153,8 @@ export default class WRequiestDet extends React.Component {
           >
             {this.state.title}
           </Text>
+          {this.state.accepted &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.acceptedMessage}/>}
+          {this.state.rejected &&  <Notify token = {this.state.clientToken} myTitle= "يا للأسف" myMessage = {this.state.rejectedMessage}/>}
 
           <Svg
             width={416}

@@ -10,6 +10,8 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": { 
+      "icon": "./assets/Logosquare.png" }, 
     "updates": {
       "fallbackToCacheTimeout": 0
     },

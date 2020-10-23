@@ -36,7 +36,11 @@ import Explore from "./components/Explore";
 import choice from "./components/choice";
 import DesignDetails from "./components/GDDetails";
 import designerPortfolio from "./components/designerPortfolio";
-
+import WRequiestDet from "./components/WRequiestDet";
+import PRequiestDet from "./components/PRequiestDet";
+import DRequiestDet from "./components/DRequiestDet";
+import SubmitDesign from "./components/SubmitDesign";
+import DisplayRequest from "./components/DisplayRequest";
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -49,28 +53,31 @@ const LoginStack = createStackNavigator(
   },
   {
     headerMode: "none",
-
   }
 );
 //-------------------------------------------------------
 const Explorescreen = createStackNavigator(
   {
-    "معرض": { screen: Explore },
-    "الإختيار": { screen: choice },
+    معرض: { screen: Explore },
+    الإختيار: { screen: choice },
   },
   {
     headerMode: "none",
   }
 );
 //-------------------------------------------------------
-// const Explorescreen = createStackNavigator(
-//   {
-//     "معرض": category,
-//   },
-//   {
-//     headerMode: "none",
-//   }
-// );
+const recievedOrderScreens = createStackNavigator(
+  {
+    DisplayRequest: DisplayRequest,
+    WRequiestDet: WRequiestDet,
+    PRequiestDet: PRequiestDet,
+    SubmitDesign: SubmitDesign,
+    DRequiestDet: DRequiestDet,
+  },
+  {
+    headerMode: "none",
+  }
+);
 //-------------------------------------------------------
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
@@ -79,7 +86,7 @@ const ClientGalleryNavigation = createStackNavigator(
     "معرض التصاميم من منظور العميل": Explorescreen,
     "عرض تفاصيل التصميم": DesignDetails,
     " عرض حساب المصمم للطلب": DesignerGalleryScreen,
-     "أعمال مصمم معين":designerPortfolio,
+    "أعمال مصمم معين": designerPortfolio,
     "طلب تصميم": { screen: RequestScreen },
   },
   {
@@ -138,18 +145,17 @@ const DesignerProfileNavigation = createStackNavigator(
 
 export default class App extends Component {
   render() {
-    const Nav = createAppContainer(createSwitchNavigator(
-      {
+    const Nav = createAppContainer(
+      createSwitchNavigator({
         DNav: DPrimaryNav,
         CNav: CPrimaryNav,
-      }
-    )
+      })
     );
-    return (<Nav />);
+    return <Nav />;
   }
 }
 //-------------------------------------------------------
-// retreive image 
+// retreive image
 
 const profilePicture = () => {
   var URL = "";
@@ -162,13 +168,14 @@ const profilePicture = () => {
       return url;
     })
     .catch((error) => {
-      URL = "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+      URL =
+        "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
       console.log(URL);
       return URL;
     });
-}
+};
 //-------------------------------------------------------
-// retreive name 
+// retreive name
 function name() {
   var name = "";
   var fName, lName;
@@ -196,7 +203,7 @@ function name() {
   return name;
 }
 //-------------------------------------------------------
-// retreive email 
+// retreive email
 function email() {
   var email = "";
   const user = firebase.auth().currentUser.uid;
@@ -223,7 +230,6 @@ function email() {
 //-------------------------------------------------------
 // Custom Drawers
 const CustomDrawerComponent = (props) => (
-
   <SafeAreaView style={{ flex: 1 }}>
     <View
       style={{
@@ -297,14 +303,11 @@ const CustomDrawerComponent = (props) => (
           }}
         >
           تسجيل خروج
-      </Text>
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   </SafeAreaView>
-
-
 );
-
 
 //-------------------------------------------------------
 //Client drawer navigation
@@ -316,7 +319,7 @@ const ClientDrawer = createDrawerNavigator(
   },
   {
     defaultNavigationOptions: {
-      drawerLockMode: 'locked-closed',
+      drawerLockMode: "locked-closed",
     },
     contentComponent: CustomDrawerComponent,
     gesturesEnabled: true,
@@ -342,13 +345,13 @@ const DesignerDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": DesignerGalleryNavigation,
     "عرض حساب المصمم": DesignerProfileNavigation,
-    // recived ordered screen
+    "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
     //"محادثات": { screen: ChatPassword },
   },
   {
     defaultNavigationOptions: {
-      drawerLockMode: 'locked-closed',
+      drawerLockMode: "locked-closed",
     },
     contentComponent: CustomDrawerComponent,
     gesturesEnabled: true,
@@ -397,25 +400,25 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
+
     loginStack: LoginStack,
     "Cdrawer": CDrawerNavigation,
   },
   {
     // Default config for all screens
     headerMode: "none",
-
   }
 );
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
+
     loginStack: LoginStack,
-    " Ddrawer": DDrawerNavigation,
+    "Ddrawer": DDrawerNavigation,
   },
   {
     // Default config for all screens
     headerMode: "none",
-
   }
 );
 //-------------------------------------------------------

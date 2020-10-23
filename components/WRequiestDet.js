@@ -84,7 +84,7 @@ export default class WRequiestDet extends React.Component {
     var designerName;
     firebase
     .database()
-    .ref("GraphicDesigner/" + this.state.DID)
+    .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
     .on("value", (dataSnapshot) => {
       designerName =
         dataSnapshot.child("DFirstName").val() +

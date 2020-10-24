@@ -31,8 +31,7 @@ export default class DisplayRequest extends React.Component {
       watingtoggle: true,
       currenttoggle: false,
       donetoggle: false,
-      profileImg: "",
-      isGotit:false,
+      
     }; //End of status
     
     var status = props.navigation.state.params;

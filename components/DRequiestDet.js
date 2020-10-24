@@ -84,14 +84,14 @@ export default class DRequiestDet extends React.Component {
       .ref("Forms/" + "ImageKey")
       .update({ status: this.state.status });
     console.log(this.state.CID);
-    this.props.navigation.navigate("recivedReqLS");
+    this.props.navigation.navigate("DisplayRequest");
   };
   RemoveRequest = () => {
     firebase
       .database()
       .ref("/Forms/" + this.state.ImageKey)
       .remove();
-    this.props.navigation.navigate("recivedReqLS"); // تغيير الانتقال الى سجل الطلبات مع حذف الطلب
+    this.props.navigation.navigate("DisplayRequest"); // تغيير الانتقال الى سجل الطلبات مع حذف الطلب
   };
   //-----------------------------
 

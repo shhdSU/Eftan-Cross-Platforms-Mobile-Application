@@ -24,40 +24,46 @@ export default class SubmitDesign extends React.Component {
     var Requiest = props.navigation.state.params.obj;
     this.state = {
       Imagekey: "", // @HadeelHamad
+      CID: "",
       uploading: false,
       localpath: "",
       submissionUrl: "",
       status: "",
-      done:false,
+      done: false,
       dname: "",
       doneMessage: "",
-      clientToken:"",
+      clientToken: "",
     };
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.status, "status");
-  //---------------clientToken-------------------
-  firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
-    if(dataSnapshot.exists()){
-      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
-        this.updateInputVal(dataSnapshot.val(),"clientToken");
-    })
-}
-})
-var designerName;
-firebase
-.database()
-.ref("GraphicDesigner/" + this.state.DID)
-.on("value", (dataSnapshot) => {
-  designerName =
-    dataSnapshot.child("DFirstName").val() +
-    " " +
-    dataSnapshot.child("DLastName").val();
-  this.updateInputVal(designerName, "dname");
-});
-var doneMessage = "لقد تم إنجاز طلبك من قبل المصمم" + this.state.dname;
-this.updateInputVal(doneMessage,"doneMessage");
+    this.updateInputVal(Requiest.CID, "CID");
 
-console.log(doneMessage);
+    //---------------clientToken-------------------
+    firebase.database().ref("Client/" + this.state.CID).child("notificationsKey").on("value", (dataSnapshot) => {
+      if (dataSnapshot.exists()) {
+        firebase.database().ref("Client/" + this.state.CID).child("notificationsKey").on("value", (dataSnapshot) => {
+          this.updateInputVal(dataSnapshot.val(), "clientToken");
+          console.log(this.state.clientToken)
+        })
+
+      }
+    })
+    var designerName;
+    const DID = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + DID)
+      .on("value", (dataSnapshot) => {
+        designerName =
+          dataSnapshot.child("DFirstName").val() +
+          " " +
+          dataSnapshot.child("DLastName").val();
+        this.updateInputVal(designerName, "dname");
+      });
+    var doneMessage = "لقد تم إنجاز طلبك من قبل المصمم" + this.state.dname;
+    this.updateInputVal(doneMessage, "doneMessage");
+
+    console.log(doneMessage);
 
   }
   updateInputVal = (val, prop) => {
@@ -75,7 +81,6 @@ console.log(doneMessage);
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-      this.updateInputVal(true,"done");
 
     this.props.navigation.navigate("DisplayRequest");
   };
@@ -136,7 +141,7 @@ console.log(doneMessage);
   uploadDesign() {
     //upload info to realtime DB
 
-    if (this.state.localpath === '') {
+    if (this.state.localpath === "") {
       Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
         cancelable: false,
       });
@@ -149,32 +154,33 @@ console.log(doneMessage);
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
     var currentDate = year + "-" + month + "-" + date;
-
-    firebase
-      .database()
-      .ref("Forms/")
-      .child(this.state.Imagekey)
-      .update({
-        submissionUrl: this.state.submissionUrl,
-        submissionDate: currentDate,
-        status: "d",
-      })
-      .then(
-        this.updateInputVal("", "submissionUrl"),
-
-        Alert.alert("تنبيه", "تم تسليم الطلب بنجاح", [{ text: "حسنًا" }], {
-          cancelable: false,
-        }),
-        this.updateInputVal("", "localpath")
-      )
-      .catch((error) => {
-        Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {
-          cancelable: false,
+    this.updateInputVal(true, "done"),
+      firebase
+        .database()
+        .ref("Forms/")
+        .child(this.state.Imagekey)
+        .update({
+          submissionUrl: this.state.submissionUrl,
+          submissionDate: currentDate,
+          status: "d",
+        })
+        .then(
+          this.updateInputVal("", "submissionUrl"),
+          Alert.alert("تنبيه", "تم تسليم الطلب بنجاح", [{ text: "حسنًا" }], {
+            cancelable: false,
+          }),
+          this.updateInputVal("", "localpath")
+        )
+        .catch((error) => {
+          Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {
+            cancelable: false,
+          });
         });
-      });
+
   }
 
   render() {
+
     if (this.state.isLoading) {
       return (
         <View style={styles.preloader}>
@@ -183,7 +189,10 @@ console.log(doneMessage);
       );
     }
     return (
+
       <ScrollView style={styles.container}>
+        { this.state.done && <Notify token={this.state.clientToken} myTitle="تهانينا" myMessage={this.state.doneMessage} />}
+
         <Svg
           width={416}
           height={144}
@@ -254,6 +263,7 @@ console.log(doneMessage);
         {this.RenderUploading()}
 
         <TouchableOpacity
+
           style={styles.button}
           onPress={() =>
             Alert.alert(
@@ -286,7 +296,6 @@ console.log(doneMessage);
           >
             تسليم الطلب
           </Text>
-          {this.state.done &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.doneMessage}/>}
         </TouchableOpacity>
       </ScrollView>
     );

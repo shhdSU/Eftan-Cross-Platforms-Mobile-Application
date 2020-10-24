@@ -40,7 +40,7 @@ export default class DRequiestDet extends React.Component {
     this.updateInputVal(Requiest.deadLine, "deadLine");
     this.updateInputVal(Requiest.description, "description");
     this.updateInputVal(Requiest.status, "status");
-    this.updateInputVal(Requiest.reference, "reference");
+    this.updateInputVal(Requiest.submissionUrl, "reference");
     this.updateInputVal(Requiest.title, "title");
 
     //-------------retreive client's profile image----------------

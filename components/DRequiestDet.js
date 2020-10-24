@@ -78,20 +78,22 @@ export default class DRequiestDet extends React.Component {
   //----------------------------- update status Changes + remove request
 
   UpdateStatusAfterAccepted = () => {
+    const DID = firebase.auth().currentUser.uid;
+    var key = this.state.Imagekey;
     this.updateInputVal("P", "status");
     firebase
       .database()
-      .ref("Forms/" + "ImageKey")
+      .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
     console.log(this.state.CID);
-    this.props.navigation.navigate("DisplayRequest");
+    this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
   RemoveRequest = () => {
     firebase
       .database()
-      .ref("/Forms/" + this.state.ImageKey)
+      .ref("Forms/" + DID + "/" + key)
       .remove();
-    this.props.navigation.navigate("DisplayRequest"); // تغيير الانتقال الى سجل الطلبات مع حذف الطلب
+    this.props.navigation.navigate("DisplayRequest",{status:"w"}); // تغيير الانتقال الى سجل الطلبات مع حذف الطلب
   };
   //-----------------------------
 
@@ -440,7 +442,7 @@ const styles = StyleSheet.create({
     top: "9%",
     left: "76%",
     borderRadius: 35,
-    borderColor: "#ffeed6",
+    borderColor: "#4F3C75",
     borderWidth: 2,
     backgroundColor: "#fff",
   },
@@ -457,6 +459,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
+    borderColor:"#4F3C75",
+    borderWidth:2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",
@@ -464,9 +468,9 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 1.48,
+    shadowOpacity: 0.4,
     shadowRadius: 2.95,
 
-    elevation: 19,
+    elevation: 24,
   },
 });

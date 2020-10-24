@@ -82,7 +82,7 @@ export default class SubmitDesign extends React.Component {
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
 
-    this.props.navigation.navigate("DisplayRequest");
+    this.props.navigation.navigate("DisplayRequest",{status:this.state.status});
   };
 
   onChooseImagePress = async () => {

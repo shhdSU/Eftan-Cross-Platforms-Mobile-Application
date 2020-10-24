@@ -7,9 +7,11 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
   Image,
 } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
+import EmptyList from "./emptylist";
 
 var forms = []; // To retrive all forms here
 var waitingForms = [];
@@ -17,7 +19,7 @@ var inProgressForms = [];
 var doneForms = [];
 
 export default class DisplayRequest extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       watingList: true,
@@ -30,8 +32,36 @@ export default class DisplayRequest extends React.Component {
       currenttoggle: false,
       donetoggle: false,
       profileImg: "",
+      isGotit:false,
     }; //End of status
+    
+    var status = props.navigation.state.params;
+    if(status != null){
+    switch(status.status){
+case "p":
+  this.updateInputVal(false,"watingList");
+this.updateInputVal(false,"watingtoggle");
+  this.updateInputVal(true,"currentList");
+  this.updateInputVal(true,"currenttoggle");
+  break;
 
+case "d":
+  this.updateInputVal(false,"watingList");
+this.updateInputVal(false,"watingtoggle");
+  this.updateInputVal(true,"doneList");
+  this.updateInputVal(true,"donetoggle");
+  break;
+
+default: 
+this.updateInputVal(true,"watingList");
+this.updateInputVal(true,"watingtoggle");
+break;
+
+    }
+  }else{
+    this.updateInputVal(true,"watingList");
+this.updateInputVal(true,"watingtoggle");
+  }
     //START RETURN ALL FORMS
     const DID = firebase.auth().currentUser.uid;
     firebase
@@ -48,14 +78,18 @@ export default class DisplayRequest extends React.Component {
       var waitingLoop = 0;
       var inProgressLoop = 0;
       var doneLoop = 0;
+
+        
+///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
       for (var i = 0; i < formsKeys.length; i++) {
-        if (forms[formsKeys[i]].status === "w") {
+        console.log("loop2   "+i+"  ")
+          if (forms[formsKeys[i]].status === "w") {
           waitingForms[waitingLoop] = forms[formsKeys[i]];
           waitingLoop++;
-        } else if (forms[formsKeys[i]].status === "p") {
+         } else if (forms[formsKeys[i]].status === "p") {
           inProgressForms[inProgressLoop] = forms[formsKeys[i]];
           inProgressLoop++;
-        } else {
+         } else {
           doneForms[doneLoop] = forms[formsKeys[i]];
           doneLoop++;
         }
@@ -66,6 +100,7 @@ export default class DisplayRequest extends React.Component {
       this.updateInputVal(doneForms, "displayedDoneForms");
     }
   } //End of constructor
+
 
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -92,6 +127,7 @@ export default class DisplayRequest extends React.Component {
         this.updateInputVal(false, "donetoggle");
         break;
       case "doneList":
+
         this.updateInputVal(true, "donetoggle");
         this.updateInputVal(false, "watingtoggle");
         this.updateInputVal(false, "currenttoggle");
@@ -128,10 +164,15 @@ var doneForms = [];
           style={styles.listStyle}
         >
           <View key={Math.random()}>
-            <Text style={styles.orderText}>عنوان الطلب: {element.title}</Text>
-            <Text style={styles.orderText}>اسم العميل: {ClientName}</Text>
+          <Image
+              style={styles.profileImage}
+              source={{ uri: element.reference}}
+            />
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+            <Text style={styles.orderText}>{element.title}</Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={styles.orderText}>{ClientName}</Text>
 
-            {console.log("LOOP")}
           </View>
         </TouchableOpacity>
       );
@@ -160,9 +201,26 @@ var doneForms = [];
           style={styles.listStyle}
         >
           <View key={Math.random()}>
-            <Text style={styles.orderText}>عنوان الطلب: {element.title}</Text>
-            <Text style={styles.orderText}>اسم العميل: {ClientName}</Text>
-            {console.log("LOOP")}
+          <Image
+              style={styles.currentprofileImage}
+              source={{ uri: element.reference}}
+            />
+           
+            <Text style={styles.currentorderText}>{ClientName}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={styles.currentorderText}>{element.title}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+            <View 
+            style={{
+              height:50,
+              width:110,
+              marginTop:"5%",
+              
+            }}
+            >
+            <Text style={styles.deaslineStyle}>التسليم </Text>
+        <Text style={styles.deaslineStyle}>{element.deadLine == ""?"مفتوح":element.deadLine}</Text>
+        </View>
           </View>
         </TouchableOpacity>
       );
@@ -191,8 +249,14 @@ var doneForms = [];
           style={styles.listStyle}
         >
           <View key={Math.random()}>
-            <Text style={styles.orderText}>عنوان الطلب: {element.title}</Text>
-            <Text style={styles.orderText}>اسم العميل: {ClientName}</Text>
+          <Image
+              style={styles.profileImage}
+              source={{ uri: element.reference}}
+            />
+             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+            <Text style={styles.orderText}>{element.title}</Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={styles.orderText}>{ClientName}</Text>
             {console.log("LOOP")}
           </View>
         </TouchableOpacity>
@@ -269,7 +333,7 @@ var doneForms = [];
           </TouchableOpacity>
         </View>
 
-        {this.state.watingList && (
+        {this.state.watingList && this.state.displayedWatingForms.length != 0 && (
           <ScrollView
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
@@ -278,7 +342,15 @@ var doneForms = [];
           </ScrollView>
         )}
 
-        {this.state.currentList && (
+{this.state.watingList && this.state.displayedWatingForms.length == 0 && (
+        <View style={{marginTop:"50%"}}> 
+        <EmptyList style={styles.emptyImage}></EmptyList>
+         <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات في قائمة الانتظار</Text>
+         </View>
+        )}
+
+
+        {this.state.currentList && this.state.displayedCurrentForms.length != 0 && (
           <ScrollView
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
@@ -287,13 +359,27 @@ var doneForms = [];
           </ScrollView>
         )}
 
-        {this.state.doneList && (
+         {this.state.currentList && this.state.displayedCurrentForms.length == 0 && (
+           <View style={{marginTop:"50%"}}> 
+           <EmptyList style={styles.emptyImage}></EmptyList>
+           <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات حالية</Text>
+           </View>
+        )}
+
+        {this.state.doneList && this.state.displayedDoneForms != 0 &&(
           <ScrollView
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
           >
             {this.readDoneList()}
           </ScrollView>
+        )}
+
+{this.state.doneList && this.state.displayedDoneForms == 0 &&(
+         <View style={{marginTop:"50%"}}> 
+          <EmptyList style={styles.emptyImage}></EmptyList>
+         <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات منجزة</Text>
+         </View>
         )}
       </View>
     ); // End of render return
@@ -325,23 +411,82 @@ const styles = StyleSheet.create({
   },
   listStyle: {
     marginTop: "5%",
-    backgroundColor: "#ffeed6",
+    backgroundColor: "#EFEEFF",
     fontSize: 24,
     borderRadius: 35,
     borderColor: "#4f3c75",
     borderWidth: 2,
-    // paddingLeft:"10%",
-    // paddingRight:"10%",
-    //padding:"10%",
+
     width: 350,
     height: 90,
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 2.95,
+
+    elevation: 24,
   },
   orderText: {
     color: "#4f3c75",
-    fontSize: 20,
-    textAlign: "center",
+    fontSize: 15,
+    textAlign: "right",
+    top:"-34%",
+    paddingLeft: "5%",
+    paddingRight: "23%",
   },
+  profileImage: {
+    width: 70,
+    height: 70,
+    marginTop: "23%",
+    marginLeft: "70%",
+    borderColor: "#4f3c75",
+    borderWidth: 2,
+    backgroundColor: "#fff",
+  },
+
+  currentorderText: {
+    color: "#4f3c75",
+    fontSize: 15,
+    textAlign: "right",
+    top:"46%",
+    marginTop:"-11.5%",
+    paddingLeft: "5%",
+    paddingRight: "23%",
+    zIndex:10,
+  },
+  currentprofileImage: {
+    width: 70,
+    height: 70,
+    marginTop: "-3%",
+    marginLeft: "70%",
+    borderColor: "#4f3c75",
+    borderWidth: 2,
+    backgroundColor: "#fff",
+  },
+  
+  
+  emptyText:{
+    color: "#4f3c75",
+    fontSize: 30,
+    textAlign:"center",
+    fontWeight:"200"
+  },
+  emptyImage:{
+    alignSelf:"center",
+    justifyContent:"center",
+  },
+  deaslineStyle:{
+    color: "#4f3c75",
+    fontSize: 15,
+    textAlign: "center",
+   
+
+  }
+
 });

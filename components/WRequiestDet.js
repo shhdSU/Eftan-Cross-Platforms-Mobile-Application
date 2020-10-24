@@ -119,14 +119,17 @@ export default class WRequiestDet extends React.Component {
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
       this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest");
+    this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
 
   //---------------حذف طلب--------------
   RemoveRequest = () => {
+    const DID = firebase.auth().currentUser.uid;
+
+    var key = this.state.Imagekey;
     firebase
       .database()
-      .ref("/Forms/" + this.state.Imagekey)
+      .ref("Forms/" + DID + "/" + key)
       .remove();
       this.updateInputVal(true,"rejected");
     this.props.navigation.navigate("DisplayRequest");
@@ -535,7 +538,7 @@ const styles = StyleSheet.create({
     top: "9%",
     left: "76%",
     borderRadius: 35,
-    borderColor: "#ffeed6",
+    borderColor: "#4F3C75",
     borderWidth: 2,
     backgroundColor: "#fff",
   },
@@ -552,6 +555,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
+    borderColor:"#4F3C75",
+    borderWidth:2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",
@@ -559,9 +564,9 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 1.48,
+    shadowOpacity: 0.4,
     shadowRadius: 2.95,
 
-    elevation: 19,
+    elevation: 24,
   },
 });

@@ -251,7 +251,7 @@ var doneForms = [];
           <View key={Math.random()}>
           <Image
               style={styles.profileImage}
-              source={{ uri: element.reference}}
+              source={{ uri: element.submissionUrl}}
             />
              <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>

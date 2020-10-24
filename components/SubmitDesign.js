@@ -154,10 +154,11 @@ export default class SubmitDesign extends React.Component {
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
     var currentDate = year + "-" + month + "-" + date;
+    const DID = firebase.auth().currentUser.uid;
     this.updateInputVal(true, "done"),
       firebase
         .database()
-        .ref("Forms/")
+        .ref("Forms/"+DID)
         .child(this.state.Imagekey)
         .update({
           submissionUrl: this.state.submissionUrl,
@@ -223,7 +224,7 @@ export default class SubmitDesign extends React.Component {
         </Svg>
         <Text
           style={{
-            fontSize: 25,
+            fontSize: 27,
             color: "#4F3C75",
             fontWeight: "700",
             top: "-11%",
@@ -367,7 +368,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 25,
     width: "80%",
-    height: "3.5%",
+    height: "6%",
     alignSelf: "center",
     bottom: "6%",
   },

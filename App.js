@@ -155,31 +155,12 @@ export default class App extends Component {
     return <Nav />;
   }
 }
+
 //-------------------------------------------------------
 // retreive image
 
 function getURL() {
   
-  const user = firebase.auth().currentUser.uid;
-  const profileImage = firebase.storage().ref("ProfilePictures/" + user);
-  var myURL = '';
-  profileImage
-    .getDownloadURL()
-    .then((newURL) => {
-      myURL = newURL;
-      console.log("myURL inside then" +  myURL);
-    })
-    .catch((error) => {
-      myURL =
-        "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-        console.log("myURL inside catch" +  myURL);
-      });
-
-  console.log("myURL outside " +  myURL);
-    return (  <Image
-    source={{ uri: {URL} }}
-    style={{ height: 120, width: 120, borderRadius: 60 }}
-  /> );
 };
 //-------------------------------------------------------
 // retreive name
@@ -236,8 +217,44 @@ function email() {
 }
 //-------------------------------------------------------
 // Custom Drawers
-const CustomDrawerComponent = (props) => (
-  <SafeAreaView style={{ flex: 1 }}>
+class CustomDrawerComponent extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      url: "",
+    }
+  
+    const user = firebase.auth().currentUser.uid;
+    const profileImage = firebase.storage().ref("ProfilePictures/" + user);
+    var myURL = '';
+    profileImage
+      .getDownloadURL()
+      .then((newURL) => {
+        myURL = newURL;
+        console.log("myURL inside then" +  myURL);
+        this.updateInputVal(newURL,"url");
+        console.log(this.state.url);
+      })
+      .catch((error) => {
+        myURL =
+          "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+          console.log("myURL inside catch" +  myURL);
+          this.updateInputVal(myURL,"url");
+          console.log(this.state.url);
+
+        });
+        console.log(this.state.url);
+    console.log("myURL outside " +  myURL);
+  }
+  
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+ 
+  render(){
+ return( <SafeAreaView style={{ flex: 1 }}>
     <View
       style={{
         height: 290,
@@ -250,8 +267,10 @@ const CustomDrawerComponent = (props) => (
         style={{ width: undefined, padding: 50, paddingTop: 80 }}
       >
         
-        {getURL()}
-
+        <Image
+      source={{ uri: this.state.url }}
+      style={{ height: 120, width: 120, borderRadius: 60 }}
+    />
         <Text
           style={{
             color: "#4F3C75",
@@ -275,7 +294,7 @@ const CustomDrawerComponent = (props) => (
       </ImageBackground>
     </View>
     <ScrollView>
-      <DrawerItems {...props} />
+      <DrawerItems {...this.props} />
       <TouchableOpacity
         onPress={() =>
           Alert.alert(
@@ -285,14 +304,14 @@ const CustomDrawerComponent = (props) => (
               {
                 text: "الغاء",
                 onPress: () => {
-                  props.navigation.closeDrawer();
+                  this.props.navigation.closeDrawer();
                 },
               },
               {
                 text: "تأكيد",
                 onPress: () => {
                   AsyncStorage.clear();
-                  props.navigation.navigate("صفحة الدخول");
+                  this.props.navigation.navigate("صفحة الدخول");
                 },
               },
             ],
@@ -313,8 +332,10 @@ const CustomDrawerComponent = (props) => (
       </TouchableOpacity>
     </ScrollView>
   </SafeAreaView>
-);
+); 
 
+        }
+        }
 //-------------------------------------------------------
 //Client drawer navigation
 const ClientDrawer = createDrawerNavigator(

@@ -214,10 +214,12 @@ var doneForms = [];
               height:50,
               width:110,
               marginTop:"5%",
-              
+              borderRightWidth:2,
+              borderRightColor:"#4f3c75",
+              left:"-10%"
             }}
             >
-            <Text style={styles.deaslineStyle}>التسليم </Text>
+            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>التسليم </Text>
         <Text style={styles.deaslineStyle}>{element.deadLine == ""?"مفتوح":element.deadLine}</Text>
         </View>
           </View>
@@ -484,7 +486,8 @@ const styles = StyleSheet.create({
     color: "#4f3c75",
     fontSize: 15,
     textAlign: "center",
-   
+    marginLeft:"13%",
+    top:"15%"
 
   }
 

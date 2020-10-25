@@ -42,6 +42,8 @@ export default class DRequiestDet extends React.Component {
     this.updateInputVal(Requiest.status, "status");
     this.updateInputVal(Requiest.submissionUrl, "reference");
     this.updateInputVal(Requiest.title, "title");
+    this.updateInputVal(Requiest.category, "category");
+
 
     //-------------retreive client's profile image----------------
     firebase

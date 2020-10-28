@@ -50,6 +50,7 @@ export default class UploadNewDesign extends Component {
     this.state = {
       designTitle: "",
       designDescription: "",
+      designTags:"",
       category: "",
       designFileKey: "",
       uploading: false,
@@ -184,14 +185,34 @@ export default class UploadNewDesign extends Component {
       return;
     }
 
-    if (this.state.localpath === "") {
-      Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
-        cancelable: false,
-      });
+    // if (this.state.localpath === "") {
+    //   Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
+    //     cancelable: false,
+    //   });
+    //   return;
+    // }
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    //we should not accept numbers, too
+    var tags = this.state.designTags.split(",");
+    var containsSpecial = false;
+    tags.forEach(element => {
+      console.log(element);
+      if (specialCheck.test(element)) {
+        Alert.alert(
+          "تنبيه",
+          "يجب ان تحتوي الكلمات المفتاحية على أحرف وأرقام فقط",
+          [{ text: "حسنًا" }],
+          { cancelable: false }
+        );
+        
+        this.updateInputVal("", "designTags");
+        containsSpecial=true;
+      }
+      }
+    );
+    if(containsSpecial){
       return;
     }
-
-    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",
@@ -202,6 +223,7 @@ export default class UploadNewDesign extends Component {
       this.updateInputVal("", "designTitle");
       return;
     }
+    
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -217,14 +239,14 @@ export default class UploadNewDesign extends Component {
         category: this.state.category,
         designUrl: this.state.designUrl,
         designUploadingdate: currentDate,
-        //designFileKey: "",
+        designTags: tags,
       })
       .then((key) => {
         //this.updateInputVal(key.key, "designFileKey");
         this.updateInputVal("", "designTitle");
         this.updateInputVal("", "category");
         this.updateInputVal("", "designDescription");
-
+        this.updateInputVal("", "designTags");
         // firebase
         //   .database()
         //   .ref("Designs/")
@@ -335,6 +357,23 @@ export default class UploadNewDesign extends Component {
           onChangeText={(val) => this.updateInputVal(val, "designDescription")}
           scrollEnabled={true}
         />
+  <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-22%", fontWeight: "700" },
+          ]}
+        >
+           كلمات مفتاحية للعمل  {" "}
+        </Text>
+        <TextInput
+          style={styles.inputStyleDescription2}
+          placeholder=" أدخل كلمات مفتاحية بين كل منها علامة (,) ..."
+          maxLength={250}
+          multiline={true}
+          value={this.state.designTags}
+          onChangeText={(val) => this.updateInputVal(val, "designTags")}
+          scrollEnabled={true}
+        />
 
         <Text
           style={[
@@ -346,6 +385,7 @@ export default class UploadNewDesign extends Component {
         </Text>
 
         <Image
+          onPress={this.onChooseImagePress}
           onTouchStart={this.onChooseImagePress}
           style={styles.tinyLogo}
           source={require("../assets/upload.png")}
@@ -390,32 +430,31 @@ export default class UploadNewDesign extends Component {
           <Picker.Item label="أخرى" value="أخرى" />
         </Picker>
 
-        
-
-
+      
 
         <TouchableOpacity
          style={styles.button}
         onPress={() =>
-          Alert.alert(
-            "تأكيد رفع العمل",
-            "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
-            [
+          // alert(
+          //   "تأكيد رفع العمل",
+          //   "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+          //   [
              
-              {
-                text: "تأكيد",
-                onPress: () => {
-                this.uploadDesign()
-                },
-              }, {
-                text: "إلغاء",
-                onPress: () => {
-                //this.uploadDesign()
-                },
-              },
-            ],
-            { cancelable: false }
-          )
+          //     {
+          //       text: "تأكيد",
+          //       onPress: () => {
+          //       this.uploadDesign()
+          //       },
+          //     }, {
+          //       text: "إلغاء",
+          //       onPress: () => {
+          //       //this.uploadDesign()
+          //       },
+          //     },
+          //   ],
+          //   { cancelable: false }
+          // )
+          this.uploadDesign()
         }
       >
         <Text
@@ -471,6 +510,16 @@ const styles = StyleSheet.create({
     height: "8%",
     textAlign: "right",
     top: "-7%",
+    borderColor: "#ccc",
+    borderWidth: 2,
+  },
+  inputStyleDescription2: {
+    alignSelf: "center",
+    fontSize: 18,
+    width: "80%",
+    height: "8%",
+    textAlign: "right",
+    top: "-5%",
     borderColor: "#ccc",
     borderWidth: 2,
   },

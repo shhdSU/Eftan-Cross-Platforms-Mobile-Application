@@ -19,6 +19,8 @@ export default class GDDetails extends React.Component {
       date: "",
       designDescription: "",
       localpath: "",
+      designTags:[],
+      hasTags:false,
       name: "",
     };
     this.updateInputVal(design.duid, "Duid")
@@ -26,9 +28,12 @@ export default class GDDetails extends React.Component {
     this.updateInputVal(design.designUploadingdate, "date")
     this.updateInputVal(design.designDescription, "designDescription")
     this.updateInputVal(design.designUrl, "localpath")
-
-   
-
+    this.updateInputVal(design.designTags,"designTags")
+    if(design.designTags){
+   if(design.designTags.length == 0){
+     this.updateInputVal(true,"hasTags");
+   }
+  }
     //--------------------retreive the JSON obj of the design work from realtime DB
     // firebase
     //   .database()
@@ -105,6 +110,7 @@ console.log("can not retreive design url");
     console.log(this.state.designerProfileImage);
     console.log(this.state.name);
     console.log(this.state.designDescription);
+    console.log(this.state.designTags);
 
 
     return (
@@ -255,6 +261,29 @@ padding:"7%"
         >
           {this.state.designDescription}
         </Text>
+        {this.state.hasTags && this.state.designTags.map((element)=>{
+           <Text
+           style={[
+             {
+               color: "#4F3C75",
+               top: "5%",
+               left: "0%",
+               textAlign: "right",
+               fontWeight: "700",
+               width: "87%",
+               height: "20%",
+               fontSize: 15,
+               borderWidth:1,
+               borderColor:"#4F3C75",
+               borderRadius:25,
+ padding:"7%"          
+   },
+           ]}
+         >
+           {element}
+         </Text>
+        })
+      }
         <SvgComponent
           style={{
             right: 120,

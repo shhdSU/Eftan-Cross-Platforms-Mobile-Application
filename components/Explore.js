@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
   ScrollView,
   Image,
@@ -11,6 +12,7 @@ import {
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
+import Icon from 'react-native-vector-icons/Ionicons'
 var designGallery = new Array();
 var design = "";
 var designKeys = "";
@@ -95,7 +97,7 @@ export default class explore extends Component {
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
-        
+        var desTags = design[designInfo].designTags;
         designGallery[i] = {
           duid: duid,
           category: categ,
@@ -103,6 +105,7 @@ export default class explore extends Component {
           designTitle: desTitle,
           designUploadingdate: desUploadingdate,
           designUrl: desUrl,
+          designTags:desTags
         };
         if (categ == "علامة تجارية") {
           brand[brand.length++] = {
@@ -112,6 +115,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
           };
           this.updateInputVal(this.state.b+1,"b")
         } else if (categ == "شعار") {
@@ -122,6 +126,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.l+1,"l")
 
@@ -133,6 +139,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.c+1,"c")
 
@@ -144,6 +152,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.g+1,"g")
 
@@ -155,6 +165,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.o+1,"o")
 
@@ -166,6 +178,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.f+1,"f")
 
@@ -177,6 +191,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.p+1,"p")
 
@@ -188,6 +204,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
         }
       }
@@ -322,7 +340,37 @@ export default class explore extends Component {
           </G>
         </Svg>
        
-
+        <View
+            style={{
+              height: this.startHeaderHeight,
+              backgroundColor: "white",
+              borderBottomWidth: 1,
+              borderBottomColor: "#DDDDDD",
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                padding: 10,
+                top: "-10",
+                backgroundColor: "white",
+                marginHorizontal: 20,
+                shadowOffset: { width: 0, height: 0 },
+                shadowColor: "black",
+                shadowOpacity: 0.2,
+                elevation: 1,
+                marginTop: Platform.OS == "android" ? 30 : null,
+              }}
+            >
+              <Icon name="ios-search" size={20} style={{ marginRight: 10 }} />
+              <TextInput
+                underlineColorAndroid="transparent"
+                placeholder="Try New Delhi"
+                placeholderTextColor="grey"
+                style={{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
+              />
+            </View>
+          </View>
           
         <View style={{ flex: 1 }}>
           <View

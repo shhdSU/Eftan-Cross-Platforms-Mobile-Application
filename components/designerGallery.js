@@ -178,7 +178,7 @@ export default class designerGallery extends React.Component {
   };
   render() {
     return (
-      <ScrollView style={{ backgroundColor: "#fff" }}>
+      <View style={{ backgroundColor: "#fff" }}>
         <View style={styles.container}>
           <Svg
             width={416}
@@ -207,6 +207,9 @@ export default class designerGallery extends React.Component {
             </G>
           </Svg>
           <Text style={styles.forText}>حساب المصمم</Text>
+
+          <View style={{ flex: 1 }}>
+          <ScrollView scrollEventThrottle={16}>
 
 
 <View style={styles.infoContt}>
@@ -241,8 +244,7 @@ export default class designerGallery extends React.Component {
           >
             {this.readData()}
           </View>
-        </View>
-
+         
         <TouchableOpacity
          style={styles.Morebutton}
          onPress={() => this.props.navigation.navigate("أعمال مصمم معين", { arr: this.state.designGalleryState })}
@@ -257,7 +259,12 @@ export default class designerGallery extends React.Component {
           >
            المزيد من أعمال المصمم {">"}        </Text>
         </TouchableOpacity>
-      </ScrollView>
+        </ScrollView>
+                         </View>
+                        
+                         </View> </View>
+         
+
     );
   }
 }

@@ -41,6 +41,8 @@ import PRequiestDet from "./components/PRequiestDet";
 import DRequiestDet from "./components/DRequiestDet";
 import SubmitDesign from "./components/SubmitDesign";
 import DisplayRequest from "./components/DisplayRequest";
+import designerPersonalPortfolio from "./components/designerPersonalPortfolio";
+
 
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -132,6 +134,20 @@ const DesignerProfileNavigation = createStackNavigator(
   {
     "عرض حساب المصمم": { screen: designerprofile },
     "تعديل حساب المصمم": { screen: designeredit },
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false,
+    },
+  }
+);
+
+//---------------------------------------------------------
+const DesignerPortfolioNavigation = createStackNavigator(                               //@HadeelHamad
+  {
+    "تصاميمي": { screen: designerPersonalPortfolio },
+  //"تعديل حساب المصمم": { screen: designeredit },
   },
   {
     headerMode: "none",
@@ -372,6 +388,7 @@ const DesignerDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": DesignerGalleryNavigation,
     "عرض حساب المصمم": DesignerProfileNavigation,
+    "تصاميمي": DesignerPortfolioNavigation,
     "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
     //"محادثات": { screen: ChatPassword },

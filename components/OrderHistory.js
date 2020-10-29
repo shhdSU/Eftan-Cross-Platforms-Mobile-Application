@@ -1,10 +1,10 @@
 /*
-هذي الصفحة خاصة باستعراض طلبات المصمم 
+هذي الصفحة خاصة باستعراض طلبات العميل 
 ينقص هذي الصفحة للآن 
 الرفرش
-تمييز الطلبات المنتهية واستعراضها مع امكانية رؤية الطلب 
+التحقق من فعالية ميثود فلترت الطلبات 
+تمييز الطلبات المنتهية واستعراضها مع امكانية رؤية و اعادة الطلب 
 */
-
 import firebase from "../database/firebase";
 import React, { Component } from "react";
 import {
@@ -21,6 +21,8 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import EmptyList from "./emptylist";
 
 var forms = []; // To retrive all forms here
+var filterdForms = []; // to take only form related to this client 
+var filterLoop = 0 ;
 var waitingForms = [];
 var inProgressForms = [];
 var doneForms = [];
@@ -69,18 +71,20 @@ break;
 this.updateInputVal(true,"watingtoggle");
   }
     //START RETURN ALL FORMS
-    const DID = firebase.auth().currentUser.uid;
     firebase
       .database()
-      .ref("Forms/" + DID)
+      .ref("Forms/")
       .on("value", (snapshot) => {
-        //put DID after Path
         forms = snapshot.val();
       }); //End of on method
 
     //START sepreate them based on their status
     if (forms != null) {
       var formsKeys = Object.keys(forms);
+      //Calling a method and sending Forms to filter it 
+      for (var i = 0 ; i < formsKeys.length ; i++){
+        this.filterForms(forms[formsKeys[i]])
+      }
       var waitingLoop = 0;
       var inProgressLoop = 0;
       var doneLoop = 0;
@@ -141,11 +145,19 @@ this.updateInputVal(true,"watingtoggle");
     }
   };
 
-  /*
-   waitingForms = [];
-var inProgressForms = []; 
-var doneForms = [];
-  */
+  
+  filterForms(Cforms){
+      ID = firebase.auth().currentUser.uid;
+    var Keys = Object.keys(Cforms);
+for (var i = 0 ; i < Cforms.length ; i++){
+if(Cforms[keys[i]].CID === ID){
+    filterdForms[filterLoop] = Cforms[keys[i]];
+    filterLoop++;
+}
+
+}
+  }
+
 
   //DISPLAY WAITING LIST
 

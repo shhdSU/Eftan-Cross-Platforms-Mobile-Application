@@ -6,12 +6,15 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Platform,
+  StatusBar,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
+import EmptyList from "./emptylist";
 import Icon from 'react-native-vector-icons/Ionicons'
 var designGallery = new Array();
 var design = "";
@@ -51,6 +54,9 @@ export default class explore extends Component {
        d:0,
        f:0,
        p:0,
+       searchResults: [],
+       searching:false,
+       found:false,
     };
     logo = [];
     brand = [];
@@ -238,9 +244,9 @@ export default class explore extends Component {
     
     
   
-  readData = () => {
+  readData = (arr) => {
   
-    return this.state.designGalleryState.map((element) => {
+    return arr.map((element) => {
       return (
         <View
           style={{ width: width / 2 - 40, height: width / 2 - 20 }}
@@ -293,7 +299,34 @@ export default class explore extends Component {
 
     });
   };
-  
+  componentWillMount(){
+    this.startHeaderHeight = 80;
+    if(Platform.OS == 'android'){
+      this.startHeaderHeight = 100 + StatusBar.currentHeight
+    }
+  }
+  searchTags = (val) => {
+    if(val == ""){
+      this.updateInputVal(false,"searching");
+      return;
+    }
+    this.updateInputVal(false,"found");
+    this.updateInputVal(true,"searching");
+    var tags = val.split(", ");
+    console.log(tags);
+    var searchResults= new Array();
+designGallery.forEach(element => {
+  if(element.designTags){
+  if(element.designTags.some(r=> tags.includes(r))){
+    this.updateInputVal(true,"found");
+      searchResults.push(element);
+      console.log(element.designTags);
+  }
+}
+});    
+this.updateInputVal(searchResults,"searchResults");
+console.log(searchResults);
+  }
   render() {
 
     return (
@@ -339,7 +372,7 @@ export default class explore extends Component {
             />
           </G>
         </Svg>
-       
+           
         <View
             style={{
               height: this.startHeaderHeight,
@@ -352,7 +385,8 @@ export default class explore extends Component {
               style={{
                 flexDirection: "row",
                 padding: 10,
-                top: "-10",
+                position: "absolute",
+                top: -10,
                 backgroundColor: "white",
                 marginHorizontal: 20,
                 shadowOffset: { width: 0, height: 0 },
@@ -365,14 +399,23 @@ export default class explore extends Component {
               <Icon name="ios-search" size={20} style={{ marginRight: 10 }} />
               <TextInput
                 underlineColorAndroid="transparent"
-                placeholder="Try New Delhi"
+                placeholder=" ادخل كلمات مفتاحية للبحث"
                 placeholderTextColor="grey"
-                style={{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
+                style={{ flex: 1, fontWeight: "700", backgroundColor: "white", position: "absolute", 
+              }}
+              onClearText={()=>this.updateInputVal(false,"searching")} 
+              onChangeText={(val) => this.searchTags(val)}
               />
             </View>
           </View>
-          
-        <View style={{ flex: 1 }}>
+          {this.state.searching && !this.state.found && //no results found
+       (<View style={{marginTop:"50%"}}> 
+       <EmptyList style={styles.emptyImage}></EmptyList>
+        <Text style={styles.emptyText}>نأسف، لم يتم العثور على أي تصاميم بهذه الكلمات المفتاحية</Text>
+        </View>)
+  }
+   {this.state.searching && this.state.found && //search results found
+      (  <View style={{ flex: 1 }}>
           <View
             style={{
               borderBottomWidth: 1,
@@ -502,12 +545,154 @@ export default class explore extends Component {
                     flexWrap: "wrap",
                   }}
                 >
-                  {this.readData()}
+                  {this.readData(this.state.searchResults)}
                 </View>
               </View>
             </View>
           </ScrollView>
         </View>
+       ) }
+
+
+
+          {!this.state.searching && !this.state.found && //default page (not searching anything)
+      (  <View style={{ flex: 1 }}>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: "#dddddd",
+              marginBottom: 25,
+            }}
+          ></View>
+
+          <ScrollView scrollEventThrottle={16}>
+            <View>
+              <View
+                style={{
+                  height: 130,
+                  marginTop: 120,
+                  marginBottom: 40,
+                  height: this.startHeaderHeight,
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#dddddd",
+                }}
+              >
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.logo,
+                        category: "شعار",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/logo.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.poster,
+                        category: "إعلان",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/poster.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.brand,
+                        category: "علامة تجارية",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/brand.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.packag,
+                        category: "انفوجرافيك",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/package.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.digital,
+                        category: "فن رقمي",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/digital.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.filter,
+                        category: "فلتر",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/filter.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.cert,
+                        category: "شهادة",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/cert.jpg")} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("الإختيار", {
+                        array: this.state.other,
+                        category: "أخرى",
+                      })
+                    }
+                  >
+                    <Category imageUri={require("../assets/other.jpg")} />
+                  </TouchableOpacity>
+                </ScrollView>
+              </View>
+
+              <View
+                style={{
+                  marginTop: 40,
+                }}
+              >
+                <View
+                  style={{
+                    marginTop: -60,
+                    paddingLeft: 30,
+                    paddingRight: 30,
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {this.readData(this.state.designGalleryState)}
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+        </View>
+       ) }
       </View>
     );
   }

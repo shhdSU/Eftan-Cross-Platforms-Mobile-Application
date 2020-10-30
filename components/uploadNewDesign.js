@@ -193,7 +193,7 @@ export default class UploadNewDesign extends Component {
     // }
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     //we should not accept numbers, too
-    var tags = this.state.designTags.split(",");
+    var tags = this.state.designTags.split(", ");
     var containsSpecial = false;
     tags.forEach(element => {
       console.log(element);

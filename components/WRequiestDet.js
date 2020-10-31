@@ -10,6 +10,8 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
+import 'firebase/firestore';
+
 export default class WRequiestDet extends React.Component {
   constructor(props) {
     super();
@@ -30,11 +32,11 @@ export default class WRequiestDet extends React.Component {
       ClientProfileImage: "",
       name: "",
       clientToken: "",
-      accepted:false,
+      accepted: false,
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "",      
+      rejectedMessage: "",
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -74,28 +76,28 @@ export default class WRequiestDet extends React.Component {
         this.updateInputVal(Cname, "name");
       });
     //---------------clientToken-------------------
-      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
-          if(dataSnapshot.exists()){
-            firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
-              this.updateInputVal(dataSnapshot.val(),"clientToken");
-          })
+    firebase.database().ref("Client/" + this.state.CID).child("notificationsKey").on("value", (dataSnapshot) => {
+      if (dataSnapshot.exists()) {
+        firebase.database().ref("Client/" + this.state.CID).child("notificationsKey").on("value", (dataSnapshot) => {
+          this.updateInputVal(dataSnapshot.val(), "clientToken");
+        })
       }
     })
     var designerName;
     firebase
-    .database()
-    .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
-    .on("value", (dataSnapshot) => {
-      designerName =
-        dataSnapshot.child("DFirstName").val() +
-        " " +
-        dataSnapshot.child("DLastName").val();
-      this.updateInputVal(designerName, "dname");
-    });
+      .database()
+      .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
+      .on("value", (dataSnapshot) => {
+        designerName =
+          dataSnapshot.child("DFirstName").val() +
+          " " +
+          dataSnapshot.child("DLastName").val();
+        this.updateInputVal(designerName, "dname");
+      });
     var acceptedmessage = "لقد تم قبول طلبك من قبل المصمم" + this.state.dname;
-    var rejectedmessage = "لم يتمكن المصمم "+ this.state.dname + " من قبول طلبك";
-    this.updateInputVal(acceptedmessage,"acceptedMessage");
-    this.updateInputVal(rejectedmessage,"rejectedMessage");
+    var rejectedmessage = "لم يتمكن المصمم " + this.state.dname + " من قبول طلبك";
+    this.updateInputVal(acceptedmessage, "acceptedMessage");
+    this.updateInputVal(rejectedmessage, "rejectedMessage");
 
     console.log(acceptedmessage);
     console.log(rejectedmessage);
@@ -109,6 +111,7 @@ export default class WRequiestDet extends React.Component {
     this.setState(state);
   };
 
+
   //---------------(تحديث حالة الطلب من (تحت الانتظار) الى (قيد العمل--------------
   UpdateStatusAfterAccepted = () => {
     const DID = firebase.auth().currentUser.uid;
@@ -118,9 +121,21 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
+    this.updateInputVal(true, "accepted");
+
+    firebase
+      .firestore()
+      .collection('AllChat')
+      .add({
+        RoomTitle: this.state.title
+      })
+    this.props.navigation.navigate("chat"); // will navigate to chat
+
+
   };
+
+
+
 
   //---------------حذف طلب--------------
   RemoveRequest = () => {
@@ -131,7 +146,7 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .remove();
-      this.updateInputVal(true,"rejected");
+    this.updateInputVal(true, "rejected");
     this.props.navigation.navigate("DisplayRequest");
   };
   //------------------------------------
@@ -154,8 +169,8 @@ export default class WRequiestDet extends React.Component {
           >
             {this.state.title}
           </Text>
-          {this.state.accepted &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.acceptedMessage}/>}
-          {this.state.rejected &&  <Notify token = {this.state.clientToken} myTitle= "يا للأسف" myMessage = {this.state.rejectedMessage}/>}
+          {this.state.accepted && <Notify token={this.state.clientToken} myTitle="تهانينا" myMessage={this.state.acceptedMessage} />}
+          {this.state.rejected && <Notify token={this.state.clientToken} myTitle="يا للأسف" myMessage={this.state.rejectedMessage} />}
 
           <Svg
             width={416}
@@ -555,8 +570,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
-    borderColor:"#4F3C75",
-    borderWidth:2,
+    borderColor: "#4F3C75",
+    borderWidth: 2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",

@@ -41,7 +41,7 @@ import PRequiestDet from "./components/PRequiestDet";
 import DRequiestDet from "./components/DRequiestDet";
 import SubmitDesign from "./components/SubmitDesign";
 import DisplayRequest from "./components/DisplayRequest";
-
+console.disableYellowBox = true;
 //-------------------------------------------------------
 // 1- login stack >> اساسية
 const LoginStack = createStackNavigator(

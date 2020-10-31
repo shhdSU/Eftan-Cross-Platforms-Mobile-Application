@@ -2,7 +2,6 @@
 هذي الصفحة خاصة باستعراض طلبات العميل 
 ينقص هذي الصفحة للآن 
 الرفرش
-التحقق من فعالية ميثود فلترت الطلبات 
 تمييز الطلبات المنتهية واستعراضها مع امكانية رؤية و اعادة الطلب 
 */
 import firebase from "../database/firebase";
@@ -70,45 +69,52 @@ break;
     this.updateInputVal(true,"watingList");
 this.updateInputVal(true,"watingtoggle");
   }
+  console.log("HHHHHHEEEEERRRREEEEEEEEEESSSSTTTTTTTTTTAAAARRRRRTTTT")
     //START RETURN ALL FORMS
     firebase
       .database()
       .ref("Forms/")
       .on("value", (snapshot) => {
         forms = snapshot.val();
-      }); //End of on method
-
-    //START sepreate them based on their status
-    if (forms != null) {
-      var formsKeys = Object.keys(forms);
-      //Calling a method and sending Forms to filter it 
-      for (var i = 0 ; i < formsKeys.length ; i++){
-        this.filterForms(forms[formsKeys[i]])
-      }
-      var waitingLoop = 0;
-      var inProgressLoop = 0;
-      var doneLoop = 0;
-
-        
-///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
-      for (var i = 0; i < formsKeys.length; i++) {
-        console.log("loop2   "+i+"  ")
-          if (forms[formsKeys[i]].status === "w") {
-          waitingForms[waitingLoop] = forms[formsKeys[i]];
-          waitingLoop++;
-         } else if (forms[formsKeys[i]].status === "p") {
-          inProgressForms[inProgressLoop] = forms[formsKeys[i]];
-          inProgressLoop++;
-         } else {
-          doneForms[doneLoop] = forms[formsKeys[i]];
-          doneLoop++;
+        if (forms != null) {
+          var formsKeys = Object.keys(forms);
+    
+          //Calling a method and sending Forms to filter it 
+          var loop = 0;
+          for (var i = 0 ; i < formsKeys.length ; i++){
+            var tmp = Object.keys(forms[formsKeys[i]]);
+            this.filterForms(forms[formsKeys[i]],loop);
+            loop += tmp.length;
+          }
+          console.log(filterdForms);
+    
+          var waitingLoop = 0;
+          var inProgressLoop = 0;
+          var doneLoop = 0;
+    
+          var filterdFormsKeys = Object.keys(filterdForms);
+    ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
+          for (var i = 0; i < filterdFormsKeys.length; i++) {
+            console.log("loop2   "+i+"  ")
+              if (filterdForms[filterdFormsKeys[i]].status === "w") {
+              waitingForms[waitingLoop] = filterdForms[filterdFormsKeys[i]];
+              waitingLoop++;
+             } else if (filterdForms[filterdFormsKeys[i]].status === "p") {
+              inProgressForms[inProgressLoop] = filterdForms[filterdFormsKeys[i]];
+              inProgressLoop++;
+             } else {
+              doneForms[doneLoop] = filterdForms[filterdFormsKeys[i]];
+              doneLoop++;
+            }
+          } //End of for loop
+    
+          this.updateInputVal(waitingForms, "displayedWatingForms");
+          this.updateInputVal(inProgressForms, "displayedCurrentForms");
+          this.updateInputVal(doneForms, "displayedDoneForms");
         }
-      } //End of for loop
-
-      this.updateInputVal(waitingForms, "displayedWatingForms");
-      this.updateInputVal(inProgressForms, "displayedCurrentForms");
-      this.updateInputVal(doneForms, "displayedDoneForms");
-    }
+      }); //End of on method
+    //START sepreate them based on their status
+    
   } //End of constructor
 
 
@@ -146,13 +152,15 @@ this.updateInputVal(true,"watingtoggle");
   };
 
   
-  filterForms(Cforms){
-      ID = firebase.auth().currentUser.uid;
+  filterForms(Cforms,loop){
+      var ID = "JYikkr90YzXsnHH8kNedSJJ7ben2";
+      //firebase.auth().currentUser.uid;
     var Keys = Object.keys(Cforms);
-for (var i = 0 ; i < Cforms.length ; i++){
-if(Cforms[keys[i]].CID === ID){
-    filterdForms[filterLoop] = Cforms[keys[i]];
-    filterLoop++;
+    var loopvar = loop;
+for (var i = 0 ; i < Keys.length ; i++){
+if(Cforms[Keys[i]].CID === ID){
+    filterdForms[loopvar] = Cforms[Keys[i]];
+    loopvar++;
 }
 
 }
@@ -163,16 +171,16 @@ if(Cforms[keys[i]].CID === ID){
 
   readWaitingList() {
     return this.state.displayedWatingForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
@@ -188,7 +196,7 @@ if(Cforms[keys[i]].CID === ID){
             />
             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
 
           </View>
@@ -200,16 +208,16 @@ if(Cforms[keys[i]].CID === ID){
   //DISPLAY CURRENT LIST
   readCurrentList() {
     return this.state.displayedCurrentForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
@@ -225,7 +233,7 @@ if(Cforms[keys[i]].CID === ID){
             />
            
             <Text style={styles.currentorderText}>{ClientName}</Text>
-            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
             <Text style={styles.currentorderText}>{element.title}</Text>
             <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <View 
@@ -250,16 +258,16 @@ if(Cforms[keys[i]].CID === ID){
   //DISPLAY DONE LIST
   readDoneList() {
     return this.state.displayedDoneForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
@@ -275,7 +283,7 @@ if(Cforms[keys[i]].CID === ID){
             />
              <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
             {console.log("LOOP")}
           </View>
@@ -302,7 +310,7 @@ if(Cforms[keys[i]].CID === ID){
             top: "6.5%",
           }}
         >
-          سجل الطلبات
+          طلباتي
         </Text>
         <Svg
           width={416}

@@ -70,10 +70,22 @@ const Explorescreen = createStackNavigator(
   }
 );
 //-------------------------------------------------------
+const ChatStackScreens = createStackNavigator(
+  {
+
+    allChat: allChat,
+    chat: chat,
+  },
+  {
+    headerMode: "none",
+  }
+);
+//-------------------------------------------------------
 const recievedOrderScreens = createStackNavigator(
   {
     DisplayRequest: DisplayRequest,
     WRequiestDet: WRequiestDet,
+    ChatStackScreens: ChatStackScreens,
     PRequiestDet: PRequiestDet,
     SubmitDesign: SubmitDesign,
     DRequiestDet: DRequiestDet,
@@ -83,6 +95,7 @@ const recievedOrderScreens = createStackNavigator(
   }
 );
 //-------------------------------------------------------
+
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
 const ClientGalleryNavigation = createStackNavigator(
@@ -346,7 +359,7 @@ const ClientDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": ClientGalleryNavigation,
     "عرض حساب العميل": ClientProfileNavigation,
-    //"محادثات": { screen: ChatPassword },
+    "محادثات": allChat,
   },
   {
     defaultNavigationOptions: {
@@ -378,7 +391,8 @@ const DesignerDrawer = createDrawerNavigator(
     "عرض حساب المصمم": DesignerProfileNavigation,
     "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
-    //"محادثات": 
+    "محادثات": allChat,
+
   },
   {
     defaultNavigationOptions: {
@@ -431,7 +445,6 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-    //allChat: allChat,
     loginStack: LoginStack,
     "Cdrawer": CDrawerNavigation,
   },
@@ -443,7 +456,7 @@ const CPrimaryNav = createStackNavigator(
 //-------------------------------------------------------
 const DPrimaryNav = createStackNavigator(
   {
-    // allChat: allChat,
+
     loginStack: LoginStack,
     "Ddrawer": DDrawerNavigation,
   },

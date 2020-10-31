@@ -129,13 +129,12 @@ export default class WRequiestDet extends React.Component {
       .add({
         RoomTitle: this.state.title
       })
-    this.props.navigation.navigate("chat"); // will navigate to chat
+      .then(() => {
+        this.props.navigation.navigate("chat", { obj: this.props.navigation.state.params.obj });
+      });
 
-
+    // asking shahad about prametar that sent { status: "p" }
   };
-
-
-
 
   //---------------حذف طلب--------------
   RemoveRequest = () => {
@@ -237,6 +236,8 @@ export default class WRequiestDet extends React.Component {
                         text: "حسناً",
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
+
+
                         },
                       },
                     ],
@@ -585,3 +586,12 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
 });
+
+
+
+
+
+
+
+
+

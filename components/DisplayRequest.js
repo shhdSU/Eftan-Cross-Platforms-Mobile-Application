@@ -31,36 +31,36 @@ export default class DisplayRequest extends React.Component {
       watingtoggle: true,
       currenttoggle: false,
       donetoggle: false,
-      
+
     }; //End of status
-    
+
     var status = props.navigation.state.params;
-    if(status != null){
-    switch(status.status){
-case "p":
-  this.updateInputVal(false,"watingList");
-this.updateInputVal(false,"watingtoggle");
-  this.updateInputVal(true,"currentList");
-  this.updateInputVal(true,"currenttoggle");
-  break;
+    if (status != null) {
+      switch (status.status) {
+        case "p":
+          this.updateInputVal(false, "watingList");
+          this.updateInputVal(false, "watingtoggle");
+          this.updateInputVal(true, "currentList");
+          this.updateInputVal(true, "currenttoggle");
+          break;
 
-case "d":
-  this.updateInputVal(false,"watingList");
-this.updateInputVal(false,"watingtoggle");
-  this.updateInputVal(true,"doneList");
-  this.updateInputVal(true,"donetoggle");
-  break;
+        case "d":
+          this.updateInputVal(false, "watingList");
+          this.updateInputVal(false, "watingtoggle");
+          this.updateInputVal(true, "doneList");
+          this.updateInputVal(true, "donetoggle");
+          break;
 
-default: 
-this.updateInputVal(true,"watingList");
-this.updateInputVal(true,"watingtoggle");
-break;
+        default:
+          this.updateInputVal(true, "watingList");
+          this.updateInputVal(true, "watingtoggle");
+          break;
 
+      }
+    } else {
+      this.updateInputVal(true, "watingList");
+      this.updateInputVal(true, "watingtoggle");
     }
-  }else{
-    this.updateInputVal(true,"watingList");
-this.updateInputVal(true,"watingtoggle");
-  }
     //START RETURN ALL FORMS
     const DID = firebase.auth().currentUser.uid;
     firebase
@@ -78,17 +78,17 @@ this.updateInputVal(true,"watingtoggle");
       var inProgressLoop = 0;
       var doneLoop = 0;
 
-        
-///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
+
+      ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
       for (var i = 0; i < formsKeys.length; i++) {
-        console.log("loop2   "+i+"  ")
-          if (forms[formsKeys[i]].status === "w") {
+        console.log("loop2   " + i + "  ")
+        if (forms[formsKeys[i]].status === "w") {
           waitingForms[waitingLoop] = forms[formsKeys[i]];
           waitingLoop++;
-         } else if (forms[formsKeys[i]].status === "p") {
+        } else if (forms[formsKeys[i]].status === "p") {
           inProgressForms[inProgressLoop] = forms[formsKeys[i]];
           inProgressLoop++;
-         } else {
+        } else {
           doneForms[doneLoop] = forms[formsKeys[i]];
           doneLoop++;
         }
@@ -163,13 +163,13 @@ var doneForms = [];
           style={styles.listStyle}
         >
           <View key={Math.random()}>
-          <Image
+            <Image
               style={styles.profileImage}
-              source={{ uri: element.reference}}
+              source={{ uri: element.reference }}
             />
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+            <Text style={[styles.orderText, { fontWeight: "700" }]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.orderText, { fontWeight: "700" }]}>اسم العميل: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
 
           </View>
@@ -200,28 +200,28 @@ var doneForms = [];
           style={styles.listStyle}
         >
           <View key={Math.random()}>
-          <Image
+            <Image
               style={styles.currentprofileImage}
-              source={{ uri: element.reference}}
+              source={{ uri: element.reference }}
             />
-           
+
             <Text style={styles.currentorderText}>{ClientName}</Text>
-            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.currentorderText, { fontWeight: "700" }]}>اسم العميل: </Text>
             <Text style={styles.currentorderText}>{element.title}</Text>
-            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
-            <View 
-            style={{
-              height:50,
-              width:110,
-              marginTop:"5%",
-              borderRightWidth:2,
-              borderRightColor:"#4f3c75",
-              left:"-10%"
-            }}
+            <Text style={[styles.currentorderText, { fontWeight: "700" }]}>عنوان الطلب: </Text>
+            <View
+              style={{
+                height: 50,
+                width: 110,
+                marginTop: "5%",
+                borderRightWidth: 2,
+                borderRightColor: "#4f3c75",
+                left: "-10%"
+              }}
             >
-            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>التسليم </Text>
-        <Text style={styles.deaslineStyle}>{element.deadLine == ""?"مفتوح":element.deadLine}</Text>
-        </View>
+              <Text style={[styles.deaslineStyle, { fontWeight: "700" }]}>التسليم </Text>
+              <Text style={styles.deaslineStyle}>{element.deadLine == "" ? "مفتوح" : element.deadLine}</Text>
+            </View>
           </View>
         </TouchableOpacity>
       );
@@ -250,13 +250,13 @@ var doneForms = [];
           style={styles.listStyle}
         >
           <View key={Math.random()}>
-          <Image
+            <Image
               style={styles.profileImage}
-              source={{ uri: element.submissionUrl}}
+              source={{ uri: element.submissionUrl }}
             />
-             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+            <Text style={[styles.orderText, { fontWeight: "700" }]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.orderText, { fontWeight: "700" }]}>اسم العميل: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
             {console.log("LOOP")}
           </View>
@@ -343,11 +343,11 @@ var doneForms = [];
           </ScrollView>
         )}
 
-{this.state.watingList && this.state.displayedWatingForms.length == 0 && (
-        <View style={{marginTop:"50%"}}> 
-        <EmptyList style={styles.emptyImage}></EmptyList>
-         <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات في قائمة الانتظار</Text>
-         </View>
+        {this.state.watingList && this.state.displayedWatingForms.length == 0 && (
+          <View style={{ marginTop: "50%" }}>
+            <EmptyList style={styles.emptyImage}></EmptyList>
+            <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات في قائمة الانتظار</Text>
+          </View>
         )}
 
 
@@ -360,14 +360,14 @@ var doneForms = [];
           </ScrollView>
         )}
 
-         {this.state.currentList && this.state.displayedCurrentForms.length == 0 && (
-           <View style={{marginTop:"50%"}}> 
-           <EmptyList style={styles.emptyImage}></EmptyList>
-           <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات حالية</Text>
-           </View>
+        {this.state.currentList && this.state.displayedCurrentForms.length == 0 && (
+          <View style={{ marginTop: "50%" }}>
+            <EmptyList style={styles.emptyImage}></EmptyList>
+            <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات حالية</Text>
+          </View>
         )}
 
-        {this.state.doneList && this.state.displayedDoneForms != 0 &&(
+        {this.state.doneList && this.state.displayedDoneForms != 0 && (
           <ScrollView
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
@@ -376,11 +376,11 @@ var doneForms = [];
           </ScrollView>
         )}
 
-{this.state.doneList && this.state.displayedDoneForms == 0 &&(
-         <View style={{marginTop:"50%"}}> 
-          <EmptyList style={styles.emptyImage}></EmptyList>
-         <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات منجزة</Text>
-         </View>
+        {this.state.doneList && this.state.displayedDoneForms == 0 && (
+          <View style={{ marginTop: "50%" }}>
+            <EmptyList style={styles.emptyImage}></EmptyList>
+            <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات منجزة</Text>
+          </View>
         )}
       </View>
     ); // End of render return
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     color: "#4f3c75",
     fontSize: 15,
     textAlign: "right",
-    top:"-34%",
+    top: "-34%",
     paddingLeft: "5%",
     paddingRight: "23%",
   },
@@ -455,11 +455,11 @@ const styles = StyleSheet.create({
     color: "#4f3c75",
     fontSize: 15,
     textAlign: "right",
-    top:"46%",
-    marginTop:"-11.5%",
+    top: "46%",
+    marginTop: "-11.5%",
     paddingLeft: "5%",
     paddingRight: "23%",
-    zIndex:10,
+    zIndex: 10,
   },
   currentprofileImage: {
     width: 70,
@@ -470,24 +470,24 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#fff",
   },
-  
-  
-  emptyText:{
+
+
+  emptyText: {
     color: "#4f3c75",
     fontSize: 30,
-    textAlign:"center",
-    fontWeight:"200"
+    textAlign: "center",
+    fontWeight: "200"
   },
-  emptyImage:{
-    alignSelf:"center",
-    justifyContent:"center",
+  emptyImage: {
+    alignSelf: "center",
+    justifyContent: "center",
   },
-  deaslineStyle:{
+  deaslineStyle: {
     color: "#4f3c75",
     fontSize: 15,
     textAlign: "center",
-    marginLeft:"13%",
-    top:"15%"
+    marginLeft: "13%",
+    top: "15%"
 
   }
 

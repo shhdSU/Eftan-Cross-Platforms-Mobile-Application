@@ -330,7 +330,7 @@ console.log(searchResults);
   render() {
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View  style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
           style={{
             fontSize: 25,
@@ -381,12 +381,14 @@ console.log(searchResults);
               borderBottomColor: "#DDDDDD",
             }}
           >
-            <View
-              style={{
+             </View>
+          <Icon name="ios-search" size={20} style={{ marginRight: 10, left: 250, top: 55}} />
+
+          <TextInput style={{
                 flexDirection: "row",
                 padding: 10,
                 position: "absolute",
-                top: -10,
+                top: 150,
                 backgroundColor: "white",
                 marginHorizontal: 20,
                 shadowOffset: { width: 0, height: 0 },
@@ -395,19 +397,14 @@ console.log(searchResults);
                 elevation: 1,
                 marginTop: Platform.OS == "android" ? 30 : null,
               }}
-            >
-              <Icon name="ios-search" size={20} style={{ marginRight: 10 }} />
-              <TextInput
-                underlineColorAndroid="transparent"
-                placeholder=" ادخل كلمات مفتاحية للبحث"
-                placeholderTextColor="grey"
-                style={{ flex: 1, fontWeight: "700", backgroundColor: "white", position: "absolute", 
-              }}
-              onClearText={()=>this.updateInputVal(false,"searching")} 
-              onChangeText={(val) => this.searchTags(val)}
-              />
-            </View>
-          </View>
+              maxLength={45}
+          placeholderTextColor="grey"
+          style={styles.inputStyle}
+          placeholder=" ادخل كلمات مفتاحية للبحث"
+          onChangeText={(val) => this.searchTags(val)}
+        />
+              
+        
           {this.state.searching && !this.state.found && //no results found
        (<View style={{marginTop:"50%"}}> 
        <EmptyList style={styles.emptyImage}></EmptyList>
@@ -426,109 +423,12 @@ console.log(searchResults);
 
           <ScrollView scrollEventThrottle={16}>
             <View>
-              <View
-                style={{
-                  height: 130,
-                  marginTop: 120,
-                  marginBottom: 40,
-                  height: this.startHeaderHeight,
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#dddddd",
-                }}
-              >
+
                 <ScrollView
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.logo,
-                        category: "شعار",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/logo.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.poster,
-                        category: "إعلان",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/poster.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.brand,
-                        category: "علامة تجارية",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/brand.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.packag,
-                        category: "انفوجرافيك",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/package.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.digital,
-                        category: "فن رقمي",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/digital.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.filter,
-                        category: "فلتر",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/filter.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.cert,
-                        category: "شهادة",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/cert.jpg")} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate("الإختيار", {
-                        array: this.state.other,
-                        category: "أخرى",
-                      })
-                    }
-                  >
-                    <Category imageUri={require("../assets/other.jpg")} />
-                  </TouchableOpacity>
                 </ScrollView>
-              </View>
 
               <View
                 style={{
@@ -704,7 +604,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  emptyText:{
+    color: "#4f3c75",
+    fontSize: 30,
+    textAlign:"center",
+    fontWeight:"200"
+  },
+  emptyImage:{
+    alignSelf:"center",
+    justifyContent:"center",
+  },
+  
+  inputStyle: {
+    fontSize: 18,
+    marginTop: "4%",
+    padding:0,
+    marginBottom: "2%",
+    textAlign: "left",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+  },
   img: {
     width: width * 0.9,
     display: "flex",

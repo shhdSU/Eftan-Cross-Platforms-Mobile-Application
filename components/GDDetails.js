@@ -55,7 +55,6 @@ export default class GDDetails extends React.Component {
         this.updateInputVal(url, "designerProfileImage");
       })
       .catch((error) => {
-
         console.log("can not retreive profile img url");
       });
     /*
@@ -240,7 +239,9 @@ console.log("can not retreive design url");
           ]}
         >
           وصف العمل
+          {this.state.designTags}
         </Text>
+        
         <Text
           style={[
             {
@@ -261,19 +262,20 @@ padding:"7%"
         >
           {this.state.designDescription}
         </Text>
+       
         {this.state.hasTags && this.state.designTags.map((element)=>{
-           <Text
+           return (<Text
            style={[
              {
                color: "#4F3C75",
-               top: "5%",
-               left: "0%",
+               top: 300,
+               position:"absolute",
                textAlign: "right",
                fontWeight: "700",
-               width: "87%",
-               height: "20%",
+               width: 87,
+               height: 20,
                fontSize: 15,
-               borderWidth:1,
+               backgroundColor:"#CCCCCC",
                borderColor:"#4F3C75",
                borderRadius:25,
  padding:"7%"          
@@ -281,7 +283,7 @@ padding:"7%"
            ]}
          >
            {element}
-         </Text>
+         </Text>)
         })
       }
         <SvgComponent
@@ -345,6 +347,7 @@ const styles = StyleSheet.create({
     borderWidth:2,
     backgroundColor:"#fff"
   },
+  
   infoCont:{
 backgroundColor:"#4F3C75",
 width:"87%",

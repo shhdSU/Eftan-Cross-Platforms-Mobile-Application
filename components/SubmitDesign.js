@@ -164,6 +164,7 @@ export default class SubmitDesign extends React.Component {
           submissionUrl: this.state.submissionUrl,
           submissionDate: currentDate,
           status: "d",
+          reference :"",
         })
         .then(
           this.updateInputVal("", "submissionUrl"),

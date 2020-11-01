@@ -122,17 +122,17 @@ export default class WRequiestDet extends React.Component {
     this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
 
-  //---------------حذف طلب--------------
-  RemoveRequest = () => {
+  //---------------رفض طلب--------------
+  RejectRequest = () => {
     const DID = firebase.auth().currentUser.uid;
-
     var key = this.state.Imagekey;
+    this.updateInputVal("p", "status");
     firebase
       .database()
       .ref("Forms/" + DID + "/" + key)
-      .remove();
-      this.updateInputVal(true,"rejected");
-    this.props.navigation.navigate("DisplayRequest");
+      .update({ status: this.state.status });
+      this.updateInputVal(true,"accepted");
+    this.props.navigation.navigate("DisplayRequest",{status:"r"});
   };
   //------------------------------------
 

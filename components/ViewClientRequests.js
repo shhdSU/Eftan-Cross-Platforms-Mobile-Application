@@ -52,30 +52,6 @@ export default class WRequiestDet extends React.Component {
     this.updateInputVal(Requiest.reference, "reference");
     this.updateInputVal(Requiest.title, "title");
 
-    //---------------صورة العميل--------------
-    firebase
-      .storage()
-      .ref("ProfilePictures/" + this.state.CID)
-      .getDownloadURL()
-      .then((url) => {
-        this.updateInputVal(url, "ClientProfileImage");
-      })
-      .catch((error) => {
-        console.log("can not retreive profile img url");
-      });
-
-    //---------------اسم العميل--------------
-    var Cname = "";
-    firebase
-      .database()
-      .ref("Client/" + this.state.CID)
-      .on("value", (dataSnapshot) => {
-        Cname =
-          dataSnapshot.child("CFirstName").val() +
-          " " +
-          dataSnapshot.child("CLastName").val();
-        this.updateInputVal(Cname, "name");
-      });
     //---------------clientToken-------------------
       firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
           if(dataSnapshot.exists()){
@@ -112,32 +88,6 @@ export default class WRequiestDet extends React.Component {
     this.setState(state);
   };
 
-  //---------------(تحديث حالة الطلب من (تحت الانتظار) الى (قيد العمل--------------
-  UpdateStatusAfterAccepted = () => {
-    const DID = firebase.auth().currentUser.uid;
-    var key = this.state.Imagekey;
-    this.updateInputVal("p", "status");
-    firebase
-      .database()
-      .ref("Forms/" + DID + "/" + key)
-      .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
-  };
-
-  //---------------حذف طلب--------------
-  RemoveRequest = () => {
-    const DID = firebase.auth().currentUser.uid;
-
-    var key = this.state.Imagekey;
-    firebase
-      .database()
-      .ref("Forms/" + DID + "/" + key)
-      .remove();
-      this.updateInputVal(true,"rejected");
-    this.props.navigation.navigate("DisplayRequest");
-  };
-  //------------------------------------
 
   render() {
     return (
@@ -404,6 +354,21 @@ export default class WRequiestDet extends React.Component {
             {this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+
+          {this.state.status == "d" && <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.registerUser()}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              
+            }}
+          >
+            انتقل للدفع
+          </Text>
+        </TouchableOpacity>}
         </View>
       </View>
     );
@@ -482,5 +447,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2.95,
 
     elevation: 24,
+  }, 
+  button: {
+    alignItems: "center",
+    backgroundColor: "#4F3C75",
+    borderRadius: 25,
+    width: ("80%"),
+    height: ("6%"),
+    alignSelf: "center",
+    justifyContent:"center",
   },
 });

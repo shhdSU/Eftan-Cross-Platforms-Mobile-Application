@@ -10,10 +10,8 @@ import {
   Text,
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert,
   Image,
 } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
@@ -69,7 +67,6 @@ break;
     this.updateInputVal(true,"watingList");
 this.updateInputVal(true,"watingtoggle");
   }
-  console.log("HHHHHHEEEEERRRREEEEEEEEEESSSSTTTTTTTTTTAAAARRRRRTTTT")
     //START RETURN ALL FORMS
     firebase
       .database()
@@ -95,11 +92,10 @@ this.updateInputVal(true,"watingtoggle");
           var filterdFormsKeys = Object.keys(filterdForms);
     ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
           for (var i = 0; i < filterdFormsKeys.length; i++) {
-            console.log("loop2   "+i+"  ")
               if (filterdForms[filterdFormsKeys[i]].status === "w") {
               waitingForms[waitingLoop] = filterdForms[filterdFormsKeys[i]];
               waitingLoop++;
-             } else if (filterdForms[filterdFormsKeys[i]].status === "p") {
+             } else if (filterdForms[filterdFormsKeys[i]].status === "p" || filterdForms[filterdFormsKeys[i]].status === "r" ) {
               inProgressForms[inProgressLoop] = filterdForms[filterdFormsKeys[i]];
               inProgressLoop++;
              } else {
@@ -185,7 +181,7 @@ if(Cforms[Keys[i]].CID === ID){
       return (
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("WRequiestDet", { obj: element })
+            this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
@@ -222,7 +218,7 @@ if(Cforms[Keys[i]].CID === ID){
       return (
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("PRequiestDet", { obj: element })
+            this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
@@ -246,8 +242,8 @@ if(Cforms[Keys[i]].CID === ID){
               left:"-10%"
             }}
             >
-            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>التسليم </Text>
-        <Text style={styles.deaslineStyle}>{element.deadLine == ""?"مفتوح":element.deadLine}</Text>
+            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>الحالة </Text>
+        <Text style={styles.deaslineStyle}>{element.status == "p"?"مقبول":"مرفوض"}</Text>
         </View>
           </View>
         </TouchableOpacity>
@@ -272,20 +268,33 @@ if(Cforms[Keys[i]].CID === ID){
       return (
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("DRequiestDet", { obj: element })
+            this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
           <View key={Math.random()}>
           <Image
-              style={styles.profileImage}
+              style={styles.currentprofileImage}
               source={{ uri: element.submissionUrl}}
             />
-             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
-            <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
-            <Text style={styles.orderText}>{ClientName}</Text>
-            {console.log("LOOP")}
+            <Text style={styles.currentorderText}>{ClientName}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
+            <Text style={styles.currentorderText}>{element.title}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+
+            <View 
+            style={{
+              height:50,
+              width:110,
+              marginTop:"5%",
+              borderRightWidth:2,
+              borderRightColor:"#4f3c75",
+              left:"-10%"
+            }}
+            >
+            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>الحالة </Text>
+        <Text style={styles.deaslineStyle}>{element.status == "f"?"مدفوع":"غير مدفوع"}</Text>
+        </View>
           </View>
         </TouchableOpacity>
       );

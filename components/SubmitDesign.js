@@ -33,6 +33,7 @@ export default class SubmitDesign extends React.Component {
       dname: "",
       doneMessage: "",
       clientToken: "",
+      price:""
     };
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.status, "status");
@@ -164,6 +165,7 @@ export default class SubmitDesign extends React.Component {
           submissionUrl: this.state.submissionUrl,
           submissionDate: currentDate,
           status: "d",
+          Price:this.state.price,
         })
         .then(
           this.updateInputVal("", "submissionUrl"),
@@ -262,7 +264,12 @@ export default class SubmitDesign extends React.Component {
           }}
         />
         {this.RenderUploading()}
-
+        <TextInput
+          style={styles.inputStyle}
+          placeholder="سعر التصميم"
+          value={this.state.price}
+          onChangeText={(val) => this.updateInputVal(val, "price")}
+        />
         <TouchableOpacity
 
           style={styles.button}
@@ -372,7 +379,18 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     bottom: "6%",
   },
-
+  inputStyle: {
+    fontSize: 18,
+    marginTop:"4%",
+    width: "100%",
+    marginBottom: "2%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+    borderColor: "#ccc",
+    borderBottomWidth: 3,
+    textAlign: "right",
+    top: "18%",
+  },
   preloader: {
     position: "relative",
     alignItems: "center",

@@ -95,17 +95,20 @@ export default class AddSubscription extends React.Component {
     if (error) {
       this.setState({ submitted: false, error: SERVER_ERROR });
     } else {
-      this.setState({ submitted: false, error: null });
+      this.setState({ submitted: false, error: null }),
       Alert.alert(
         "تنبيه",
         "تم حفظ بيانات بطاقتك الائتمانية بنجاح، سيتم نقلك إلى خطوة الدفع",
         [{ text: "حسنًا" }],
         { cancelable: false }
-      );
-      navigation.navigate('الفواتير',{reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
+      ),
+   
+      navigation.navigate('الفواتير',{cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
     }
   };
-  
+
+   
+   
   // render the subscription view component and pass the props to it
   render() {
     const { submitted, error } = this.state;
@@ -115,6 +118,9 @@ export default class AddSubscription extends React.Component {
           submitted={submitted}
           onSubmit={this.onSubmit}
         />
+
+
+        
     );
   }
 }

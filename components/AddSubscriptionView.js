@@ -13,17 +13,7 @@ export default class AddSubscriptionView extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} ref={ref => (this.scrollViewRef = ref)}>
-          <View style={styles.textWrapper}>
-            <Text style={styles.infoText}>
-             المبلغ المستحق للتصميم: 394 رس
-            </Text>
-          </View>
-          
-          <View style={styles.textWrapper}>
-            <Text style={styles.infoText}>
-            معلومات البطاقة
-            </Text>
-          </View>
+         
           <View style={styles.cardFormWrapper}>
             <PaymentFormView {...this.props}/>
           </View>

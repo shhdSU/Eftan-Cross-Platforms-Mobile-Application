@@ -3,7 +3,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
-import { FontAwesome } from '@expo/vector-icons';
+
 /**
  * Renders the payment form and handles the credit card data
  * using the CreditCardInput component.
@@ -19,9 +19,9 @@ export default class PaymentFormView extends React.Component {
       <View>
         <View>
           <CreditCardInput
-          labels={{ number: "رقم البطاقة", expiry: "تاريخ الانتهاء", cvc: "CVV" ,name:"اسم صاحب البطاقة"}}
+          labels={{ number: "رقم البطاقة", expiry: "تاريخ الانتهاء", cvc: "CVV" }}
           placeholders={{ number: "1234 5678 1234 5678", expiry: "سنة/شهر", cvc: "CVC" }}
-           requiresName
+           
            allowScroll
             onChange={(cardData) => this.setState({ cardData })} />
         </View>
@@ -29,22 +29,12 @@ export default class PaymentFormView extends React.Component {
 
           <Button
                    
-            title='الدفع'
+            title='تفعيل البطاقة'
 
             disabled={!this.state.cardData.valid || submitted}
             onPress={() => onSubmit(this.state.cardData)}
           />
-          {/* Show errors */}
-          {error && (
-            <View style={styles.alertWrapper}>
-              <View style={styles.alertIconWrapper}>
-                <FontAwesome name="exclamation-circle" size={20} style={{ color: '#c22' }} />
-              </View>
-              <View style={styles.alertTextWrapper}>
-                <Text style={styles.alertText}>{error}</Text>
-              </View>
-            </View>
-          )}
+         
         </View>
       </View>
     );

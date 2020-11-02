@@ -548,12 +548,12 @@ const styles = StyleSheet.create({
   },
 
   tabbtns: {
-    margin: "5%",
+    margin: "3%",
     borderBottomWidth: 2,
     borderBottomColor: "#ccc",
   },
   tabtext: {
-    fontSize: 25,
+    fontSize: 20,
     color: "#4f3c75",
     fontWeight: "600",
   },

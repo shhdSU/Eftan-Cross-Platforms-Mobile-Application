@@ -4,12 +4,17 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Alert,
+  Share,
+  CameraRoll,
 } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
+import * as Permissions from 'expo-permissions';
+import * as FileSystem from 'expo-file-system';
+import uuid from "react-native-uuid";
+
 export default class WRequiestDet extends React.Component {
   constructor(props) {
     super();
@@ -27,14 +32,15 @@ export default class WRequiestDet extends React.Component {
       status: "",
       reference: "",
       title: "",
-      ClientProfileImage: "",
-      name: "",
       clientToken: "",
       accepted:false,
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "",      
+      rejectedMessage: "", 
+      
+      
+      loading:false,
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -88,6 +94,28 @@ export default class WRequiestDet extends React.Component {
     this.setState(state);
   };
 
+  onShare = async () => {
+    try {
+      const downloadPath = FileSystem.cacheDirectory + this.state.Imagekey + '.jpg';
+      const localUrl = await FileSystem.downloadAsync(this.state.reference,downloadPath);
+      const result = await Share.share({
+        message:"لقد حصلت على هذا التصميم من تطبيق اِفتن",
+        url:
+        localUrl.uri,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   render() {
     return (
@@ -357,7 +385,7 @@ export default class WRequiestDet extends React.Component {
 
           {this.state.status == "d" && <TouchableOpacity
           style={styles.button}
-          onPress={() => this.registerUser()}
+          //onPress={() => this.registerUser()}
         >
           <Text
             style={{
@@ -369,6 +397,25 @@ export default class WRequiestDet extends React.Component {
             انتقل للدفع
           </Text>
         </TouchableOpacity>}
+
+
+        {this.state.status == "f" && <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.onShare()}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              
+            }}
+          >
+            مشاركة العمل
+          </Text>
+        </TouchableOpacity>
+        
+        }
+
         </View>
       </View>
     );

@@ -33,6 +33,7 @@ export default class WRequiestDet extends React.Component {
       ClientProfileImage: "",
       name: "",
       clientToken: "",
+      flag: false,
       accepted: false,
       rejected: false,
       dname: "",
@@ -137,7 +138,7 @@ export default class WRequiestDet extends React.Component {
       .add({
         RoomTitle: this.state.title,
       })
-      .then(() => {});
+      .then(() => { });
 
     // asking shahad about prametar that sent { status: "p" }
   };
@@ -254,10 +255,7 @@ export default class WRequiestDet extends React.Component {
                         text: "حسناً",
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
-                          console.log(
-                            "after RoomScreen call the pramter is " +
-                              this.state.CID
-                          );
+                          this.updateInputVal(true, "flag");
                           this.props.navigation.navigate("chat");
                         },
                       },
@@ -302,7 +300,7 @@ export default class WRequiestDet extends React.Component {
                 />
               </TouchableOpacity>
             </View>
-            {<RoomScreen msgID={this.state.Imagekey} />}
+            {this.state.flag && <RoomScreen ClinetID={this.state.CID} chatID={this.state.Imagekey} />}
           </View>
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}

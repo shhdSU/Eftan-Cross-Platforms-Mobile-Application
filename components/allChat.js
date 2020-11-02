@@ -14,7 +14,7 @@ export default function allChat({ navigation }) {
     const unsubscribe = firebase
       .firestore()
       .collection("AllChat")
-      // .orderBy('latestMessage.createdAt', 'desc')
+      //.orderBy('latestMessage.createdAt', 'desc')
       .onSnapshot((querySnapshot) => {
         const threads = querySnapshot.docs.map((documentSnapshot) => {
           return {

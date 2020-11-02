@@ -10,7 +10,8 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
-import 'firebase/firestore';
+import RoomScreen from "./chat";
+import "firebase/firestore";
 
 export default class WRequiestDet extends React.Component {
   constructor(props) {
@@ -76,13 +77,21 @@ export default class WRequiestDet extends React.Component {
         this.updateInputVal(Cname, "name");
       });
     //---------------clientToken-------------------
-    firebase.database().ref("Client/" + this.state.CID).child("notificationsKey").on("value", (dataSnapshot) => {
-      if (dataSnapshot.exists()) {
-        firebase.database().ref("Client/" + this.state.CID).child("notificationsKey").on("value", (dataSnapshot) => {
-          this.updateInputVal(dataSnapshot.val(), "clientToken");
-        })
-      }
-    })
+    firebase
+      .database()
+      .ref("Client/" + this.state.CID)
+      .child("notificationsKey")
+      .on("value", (dataSnapshot) => {
+        if (dataSnapshot.exists()) {
+          firebase
+            .database()
+            .ref("Client/" + this.state.CID)
+            .child("notificationsKey")
+            .on("value", (dataSnapshot) => {
+              this.updateInputVal(dataSnapshot.val(), "clientToken");
+            });
+        }
+      });
     var designerName;
     firebase
       .database()
@@ -95,13 +104,13 @@ export default class WRequiestDet extends React.Component {
         this.updateInputVal(designerName, "dname");
       });
     var acceptedmessage = "لقد تم قبول طلبك من قبل المصمم" + this.state.dname;
-    var rejectedmessage = "لم يتمكن المصمم " + this.state.dname + " من قبول طلبك";
+    var rejectedmessage =
+      "لم يتمكن المصمم " + this.state.dname + " من قبول طلبك";
     this.updateInputVal(acceptedmessage, "acceptedMessage");
     this.updateInputVal(rejectedmessage, "rejectedMessage");
 
     console.log(acceptedmessage);
     console.log(rejectedmessage);
-
   }
   //---------------تحديث قيم--------------
 
@@ -110,7 +119,6 @@ export default class WRequiestDet extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-
 
   //---------------(تحديث حالة الطلب من (تحت الانتظار) الى (قيد العمل--------------
   UpdateStatusAfterAccepted = () => {
@@ -125,13 +133,11 @@ export default class WRequiestDet extends React.Component {
 
     firebase
       .firestore()
-      .collection('AllChat')
+      .collection("AllChat")
       .add({
-        RoomTitle: this.state.title
+        RoomTitle: this.state.title,
       })
-      .then(() => {
-        this.props.navigation.navigate("chat", { obj: this.props.navigation.state.params.obj });
-      });
+      .then(() => {});
 
     // asking shahad about prametar that sent { status: "p" }
   };
@@ -168,8 +174,20 @@ export default class WRequiestDet extends React.Component {
           >
             {this.state.title}
           </Text>
-          {this.state.accepted && <Notify token={this.state.clientToken} myTitle="تهانينا" myMessage={this.state.acceptedMessage} />}
-          {this.state.rejected && <Notify token={this.state.clientToken} myTitle="يا للأسف" myMessage={this.state.rejectedMessage} />}
+          {this.state.accepted && (
+            <Notify
+              token={this.state.clientToken}
+              myTitle="تهانينا"
+              myMessage={this.state.acceptedMessage}
+            />
+          )}
+          {this.state.rejected && (
+            <Notify
+              token={this.state.clientToken}
+              myTitle="يا للأسف"
+              myMessage={this.state.rejectedMessage}
+            />
+          )}
 
           <Svg
             width={416}
@@ -225,7 +243,7 @@ export default class WRequiestDet extends React.Component {
               }}
             >
               <TouchableOpacity
-                // اذا ضغط المصمم زر قبول الطلب يصل للعميل اشعار >> تم قبول الطلب  
+                // اذا ضغط المصمم زر قبول الطلب يصل للعميل اشعار >> تم قبول الطلب
 
                 onPress={() =>
                   Alert.alert(
@@ -236,15 +254,17 @@ export default class WRequiestDet extends React.Component {
                         text: "حسناً",
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
-
-
+                          console.log(
+                            "after RoomScreen call the pramter is " +
+                              this.state.CID
+                          );
+                          this.props.navigation.navigate("chat");
                         },
                       },
                     ],
                     { cancelable: false }
                   )
                 }
-
               >
                 <Image
                   style={styles.accject}
@@ -265,7 +285,7 @@ export default class WRequiestDet extends React.Component {
                         },
                       },
                       {
-                        // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب  
+                        // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب
                         text: "تأكيد",
                         onPress: () => {
                           this.RemoveRequest();
@@ -282,6 +302,7 @@ export default class WRequiestDet extends React.Component {
                 />
               </TouchableOpacity>
             </View>
+            {<RoomScreen msgID={this.state.Imagekey} />}
           </View>
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
@@ -586,12 +607,3 @@ const styles = StyleSheet.create({
     elevation: 24,
   },
 });
-
-
-
-
-
-
-
-
-

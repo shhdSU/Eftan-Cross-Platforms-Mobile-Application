@@ -39,6 +39,7 @@ import designerPortfolio from "./components/designerPortfolio";
 import WRequiestDet from "./components/WRequiestDet";
 import PRequiestDet from "./components/PRequiestDet";
 import DRequiestDet from "./components/DRequiestDet";
+import ERequestDet from "./components/ERequestDet";
 import SubmitDesign from "./components/SubmitDesign";
 import DisplayRequest from "./components/DisplayRequest";
 
@@ -73,6 +74,7 @@ const recievedOrderScreens = createStackNavigator(
     PRequiestDet: PRequiestDet,
     SubmitDesign: SubmitDesign,
     DRequiestDet: DRequiestDet,
+    ERequestDet: ERequestDet,
   },
   {
     headerMode: "none",

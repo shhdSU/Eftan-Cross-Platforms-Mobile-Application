@@ -30,7 +30,7 @@ export default class GDDetails extends React.Component {
     this.updateInputVal(design.designUrl, "localpath")
     this.updateInputVal(design.designTags,"designTags")
     if(design.designTags){
-   if(design.designTags.length == 0){
+   if(design.designTags.length != 0){
      this.updateInputVal(true,"hasTags");
    }
   }
@@ -239,7 +239,6 @@ console.log("can not retreive design url");
           ]}
         >
           وصف العمل
-          {this.state.designTags}
         </Text>
         
         <Text
@@ -262,30 +261,45 @@ padding:"7%"
         >
           {this.state.designDescription}
         </Text>
-       
+        {/* {this.state.hasTags && <View style = {{textAlign:"right",                         fontWeight: "700",
+     color: "#4F3C75",
+   right: "-30%", top: "-6%",
+}}><Text>كلمات مفتاحية</Text></View>} */}
+
+        <View
+                  style={{
+                    top: "-7%",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems:"right",
+right: -100,
+                   // borderWidth:3,
+                   // borderRadius: 25,
+                  }}
+                >
         {this.state.hasTags && this.state.designTags.map((element)=>{
-           return (<Text
-           style={[
+           return (<View
+             style = {{borderRadius: 25,         
+                     marginHorizontal: 5,
+                   backgroundColor: "#D4D7FF",
+          }}><Text
+           style={
              {
-               color: "#4F3C75",
-               top: 300,
-               position:"absolute",
-               textAlign: "right",
+              color: "#4F3C75",
+               textAlign: "center",
                fontWeight: "700",
-               width: 87,
-               height: 20,
                fontSize: 15,
-               backgroundColor:"#CCCCCC",
-               borderColor:"#4F3C75",
-               borderRadius:25,
- padding:"7%"          
-   },
-           ]}
+               marginHorizontal: 10,
+                padding:"1%"          
+           }}
          >
            {element}
-         </Text>)
+         </Text></View>
+         );
         })
       }
+      </View>
         <SvgComponent
           style={{
             right: 120,

@@ -381,14 +381,10 @@ console.log(searchResults);
               borderBottomColor: "#DDDDDD",
             }}
           >
-             </View>
-          <Icon name="ios-search" size={20} style={{ marginRight: 10, left: 250, top: 55}} />
-
-          <TextInput style={{
+            <View
+              style={{
                 flexDirection: "row",
                 padding: 10,
-                position: "absolute",
-                top: 150,
                 backgroundColor: "white",
                 marginHorizontal: 20,
                 shadowOffset: { width: 0, height: 0 },
@@ -397,14 +393,19 @@ console.log(searchResults);
                 elevation: 1,
                 marginTop: Platform.OS == "android" ? 30 : null,
               }}
+            >
+                  <Icon name="ios-search" size={20} style={{ marginRight: 10}} />
+                
+
+<TextInput 
               maxLength={45}
+              style = {{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
           placeholderTextColor="grey"
-          style={styles.inputStyle}
           placeholder=" ادخل كلمات مفتاحية للبحث"
           onChangeText={(val) => this.searchTags(val)}
         />
-              
-        
+        </View>
+        </View>
           {this.state.searching && !this.state.found && //no results found
        (<View style={{marginTop:"50%"}}> 
        <EmptyList style={styles.emptyImage}></EmptyList>
@@ -623,7 +624,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     alignSelf: "center",
     borderColor: "#ccc",
-    borderBottomWidth: 3,
   },
   img: {
     width: width * 0.9,

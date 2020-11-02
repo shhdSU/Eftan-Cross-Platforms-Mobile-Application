@@ -2,15 +2,20 @@ import React, { Component } from "react";
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
   ScrollView,
   Image,
+  Platform,
+  StatusBar,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
+import EmptyList from "./emptylist";
+import Icon from 'react-native-vector-icons/Ionicons'
 var designGallery = new Array();
 var design = "";
 var designKeys = "";
@@ -49,6 +54,9 @@ export default class explore extends Component {
        d:0,
        f:0,
        p:0,
+       searchResults: [],
+       searching:false,
+       found:false,
     };
     logo = [];
     brand = [];
@@ -95,7 +103,7 @@ export default class explore extends Component {
         var desTitle = design[designInfo].designTitle;
         var desUploadingdate = design[designInfo].designUploadingdate;
         var desUrl = design[designInfo].designUrl;
-        
+        var desTags = design[designInfo].designTags;
         designGallery[i] = {
           duid: duid,
           category: categ,
@@ -103,6 +111,7 @@ export default class explore extends Component {
           designTitle: desTitle,
           designUploadingdate: desUploadingdate,
           designUrl: desUrl,
+          designTags:desTags
         };
         if (categ == "علامة تجارية") {
           brand[brand.length++] = {
@@ -112,6 +121,7 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
           };
           this.updateInputVal(this.state.b+1,"b")
         } else if (categ == "شعار") {
@@ -122,6 +132,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.l+1,"l")
 
@@ -133,6 +145,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.c+1,"c")
 
@@ -144,6 +158,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.g+1,"g")
 
@@ -155,6 +171,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.o+1,"o")
 
@@ -166,6 +184,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.f+1,"f")
 
@@ -177,6 +197,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
           this.updateInputVal(this.state.p+1,"p")
 
@@ -188,6 +210,8 @@ export default class explore extends Component {
             designTitle: desTitle,
             designUploadingdate: desUploadingdate,
             designUrl: desUrl,
+            designTags:desTags
+
           };
         }
       }
@@ -220,9 +244,9 @@ export default class explore extends Component {
     
     
   
-  readData = () => {
+  readData = (arr) => {
   
-    return this.state.designGalleryState.map((element) => {
+    return arr.map((element) => {
       return (
         <View
           style={{ width: width / 2 - 40, height: width / 2 - 20 }}
@@ -275,11 +299,38 @@ export default class explore extends Component {
 
     });
   };
-  
+  componentWillMount(){
+    this.startHeaderHeight = 80;
+    if(Platform.OS == 'android'){
+      this.startHeaderHeight = 100 + StatusBar.currentHeight
+    }
+  }
+  searchTags = (val) => {
+    if(val == ""){
+      this.updateInputVal(false,"searching");
+      return;
+    }
+    this.updateInputVal(false,"found");
+    this.updateInputVal(true,"searching");
+    var tags = val.split(", ");
+    console.log(tags);
+    var searchResults= new Array();
+designGallery.forEach(element => {
+  if(element.designTags){
+  if(element.designTags.some(r=> tags.includes(r))){
+    this.updateInputVal(true,"found");
+      searchResults.push(element);
+      console.log(element.designTags);
+  }
+}
+});    
+this.updateInputVal(searchResults,"searchResults");
+console.log(searchResults);
+  }
   render() {
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View  style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
           style={{
             fontSize: 25,
@@ -321,10 +372,92 @@ export default class explore extends Component {
             />
           </G>
         </Svg>
-       
+           
+        <View
+            style={{
+              height: this.startHeaderHeight,
+              backgroundColor: "white",
+              borderBottomWidth: 1,
+              borderBottomColor: "#DDDDDD",
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                padding: 10,
+                backgroundColor: "white",
+                marginHorizontal: 20,
+                shadowOffset: { width: 0, height: 0 },
+                shadowColor: "black",
+                shadowOpacity: 0.2,
+                elevation: 1,
+                marginTop: Platform.OS == "android" ? 30 : null,
+              }}
+            >
+                  <Icon name="ios-search" size={20} style={{ marginRight: 10}} />
+                
 
-          
-        <View style={{ flex: 1 }}>
+<TextInput 
+              maxLength={45}
+              style = {{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
+          placeholderTextColor="grey"
+          placeholder=" ادخل كلمات مفتاحية للبحث"
+          onChangeText={(val) => this.searchTags(val)}
+        />
+        </View>
+        </View>
+          {this.state.searching && !this.state.found && //no results found
+       (<View style={{marginTop:"50%"}}> 
+       <EmptyList style={styles.emptyImage}></EmptyList>
+        <Text style={styles.emptyText}>نأسف، لم يتم العثور على أي تصاميم بهذه الكلمات المفتاحية</Text>
+        </View>)
+  }
+   {this.state.searching && this.state.found && //search results found
+      (  <View style={{ flex: 1 }}>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: "#dddddd",
+              marginBottom: 25,
+            }}
+          ></View>
+
+          <ScrollView scrollEventThrottle={16}>
+            <View>
+
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                </ScrollView>
+
+              <View
+                style={{
+                  marginTop: 40,
+                }}
+              >
+                <View
+                  style={{
+                    marginTop: -60,
+                    paddingLeft: 30,
+                    paddingRight: 30,
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {this.readData(this.state.searchResults)}
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+        </View>
+       ) }
+
+
+
+          {!this.state.searching && !this.state.found && //default page (not searching anything)
+      (  <View style={{ flex: 1 }}>
           <View
             style={{
               borderBottomWidth: 1,
@@ -454,12 +587,13 @@ export default class explore extends Component {
                     flexWrap: "wrap",
                   }}
                 >
-                  {this.readData()}
+                  {this.readData(this.state.designGalleryState)}
                 </View>
               </View>
             </View>
           </ScrollView>
         </View>
+       ) }
       </View>
     );
   }
@@ -471,7 +605,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  emptyText:{
+    color: "#4f3c75",
+    fontSize: 30,
+    textAlign:"center",
+    fontWeight:"200"
+  },
+  emptyImage:{
+    alignSelf:"center",
+    justifyContent:"center",
+  },
+  
+  inputStyle: {
+    fontSize: 18,
+    marginTop: "4%",
+    padding:0,
+    marginBottom: "2%",
+    textAlign: "left",
+    alignSelf: "center",
+    borderColor: "#ccc",
+  },
   img: {
     width: width * 0.9,
     display: "flex",

@@ -17,7 +17,7 @@ var forms = []; // To retrive all forms here
 var waitingForms = [];
 var inProgressForms = [];
 var doneForms = [];
-
+var expiredForms = [];
 export default class DisplayRequest extends React.Component {
   constructor(props) {
     super();
@@ -25,13 +25,15 @@ export default class DisplayRequest extends React.Component {
       watingList: true,
       currentList: false,
       doneList: false,
+      expiredList: false,
       displayedWatingForms: [],
       displayedCurrentForms: [],
       displayedDoneForms: [],
+      displayedExpiredForms: [],
       watingtoggle: true,
       currenttoggle: false,
-      donetoggle: false,
-      
+      donetoggle: false, 
+      expiretoggle:false,
     }; //End of status
     
     var status = props.navigation.state.params;
@@ -50,7 +52,14 @@ this.updateInputVal(false,"watingtoggle");
   this.updateInputVal(true,"doneList");
   this.updateInputVal(true,"donetoggle");
   break;
-
+case "e":
+  this.updateInputVal(false,"watingList");
+  this.updateInputVal(false,"watingtoggle");
+    this.updateInputVal(false,"doneList");
+    this.updateInputVal(false,"donetoggle");
+    this.updateInputVal(true,"expiredList");
+    this.updateInputVal(true,"expiretoggle");
+    break;
 default: 
 this.updateInputVal(true,"watingList");
 this.updateInputVal(true,"watingtoggle");
@@ -77,7 +86,7 @@ this.updateInputVal(true,"watingtoggle");
       var waitingLoop = 0;
       var inProgressLoop = 0;
       var doneLoop = 0;
-
+      var expiredLoop = 0;
         
 ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
       for (var i = 0; i < formsKeys.length; i++) {
@@ -88,19 +97,74 @@ this.updateInputVal(true,"watingtoggle");
          } else if (forms[formsKeys[i]].status === "p") {
           inProgressForms[inProgressLoop] = forms[formsKeys[i]];
           inProgressLoop++;
-         } else {
+         } else if (forms[formsKeys[i]].status === "d") {
           doneForms[doneLoop] = forms[formsKeys[i]];
           doneLoop++;
         }
+        else if (forms[formsKeys[i]].status === "e"){
+          expiredForms[expiredLoop] = forms[formsKeys[i]];
+          expiredLoop++;
+        }
       } //End of for loop
-
       this.updateInputVal(waitingForms, "displayedWatingForms");
       this.updateInputVal(inProgressForms, "displayedCurrentForms");
       this.updateInputVal(doneForms, "displayedDoneForms");
+      this.updateInputVal(expiredForms,"displayedExpiredForms");
     }
+
+  //move above later
+    //expired 
+    this.state.displayedWatingForms.forEach((element, index)=> {
+      var currentDate = new Date();
+      var form = element.deadLine.split('-');
+      var formDate = new Date(form[0], form[1]-1,form[2]);
+      if(currentDate > formDate){
+        console.log("bigger");
+        this.state.displayedWatingForms.splice(index);
+        //change status to e
+        this.updateStatusToExpired(element);
+        this.state.displayedExpiredForms.push(element);
+      }
+    })
+    this.state.displayedCurrentForms.forEach((element, index)=> {
+      var currentDate = new Date();
+      var formDate = new Date(element.deadLine);
+      console.log("current" + currentDate);
+      console.log(formDate);
+      if(currentDate > formDate){
+        console.log("current" + currentDate);
+        console.log(formDate);
+        this.state.displayedCurrentForms.splice(index);
+        this.updateStatusToExpired(element);
+        this.state.displayedExpiredForms.push(element);
+
+      }
+    })
+    this.state.displayedDoneForms.forEach((element, index)=> {
+      var currentDate = new Date();
+      var formDate = new Date(element.deadLine);
+      if(currentDate > formDate){
+        this.state.displayedDoneForms.splice(index);
+        this.updateStatusToExpired(element);
+        this.state.displayedExpiredForms.push(element);
+
+      }
+    })
+   
   } //End of constructor
 
-
+  UpdateStatusAfterAccepted = () => {
+    const DID = firebase.auth().currentUser.uid;
+    var key = this.state.Imagekey;
+    this.updateInputVal("p", "status");
+    firebase
+      .database()
+      .ref("Forms/" + DID + "/" + key)
+      .update({ status: this.state.status });
+      this.updateInputVal(true,"accepted");
+    this.props.navigation.navigate("DisplayRequest",{status:"p"});
+  };
+  
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -113,23 +177,37 @@ this.updateInputVal(true,"watingtoggle");
     this.updateInputVal(false, "watingList");
     this.updateInputVal(false, "currentList");
     this.updateInputVal(false, "doneList");
+    this.updateInputVal(false,"expiredList");
     this.updateInputVal(true, val);
     switch (val) {
       case "watingList":
         this.updateInputVal(true, "watingtoggle");
         this.updateInputVal(false, "currenttoggle");
         this.updateInputVal(false, "donetoggle");
+        this.updateInputVal(false,"expiretoggle");
         break;
       case "currentList":
         this.updateInputVal(true, "currenttoggle");
         this.updateInputVal(false, "watingtoggle");
         this.updateInputVal(false, "donetoggle");
+        this.updateInputVal(false,"expiretoggle");
+
         break;
       case "doneList":
 
         this.updateInputVal(true, "donetoggle");
         this.updateInputVal(false, "watingtoggle");
         this.updateInputVal(false, "currenttoggle");
+        this.updateInputVal(false,"expiretoggle");
+
+        break;
+        case "expiredList":
+
+        this.updateInputVal(false, "donetoggle");
+        this.updateInputVal(false, "watingtoggle");
+        this.updateInputVal(false, "currenttoggle");
+        this.updateInputVal(true,"expiretoggle");
+
         break;
     }
   };
@@ -177,6 +255,15 @@ var doneForms = [];
       );
     });
   }
+
+  updateStatusToExpired = (element) => {
+    const DID = firebase.auth().currentUser.uid;
+    var key = element.Imagekey;
+    firebase
+      .database()
+      .ref("Forms/" + DID + "/" + key)
+      .update({ status: "e" });
+  };
 
   //DISPLAY CURRENT LIST
   readCurrentList() {
@@ -265,10 +352,47 @@ var doneForms = [];
     });
   }
 
+  //DISPLAY EXPIRED LIST
+  readExpiredList() {
+    return this.state.displayedExpiredForms.map((element) => {
+      var CID = element.CID;
+      var ClientName = "";
+      firebase
+        .database()
+        .ref("Client/" + CID)
+        .on("value", (dataSnapshot) => {
+          ClientName =
+            dataSnapshot.child("CFirstName").val() +
+            " " +
+            dataSnapshot.child("CLastName").val();
+        });
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate("ERequestDet", { obj: element })
+          }
+          style={styles.listStyle}
+        >
+          <View key={Math.random()}>
+          <Image
+              style={styles.profileImage}
+              source={{ uri: element.submissionUrl}}
+            />
+             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+            <Text style={styles.orderText}>{element.title}</Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={styles.orderText}>{ClientName}</Text>
+            {console.log("LOOP")}
+          </View>
+        </TouchableOpacity>
+      );
+    });
+  }
   render() {
     const Wbottombordercolor = this.state.watingtoggle ? "#4f3c75" : "#ccc";
     const Cbottombordercolor = this.state.currenttoggle ? "#4f3c75" : "#ccc";
     const Dbottombordercolor = this.state.donetoggle ? "#4f3c75" : "#ccc";
+    const Ebottombordercolor = this.state.expiretoggle ? "#4f3c75" : "#ccc";
 
     return (
       <View style={styles.container}>
@@ -314,6 +438,12 @@ var doneForms = [];
         </Svg>
 
         <View style={styles.tabView}>
+        <TouchableOpacity
+            style={[styles.tabbtns, { borderBottomColor: Ebottombordercolor }]}
+            onPress={() => this.btnPress("expiredList")}
+          >
+            <Text style={styles.tabtext}>المنتهية</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tabbtns, { borderBottomColor: Dbottombordercolor }]}
             onPress={() => this.btnPress("doneList")}
@@ -382,6 +512,23 @@ var doneForms = [];
          <Text style={styles.emptyText}>نأسف لا يوجد لديك طلبات منجزة</Text>
          </View>
         )}
+
+          {this.state.expiredList && this.state.displayedExpiredForms != 0 &&(
+          <ScrollView
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+          >
+            {this.readExpiredList()}
+          </ScrollView>
+        )}
+
+{this.state.expiredList && this.state.displayedExpiredForms == 0 &&(
+         <View style={{marginTop:"50%"}}> 
+          <EmptyList style={styles.emptyImage}></EmptyList>
+         <Text style={styles.emptyText}> لا يوجد لديك طلبات منتهية</Text>
+         </View>
+        )}
+        
       </View>
     ); // End of render return
   } //End of render

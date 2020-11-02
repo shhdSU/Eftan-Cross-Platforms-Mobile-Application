@@ -19,6 +19,8 @@ export default class GDDetails extends React.Component {
       date: "",
       designDescription: "",
       localpath: "",
+      designTags:[],
+      hasTags:false,
       name: "",
     };
     this.updateInputVal(design.duid, "Duid")
@@ -26,9 +28,12 @@ export default class GDDetails extends React.Component {
     this.updateInputVal(design.designUploadingdate, "date")
     this.updateInputVal(design.designDescription, "designDescription")
     this.updateInputVal(design.designUrl, "localpath")
-
-   
-
+    this.updateInputVal(design.designTags,"designTags")
+    if(design.designTags){
+   if(design.designTags.length != 0){
+     this.updateInputVal(true,"hasTags");
+   }
+  }
     //--------------------retreive the JSON obj of the design work from realtime DB
     // firebase
     //   .database()
@@ -50,7 +55,6 @@ export default class GDDetails extends React.Component {
         this.updateInputVal(url, "designerProfileImage");
       })
       .catch((error) => {
-
         console.log("can not retreive profile img url");
       });
     /*
@@ -105,6 +109,7 @@ console.log("can not retreive design url");
     console.log(this.state.designerProfileImage);
     console.log(this.state.name);
     console.log(this.state.designDescription);
+    console.log(this.state.designTags);
 
 
     return (
@@ -235,6 +240,7 @@ console.log("can not retreive design url");
         >
           وصف العمل
         </Text>
+        
         <Text
           style={[
             {
@@ -255,6 +261,45 @@ padding:"7%"
         >
           {this.state.designDescription}
         </Text>
+        {/* {this.state.hasTags && <View style = {{textAlign:"right",                         fontWeight: "700",
+     color: "#4F3C75",
+   right: "-30%", top: "-6%",
+}}><Text>كلمات مفتاحية</Text></View>} */}
+
+        <View
+                  style={{
+                    top: "-7%",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems:"right",
+right: -100,
+                   // borderWidth:3,
+                   // borderRadius: 25,
+                  }}
+                >
+        {this.state.hasTags && this.state.designTags.map((element)=>{
+           return (<View
+             style = {{borderRadius: 25,         
+                     marginHorizontal: 5,
+                   backgroundColor: "#D4D7FF",
+          }}><Text
+           style={
+             {
+              color: "#4F3C75",
+               textAlign: "center",
+               fontWeight: "700",
+               fontSize: 15,
+               marginHorizontal: 10,
+                padding:"1%"          
+           }}
+         >
+           {element}
+         </Text></View>
+         );
+        })
+      }
+      </View>
         <SvgComponent
           style={{
             right: 120,
@@ -316,6 +361,7 @@ const styles = StyleSheet.create({
     borderWidth:2,
     backgroundColor:"#fff"
   },
+  
   infoCont:{
 backgroundColor:"#4F3C75",
 width:"87%",

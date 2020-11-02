@@ -1,8 +1,11 @@
 //For payment
 import React from 'react';
 import AddSubscriptionView from './AddSubscriptionView';
-const STRIPE_ERROR = 'Payment service error. Try again later.';
-const SERVER_ERROR = 'Server error. Try again later.';
+import {  Alert } from "react-native";
+
+
+const STRIPE_ERROR = 'حدث خطأ في خدمة الدفع لدينا، يرجى المحاولة مجددًا';
+const SERVER_ERROR = 'هناك مشكلة في خادم الدفع، يرجى المحاولة مجددًا';
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_51HiMF9G34qBjP7xldEHn8YE1AHhdKfrGBrAO9Y6CUhdkg46TFU6ctgoIkzhkyUMq0NUthM9LPjHCMXUbDhKJllPk00JRFM30PX';
 /**
  * The method sends HTTP requests to the Stripe API.
@@ -46,7 +49,7 @@ const getCreditCardToken = (creditCardData) => {
  */
 const subscribeUser = (creditCardToken) => {
   return new Promise((resolve) => {
-    console.log('Credit card token\n', creditCardToken);
+    
     setTimeout(() => {
       resolve({ status: true });
     }, 1000)
@@ -57,9 +60,7 @@ const subscribeUser = (creditCardToken) => {
  * handles the response from Stripe.
  */
 export default class AddSubscription extends React.Component {
-  static navigationOptions = {
-    title: 'Subscription page',
-  };
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -95,7 +96,13 @@ export default class AddSubscription extends React.Component {
       this.setState({ submitted: false, error: SERVER_ERROR });
     } else {
       this.setState({ submitted: false, error: null });
-      navigation.navigate('Home')
+      Alert.alert(
+        "تنبيه",
+        "تم حفظ بيانات بطاقتك الائتمانية بنجاح، سيتم نقلك إلى خطوة الدفع",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+      navigation.navigate('الفواتير',{reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
     }
   };
   

@@ -1,3 +1,10 @@
+/*
+هذي الصفحة خاصة باستعراض طلبات المصمم 
+ينقص هذي الصفحة للآن 
+الرفرش
+تمييز الطلبات المنتهية واستعراضها مع امكانية رؤية الطلب 
+*/
+
 import firebase from "../database/firebase";
 import React, { Component } from "react";
 import {

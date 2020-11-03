@@ -102,7 +102,8 @@ export default class AddSubscription extends React.Component {
         [{ text: "حسنًا" }],
         { cancelable: false }
       ),
-   
+   //Image key = reqKey
+   //DID = DID
       navigation.navigate('الفواتير',{cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
     }
   };

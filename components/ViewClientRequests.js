@@ -15,7 +15,7 @@ import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import uuid from "react-native-uuid";
 
-export default class WRequiestDet extends React.Component {
+export default class ViewClientRequests extends React.Component {
   constructor(props) {
     super();
     var Requiest = props.navigation.state.params.obj;
@@ -385,7 +385,7 @@ export default class WRequiestDet extends React.Component {
 
           {this.state.status == "d" && <TouchableOpacity
           style={styles.button}
-          //onPress={() => this.registerUser()}
+          onPress={() => this.props.navigation.navigate("Payment")}
         >
           <Text
             style={{

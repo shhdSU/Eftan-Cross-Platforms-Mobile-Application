@@ -19,6 +19,7 @@ export default class WRequiestDet extends React.Component {
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
+      Requiestt: Requiest,
       Imagekey: "",
       CID: "",
       category: "",
@@ -256,7 +257,7 @@ export default class WRequiestDet extends React.Component {
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
                           this.updateInputVal(true, "flag");
-                          this.props.navigation.navigate("chat");
+                          this.props.navigation.navigate("chat", { obj: this.state.Requiestt });
                         },
                       },
                     ],
@@ -300,7 +301,7 @@ export default class WRequiestDet extends React.Component {
                 />
               </TouchableOpacity>
             </View>
-            {this.state.flag && <RoomScreen ClinetID={this.state.CID} chatID={this.state.Imagekey} />}
+            {/* {this.state.flag && <RoomScreen ClinetID={this.state.CID} chatID={this.state.Imagekey} />} */}
           </View>
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}

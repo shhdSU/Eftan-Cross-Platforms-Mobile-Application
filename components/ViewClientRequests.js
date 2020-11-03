@@ -21,6 +21,7 @@ export default class ViewClientRequests extends React.Component {
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
+      object:"",
       Imagekey: "",
       CID: "",
       category: "",
@@ -43,6 +44,7 @@ export default class ViewClientRequests extends React.Component {
       loading:false,
     };
 
+    this.updateInputVal(Requiest, "object");
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.category, "category");
     this.updateInputVal(Requiest.CID, "CID");
@@ -385,7 +387,7 @@ export default class ViewClientRequests extends React.Component {
 
           {this.state.status == "d" && <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate("Payment")}
+          onPress={() => this.props.navigation.navigate("Payment",{obj: this.state.object})}
         >
           <Text
             style={{

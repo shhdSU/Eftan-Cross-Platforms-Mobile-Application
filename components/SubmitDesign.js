@@ -142,16 +142,30 @@ export default class SubmitDesign extends React.Component {
   uploadDesign() {
     //upload info to realtime DB
 
-    if (this.state.localpath === "") {
-      Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
+    if (this.state.localpath === "" || this.state.price === "") {
+      Alert.alert("تنبيه", "الرجاء ادخال جميع البيانات المطلوبة", [{ text: "حسنًا" }], {
         cancelable: false,
       });
 
       return;
     }
-    this.UpdateStatusAfterAccepted();
 
-    var date = new Date().getDate(); //Current Date
+    Alert.alert(
+      "تأكيد رفع العمل",
+      "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+      [
+        {
+          text: "إلغاء",
+          onPress: () => {
+            this.props.navigation.navigate("SubmitDesign");
+          },
+        },
+
+        {
+          text: "تأكيد",
+          onPress: () => {
+            this.UpdateStatusAfterAccepted();
+            var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
     var currentDate = year + "-" + month + "-" + date;
@@ -173,7 +187,9 @@ export default class SubmitDesign extends React.Component {
           Alert.alert("تنبيه", "تم تسليم الطلب بنجاح", [{ text: "حسنًا" }], {
             cancelable: false,
           }),
-          this.updateInputVal("", "localpath")
+          this.updateInputVal("", "localpath"),
+          this.updateInputVal("", "price"),
+          this.props.navigation.navigate("DisplayRequest",{status:"d"})//المفروض ينقله للطلبات مره ثانية بس ما ضبطت
         )
         .catch((error) => {
           Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {
@@ -181,6 +197,16 @@ export default class SubmitDesign extends React.Component {
           });
         });
 
+          },
+        },
+      ],
+      { cancelable: false }
+    )
+  
+
+    
+
+    
   }
 
   render() {
@@ -200,7 +226,17 @@ export default class SubmitDesign extends React.Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-3%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-3%", position: "relative",
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+          
+          elevation: 9,
+           }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -240,13 +276,31 @@ export default class SubmitDesign extends React.Component {
         </Text>
 
         <SvgComponent
-          style={{ alignSelf: "center", top: "-5.5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-7%", position: "relative" }}
         ></SvgComponent>
-
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-5%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-8%", fontWeight: "700" },
+          ]}
+        >
+          سعر التصميم *{" "}
+        </Text>
+<TextInput
+          style={styles.inputStyle}
+          placeholder="  بالريال السعودي  "
+          value={this.state.price}
+          onChangeText={(val) => 
+            this.setState({
+              price: val.replace(/[^0-9]/g, '')
+          })
+          }
+            
+        />
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-2%", fontWeight: "700" },
           ]}
         >
           اختيار ملف التصميم *{" "}
@@ -265,42 +319,18 @@ export default class SubmitDesign extends React.Component {
           }}
         />
         {this.RenderUploading()}
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="سعر التصميم"
-          value={this.state.price}
-          onChangeText={(val) => this.updateInputVal(val, "price")}
-        />
+        
         <TouchableOpacity
 
           style={styles.button}
           onPress={() =>
-            Alert.alert(
-              "تأكيد رفع العمل",
-              "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
-              [
-                {
-                  text: "إلغاء",
-                  onPress: () => {
-                    this.props.navigation.navigate("SubmitDesign");
-                  },
-                },
-
-                {
-                  text: "تأكيد",
-                  onPress: () => {
-                    this.uploadDesign();
-                  },
-                },
-              ],
-              { cancelable: false }
-            )
-          }
+           this.uploadDesign()}
         >
           <Text
             style={{
               color: "#FFEED6",
-              fontSize: 20,
+              fontSize: 25,
+              fontWeight:"500"
             }}
           >
             تسليم الطلب
@@ -347,14 +377,14 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     right: "-12%",
-    top: "-10.5%",
+    top: "-8%",
   },
   preview: {
     width: 300,
     height: 250,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "-10%",
+    top: "-5%",
     borderRadius: 35,
     alignSelf: "center",
   },
@@ -378,19 +408,21 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "6%",
     alignSelf: "center",
-    bottom: "6%",
+    bottom: "2%",
   },
   inputStyle: {
+    position:"absolute",
     fontSize: 18,
-    marginTop:"4%",
-    width: "100%",
-    marginBottom: "2%",
-    paddingBottom: "2%",
+    width: "80%",
+    height:"6%",
+    // marginBottom: "2%",
+    // paddingBottom: "2%",
+    top:"45%",
     alignSelf: "center",
     borderColor: "#ccc",
-    borderBottomWidth: 3,
+    borderWidth: 2,
+    borderRadius:25,
     textAlign: "right",
-    top: "18%",
   },
   preloader: {
     position: "relative",

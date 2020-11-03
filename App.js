@@ -42,6 +42,11 @@ import DRequiestDet from "./components/DRequiestDet";
 import ERequestDet from "./components/ERequestDet";
 import SubmitDesign from "./components/SubmitDesign";
 import DisplayRequest from "./components/DisplayRequest";
+import OrderHistory from "./components/OrderHistory";
+import ViewClientRequests from "./components/ViewClientRequests";
+import Payment from "./components/AddSubscription";
+import Invoice from "./components/Invoice";
+
 console.disableYellowBox = true;
 //-------------------------------------------------------
 // 1- login stack >> اساسية
@@ -61,6 +66,7 @@ const Explorescreen = createStackNavigator(
   {
     معرض: { screen: Explore },
     الإختيار: { screen: choice },
+    
   },
   {
     headerMode: "none",
@@ -338,13 +344,28 @@ class CustomDrawerComponent extends React.Component {
 
         }
         }
+//HERE
+        // const OrderHistoryScreens = createStackNavigator(
+        //   {
+        //     OrderHistory:OrderHistory,
+        //     ViewClientRequests: ViewClientRequests,
+        //     Payment:Payment,
+        //     Invoice:Invoice,
+            
+        //   },
+        //   {
+        //     headerMode: "none",
+        //   }
+        // );
 //-------------------------------------------------------
 //Client drawer navigation
 const ClientDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": ClientGalleryNavigation,
     "عرض حساب العميل": ClientProfileNavigation,
+    // "طلباتي": OrderHistoryScreens,
     //"محادثات": { screen: ChatPassword },
+   
   },
   {
     defaultNavigationOptions: {
@@ -368,6 +389,7 @@ const ClientDrawer = createDrawerNavigator(
     drawerToggleRoute: "DrawerToggle",
   }
 );
+
 //-------------------------------------------------------
 //Designer drawer navigation
 const DesignerDrawer = createDrawerNavigator(

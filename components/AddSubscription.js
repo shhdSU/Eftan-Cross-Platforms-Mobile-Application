@@ -65,7 +65,7 @@ const subscribeUser = (creditCardToken) => {
 export default class AddSubscription extends React.Component {
   
   constructor(props) {
-   // var Requiest = props.navigation.state.params.obj;
+    var Requiest = props.navigation.state.params.obj;
     
     super(props);
     this.state = {
@@ -120,7 +120,7 @@ export default class AddSubscription extends React.Component {
       ),
    //reqKey: this.state.Imagekey
    //DID: this.state.DID
-      navigation.navigate('الفواتير',{cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
+      navigation.navigate('Invoice',{cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
     }
   };
 

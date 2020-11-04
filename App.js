@@ -66,7 +66,6 @@ const Explorescreen = createStackNavigator(
   {
     معرض: { screen: Explore },
     الإختيار: { screen: choice },
-    
   },
   {
     headerMode: "none",
@@ -81,6 +80,18 @@ const recievedOrderScreens = createStackNavigator(
     SubmitDesign: SubmitDesign,
     DRequiestDet: DRequiestDet,
     ERequestDet: ERequestDet,
+  },
+  {
+    headerMode: "none",
+  }
+);
+const OrderHistoryScreens = createStackNavigator(
+  {
+    OrderHistory:OrderHistory,
+    ViewClientRequests: ViewClientRequests,
+    Payment:Payment,
+    Invoice:Invoice,
+    
   },
   {
     headerMode: "none",
@@ -341,25 +352,13 @@ class CustomDrawerComponent extends React.Component {
         }
         }
 //HERE
-        // const OrderHistoryScreens = createStackNavigator(
-        //   {
-        //     OrderHistory:OrderHistory,
-        //     ViewClientRequests: ViewClientRequests,
-        //     Payment:Payment,
-        //     Invoice:Invoice,
-            
-        //   },
-        //   {
-        //     headerMode: "none",
-        //   }
-        // );
 //-------------------------------------------------------
 //Client drawer navigation
 const ClientDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": ClientGalleryNavigation,
     "عرض حساب العميل": ClientProfileNavigation,
-    // "طلباتي": OrderHistoryScreens,
+     "طلباتي": OrderHistoryScreens,
     //"محادثات": { screen: ChatPassword },
    
   },

@@ -352,6 +352,15 @@ console.log(searchResults);
             alignSelf: "center",
             top: "-2%",
             zIndex: 1,
+            shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+          
+          elevation: 9,
           }}
         >
           <Defs></Defs>
@@ -386,20 +395,22 @@ console.log(searchResults);
                 flexDirection: "row",
                 padding: 10,
                 backgroundColor: "white",
-                marginHorizontal: 20,
+                marginHorizontal: 10,
                 shadowOffset: { width: 0, height: 0 },
                 shadowColor: "black",
                 shadowOpacity: 0.2,
                 elevation: 1,
-                marginTop: Platform.OS == "android" ? 30 : null,
+                marginTop:"35%",
+                height:"70%",
+                borderRadius:30,
               }}
             >
-                  <Icon name="ios-search" size={20} style={{ marginRight: 10}} />
+                  <Icon name="ios-search" size={20} style={{ marginRight: "10%",marginTop:"2.35%",color:"#4f3c75"}} />
                 
 
 <TextInput 
               maxLength={45}
-              style = {{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
+              style = {{ flex: 1, fontWeight: "700", backgroundColor: "white",zIndex:10,textAlign:"right" }}
           placeholderTextColor="grey"
           placeholder=" ادخل كلمات مفتاحية للبحث"
           onChangeText={(val) => this.searchTags(val)}

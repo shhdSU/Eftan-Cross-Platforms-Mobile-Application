@@ -65,17 +65,18 @@ const subscribeUser = (creditCardToken) => {
 export default class AddSubscription extends React.Component {
   
   constructor(props) {
-    var Requiest = props.navigation.state.params.obj;
+    var Request = props.navigation.state.params.obj;
     
     super(props);
     this.state = {
-      Imagekey:"",
-      DID:"",
+      Imagekey:Request.Imagekey,
+      DID:Request.DID,
+      reqTitle:Request.title,
       submitted: false,
       error: null
     }
-    // this.updateInputVal(Requiest.Imagekey, "Imagekey");
-    // this.updateInputVal(Requiest.DID, "DID");
+    //  this.updateInputVal(Request.Imagekey, "Imagekey");
+    //  this.updateInputVal(Request.DID, "DID");
   }
    //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
    updateInputVal = (val, prop) => {
@@ -120,7 +121,7 @@ export default class AddSubscription extends React.Component {
       ),
    //reqKey: this.state.Imagekey
    //DID: this.state.DID
-      navigation.navigate('Invoice',{cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey:"-MKS9vk5EMIiahJlpy6i", DID:"2Uf1Wj14icbxngiiJbjklDDwiZb2"})   //@shhdSU
+      navigation.navigate('Invoice',{reqTitle: this.state.reqTitle,creditCardToken:creditCardToken.id,cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey: this.state.Imagekey, DID:this.state.DID})   //@shhdSU
     }
   };
 

@@ -3,15 +3,19 @@ import React from 'react';
 import { TouchableOpacity,StyleSheet, Text, View, Button, Alert } from 'react-native';
 import Svg, {  Path, G} from "react-native-svg";
 import firebase from "../database/firebase";
-
+var designerName="";
 var price=0
+
 export default class Invoice extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
+      reqTitle:props.navigation.state.params.reqTitle,
         cardNumber: props.navigation.state.params.cardNumber,
         requestKey:props.navigation.state.params.reqKey,
         DID : props.navigation.state.params.DID,
+        submitted:false,
+        creditCardToken:props.navigation.state.params.creditCardToken,
     };
    
     firebase
@@ -20,13 +24,30 @@ export default class Invoice extends React.Component {
       .on("value", (snapshot) => {
             price = snapshot.child(this.state.requestKey).child("Price").val()
       }); 
-
+     
+      firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.DID)
+      .on("value", (dataSnapshot) => {
+        designerName =
+          dataSnapshot.child("DFirstName").val() +
+          " " +
+          dataSnapshot.child("DLastName").val();
+       
+      });
   }
+   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
+   updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  }; //////END of udate state values function
+
   onSubmit(){
 
     
     const paymentData = {
-      amount: "1000",
+      amount: price,
       currency: "SAR",
      // metadata: {creditCardToken: creditCardToken.id}
     
@@ -46,14 +67,16 @@ export default class Invoice extends React.Component {
       },
        body: Object.keys(paymentData)
       .map(key => key + '=' + paymentData[key])
-      .join('&'),
+      .join('&')+"&metadata="+"creditCardToken="+this.state.creditCardToken  ,
     }).then(response =>
       
       Alert.alert(
         "تنبيه",
         "تمت عملية الدفع بنجاح، شكرًا لاختياركم اِفتن",
         [{ text: "حسنًا" }],
-        { cancelable: false } ))
+        { cancelable: false } ),
+        this.updateInputVal(true ,"submitted"))
+        
       
   }
   render() {
@@ -88,7 +111,15 @@ export default class Invoice extends React.Component {
           </Svg>
           <Text style={styles.forText}> الفاتورة</Text> 
 
-          <View>    
+          <View>  
+          <View style={styles.border}>
+<Text>
+ عنوان الطلب
+</Text>
+<Text>
+ {this.state.reqTitle}  
+</Text>
+          </View>  
           <View style={styles.border}>
 <Text>
   المبلغ المستحق للتصميم
@@ -107,6 +138,25 @@ export default class Invoice extends React.Component {
  {this.state.cardNumber}
 </Text>
           </View>
+        
+          <View style={styles.border}>
+<Text>
+ إلى المصمم
+</Text>
+<Text>
+ { designerName}
+</Text>
+          </View>
+
+
+          {this.state.submitted  &&  <View style={styles.done}>
+<Text>
+  تمت العميلة بنجاح !
+</Text>
+          </View>}
+
+
+
       </View>
       <TouchableOpacity
       onPress={() => this.onSubmit()}>
@@ -116,6 +166,21 @@ export default class Invoice extends React.Component {
         </Text>
       </TouchableOpacity>
       
+
+
+
+      {this.state.submitted  &&
+          <TouchableOpacity 
+          style={styles.returnbutton}
+            onPress={() => this.props.navigation.navigate("OrderHistory")}
+          >
+            <Text  style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              fontWeight:"500"
+            }}>العودة</Text>
+          </TouchableOpacity>
+        }
       </View>     
     );
   }
@@ -132,7 +197,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     top: "5%",
     padding: "1%",
-  }, 
+  }, returnbutton: {
+    alignItems: "center",
+    backgroundColor: "#4F3C75",
+    padding: "1%",
+    justifyContent: "center",
+    borderRadius: 25,
+    width: "80%",
+    height: "6%",
+    alignSelf: "center",
+    bottom: "2%",
+  },
   forText: {
     position: "absolute",
     top: "0%",
@@ -144,7 +219,7 @@ const styles = StyleSheet.create({
   },
   border:{
     marginTop: "5%",
-  backgroundColor: "#EFEEFF",
+  backgroundColor: "#ffffff",
   fontSize: 24,
   borderRadius: 25,
   borderColor: "#4f3c75",
@@ -164,5 +239,28 @@ const styles = StyleSheet.create({
   shadowRadius: 2.95,
 
   elevation: 24,
+},
+done:{
+  marginTop: "5%",
+backgroundColor: "#d7f0d7",
+fontSize: 24,
+borderRadius: 25,
+borderColor: "#04BF9D",
+borderWidth: 2,
+
+width: 350,
+height: 70,
+alignItems: "center",
+alignSelf: "center",
+justifyContent: "center",
+shadowColor: "#000",
+shadowOffset: {
+  width: 0,
+  height: 0,
+},
+shadowOpacity: 0.4,
+shadowRadius: 2.95,
+
+elevation: 24,
 },
 });

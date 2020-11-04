@@ -165,11 +165,7 @@ export default class App extends Component {
 }
 
 //-------------------------------------------------------
-// retreive image
 
-function getURL() {
-  
-};
 //-------------------------------------------------------
 // retreive name
 function name() {

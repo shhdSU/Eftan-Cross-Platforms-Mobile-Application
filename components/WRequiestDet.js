@@ -11,6 +11,7 @@ import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
 import RoomScreen from "./chat";
+
 import "firebase/firestore";
 
 export default class WRequiestDet extends React.Component {
@@ -133,13 +134,9 @@ export default class WRequiestDet extends React.Component {
       .update({ status: this.state.status });
     this.updateInputVal(true, "accepted");
 
-    firebase
-      .firestore()
-      .collection("AllChat")
-      .add({
-        RoomTitle: this.state.title,
-      })
-      .then(() => { });
+    firebase.firestore().collection("AllChat").add({
+      RoomTitle: this.state.title,
+    });
 
     // asking shahad about prametar that sent { status: "p" }
   };
@@ -257,7 +254,9 @@ export default class WRequiestDet extends React.Component {
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
                           this.updateInputVal(true, "flag");
-                          this.props.navigation.navigate("chat", { obj: this.state.Requiestt });
+                          this.props.navigation.navigate("allChat", {
+                            obj: this.state.Requiestt,
+                          });
                         },
                       },
                     ],

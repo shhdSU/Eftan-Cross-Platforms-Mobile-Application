@@ -4,12 +4,33 @@ import { List, Divider } from "react-native-paper";
 import firebase from "../database/firebase";
 import "firebase/firestore";
 
-export default function allChat({ navigation }) {
-  const [threads, setThreads] = useState([]);
+export default class allChat extends React.Component {
+  constructor(props) {
+    super();
+    var Requiest = props.navigation.state.params.obj;
 
-  /**
-   * Fetch threads from Firestore
-   */
+    this.state = {
+      Requiestt: Requiest,
+      Imagekey: "",
+      CID: "",
+    };
+    this.updateInputVal(Requiest.Imagekey, "Imagekey");
+    this.updateInputVal(Requiest.CID, "CID");
+  }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+  render() {
+    return <Display reqID={this.state.Requiestt} v={this.props.navigation} />;
+  }
+}
+function Display(props) {
+  const v = props.v;
+
+  const reqID = props.reqID;
+  const [threads, setThreads] = useState([]);
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
@@ -19,7 +40,6 @@ export default function allChat({ navigation }) {
         const threads = querySnapshot.docs.map((documentSnapshot) => {
           return {
             _id: documentSnapshot.id,
-            // give defaults
             RoomTitle: "",
             ...documentSnapshot.data(),
           };
@@ -28,9 +48,6 @@ export default function allChat({ navigation }) {
         setThreads(threads);
       });
 
-    /**
-     * unsubscribe listener
-     */
     return () => unsubscribe();
   }, []);
 
@@ -42,7 +59,11 @@ export default function allChat({ navigation }) {
         ItemSeparatorComponent={() => <Divider />}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("chat")} //, { thread: item }
+            onPress={() =>
+              v.navigate("chat", {
+                obj: reqID,
+              })
+            }
           >
             <List.Item
               title={item.RoomTitle}

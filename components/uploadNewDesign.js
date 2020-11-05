@@ -283,7 +283,15 @@ export default class UploadNewDesign extends Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-3%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-3%", position: "relative" ,shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+          
+          elevation: 9, }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">

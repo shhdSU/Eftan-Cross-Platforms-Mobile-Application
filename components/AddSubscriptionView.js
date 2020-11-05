@@ -12,15 +12,15 @@ export default class AddSubscriptionView extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} ref={ref => (this.scrollViewRef = ref)}>
+        <View style={styles.container}>
          
           <View style={styles.cardFormWrapper}>
             <PaymentFormView {...this.props}/>
           </View>
-        </ScrollView>
+        </View>
         {/* Scrolls to the payment form */}
         <KeyboardSpacer
-          onToggle={() => { setTimeout(() => this.scrollViewRef.scrollToEnd({ animated: true }),0)} }
+          
         />
       </View>
     );

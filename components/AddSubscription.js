@@ -1,7 +1,7 @@
 //For payment
 import React from 'react';
 import AddSubscriptionView from './AddSubscriptionView';
-import { StyleSheet, Alert, Text } from "react-native";
+import { StyleSheet, Alert, Text,TouchableWithoutFeedback, Keyboard } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import {View } from 'native-base';
 
@@ -138,6 +138,7 @@ export default class AddSubscription extends React.Component {
   render() {
     const { submitted, error } = this.state;
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style = {styles.container}>
  <Svg
           width={416}
@@ -199,6 +200,7 @@ export default class AddSubscription extends React.Component {
 
 
 </View>
+</TouchableWithoutFeedback>
     );
   }
 }

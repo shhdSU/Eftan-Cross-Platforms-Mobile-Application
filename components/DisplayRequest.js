@@ -86,78 +86,83 @@ this.updateInputVal(true,"watingtoggle");
       .on("value", (snapshot) => {
         //put DID after Path
         forms = snapshot.val();
+        if (forms != null) {
+          var formsKeys = Object.keys(forms);
+          var waitingLoop = 0;
+          var inProgressLoop = 0;
+          var doneLoop = 0;
+          var expiredLoop = 0;
+            
+    ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
+          for (var i = 0; i < formsKeys.length; i++) {
+            console.log("loop2   "+i+"  ")
+              if (forms[formsKeys[i]].status === "w") {
+              waitingForms[waitingLoop] = forms[formsKeys[i]];
+              waitingLoop++;
+             } else if (forms[formsKeys[i]].status === "p" ) {
+              inProgressForms[inProgressLoop] = forms[formsKeys[i]];
+              inProgressLoop++;
+             } else if (forms[formsKeys[i]].status === "d" || forms[formsKeys[i]].status === "f") {
+              doneForms[doneLoop] = forms[formsKeys[i]];
+              doneLoop++;
+            }
+            else if (forms[formsKeys[i]].status === "e"){
+              expiredForms[expiredLoop] = forms[formsKeys[i]];
+              expiredLoop++;
+            }
+          } //End of for loop
+          if (this.state.displayedWatingForms.length != waitingForms.length)
+              this.updateInputVal(waitingForms, "displayedWatingForms");
+              if (this.state.displayedCurrentForms.length != inProgressForms.length)
+              this.updateInputVal(inProgressForms, "displayedCurrentForms");
+              if (this.state.displayedDoneForms.length != doneForms.length)
+              this.updateInputVal(doneForms, "displayedDoneForms");
+              if (this.state.displayedExpiredForms.length != expiredForms.length)
+              this.updateInputVal(expiredForms,"displayedExpiredForms");
+        }
+    
+      //move above later
+        //expired 
+        this.state.displayedWatingForms.forEach((element, index)=> {
+          var currentDate = new Date();
+          var form = element.deadLine.split('-');
+          var formDate = new Date(form[0], form[1]-1,form[2]);
+          if(currentDate > formDate){
+            console.log("bigger");
+            this.state.displayedWatingForms.splice(index);
+            //change status to e
+            this.updateStatusToExpired(element);
+            this.state.displayedExpiredForms.push(element);
+          }
+        })
+        this.state.displayedCurrentForms.forEach((element, index)=> {
+          var currentDate = new Date();
+          var formDate = new Date(element.deadLine);
+          console.log("current" + currentDate);
+          console.log(formDate);
+          if(currentDate > formDate){
+            console.log("current" + currentDate);
+            console.log(formDate);
+            this.state.displayedCurrentForms.splice(index);
+            this.updateStatusToExpired(element);
+            this.state.displayedExpiredForms.push(element);
+    
+          }
+        })
+        // this.state.displayedDoneForms.forEach((element, index)=> {
+        //   var currentDate = new Date();
+        //   var formDate = new Date(element.deadLine);
+        //   if(currentDate > formDate){
+        //     this.state.displayedDoneForms.splice(index);
+        //     this.updateStatusToExpired(element);
+        //     this.state.displayedExpiredForms.push(element);
+    
+        //   }
+        // })
+       
       }); //End of on method
 
     //START sepreate them based on their status
-    if (forms != null) {
-      var formsKeys = Object.keys(forms);
-      var waitingLoop = 0;
-      var inProgressLoop = 0;
-      var doneLoop = 0;
-      var expiredLoop = 0;
-        
-///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
-      for (var i = 0; i < formsKeys.length; i++) {
-        console.log("loop2   "+i+"  ")
-          if (forms[formsKeys[i]].status === "w") {
-          waitingForms[waitingLoop] = forms[formsKeys[i]];
-          waitingLoop++;
-         } else if (forms[formsKeys[i]].status === "p") {
-          inProgressForms[inProgressLoop] = forms[formsKeys[i]];
-          inProgressLoop++;
-         } else if (forms[formsKeys[i]].status === "d") {
-          doneForms[doneLoop] = forms[formsKeys[i]];
-          doneLoop++;
-        }
-        else if (forms[formsKeys[i]].status === "e"){
-          expiredForms[expiredLoop] = forms[formsKeys[i]];
-          expiredLoop++;
-        }
-      } //End of for loop
-      this.updateInputVal(waitingForms, "displayedWatingForms");
-      this.updateInputVal(inProgressForms, "displayedCurrentForms");
-      this.updateInputVal(doneForms, "displayedDoneForms");
-      this.updateInputVal(expiredForms,"displayedExpiredForms");
-    }
-
-  //move above later
-    //expired 
-    this.state.displayedWatingForms.forEach((element, index)=> {
-      var currentDate = new Date();
-      var form = element.deadLine.split('-');
-      var formDate = new Date(form[0], form[1]-1,form[2]);
-      if(currentDate > formDate){
-        console.log("bigger");
-        this.state.displayedWatingForms.splice(index);
-        //change status to e
-        this.updateStatusToExpired(element);
-        this.state.displayedExpiredForms.push(element);
-      }
-    })
-    this.state.displayedCurrentForms.forEach((element, index)=> {
-      var currentDate = new Date();
-      var formDate = new Date(element.deadLine);
-      console.log("current" + currentDate);
-      console.log(formDate);
-      if(currentDate > formDate){
-        console.log("current" + currentDate);
-        console.log(formDate);
-        this.state.displayedCurrentForms.splice(index);
-        this.updateStatusToExpired(element);
-        this.state.displayedExpiredForms.push(element);
-
-      }
-    })
-    this.state.displayedDoneForms.forEach((element, index)=> {
-      var currentDate = new Date();
-      var formDate = new Date(element.deadLine);
-      if(currentDate > formDate){
-        this.state.displayedDoneForms.splice(index);
-        this.updateStatusToExpired(element);
-        this.state.displayedExpiredForms.push(element);
-
-      }
-    })
    
   } //End of constructor
 
@@ -266,8 +271,7 @@ var doneForms = [];
   }
 
   updateStatusToExpired = (element) => {
-    const DID = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
+    const DID = firebase.auth().currentUser.uid;
     var key = element.Imagekey;
     firebase
       .database()
@@ -348,14 +352,27 @@ var doneForms = [];
         >
           <View key={Math.random()}>
           <Image
-              style={styles.profileImage}
+              style={styles.currentprofileImage}
               source={{ uri: element.submissionUrl}}
             />
-             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
-            <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
-            <Text style={styles.orderText}>{ClientName}</Text>
-            {console.log("LOOP")}
+            <Text style={styles.currentorderText}>{ClientName}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
+            <Text style={styles.currentorderText}>{element.title}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+
+            <View 
+            style={{
+              height:50,
+              width:110,
+              marginTop:"5%",
+              borderRightWidth:2,
+              borderRightColor:"#4f3c75",
+              left:"-10%"
+            }}
+            >
+            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>الحالة </Text>
+        <Text style={styles.deaslineStyle}>{element.status == "f"?"مدفوع":"غير مدفوع"}</Text>
+        </View>
           </View>
         </TouchableOpacity>
       );
@@ -422,7 +439,15 @@ var doneForms = [];
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-3%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-3%", position: "relative",shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+          
+          elevation: 9,  }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">

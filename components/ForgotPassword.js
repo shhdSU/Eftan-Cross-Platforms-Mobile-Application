@@ -89,7 +89,15 @@ export default class ForgotPassword extends Component {
           <Text style={styles.buttonText}>إرسال</Text>
         </TouchableOpacity>
 
-        <Svg viewBox="0 0 375 812" style={{ position: "absolute" }}>
+        <Svg viewBox="0 0 375 812" style={{ position: "absolute" ,shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+          
+          elevation: 9,  }}>
           <Defs>
             <ClipPath id="prefix__a">
               <Path d="M0 0h375v812H0z" />

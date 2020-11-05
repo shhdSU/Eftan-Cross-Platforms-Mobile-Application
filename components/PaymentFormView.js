@@ -25,7 +25,16 @@ export default class PaymentFormView extends React.Component {
            allowScroll
             onChange={(cardData) => this.setState({ cardData })} />
         </View>
-        <View style={styles.buttonWrapper}>
+        <View style={{opacity: this.state.cardData.valid == true? 1 : 0.5 ,padding: 1,
+        backgroundColor:"#4F3C75",
+    zIndex: 10,
+    borderRadius:35,
+    width:"80%",
+    fontSize:25,
+    marginTop:"5%",
+    
+    alignSelf:"center",}} >
+       
           <Button
             title='اضافة البطاقة'
             color="#ffeed6"
@@ -42,16 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  buttonWrapper: {
-    padding: 10,
-    backgroundColor:"#4F3C75",
-    zIndex: 100,
-    borderRadius:35,
-    width:"80%",
-    fontSize:25,
-    marginTop:"20%",
-    alignSelf:"center",
-  },
+  
   alertTextWrapper: {
     flex: 20,
     justifyContent: 'center',

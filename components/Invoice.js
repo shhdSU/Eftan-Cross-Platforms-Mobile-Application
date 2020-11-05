@@ -1,6 +1,6 @@
 //صفحة الفاتورة
 import React from 'react';
-import { TouchableOpacity,StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { TouchableWithoutFeedback,TouchableOpacity,StyleSheet,Keyboard, Text, View, Button, Alert } from 'react-native';
 import Svg, {  Path, G} from "react-native-svg";
 import firebase from "../database/firebase";
 var designerName="";
@@ -97,14 +97,31 @@ export default class Invoice extends React.Component {
 
     
   })}
+//Update Status
+
+          // firebase
+          //   .database()
+          //   .ref("Forms/" + this.state.DID + "/" + this.state.requestKey)
+          //   .update({ status: "f" });
+        
+      
+  
   render() {
     return (
-      
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-13%", position: "absolute" }}
+            style={{ alignSelf: "center", top: "-8%", position: "absolute",shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            
+            elevation: 9,  }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">
@@ -127,62 +144,125 @@ export default class Invoice extends React.Component {
               /> */}
             </G>
           </Svg>
-          <Text style={styles.forText}> الفاتورة</Text> 
+          <Text
+          style={{
+            fontSize: 25,
+            fontWeight: "700",
+            color: "#4f3c75",
+            alignSelf: "center",
+            position: "absolute",
+            zIndex: 2,
+            top: "1.5%",
+          }}
+        >
+          الفاتورة
+        </Text>
 
-          <View>  
-          <View style={styles.border}>
-<Text>
- عنوان الطلب
+          <View style={{top:"-3%"}}>  
+          {this.state.submitted  &&  <View style={styles.done}>
+<Text style={{
+  fontSize:20,
+  color:"#04BF9D"
+}}>
+  تمت عملية الدفع بنجاح !
 </Text>
-<Text>
+          </View>}
+          <View style={styles.border}>
+         
+
+<Text
+style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-40%",
+  left:"30%",
+  color:"#4f3c75",
+}}
+>
+  عنوان الطلب 
+</Text>
+<Text style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-20%",
+  color:"#4f3c75",
+}}>
  {this.state.reqTitle}  
 </Text>
           </View>  
           <View style={styles.border}>
-<Text>
+<Text style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-35%",
+  left:"16%",
+  color:"#4f3c75",
+}}>
   المبلغ المستحق للتصميم
 </Text>
-<Text>
+<Text style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-20%",
+  color:"#4f3c75",
+}}>
  {price}  ريال سعودي
 </Text>
           </View>
 
 
           <View style={styles.border}>
-<Text>
+<Text style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-40%",
+  left:"26%",
+  color:"#4f3c75",
+}}>
   من البطاقة رقم:
 </Text>
-<Text>
+<Text style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-20%",
+  color:"#4f3c75",
+}}>
  {this.state.cardNumber}
 </Text>
           </View>
         
           <View style={styles.border}>
-<Text>
+<Text 
+style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-40%",
+  left:"28%",
+  color:"#4f3c75",
+}}>
  إلى المصمم
 </Text>
-<Text>
+<Text 
+style={{
+  fontSize:20,
+  backgroundColor:"#fff",
+  top:"-20%",
+  color:"#4f3c75",
+}}
+>
  { designerName}
 </Text>
           </View>
 
 
-          {this.state.submitted  &&  <View style={styles.done}>
-<Text>
-  تمت العميلة بنجاح !
-</Text>
-          </View>}
-
+       
 
 
       </View>
-      <TouchableOpacity
-      onPress={() => this.onSubmit()}>
 
-        <Text>
-          ادفع الآن
-        </Text>
-      </TouchableOpacity>
+     
+
+    
       
 
 
@@ -199,7 +279,21 @@ export default class Invoice extends React.Component {
             }}>العودة</Text>
           </TouchableOpacity>
         }
-      </View>     
+          {!this.state.submitted  && <TouchableOpacity 
+          style={styles.returnbutton}
+          onPress={() => this.onSubmit()}
+          >
+            <Text  style={{
+              
+              color: "#FFEED6",
+              fontSize: 25,
+              fontWeight:"500"
+            }}>ادفع الآن</Text>
+          </TouchableOpacity>}
+      </View> 
+
+      </TouchableWithoutFeedback>
+  
     );
   }
 }
@@ -224,7 +318,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "6%",
     alignSelf: "center",
-    bottom: "2%",
+    bottom: "-5%",
   },
   forText: {
     position: "absolute",
@@ -236,7 +330,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   border:{
-    marginTop: "5%",
+    marginTop: "12%",
   backgroundColor: "#ffffff",
   fontSize: 24,
   borderRadius: 25,

@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { View, StyleSheet, Text, FlatList, TouchableOpacity } from "react-native";
+import Svg, { Defs, G, Path } from "react-native-svg";
+
 import { List, Divider } from "react-native-paper";
 import firebase from "../database/firebase";
 import "firebase/firestore";
-import Svg, { Defs, G, Path } from "react-native-svg";
 
 export default class allChat extends React.Component {
   constructor(props) {
     super();
-    var Requiest = props.navigation.state.params.obj;
-
     this.state = {
       Requiestt: Requiest,
+      thread: "",
       Imagekey: "",
       CID: "",
     };
-    this.updateInputVal(Requiest.Imagekey, "Imagekey");
-    this.updateInputVal(Requiest.CID, "CID");
+    if (props.navigation.state.params) {
+      var Requiest = props.navigation.state.params.obj;
+
+      this.updateInputVal(Requiest.Imagekey, "Imagekey");
+      this.updateInputVal(Requiest.CID, "CID");
+    }
+
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -35,28 +34,78 @@ export default class allChat extends React.Component {
 }
 function Display(props) {
   const v = props.v;
-
   const reqID = props.reqID;
   const [threads, setThreads] = useState([]);
+
+  console.log("threads///////" + threads);
+  const CurrentID = firebase.auth().currentUser.uid;
+
+  // useEffect(() => {
+  //   var StoredChatId=[];
+  //    firebase
+  //     .firestore()
+  //     .collection("UserChat")
+  //     .doc(CurrentID)
+  //     .collection("chatsID")
+  //     .get()
+  //     .then(
+  //     function(querySnapshot){
+  //       querySnapshot.forEach(function(doc){
+  //         StoredChatId.push(doc.data())
+  //     }
+  //     )
+  //   })
+  //   const unsubscribe = firebase
+  //   .firestore()
+  //   .collection("AllChat")
+  //   .doc()
+  //     //.orderBy('latestMessage.createdAt', 'desc')
+  //     .onSnapshot((querySnapshot) => {
+  //       const threads = querySnapshot.docs.map((documentSnapshot) => {
+  //         console.log("inside threads///////" + documentSnapshot.id);
+  //         return {
+  //           _id: documentSnapshot.id,
+  //           RoomTitle: "",
+  //           ...documentSnapshot.data(),
+  //         };
+  //       });
+
+  //       setThreads(threads);
+  //     });
+
+  //   return () => unsubscribe();
+  // }, []);
   useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection("AllChat")
-      //.orderBy('latestMessage.createdAt', 'desc')
-      .onSnapshot((querySnapshot) => {
-        const threads = querySnapshot.docs.map((documentSnapshot) => {
-          return {
-            _id: documentSnapshot.id,
-            RoomTitle: "",
-            ...documentSnapshot.data(),
-          };
+    const unsubscribe =
+      firebase
+        .firestore()
+        .collection('UserChat')
+        .doc(CurrentID)
+        .collection('chatsID')
+        .doc()
+        // .orderBy('latestMessage.createdAt', 'desc')
+        .onSnapshot(querySnapshot => {
+          const threads = querySnapshot.docs.map(documentSnapshot => {
+            return {
+              _id: documentSnapshot.id,
+              // give defaults
+              name: '',
+              ...documentSnapshot.data()
+            };
+          });
+
+          setThreads(threads);
+
+
         });
 
-        setThreads(threads);
-      });
-
+    /**
+     * unsubscribe listener
+     */
     return () => unsubscribe();
   }, []);
+
+
 
   return (
     <View style={styles.container}>
@@ -106,9 +155,10 @@ function Display(props) {
         ItemSeparatorComponent={() => <Divider />}
         renderItem={({ item }) => (
           <TouchableOpacity
+
             onPress={() =>
               v.navigate("chat", {
-                obj: reqID,
+                thread: item,
               })
             }
           >

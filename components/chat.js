@@ -13,34 +13,51 @@ import "firebase/firestore";
 export default class RoomScreen extends React.Component {
   constructor(props) {
     super();
-    var Requiest = props.navigation.state.params.obj;
+
     this.state = {
+      thread: props.navigation.state.params.thread,
       Imagekey: "",
       CID: "",
     };
 
-    const DID = firebase.auth().currentUser.uid;
-    this.updateInputVal(Requiest.Imagekey, "Imagekey");
-    this.updateInputVal(Requiest.CID, "CID");
+    if (props.navigation.state.params.obj) {
+      var Requiest = props.navigation.state.params.obj;
+
+      this.updateInputVal(Requiest.Imagekey, "Imagekey");
+      this.updateInputVal(Requiest.CID, "CID");
+
+    }
+    ;
+
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
+
+
   render() {
-    return <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} />;
+    return (
+
+      <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} thread={this.state.thread} />)
   }
 }
 
 function Retrive(props) {
-  const chatID = props.chatID;
+  var chatID;
+  if (props.thread) {
+    chatID = props.thread._id;
+  }
+  else {
+    chatID = props.chatID;
+  }
   const ClinetID = props.ClinetID;
   const DID = firebase.auth().currentUser.uid;
   const [messages, setMessages] = useState([]);
 
   console.log("////////////////////");
-  console.log(chatID);
+  console.log("thread in chat" + chatID);
   console.log(ClinetID);
   console.log(DID);
 
@@ -60,6 +77,8 @@ function Retrive(props) {
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),
+            // avatar: 'https://placeimg.com/140/140/any',
+
             ...firebaseData,
           };
 
@@ -67,6 +86,8 @@ function Retrive(props) {
             data.user = {
               ...firebaseData.user,
               name: firebaseData.user.email,
+              // avatar: 'https://placeimg.com/140/140/any',
+
             };
           }
 
@@ -78,10 +99,60 @@ function Retrive(props) {
     return () => messagesListener();
   }, []);
 
+  function addChatID() {
+    const CurrentID = firebase.auth().currentUser.uid;
+    const added = false
+    firebase.firestore()
+      .collection('UserChat')
+      .doc(CurrentID)
+      .collection('chatsID')
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          if (doc.data().chatID == chatID) {
+            added = true
+          }
+        })
+
+        if (!added) {
+          // andd the chatID for the current user
+          firebase.firestore()
+            .collection('UserChat')
+            .doc(CurrentID)
+            .collection('chatsID')
+            .doc(chatID)
+            .add({
+              chatID: chatID,
+              //to: offerorName,
+              toID: ClinetID
+            })
+          // andd the chatID for the offeror
+          firebase.firestore()
+            .collection('UserChat')
+            .doc(ClinetID)
+            .collection('chatsID')
+            .doc(chatID)
+            .add({
+              chatID: chatID,
+              // to: myName,
+              toID: CurrentID
+
+            })
+
+
+          //console.log(myName)
+        }
+      })
+
+  }
+
+
+
+
   // helper method that is sends a message
   function handleSend(messages) {
-    console.log("in handler");
     const text = messages[0].text;
+    addChatID()
     firebase
       .firestore()
       .collection("AllChat")
@@ -111,6 +182,57 @@ function Retrive(props) {
         { merge: true }
       );
   }
+
+  function renderBubble(props) {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: '#4f3c75'
+          },
+          left: {
+            backgroundColor: '#EFEEFF'
+          },
+        }}
+        textStyle={{
+          right: {
+            color: '#fff'
+          }
+        }}
+      />
+    );
+  }
+
+  function renderSend(props) {
+    return (
+      <Send {...props}>
+        <View style={styles.sendingContainer}>
+          <IconButton icon='send-circle' size={32} color='#4f3c75' />
+        </View>
+      </Send>
+    );
+  }
+
+  function scrollToBottomComponent() {
+    return (
+      <View style={styles.bottomComponentContainer}>
+        <IconButton icon='chevron-double-down' size={36} color='#4f3c75' />
+      </View>
+    );
+  }
+
+  function renderSystemMessage(props) {
+    return (
+      <SystemMessage
+        {...props}
+        wrapperStyle={styles.systemMessageWrapper}
+        textStyle={styles.systemMessageText}
+      />
+    );
+  }
+
+
   return (
     <GiftedChat
       messages={messages}
@@ -119,7 +241,14 @@ function Retrive(props) {
       user={{
         _id: DID,
         to: ClinetID,
+
       }}
+      scrollToBottom
+      renderBubble={renderBubble}
+      renderSend={renderSend}
+      alignItems
+      scrollToBottomComponent={scrollToBottomComponent}
+      renderSystemMessage={renderSystemMessage}
     />
   );
 }

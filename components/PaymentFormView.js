@@ -23,7 +23,13 @@ export default class PaymentFormView extends React.Component {
           placeholders={{ number: "1234 5678 1234 5678", expiry: "سنة/شهر", cvc: "CVC" }}
           requiresName
            allowScroll
-           
+           labelStyle={{
+            fontSize: 15,
+            
+            color:"#4f3c75",
+            alignSelf:"center"
+            
+          }}
             onChange={(cardData) => this.setState({ cardData })} />
         </View>
         <View style={{opacity: this.state.cardData.valid == true? 1 : 0.5 ,padding: 1,

@@ -6,19 +6,12 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import {View } from 'native-base';
 import firebase from "../database/firebase";
 
-var Success=false
+
 const STRIPE_ERROR = 'حدث خطأ في خدمة الدفع لدينا، يرجى المحاولة مجددًا';
 const SERVER_ERROR = 'هناك مشكلة في خادم الدفع، يرجى المحاولة مجددًا';
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_51HiMF9G34qBjP7xldEHn8YE1AHhdKfrGBrAO9Y6CUhdkg46TFU6ctgoIkzhkyUMq0NUthM9LPjHCMXUbDhKJllPk00JRFM30PX';
-/**
- * The method sends HTTP requests to the Stripe API.
- * It's necessary to manually send the payment data
- * to Stripe because using Stripe Elements in React 
- * Native apps isn't possible.
- *
- * @param creditCardData the credit card data
- * @return Promise with the Stripe data
- */
+
+//get card token from Stripe API
 const getCreditCardToken = (creditCardData) => {
   const card = {
     'card[number]': creditCardData.values.number.replace(/ /g, ''),
@@ -43,7 +36,6 @@ const getCreditCardToken = (creditCardData) => {
       .map(key => key + '=' + card[key])
       .join('&')
   }).then(response => 
-   
     response.json());
 };
 /**
@@ -60,10 +52,7 @@ const subscribeUser = (creditCardToken) => {
     }, 1000)
   });
 };
-/**
- * The main class that submits the credit card data and
- * handles the response from Stripe.
- */
+
 export default class AddSubscription extends React.Component {
   
   constructor(props) {
@@ -119,10 +108,7 @@ export default class AddSubscription extends React.Component {
     const { error } = await subscribeUser(creditCardToken);
     // Handle any errors from your server
     if (error) {
-    
       this.setState({ submitted: false, error: SERVER_ERROR })
-    
-     
     } else {
       this.setState({ submitted: false, error: null }),
       firebase

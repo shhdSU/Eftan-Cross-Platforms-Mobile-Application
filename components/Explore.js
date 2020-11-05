@@ -388,6 +388,8 @@ console.log(searchResults);
               backgroundColor: "white",
               borderBottomWidth: 1,
               borderBottomColor: "#DDDDDD",
+              marginTop:"20%",
+
             }}
           >
             <View
@@ -400,7 +402,6 @@ console.log(searchResults);
                 shadowColor: "black",
                 shadowOpacity: 0.2,
                 elevation: 1,
-                marginTop:"35%",
                 height:"70%",
                 borderRadius:30,
               }}

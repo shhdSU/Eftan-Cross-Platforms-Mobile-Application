@@ -4,9 +4,9 @@ import AddSubscriptionView from './AddSubscriptionView';
 import { StyleSheet, Alert, Text,TouchableWithoutFeedback, Keyboard } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import {View } from 'native-base';
+import firebase from "../database/firebase";
 
-
-
+var Success=false
 const STRIPE_ERROR = 'حدث خطأ في خدمة الدفع لدينا، يرجى المحاولة مجددًا';
 const SERVER_ERROR = 'هناك مشكلة في خادم الدفع، يرجى المحاولة مجددًا';
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_51HiMF9G34qBjP7xldEHn8YE1AHhdKfrGBrAO9Y6CUhdkg46TFU6ctgoIkzhkyUMq0NUthM9LPjHCMXUbDhKJllPk00JRFM30PX';
@@ -42,7 +42,9 @@ const getCreditCardToken = (creditCardData) => {
     body: Object.keys(card)
       .map(key => key + '=' + card[key])
       .join('&')
-  }).then(response => response.json());
+  }).then(response => 
+   
+    response.json());
 };
 /**
  * The method imitates a request to our server.
@@ -96,7 +98,15 @@ export default class AddSubscription extends React.Component {
       if (creditCardToken.error) {
         // Reset the state if Stripe responds with an error
         // Set submitted to false to let the user subscribe again
-        this.setState({ submitted: false, error: STRIPE_ERROR });
+        this.setState({ submitted: false, error: STRIPE_ERROR }),
+        Alert.alert(
+          "تنبيه",
+          "تأكد من إدخال رقم البطاقة بشكل صحيح",
+          [{ text: "حسنًا" ,
+         
+          }],
+          { cancelable: false }
+        );
         return;
       }
     } catch (e) {
@@ -109,7 +119,10 @@ export default class AddSubscription extends React.Component {
     const { error } = await subscribeUser(creditCardToken);
     // Handle any errors from your server
     if (error) {
-      this.setState({ submitted: false, error: SERVER_ERROR });
+    
+      this.setState({ submitted: false, error: SERVER_ERROR })
+    
+     
     } else {
       this.setState({ submitted: false, error: null }),
       firebase
@@ -123,12 +136,12 @@ export default class AddSubscription extends React.Component {
         "تنبيه",
         "تم حفظ بيانات بطاقتك الائتمانية بنجاح، سيتم نقلك إلى خطوة الدفع",
         [{ text: "حسنًا" ,
-        onPress: () => {
-          navigation.navigate('Invoice',{reqTitle: this.state.reqTitle,creditCardToken:creditCardToken.id,cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey: this.state.Imagekey, DID:this.state.DID})   //@shhdSU
-        },}],
+       
+        }],
         { cancelable: false }
       ),
-  
+      navigation.navigate('Invoice',{reqTitle: this.state.reqTitle,creditCardToken:creditCardToken.id,cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey: this.state.Imagekey, DID:this.state.DID})   //@shhdSU
+
       )}
   };
 
@@ -180,16 +193,16 @@ export default class AddSubscription extends React.Component {
         </Svg>
         <Text
           style={{
-            fontSize: 27,
+            fontSize: 24,
             color: "#4F3C75",
-            fontWeight: "700",
+            fontWeight: "600",
             top: "-11%",
             alignSelf: "center",
             zIndex: 6,
-            fontWeight: "700",
+            
           }}
         >
-          اضافة بطاقة جديدة
+          إضافة بطاقة جديدة
         </Text>
         
         <AddSubscriptionView

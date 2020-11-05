@@ -79,7 +79,13 @@ export default class Invoice extends React.Component {
       
       
     }).then(response =>{
-     if(response.status=="200")
+     if(response.status=="200"){
+       //Update Status
+
+          firebase
+            .database()
+            .ref("Forms/" + this.state.DID + "/" + this.state.requestKey)
+            .update({ status: "f" }),
       Alert.alert(
         "تنبيه",
         "تمت عملية الدفع بنجاح، شكرًا لاختياركم اِفتن",
@@ -87,7 +93,7 @@ export default class Invoice extends React.Component {
         { cancelable: false } ),
         this.updateInputVal(true ,"submitted")
         
-       
+      }
      else
       Alert.alert(
         "تنبيه",
@@ -97,12 +103,7 @@ export default class Invoice extends React.Component {
 
     
   })}
-//Update Status
 
-          // firebase
-          //   .database()
-          //   .ref("Forms/" + this.state.DID + "/" + this.state.requestKey)
-          //   .update({ status: "f" });
         
       
   

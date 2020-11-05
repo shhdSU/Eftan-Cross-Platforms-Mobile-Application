@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
   },
   cardFormWrapper: {
     padding: 10,
-    margin: 10
+    margin: 3
   }
 });

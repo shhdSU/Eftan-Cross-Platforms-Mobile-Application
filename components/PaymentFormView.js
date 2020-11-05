@@ -19,10 +19,11 @@ export default class PaymentFormView extends React.Component {
       <View>
         <View>
           <CreditCardInput
-          labels={{ number: "رقم البطاقة", expiry: " الانتهاء", cvc: "CVV" }}
+          labels={{ number: "رقم البطاقة", expiry: " الانتهاء", cvc: "CVV" ,name:"الاسم"}}
           placeholders={{ number: "1234 5678 1234 5678", expiry: "سنة/شهر", cvc: "CVC" }}
-           
+          requiresName
            allowScroll
+           
             onChange={(cardData) => this.setState({ cardData })} />
         </View>
         <View style={{opacity: this.state.cardData.valid == true? 1 : 0.5 ,padding: 1,
@@ -31,14 +32,15 @@ export default class PaymentFormView extends React.Component {
     borderRadius:35,
     width:"80%",
     fontSize:25,
-    marginTop:"5%",
+    marginTop:"15%",
+    
     
     alignSelf:"center",}} >
        
           <Button
-            title='اضافة البطاقة'
+            title='إضافة بطاقتي'
             color="#ffeed6"
-            disabled={!this.state.cardData.valid || submitted}
+                       disabled={!this.state.cardData.valid || submitted}
             onPress={() => onSubmit(this.state.cardData)}
           />
         </View>

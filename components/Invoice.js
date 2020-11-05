@@ -44,6 +44,8 @@ export default class Invoice extends React.Component {
   }; //////END of udate state values function
 
   onSubmit(){
+
+    
     const paymentData = {
       amount: price,
       currency: "SAR",
@@ -58,21 +60,8 @@ export default class Invoice extends React.Component {
       return pairs;
     }, []);
   
-  let x = getPairs(paymentData)
-    .map(([[key0, ...keysRest], value]) =>
-      `${key0}${keysRest.map(a => `[${a}]`).join('')}=${value}`)
-    .join('&');
-  // let metadata= {creditCardToken: this.state.creditCardToken}
-    
-    // Use fetch to send the token ID and any other payment data to your server.
   
-     
 
-    
-    
-    // arr.metadata=META;
-    
-  
     const response= fetch('https://api.stripe.com/v1/payment_intents', {
       method: 'POST',
       headers: {
@@ -83,10 +72,12 @@ export default class Invoice extends React.Component {
     // Use the Stripe publishable key as Bearer
     Authorization: `Bearer ${'sk_test_51HiMF9G34qBjP7xlrde6a1DUYACCXTOT484tAdSWZN5Fzd6fuv6im8aoaqpmMrlzNbki2MFUay8iHkwMk0OejH4A00qU2mEWQB'}`
       },
-       body: x
+       body: getPairs(paymentData)
+       .map(([[key0, ...keysRest], value]) =>
+         `${key0}${keysRest.map(a => `[${a}]`).join('')}=${value}`)
+       .join('&')
       
-      //+'&'+"metadata&"+META
-      //+"&metadata="+{"creditCardToken="+this.state.creditCardToken } ,
+      
     }).then(response =>{
      if(response.status=="200")
       Alert.alert(

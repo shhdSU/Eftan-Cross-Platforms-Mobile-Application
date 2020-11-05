@@ -112,16 +112,24 @@ export default class AddSubscription extends React.Component {
       this.setState({ submitted: false, error: SERVER_ERROR });
     } else {
       this.setState({ submitted: false, error: null }),
+      firebase
+      .database()
+      .ref("Client/" + firebase.auth().currentUser.uid)
+      .update({
+        creditCardToken: creditCardToken.id,
+              })
+      .then(
       Alert.alert(
         "تنبيه",
         "تم حفظ بيانات بطاقتك الائتمانية بنجاح، سيتم نقلك إلى خطوة الدفع",
-        [{ text: "حسنًا" }],
+        [{ text: "حسنًا" ,
+        onPress: () => {
+          navigation.navigate('Invoice',{reqTitle: this.state.reqTitle,creditCardToken:creditCardToken.id,cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey: this.state.Imagekey, DID:this.state.DID})   //@shhdSU
+        },}],
         { cancelable: false }
       ),
-   //reqKey: this.state.Imagekey
-   //DID: this.state.DID
-      navigation.navigate('Invoice',{reqTitle: this.state.reqTitle,creditCardToken:creditCardToken.id,cardNumber:"**** **** **** "+creditCardToken.card.last4, reqKey: this.state.Imagekey, DID:this.state.DID})   //@shhdSU
-    }
+  
+      )}
   };
 
    

@@ -75,10 +75,9 @@ export default class AddSubscription extends React.Component {
       submitted: false,
       error: null
     }
-    //  this.updateInputVal(Request.Imagekey, "Imagekey");
-    //  this.updateInputVal(Request.DID, "DID");
+    
   }
-   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
+   //////for udate state values 
    updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;

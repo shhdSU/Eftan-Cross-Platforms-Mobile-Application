@@ -4,18 +4,24 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Alert,
+  Share,
+  CameraRoll,
 } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
-export default class WRequiestDet extends React.Component {
+import * as Permissions from 'expo-permissions';
+import * as FileSystem from 'expo-file-system';
+import uuid from "react-native-uuid";
+
+export default class ViewClientRequests extends React.Component {
   constructor(props) {
     super();
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
+      object:"",
       Imagekey: "",
       CID: "",
       category: "",
@@ -27,16 +33,18 @@ export default class WRequiestDet extends React.Component {
       status: "",
       reference: "",
       title: "",
-      ClientProfileImage: "",
-      name: "",
       clientToken: "",
       accepted:false,
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "",      
+      rejectedMessage: "", 
+      
+      
+      loading:false,
     };
 
+    this.updateInputVal(Requiest, "object");
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.category, "category");
     this.updateInputVal(Requiest.CID, "CID");
@@ -46,33 +54,12 @@ export default class WRequiestDet extends React.Component {
     this.updateInputVal(Requiest.deadLine, "deadLine");
     this.updateInputVal(Requiest.description, "description");
     this.updateInputVal(Requiest.status, "status");
+    if(Requiest.reference === "")
+    this.updateInputVal(Requiest.submissionUrl, "reference");
+    else
     this.updateInputVal(Requiest.reference, "reference");
     this.updateInputVal(Requiest.title, "title");
 
-    //---------------صورة العميل--------------
-    firebase
-      .storage()
-      .ref("ProfilePictures/" + this.state.CID)
-      .getDownloadURL()
-      .then((url) => {
-        this.updateInputVal(url, "ClientProfileImage");
-      })
-      .catch((error) => {
-        console.log("can not retreive profile img url");
-      });
-
-    //---------------اسم العميل--------------
-    var Cname = "";
-    firebase
-      .database()
-      .ref("Client/" + this.state.CID)
-      .on("value", (dataSnapshot) => {
-        Cname =
-          dataSnapshot.child("CFirstName").val() +
-          " " +
-          dataSnapshot.child("CLastName").val();
-        this.updateInputVal(Cname, "name");
-      });
     //---------------clientToken-------------------
       firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
           if(dataSnapshot.exists()){
@@ -109,32 +96,28 @@ export default class WRequiestDet extends React.Component {
     this.setState(state);
   };
 
-  //---------------(تحديث حالة الطلب من (تحت الانتظار) الى (قيد العمل--------------
-  UpdateStatusAfterAccepted = () => {
-    const DID = firebase.auth().currentUser.uid;
-    var key = this.state.Imagekey;
-    this.updateInputVal("p", "status");
-    firebase
-      .database()
-      .ref("Forms/" + DID + "/" + key)
-      .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
-  };
-
-  //---------------رفض طلب--------------
-  RejectRequest = () => {
-    const DID = firebase.auth().currentUser.uid;
-    var key = this.state.Imagekey;
-    this.updateInputVal("p", "status");
-    firebase
-      .database()
-      .ref("Forms/" + DID + "/" + key)
-      .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"r"});
-  };
-  //------------------------------------
+  onShare = async () => {
+    try {
+      const downloadPath = FileSystem.cacheDirectory + this.state.Imagekey + '.jpg';
+      const localUrl = await FileSystem.downloadAsync(this.state.reference,downloadPath);
+      const result = await Share.share({
+        message:"لقد حصلت على هذا التصميم من تطبيق اِفتن",
+        url:
+        localUrl.uri,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   render() {
     return (
@@ -160,7 +143,8 @@ export default class WRequiestDet extends React.Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "absolute",shadowColor: "#000",
+            style={{ alignSelf: "center", top: "-2%", position: "absolute",
+            shadowColor: "#000",
             shadowOffset: {
               width: 0,
               height: 4,
@@ -168,7 +152,8 @@ export default class WRequiestDet extends React.Component {
             shadowOpacity: 0.32,
             shadowRadius: 5.46,
             
-            elevation: 9,  }}
+            elevation: 9,
+           }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">
@@ -186,95 +171,6 @@ export default class WRequiestDet extends React.Component {
               />
             </G>
           </Svg>
-
-          <View style={styles.infoCont}>
-            <Image
-              style={styles.profileImage}
-              source={{ uri: this.state.ClientProfileImage }}
-            />
-
-            <Text
-              style={[
-                {
-                  color: "#4F3C75",
-                  top: "-50%",
-                  left: "42%",
-                  fontWeight: "300",
-                  fontSize: 20,
-                },
-              ]}
-            >
-              {this.state.name}
-            </Text>
-            <View
-              style={{
-                marginTop: 10,
-                marginBottom: 50,
-                paddingLeft: 30,
-                paddingRight: 30,
-
-                justifyContent: "space-between",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}
-            >
-              <TouchableOpacity
-                // اذا ضغط المصمم زر قبول الطلب يصل للعميل اشعار >> تم قبول الطلب  
-
-                onPress={() =>
-                  Alert.alert(
-                    "تنبيه",
-                    "تمت عملية قبول الطلب بنجاح",
-                    [
-                      {
-                        text: "حسناً",
-                        onPress: () => {
-                          this.UpdateStatusAfterAccepted();
-                        },
-                      },
-                    ],
-                    { cancelable: false }
-                  )
-                }
-
-              >
-                <Image
-                  style={styles.accject}
-                  source={require("../assets/accept.png")}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() =>
-                  Alert.alert(
-                    "تنبيه",
-                    "هل انت متأكد من رفض الطلب ؟",
-                    [
-                      {
-                        text: "الغاء",
-                        onPress: () => {
-                          this.props.navigation.navigate("WRequiestDet");
-                        },
-                      },
-                      {
-                        // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب  
-                        text: "تأكيد",
-                        onPress: () => {
-                          this.RemoveRequest();
-                        },
-                      },
-                    ],
-                    { cancelable: false }
-                  )
-                }
-              >
-                <Image
-                  style={(styles.accject, { left: -240, top: -76 })}
-                  source={require("../assets/reject.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
           <Image
@@ -498,6 +394,40 @@ export default class WRequiestDet extends React.Component {
             {this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+
+          {this.state.status == "d" && <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Payment",{obj: this.state.object})}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              
+            }}
+          >
+            انتقل للدفع
+          </Text>
+        </TouchableOpacity>}
+
+
+        {this.state.status == "f" && <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.onShare()}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              
+            }}
+          >
+            مشاركة العمل
+          </Text>
+        </TouchableOpacity>
+        
+        }
+
         </View>
       </View>
     );
@@ -516,7 +446,7 @@ const styles = StyleSheet.create({
     height: 235,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "15%",
+    top: "13%",
     borderRadius: 35,
     alignSelf: "center",
   },
@@ -576,5 +506,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2.95,
 
     elevation: 24,
+  }, 
+  button: {
+    alignItems: "center",
+    backgroundColor: "#4F3C75",
+    borderRadius: 25,
+    width: ("80%"),
+    height: ("6%"),
+    alignSelf: "center",
+    justifyContent:"center",
   },
 });

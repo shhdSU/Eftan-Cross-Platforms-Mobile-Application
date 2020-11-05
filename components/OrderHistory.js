@@ -1,30 +1,32 @@
 /*
-هذي الصفحة خاصة باستعراض طلبات المصمم 
+هذي الصفحة خاصة باستعراض طلبات العميل 
 ينقص هذي الصفحة للآن 
 الرفرش
-تمييز الطلبات المنتهية واستعراضها مع امكانية رؤية الطلب 
+تمييز الطلبات المنتهية واستعراضها مع امكانية رؤية و اعادة الطلب 
 */
-
 import firebase from "../database/firebase";
 import React, { Component } from "react";
 import {
   Text,
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert,
   Image,
 } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import EmptyList from "./emptylist";
 
 var forms = []; // To retrive all forms here
+var filterdForms = []; // to take only form related to this client 
+var filterLoop = 0 ;
+var expiredLoop = 0;
 var waitingForms = [];
 var inProgressForms = [];
 var doneForms = [];
 var expiredForms = [];
+
+
 export default class DisplayRequest extends React.Component {
   constructor(props) {
     super();
@@ -32,15 +34,14 @@ export default class DisplayRequest extends React.Component {
       watingList: true,
       currentList: false,
       doneList: false,
-      expiredList: false,
       displayedWatingForms: [],
       displayedCurrentForms: [],
       displayedDoneForms: [],
       displayedExpiredForms: [],
       watingtoggle: true,
       currenttoggle: false,
-      donetoggle: false, 
-      expiretoggle:false,
+      donetoggle: false,
+      
     }; //End of status
     
     var status = props.navigation.state.params;
@@ -59,14 +60,7 @@ this.updateInputVal(false,"watingtoggle");
   this.updateInputVal(true,"doneList");
   this.updateInputVal(true,"donetoggle");
   break;
-case "e":
-  this.updateInputVal(false,"watingList");
-  this.updateInputVal(false,"watingtoggle");
-    this.updateInputVal(false,"doneList");
-    this.updateInputVal(false,"donetoggle");
-    this.updateInputVal(true,"expiredList");
-    this.updateInputVal(true,"expiretoggle");
-    break;
+
 default: 
 this.updateInputVal(true,"watingList");
 this.updateInputVal(true,"watingtoggle");
@@ -78,107 +72,112 @@ break;
 this.updateInputVal(true,"watingtoggle");
   }
     //START RETURN ALL FORMS
-    const DID = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
     firebase
       .database()
-      .ref("Forms/" + DID)
+      .ref("Forms/")
       .on("value", (snapshot) => {
-        //put DID after Path
         forms = snapshot.val();
         if (forms != null) {
           var formsKeys = Object.keys(forms);
+    
+          //Calling a method and sending Forms to filter it 
+          var loop = 0;
+          for (var i = 0 ; i < formsKeys.length ; i++){
+            var tmp = Object.keys(forms[formsKeys[i]]);
+            this.filterForms(forms[formsKeys[i]],loop);
+            loop += tmp.length;
+          }
+          console.log(filterdForms);
+    
           var waitingLoop = 0;
           var inProgressLoop = 0;
           var doneLoop = 0;
-          var expiredLoop = 0;
-            
+    
+          var filterdFormsKeys = Object.keys(filterdForms);
     ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
-          for (var i = 0; i < formsKeys.length; i++) {
-            console.log("loop2   "+i+"  ")
-              if (forms[formsKeys[i]].status === "w") {
-              waitingForms[waitingLoop] = forms[formsKeys[i]];
+          for (var i = 0; i < filterdFormsKeys.length; i++) {
+              if (filterdForms[filterdFormsKeys[i]].status === "w") {
+              waitingForms[waitingLoop] = filterdForms[filterdFormsKeys[i]];
               waitingLoop++;
-             } else if (forms[formsKeys[i]].status === "p" ) {
-              inProgressForms[inProgressLoop] = forms[formsKeys[i]];
+             } else if (filterdForms[filterdFormsKeys[i]].status === "p" || filterdForms[filterdFormsKeys[i]].status === "r" ) {
+              inProgressForms[inProgressLoop] = filterdForms[filterdFormsKeys[i]];
               inProgressLoop++;
-             } else if (forms[formsKeys[i]].status === "d" || forms[formsKeys[i]].status === "f") {
-              doneForms[doneLoop] = forms[formsKeys[i]];
+             }  else if (filterdForms[filterdFormsKeys[i]].status === "d" || filterdForms[filterdFormsKeys[i]].status === "") {
+              doneForms[doneLoop] = filterdForms[filterdFormsKeys[i]];
               doneLoop++;
             }
-            else if (forms[formsKeys[i]].status === "e"){
-              expiredForms[expiredLoop] = forms[formsKeys[i]];
+            else if (filterdForms[filterdFormsKeys[i]].status === "e"){
+              expiredForms[expiredLoop] = filterdForms[filterdFormsKeys[i]];
               expiredLoop++;
             }
           } //End of for loop
-          if (this.state.displayedWatingForms.length != waitingForms.length)
-              this.updateInputVal(waitingForms, "displayedWatingForms");
-              if (this.state.displayedCurrentForms.length != inProgressForms.length)
-              this.updateInputVal(inProgressForms, "displayedCurrentForms");
-              if (this.state.displayedDoneForms.length != doneForms.length)
-              this.updateInputVal(doneForms, "displayedDoneForms");
-              if (this.state.displayedExpiredForms.length != expiredForms.length)
-              this.updateInputVal(expiredForms,"displayedExpiredForms");
-        }
-    
-      //move above later
-        //expired 
-        this.state.displayedWatingForms.forEach((element, index)=> {
-          var currentDate = new Date();
-          var form = element.deadLine.split('-');
-          var formDate = new Date(form[0], form[1]-1,form[2]);
-          if(currentDate > formDate){
-            console.log("bigger");
-            this.state.displayedWatingForms.splice(index);
-            //change status to e
-            this.updateStatusToExpired(element);
-            this.state.displayedExpiredForms.push(element);
-          }
-        })
-        this.state.displayedCurrentForms.forEach((element, index)=> {
-          var currentDate = new Date();
-          var formDate = new Date(element.deadLine);
-          console.log("current" + currentDate);
-          console.log(formDate);
-          if(currentDate > formDate){
-            console.log("current" + currentDate);
-            console.log(formDate);
-            this.state.displayedCurrentForms.splice(index);
-            this.updateStatusToExpired(element);
-            this.state.displayedExpiredForms.push(element);
-    
-          }
-        })
-        // this.state.displayedDoneForms.forEach((element, index)=> {
-        //   var currentDate = new Date();
-        //   var formDate = new Date(element.deadLine);
-        //   if(currentDate > formDate){
-        //     this.state.displayedDoneForms.splice(index);
-        //     this.updateStatusToExpired(element);
-        //     this.state.displayedExpiredForms.push(element);
-    
-        //   }
-        // })
-       
-      }); //End of on method
 
+
+     if (this.state.displayedWatingForms.length != waitingForms.length)
+          this.updateInputVal(waitingForms, "displayedWatingForms");
+          if (this.state.displayedCurrentForms.length != inProgressForms.length)
+          this.updateInputVal(inProgressForms, "displayedCurrentForms");
+          if (this.state.displayedDoneForms.length != doneForms.length)
+          this.updateInputVal(doneForms, "displayedDoneForms");
+          if (this.state.displayedExpiredForms.length != expiredForms.length)
+          this.updateInputVal(expiredForms,"displayedExpiredForms");
+
+
+          //expired 
+    this.state.displayedWatingForms.forEach((element, index)=> {
+      var currentDate = new Date();
+      var form = element.deadLine.split('-');
+      var formDate = new Date(form[0], form[1]-1,form[2]);
+      if(currentDate > formDate){
+        console.log("bigger");
+        this.state.displayedWatingForms.splice(index);
+        //change status to e
+        this.updateStatusToExpired(element);
+        this.state.displayedExpiredForms.push(element);
+      }
+    })
+    this.state.displayedCurrentForms.forEach((element, index)=> {
+      var currentDate = new Date();
+      var formDate = new Date(element.deadLine);
+      console.log("current" + currentDate);
+      console.log(formDate);
+      if(currentDate > formDate){
+        console.log("current" + currentDate);
+        console.log(formDate);
+        this.state.displayedCurrentForms.splice(index);
+        this.updateStatusToExpired(element);
+        this.state.displayedExpiredForms.push(element);
+
+      }
+    })
+    // this.state.displayedDoneForms.forEach((element, index)=> {
+    //   var currentDate = new Date();
+    //   var formDate = new Date(element.deadLine);
+    //   if(currentDate > formDate){
+    //     this.state.displayedDoneForms.splice(index);
+    //     this.updateStatusToExpired(element);
+    //     this.state.displayedExpiredForms.push(element);
+
+    //   }
+    // })
+
+
+        }
+      }); //End of on method
     //START sepreate them based on their status
-   
+    
   } //End of constructor
 
-  UpdateStatusAfterAccepted = () => {
-    const DID = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
-    var key = this.state.Imagekey;
-    this.updateInputVal("p", "status");
+
+  updateStatusToExpired = (element) => {
+    const DID = element.DID;
+    var key = element.Imagekey;
     firebase
       .database()
       .ref("Forms/" + DID + "/" + key)
-      .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
+      .update({ status: "e" });
   };
-  
+
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -226,31 +225,40 @@ this.updateInputVal(true,"watingtoggle");
     }
   };
 
-  /*
-   waitingForms = [];
-var inProgressForms = []; 
-var doneForms = [];
-  */
+  
+  filterForms(Cforms,loop){
+      var ID = firebase.auth().currentUser.uid;
+    var Keys = Object.keys(Cforms);
+    var loopvar = loop;
+for (var i = 0 ; i < Keys.length ; i++){
+if(Cforms[Keys[i]].CID === ID){
+    filterdForms[loopvar] = Cforms[Keys[i]];
+    loopvar++;
+}
+
+}
+  }
+
 
   //DISPLAY WAITING LIST
 
   readWaitingList() {
     return this.state.displayedWatingForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("WRequiestDet", { obj: element })
+            this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
@@ -261,7 +269,7 @@ var doneForms = [];
             />
             <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
 
           </View>
@@ -270,33 +278,24 @@ var doneForms = [];
     });
   }
 
-  updateStatusToExpired = (element) => {
-    const DID = firebase.auth().currentUser.uid;
-    var key = element.Imagekey;
-    firebase
-      .database()
-      .ref("Forms/" + DID + "/" + key)
-      .update({ status: "e" });
-  };
-
   //DISPLAY CURRENT LIST
   readCurrentList() {
     return this.state.displayedCurrentForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("PRequiestDet", { obj: element })
+            this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
@@ -307,7 +306,7 @@ var doneForms = [];
             />
            
             <Text style={styles.currentorderText}>{ClientName}</Text>
-            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
             <Text style={styles.currentorderText}>{element.title}</Text>
             <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <View 
@@ -320,8 +319,8 @@ var doneForms = [];
               left:"-10%"
             }}
             >
-            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>التسليم </Text>
-        <Text style={styles.deaslineStyle}>{element.deadLine == ""?"مفتوح":element.deadLine}</Text>
+            <Text style={[styles.deaslineStyle,{fontWeight:"700"}]}>الحالة </Text>
+        <Text style={styles.deaslineStyle}>{element.status == "p"?"مقبول":"مرفوض"}</Text>
         </View>
           </View>
         </TouchableOpacity>
@@ -332,21 +331,21 @@ var doneForms = [];
   //DISPLAY DONE LIST
   readDoneList() {
     return this.state.displayedDoneForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate("DRequiestDet", { obj: element })
+            this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
@@ -379,7 +378,6 @@ var doneForms = [];
     });
   }
 
-  //DISPLAY EXPIRED LIST
   readExpiredList() {
     return this.state.displayedExpiredForms.map((element) => {
       var CID = element.CID;
@@ -415,11 +413,13 @@ var doneForms = [];
       );
     });
   }
+
   render() {
     const Wbottombordercolor = this.state.watingtoggle ? "#4f3c75" : "#ccc";
     const Cbottombordercolor = this.state.currenttoggle ? "#4f3c75" : "#ccc";
     const Dbottombordercolor = this.state.donetoggle ? "#4f3c75" : "#ccc";
     const Ebottombordercolor = this.state.expiretoggle ? "#4f3c75" : "#ccc";
+
 
     return (
       <View style={styles.container}>
@@ -434,12 +434,13 @@ var doneForms = [];
             top: "6.5%",
           }}
         >
-          سجل الطلبات
+          طلباتي
         </Text>
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-3%", position: "relative",shadowColor: "#000",
+          style={{ alignSelf: "center", top: "-3%", position: "relative",
+          shadowColor: "#000",
           shadowOffset: {
             width: 0,
             height: 4,
@@ -447,7 +448,7 @@ var doneForms = [];
           shadowOpacity: 0.32,
           shadowRadius: 5.46,
           
-          elevation: 9,  }}
+          elevation: 9, }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -548,7 +549,8 @@ var doneForms = [];
          </View>
         )}
 
-          {this.state.expiredList && this.state.displayedExpiredForms != 0 &&(
+
+{this.state.expiredList && this.state.displayedExpiredForms != 0 &&(
           <ScrollView
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
@@ -564,6 +566,7 @@ var doneForms = [];
          </View>
         )}
         
+
       </View>
     ); // End of render return
   } //End of render
@@ -652,7 +655,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#fff",
   },
-  
   
   emptyText:{
     color: "#4f3c75",

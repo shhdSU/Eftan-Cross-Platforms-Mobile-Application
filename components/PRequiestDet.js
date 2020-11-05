@@ -104,7 +104,15 @@ navigateToSubmit = () => {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "absolute" }}
+            style={{ alignSelf: "center", top: "-2%", position: "absolute",shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            
+            elevation: 9,  }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">

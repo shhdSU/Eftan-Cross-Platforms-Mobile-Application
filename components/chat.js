@@ -18,6 +18,7 @@ export default class RoomScreen extends React.Component {
       thread: props.navigation.state.params.thread,
       Imagekey: "",
       CID: "",
+      title: "",
     };
 
     if (props.navigation.state.params.obj) {
@@ -25,6 +26,7 @@ export default class RoomScreen extends React.Component {
 
       this.updateInputVal(Requiest.Imagekey, "Imagekey");
       this.updateInputVal(Requiest.CID, "CID");
+      this.updateInputVal(Requiest.title, "title");
 
     }
     ;
@@ -40,7 +42,7 @@ export default class RoomScreen extends React.Component {
   render() {
     return (
 
-      <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} thread={this.state.thread} />)
+      <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} thread={this.state.thread} title={this.state.title} />)
   }
 }
 
@@ -53,6 +55,7 @@ function Retrive(props) {
     chatID = props.chatID;
   }
   const ClinetID = props.ClinetID;
+  const title = props.title;
   const DID = firebase.auth().currentUser.uid;
   const [messages, setMessages] = useState([]);
 
@@ -99,66 +102,65 @@ function Retrive(props) {
     return () => messagesListener();
   }, []);
 
-  function addChatID() {
-    const CurrentID = firebase.auth().currentUser.uid;
+  //if its the first chat 
+  function AddClientIDtoTheFirestore() {
     const added = false
-    firebase.firestore()
-      .collection('UserChat')
-      .doc(CurrentID)
-      .collection('chatsID')
+
+    firebase
+      .firestore()
+      .collection("UserID")
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          if (doc.data().chatID == chatID) {
+          if (doc.data().DID == DID || doc.data().ClinetID == ClinetID) { // ClientID
             added = true
+            console.log("inside added")
+
           }
         })
 
         if (!added) {
-          // andd the chatID for the current user
-          firebase.firestore()
-            .collection('UserChat')
-            .doc(CurrentID)
-            .collection('chatsID')
-            .doc(chatID)
+          console.log("inside !added")
+          firebase.firestore().collection("UserID").doc(DID)
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(DID)
+            .collection('AllChat')
+            .doc(chatID) // بيكون اي دي الفورم
+            .collection("MESSAGES")
             .add({
+              RoomTitle: title,
               chatID: chatID,
-              //to: offerorName,
+              to: DID,
               toID: ClinetID
             })
-          // andd the chatID for the offeror
-          firebase.firestore()
-            .collection('UserChat')
-            .doc(ClinetID)
-            .collection('chatsID')
-            .doc(chatID)
-            .add({
-              chatID: chatID,
-              // to: myName,
-              toID: CurrentID
-
-            })
 
 
-          //console.log(myName)
+
         }
       })
-
   }
+
+
+
 
 
 
 
   // helper method that is sends a message
   function handleSend(messages) {
+    AddClientIDtoTheFirestore()
     const text = messages[0].text;
-    addChatID()
     firebase
       .firestore()
+      .collection("UserID")
+      .doc(DID)
       .collection("AllChat")
       .doc(chatID) // بيكون اي دي الفورم
       .collection("MESSAGES")
       .add({
+        RoomTitle: title,
         text,
         createdAt: new Date().getTime(),
         user: {
@@ -169,6 +171,8 @@ function Retrive(props) {
 
     firebase
       .firestore()
+      .collection("UserID")
+      .doc(DID)
       .collection("AllChat")
       .doc(chatID) // بيكون اي دي الفورم
       .set(
@@ -237,7 +241,7 @@ function Retrive(props) {
     <GiftedChat
       messages={messages}
       onSend={(newMessage) => handleSend(newMessage)}
-      placeholder="اشتغل الله يرحم والديك..."
+      placeholder="...اكتب رسالتك هنا"
       user={{
         _id: DID,
         to: ClinetID,

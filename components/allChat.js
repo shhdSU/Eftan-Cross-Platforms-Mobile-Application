@@ -37,7 +37,6 @@ function Display(props) {
   const reqID = props.reqID;
   const [threads, setThreads] = useState([]);
 
-  console.log("threads///////" + threads);
   const CurrentID = firebase.auth().currentUser.uid;
 
   // useEffect(() => {
@@ -79,10 +78,9 @@ function Display(props) {
     const unsubscribe =
       firebase
         .firestore()
-        .collection('UserChat')
+        .collection("UserID")
         .doc(CurrentID)
-        .collection('chatsID')
-        .doc()
+        .collection("AllChat")
         // .orderBy('latestMessage.createdAt', 'desc')
         .onSnapshot(querySnapshot => {
           const threads = querySnapshot.docs.map(documentSnapshot => {

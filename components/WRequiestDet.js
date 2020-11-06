@@ -134,9 +134,9 @@ export default class WRequiestDet extends React.Component {
       .update({ status: this.state.status });
     this.updateInputVal(true, "accepted");
 
-    firebase.firestore().collection("AllChat").add({
-      RoomTitle: this.state.title,
-    });
+    // firebase.firestore().collection("AllChat").add({
+    //   RoomTitle: this.state.title,
+    // });
 
     // asking shahad about prametar that sent { status: "p" }
   };

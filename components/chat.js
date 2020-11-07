@@ -18,7 +18,8 @@ export default class RoomScreen extends React.Component {
       thread: props.navigation.state.params.thread,
       Imagekey: "",
       CID: "",
-      title: "",
+      DesignerID: "",
+      // to: props.navigation.state.params.to,
     };
 
     if (props.navigation.state.params.obj) {
@@ -26,7 +27,7 @@ export default class RoomScreen extends React.Component {
 
       this.updateInputVal(Requiest.Imagekey, "Imagekey");
       this.updateInputVal(Requiest.CID, "CID");
-      this.updateInputVal(Requiest.title, "title");
+      this.updateInputVal(Requiest.DID, "DesignerID");
 
     }
     ;
@@ -42,7 +43,7 @@ export default class RoomScreen extends React.Component {
   render() {
     return (
 
-      <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} thread={this.state.thread} title={this.state.title} />)
+      <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} thread={this.state.thread} DesignerID={this.state.DesignerID} />)//to={this.state.to}
   }
 }
 
@@ -55,21 +56,26 @@ function Retrive(props) {
     chatID = props.chatID;
   }
   const ClinetID = props.ClinetID;
-  const title = props.title;
+  // const to = props.to;
+  const DesignerID = props.DesignerID;
   const DID = firebase.auth().currentUser.uid;
   const [messages, setMessages] = useState([]);
 
   console.log("////////////////////");
-  console.log("thread in chat" + chatID);
+  //console.log("tooooooooo " + to);
+  console.log("thread in chat " + chatID);
   console.log(ClinetID);
   console.log(DID);
 
-  //----------------------------------------------------------retrieve from database
+
+  //----------------------------------------retrieve from database
   useEffect(() => {
     const messagesListener = firebase
       .firestore()
-      .collection("AllChat")
-      .doc(chatID)
+      .collection("UserID")
+      .doc(DID)
+      .collection('AllChat')
+      .doc(chatID) // بيكون اي دي الفورم
       .collection("MESSAGES")
       .orderBy("createdAt", "desc")
       .onSnapshot((querySnapshot) => {
@@ -102,26 +108,75 @@ function Retrive(props) {
     return () => messagesListener();
   }, []);
 
-  //if its the first chat 
-  function AddClientIDtoTheFirestore() {
-    const added = false
+
+
+  // helper method that is sends a message
+  function handleSend(messages) {
+    const text = messages[0].text;
 
     firebase
-      .firestore()
-      .collection("UserID")
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          if (doc.data().DID == DID || doc.data().ClinetID == ClinetID) { // ClientID
-            added = true
-            console.log("inside added")
+      .database()
+      .ref(`Client/` + DID)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          console.log("im client")
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(DID) //current
+            .collection('AllChat')
+            .doc(chatID) // بيكون اي دي الفورم
+            .collection("MESSAGES")
+            .add({
+              text,
+              createdAt: new Date().getTime(),
+              user: {
+                _id: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+                to: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+              },
+            });
 
-          }
-        })
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc("N3eLKe2wgeZsPwkikRWEXxD2YwR2") //designer
+            .collection('AllChat')
+            .doc(chatID) // بيكون اي دي الفورم
+            .collection("MESSAGES")
+            .add({
+              text,
+              createdAt: new Date().getTime(),
+              user: {
+                _id: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+                to: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+              },
+            });
 
-        if (!added) {
-          console.log("inside !added")
-          firebase.firestore().collection("UserID").doc(DID)
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(DID)
+            .collection("AllChat")
+            .doc(chatID) // بيكون اي دي الفورم
+            .set(
+              {
+                latestMessage: {
+                  to: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+                  text,
+                  createdAt: new Date().getTime(),
+                },
+              },
+              { merge: true }
+            );
+        }
+      });
+
+    firebase
+      .database()
+      .ref(`GraphicDesigner/` + DID)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          console.log("im GraphicDesigner")
           firebase
             .firestore()
             .collection("UserID")
@@ -130,61 +185,52 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              RoomTitle: title,
-              chatID: chatID,
-              to: DID,
-              toID: ClinetID
-            })
+              text,
+              createdAt: new Date().getTime(),
+              user: {
+                _id: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+                to: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+              },
+            });
 
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc("JYikkr90YzXsnHH8kNedSJJ7ben2") //designer
+            .collection('AllChat')
+            .doc(chatID) // بيكون اي دي الفورم
+            .collection("MESSAGES")
+            .add({
+              text,
+              createdAt: new Date().getTime(),
+              user: {
+                _id: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+                to: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+              },
+            });
 
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(DID)
+            .collection("AllChat")
+            .doc(chatID) // بيكون اي دي الفورم
+            .set(
+              {
+                latestMessage: {
+                  to: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+                  text,
+                  createdAt: new Date().getTime(),
+                },
+              },
+              { merge: true }
+            );
 
         }
-      })
-  }
-
-
-
-
-
-
-
-  // helper method that is sends a message
-  function handleSend(messages) {
-    AddClientIDtoTheFirestore()
-    const text = messages[0].text;
-    firebase
-      .firestore()
-      .collection("UserID")
-      .doc(DID)
-      .collection("AllChat")
-      .doc(chatID) // بيكون اي دي الفورم
-      .collection("MESSAGES")
-      .add({
-        RoomTitle: title,
-        text,
-        createdAt: new Date().getTime(),
-        user: {
-          _id: DID, // من الاوبجكت اذا جا نحط ايدي المصمم
-          to: ClinetID, // من الاوبجكت اذا جا بنرسل للعميل
-        },
       });
 
-    firebase
-      .firestore()
-      .collection("UserID")
-      .doc(DID)
-      .collection("AllChat")
-      .doc(chatID) // بيكون اي دي الفورم
-      .set(
-        {
-          latestMessage: {
-            to: ClinetID, // من الاوبجكت اذا جا بنرسل للعميل
-            text,
-            createdAt: new Date().getTime(),
-          },
-        },
-        { merge: true }
-      );
+
+
   }
 
   function renderBubble(props) {
@@ -282,3 +328,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+

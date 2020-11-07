@@ -6,75 +6,13 @@ import { List, Divider } from "react-native-paper";
 import firebase from "../database/firebase";
 import "firebase/firestore";
 
-export default class allChat extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {
-      Requiestt: Requiest,
-      thread: "",
-      Imagekey: "",
-      CID: "",
-    };
-    if (props.navigation.state.params) {
-      var Requiest = props.navigation.state.params.obj;
 
-      this.updateInputVal(Requiest.Imagekey, "Imagekey");
-      this.updateInputVal(Requiest.CID, "CID");
-    }
-
-  }
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  };
-  render() {
-    return <Display reqID={this.state.Requiestt} v={this.props.navigation} />;
-  }
-}
-function Display(props) {
-  const v = props.v;
-  const reqID = props.reqID;
+export default function Display({ navigation }) {
   const [threads, setThreads] = useState([]);
 
-  const CurrentID = firebase.auth().currentUser.uid;
 
-  // useEffect(() => {
-  //   var StoredChatId=[];
-  //    firebase
-  //     .firestore()
-  //     .collection("UserChat")
-  //     .doc(CurrentID)
-  //     .collection("chatsID")
-  //     .get()
-  //     .then(
-  //     function(querySnapshot){
-  //       querySnapshot.forEach(function(doc){
-  //         StoredChatId.push(doc.data())
-  //     }
-  //     )
-  //   })
-  //   const unsubscribe = firebase
-  //   .firestore()
-  //   .collection("AllChat")
-  //   .doc()
-  //     //.orderBy('latestMessage.createdAt', 'desc')
-  //     .onSnapshot((querySnapshot) => {
-  //       const threads = querySnapshot.docs.map((documentSnapshot) => {
-  //         console.log("inside threads///////" + documentSnapshot.id);
-  //         return {
-  //           _id: documentSnapshot.id,
-  //           RoomTitle: "",
-  //           ...documentSnapshot.data(),
-  //         };
-  //       });
-
-  //       setThreads(threads);
-  //     });
-
-  //   return () => unsubscribe();
-  // }, []);
   useEffect(() => {
+    const CurrentID = firebase.auth().currentUser.uid;
     const unsubscribe =
       firebase
         .firestore()
@@ -86,8 +24,7 @@ function Display(props) {
           const threads = querySnapshot.docs.map(documentSnapshot => {
             return {
               _id: documentSnapshot.id,
-              // give defaults
-              name: '',
+              //title: '',
               ...documentSnapshot.data()
             };
           });
@@ -155,13 +92,15 @@ function Display(props) {
           <TouchableOpacity
 
             onPress={() =>
-              v.navigate("chat", {
+              navigation.navigate("chat", {
                 thread: item,
+                // to: item.to,
+                // title: title,
               })
             }
           >
             <List.Item
-              title={item.RoomTitle}
+              //title={item.title}
               description="Item description"
               titleNumberOfLines={1}
               titleStyle={styles.listTitle}

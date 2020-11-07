@@ -19,9 +19,9 @@ export default class PaymentFormView extends React.Component {
       <View>
         <View>
           <CreditCardInput
-          labels={{ number: "رقم البطاقة", expiry: " الانتهاء", cvc: "CVV" ,name:"الاسم"}}
+          labels={{ number: "رقم البطاقة", expiry: " الانتهاء", cvc: "CVV" }}
           placeholders={{ number: "1234 5678 1234 5678", expiry: "سنة/شهر", cvc: "CVC" }}
-          requiresName
+         
            allowScroll
            labelStyle={{
             fontSize: 15,

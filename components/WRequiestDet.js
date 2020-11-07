@@ -126,13 +126,13 @@ export default class WRequiestDet extends React.Component {
   RejectRequest = () => {
     const DID = firebase.auth().currentUser.uid;
     var key = this.state.Imagekey;
-    this.updateInputVal("p", "status");
+    this.updateInputVal("r", "status");
     firebase
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"r"});
+      this.updateInputVal(false,"accepted");
+    this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
   //------------------------------------
 
@@ -260,7 +260,7 @@ export default class WRequiestDet extends React.Component {
                         // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب  
                         text: "تأكيد",
                         onPress: () => {
-                          this.RemoveRequest();
+                          this.RejectRequest();
                         },
                       },
                     ],

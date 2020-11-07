@@ -178,7 +178,7 @@ this.updateInputVal(true,"watingtoggle");
       .update({ status: "e" });
   };
 
-  //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
+  //////for udate state values 
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -380,28 +380,28 @@ if(Cforms[Keys[i]].CID === ID){
 
   readExpiredList() {
     return this.state.displayedExpiredForms.map((element) => {
-      var CID = element.CID;
+      var DID = element.DID;
       var ClientName = "";
       firebase
         .database()
-        .ref("Client/" + CID)
+        .ref("GraphicDesigner/" + DID)
         .on("value", (dataSnapshot) => {
           ClientName =
-            dataSnapshot.child("CFirstName").val() +
+            dataSnapshot.child("DFirstName").val() +
             " " +
-            dataSnapshot.child("CLastName").val();
+            dataSnapshot.child("DLastName").val();
         });
       return (
         <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate("ERequestDet", { obj: element })
+        onPress={() =>
+          this.props.navigation.navigate("ViewClientRequests", { obj: element })
           }
           style={styles.listStyle}
         >
           <View key={Math.random()}>
           <Image
               style={styles.profileImage}
-              source={{ uri: element.submissionUrl}}
+              source={{ uri: element.reference}}
             />
              <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>

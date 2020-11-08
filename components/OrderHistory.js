@@ -102,7 +102,7 @@ this.updateInputVal(true,"watingtoggle");
              } else if (filterdForms[filterdFormsKeys[i]].status === "p" || filterdForms[filterdFormsKeys[i]].status === "r" ) {
               inProgressForms[inProgressLoop] = filterdForms[filterdFormsKeys[i]];
               inProgressLoop++;
-             }  else if (filterdForms[filterdFormsKeys[i]].status === "d" || filterdForms[filterdFormsKeys[i]].status === "") {
+             }  else if (filterdForms[filterdFormsKeys[i]].status === "d" || filterdForms[filterdFormsKeys[i]].status === "f") {
               doneForms[doneLoop] = filterdForms[filterdFormsKeys[i]];
               doneLoop++;
             }

@@ -185,15 +185,15 @@ export default class UploadNewDesign extends Component {
       return;
     }
 
-    // if (this.state.localpath === "") {
-    //   Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
-    //     cancelable: false,
-    //   });
-    //   return;
-    // }
+    if (this.state.localpath === "") {
+      Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
+        cancelable: false,
+      });
+      return;
+    }
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     //we should not accept numbers, too
-    var tags = this.state.designTags.split(", ");
+    var tags = this.state.designTags.split(" ");
     var containsSpecial = false;
     tags.forEach(element => {
       console.log(element);
@@ -371,11 +371,11 @@ export default class UploadNewDesign extends Component {
             { color: "#4F3C75", top: "-22%", fontWeight: "700" },
           ]}
         >
-           كلمات مفتاحية للعمل  {" "}
+           كلمات مفتاحية للعمل  {" "} يجب ألا تحتوي على رموز
         </Text>
         <TextInput
           style={styles.inputStyleDescription2}
-          placeholder=" أدخل كلمات مفتاحية بين كل منها علامة (,) ..."
+          placeholder=" أدخل كلمات مفتاحية بين كل منها مسافة ..."
           maxLength={250}
           multiline={true}
           value={this.state.designTags}

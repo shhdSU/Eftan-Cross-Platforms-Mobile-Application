@@ -312,7 +312,7 @@ export default class explore extends Component {
     }
     this.updateInputVal(false,"found");
     this.updateInputVal(true,"searching");
-    var tags = val.split(", ");
+    var tags = val.split(" ");
     console.log(tags);
     var searchResults= new Array();
 designGallery.forEach(element => {
@@ -413,7 +413,7 @@ console.log(searchResults);
               maxLength={45}
               style = {{ flex: 1, fontWeight: "700", backgroundColor: "white",zIndex:10,textAlign:"right" }}
           placeholderTextColor="grey"
-          placeholder=" ادخل كلمات مفتاحية للبحث"
+          placeholder=" ادخل كلمات مفتاحية مفصولة بمسافة..."
           onChangeText={(val) => this.searchTags(val)}
         />
         </View>

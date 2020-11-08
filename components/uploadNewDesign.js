@@ -371,7 +371,14 @@ export default class UploadNewDesign extends Component {
             { color: "#4F3C75", top: "-22%", fontWeight: "700" },
           ]}
         >
-           كلمات مفتاحية للعمل  {" "} يجب ألا تحتوي على رموز
+           كلمات مفتاحية للعمل  {" "}
+        </Text>
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-27.5%",left: "-20%", fontWeight: "100" },
+          ]}
+        > (يجب ألا تحتوي على رموز)
         </Text>
         <TextInput
           style={styles.inputStyleDescription2}
@@ -575,7 +582,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "3.5%",
     alignSelf:"center",
-    bottom: "15%",
+    bottom: "100%", //15
   },
   
 

@@ -57,6 +57,7 @@ export default class explore extends Component {
        searchResults: [],
        searching:false,
        found:false,
+       includesSpec:false,
     };
     logo = [];
     brand = [];
@@ -308,8 +309,18 @@ export default class explore extends Component {
   searchTags = (val) => {
     if(val == ""){
       this.updateInputVal(false,"searching");
+      this.updateInputVal(false,"includesSpec")
       return;
     }
+    if(/\s/.test(val)){
+      return;
+    }
+    var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if(specialCheck.test(val)){
+      this.updateInputVal(true,"includesSpec");
+      return;
+    }
+    this.updateInputVal(false,"includesSpec");
     this.updateInputVal(false,"found");
     this.updateInputVal(true,"searching");
     var tags = val.split(" ");
@@ -418,13 +429,13 @@ console.log(searchResults);
         />
         </View>
         </View>
-          {this.state.searching && !this.state.found && //no results found
+          {this.state.searching && !this.state.found && !this.state.includesSpec &&//no results found
        (<View style={{marginTop:"50%"}}> 
        <EmptyList style={styles.emptyImage}></EmptyList>
         <Text style={styles.emptyText}>نأسف، لم يتم العثور على أي تصاميم بهذه الكلمات المفتاحية</Text>
         </View>)
   }
-   {this.state.searching && this.state.found && //search results found
+   {this.state.searching && this.state.found && !this.state.includesSpec &&//search results found
       (  <View style={{ flex: 1 }}>
           <View
             style={{
@@ -466,9 +477,16 @@ console.log(searchResults);
         </View>
        ) }
 
+{this.state.includesSpec && //search results found
+     (<View style={{marginTop:"50%"}}> 
+     <EmptyList style={styles.emptyImage}></EmptyList>
+      <Text style={styles.emptyText}>يجب ان تحتوي الكلمات المفتاحية على أحرف وأرقام فقط</Text>
+      </View>)
+        }
 
 
-          {!this.state.searching && !this.state.found && //default page (not searching anything)
+
+          {!this.state.searching && !this.state.found && !this.state.includesSpec && //default page (not searching anything)
       (  <View style={{ flex: 1 }}>
           <View
             style={{

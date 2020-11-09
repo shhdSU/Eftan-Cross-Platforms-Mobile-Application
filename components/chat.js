@@ -17,20 +17,47 @@ export default class RoomScreen extends React.Component {
     this.state = {
       thread: props.navigation.state.params.thread,
       Imagekey: "",
-      CID: "",
-      DesignerID: "",
+      reciveID: "",
+      chatID: "",
+
+
       // to: props.navigation.state.params.to,
     };
 
+    const CurrentID = firebase.auth().currentUser.uid;
+
+
     if (props.navigation.state.params.obj) {
       var Requiest = props.navigation.state.params.obj;
+      this.updateInputVal(Requiest.Imagekey, "chatID")
+    }
 
-      this.updateInputVal(Requiest.Imagekey, "Imagekey");
-      this.updateInputVal(Requiest.CID, "CID");
-      this.updateInputVal(Requiest.DID, "DesignerID");
+
+
+    if (this.state.thread) {
+      this.updateInputVal(this.state.thread._id, "chatID")
 
     }
-    ;
+
+
+
+    firebase
+      .database()
+      .ref(`chat/` + this.state.chatID)
+      .on("value", (snapshot) => {
+        if (snapshot.child("CID").val() == CurrentID) {
+          reciveID = snapshot.child("DID").val();
+          console.log("CurrentID" + snapshot.child("DID").val())
+
+        } else if (snapshot.child("DID").val() == CurrentID) {
+          reciveID = snapshot.child("CID").val();
+          console.log("CurrentID///" + snapshot.child("CID").val())
+
+
+        }
+      })
+    this.updateInputVal(reciveID, "reciveID");
+
 
   }
   updateInputVal = (val, prop) => {
@@ -43,29 +70,17 @@ export default class RoomScreen extends React.Component {
   render() {
     return (
 
-      <Retrive ClinetID={this.state.CID} chatID={this.state.Imagekey} thread={this.state.thread} DesignerID={this.state.DesignerID} />)//to={this.state.to}
+      <Retrive chatID={this.state.chatID} thread={this.state.thread} reciveID={this.state.reciveID} />)//to={this.state.to}
   }
 }
 
 function Retrive(props) {
-  var chatID;
-  if (props.thread) {
-    chatID = props.thread._id;
-  }
-  else {
-    chatID = props.chatID;
-  }
-  const ClinetID = props.ClinetID;
-  // const to = props.to;
-  const DesignerID = props.DesignerID;
-  const DID = firebase.auth().currentUser.uid;
+  const chatID = props.chatID
+  const reciveID = props.reciveID
+  const CurrentID = firebase.auth().currentUser.uid;
+  console.log("chatID" + chatID)
+  console.log("reciveID" + reciveID)
   const [messages, setMessages] = useState([]);
-
-  console.log("////////////////////");
-  //console.log("tooooooooo " + to);
-  console.log("thread in chat " + chatID);
-  console.log(ClinetID);
-  console.log(DID);
 
 
   //----------------------------------------retrieve from database
@@ -73,7 +88,7 @@ function Retrive(props) {
     const messagesListener = firebase
       .firestore()
       .collection("UserID")
-      .doc(DID)
+      .doc(CurrentID)
       .collection('AllChat')
       .doc(chatID) // بيكون اي دي الفورم
       .collection("MESSAGES")
@@ -109,21 +124,20 @@ function Retrive(props) {
   }, []);
 
 
-
   // helper method that is sends a message
   function handleSend(messages) {
     const text = messages[0].text;
-
+    //------------------------------------------------------------------------------------------------------client
     firebase
       .database()
-      .ref(`Client/` + DID)
+      .ref(`Client/` + CurrentID)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           console.log("im client")
           firebase
             .firestore()
             .collection("UserID")
-            .doc(DID) //current
+            .doc(CurrentID) //current
             .collection('AllChat')
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
@@ -131,15 +145,15 @@ function Retrive(props) {
               text,
               createdAt: new Date().getTime(),
               user: {
-                _id: "JYikkr90YzXsnHH8kNedSJJ7ben2",
-                to: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+                _id: CurrentID,//العميل
+                to: reciveID,
               },
             });
 
           firebase
             .firestore()
             .collection("UserID")
-            .doc("N3eLKe2wgeZsPwkikRWEXxD2YwR2") //designer
+            .doc(reciveID) //designer
             .collection('AllChat')
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
@@ -147,21 +161,21 @@ function Retrive(props) {
               text,
               createdAt: new Date().getTime(),
               user: {
-                _id: "JYikkr90YzXsnHH8kNedSJJ7ben2",
-                to: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+                _id: CurrentID,
+                to: reciveID,
               },
             });
 
           firebase
             .firestore()
             .collection("UserID")
-            .doc(DID)
+            .doc(CurrentID)
             .collection("AllChat")
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
                 latestMessage: {
-                  to: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
+                  to: reciveID,
                   text,
                   createdAt: new Date().getTime(),
                 },
@@ -170,17 +184,18 @@ function Retrive(props) {
             );
         }
       });
+    //------------------------------------------------------------------------------------------------------
 
     firebase
       .database()
-      .ref(`GraphicDesigner/` + DID)
+      .ref(`GraphicDesigner/` + CurrentID)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           console.log("im GraphicDesigner")
           firebase
             .firestore()
             .collection("UserID")
-            .doc(DID)
+            .doc(CurrentID)
             .collection('AllChat')
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
@@ -188,15 +203,15 @@ function Retrive(props) {
               text,
               createdAt: new Date().getTime(),
               user: {
-                _id: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
-                to: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+                _id: CurrentID,
+                to: reciveID,
               },
             });
 
           firebase
             .firestore()
             .collection("UserID")
-            .doc("JYikkr90YzXsnHH8kNedSJJ7ben2") //designer
+            .doc(reciveID)
             .collection('AllChat')
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
@@ -204,21 +219,21 @@ function Retrive(props) {
               text,
               createdAt: new Date().getTime(),
               user: {
-                _id: "N3eLKe2wgeZsPwkikRWEXxD2YwR2",
-                to: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+                _id: CurrentID,
+                to: reciveID,
               },
             });
 
           firebase
             .firestore()
             .collection("UserID")
-            .doc(DID)
+            .doc(CurrentID)
             .collection("AllChat")
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
                 latestMessage: {
-                  to: "JYikkr90YzXsnHH8kNedSJJ7ben2",
+                  to: reciveID,
                   text,
                   createdAt: new Date().getTime(),
                 },
@@ -228,7 +243,7 @@ function Retrive(props) {
 
         }
       });
-
+    //------------------------------------------------------------------------------------------------------
 
 
   }
@@ -289,8 +304,8 @@ function Retrive(props) {
       onSend={(newMessage) => handleSend(newMessage)}
       placeholder="...اكتب رسالتك هنا"
       user={{
-        _id: DID,
-        to: ClinetID,
+        _id: CurrentID,
+        to: reciveID,
 
       }}
       scrollToBottom
@@ -302,6 +317,9 @@ function Retrive(props) {
     />
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -328,4 +346,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
 

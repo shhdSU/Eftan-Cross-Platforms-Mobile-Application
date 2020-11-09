@@ -39,7 +39,7 @@ export default class RoomScreen extends React.Component {
 
     }
 
-
+    var reciveID;
 
     firebase
       .database()

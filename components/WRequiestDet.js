@@ -10,17 +10,12 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
-import RoomScreen from "./chat";
-
-import "firebase/firestore";
-
 export default class WRequiestDet extends React.Component {
   constructor(props) {
     super();
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
-      Requiestt: Requiest,
       Imagekey: "",
       CID: "",
       category: "",
@@ -35,12 +30,11 @@ export default class WRequiestDet extends React.Component {
       ClientProfileImage: "",
       name: "",
       clientToken: "",
-      flag: false,
-      accepted: false,
+      accepted:false,
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "",
+      rejectedMessage: "",      
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -80,40 +74,32 @@ export default class WRequiestDet extends React.Component {
         this.updateInputVal(Cname, "name");
       });
     //---------------clientToken-------------------
-    firebase
-      .database()
-      .ref("Client/" + this.state.CID)
-      .child("notificationsKey")
-      .on("value", (dataSnapshot) => {
-        if (dataSnapshot.exists()) {
-          firebase
-            .database()
-            .ref("Client/" + this.state.CID)
-            .child("notificationsKey")
-            .on("value", (dataSnapshot) => {
-              this.updateInputVal(dataSnapshot.val(), "clientToken");
-            });
-        }
-      });
+      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+          if(dataSnapshot.exists()){
+            firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
+              this.updateInputVal(dataSnapshot.val(),"clientToken");
+          })
+      }
+    })
     var designerName;
     firebase
-      .database()
-      .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
-      .on("value", (dataSnapshot) => {
-        designerName =
-          dataSnapshot.child("DFirstName").val() +
-          " " +
-          dataSnapshot.child("DLastName").val();
-        this.updateInputVal(designerName, "dname");
-      });
+    .database()
+    .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
+    .on("value", (dataSnapshot) => {
+      designerName =
+        dataSnapshot.child("DFirstName").val() +
+        " " +
+        dataSnapshot.child("DLastName").val();
+      this.updateInputVal(designerName, "dname");
+    });
     var acceptedmessage = "لقد تم قبول طلبك من قبل المصمم" + this.state.dname;
-    var rejectedmessage =
-      "لم يتمكن المصمم " + this.state.dname + " من قبول طلبك";
-    this.updateInputVal(acceptedmessage, "acceptedMessage");
-    this.updateInputVal(rejectedmessage, "rejectedMessage");
+    var rejectedmessage = "لم يتمكن المصمم "+ this.state.dname + " من قبول طلبك";
+    this.updateInputVal(acceptedmessage,"acceptedMessage");
+    this.updateInputVal(rejectedmessage,"rejectedMessage");
 
     console.log(acceptedmessage);
     console.log(rejectedmessage);
+
   }
   //---------------تحديث قيم--------------
 
@@ -132,16 +118,8 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-    this.updateInputVal(true, "accepted");
-
-    firebase.database().ref("chat/" + key).set({
-      DID: DID,
-      CID: this.state.CID,
-      Imagekey: this.state.Imagekey,
-      title: this.state.title,
-    });
-
-    // asking shahad about prametar that sent { status: "p" }
+      this.updateInputVal(true,"accepted");
+    this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
 
   //---------------رفض طلب--------------
@@ -153,8 +131,8 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-    this.updateInputVal(false, "accepted");
-    this.props.navigation.navigate("DisplayRequest", { status: "r" });
+      this.updateInputVal(false,"accepted");
+    this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
   //------------------------------------
 
@@ -176,35 +154,21 @@ export default class WRequiestDet extends React.Component {
           >
             {this.state.title}
           </Text>
-          {this.state.accepted && (
-            <Notify
-              token={this.state.clientToken}
-              myTitle="تهانينا"
-              myMessage={this.state.acceptedMessage}
-            />
-          )}
-          {this.state.rejected && (
-            <Notify
-              token={this.state.clientToken}
-              myTitle="يا للأسف"
-              myMessage={this.state.rejectedMessage}
-            />
-          )}
+          {this.state.accepted &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.acceptedMessage}/>}
+          {this.state.rejected &&  <Notify token = {this.state.clientToken} myTitle= "يا للأسف" myMessage = {this.state.rejectedMessage}/>}
 
           <Svg
             width={416}
             height={144}
-            style={{
-              alignSelf: "center", top: "-2%", position: "absolute", shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 4,
-              },
-              shadowOpacity: 0.32,
-              shadowRadius: 5.46,
-
-              elevation: 9,
-            }}
+            style={{ alignSelf: "center", top: "-2%", position: "absolute",shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            
+            elevation: 9,  }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">
@@ -255,7 +219,7 @@ export default class WRequiestDet extends React.Component {
               }}
             >
               <TouchableOpacity
-                // اذا ضغط المصمم زر قبول الطلب يصل للعميل اشعار >> تم قبول الطلب
+                // اذا ضغط المصمم زر قبول الطلب يصل للعميل اشعار >> تم قبول الطلب  
 
                 onPress={() =>
                   Alert.alert(
@@ -266,16 +230,13 @@ export default class WRequiestDet extends React.Component {
                         text: "حسناً",
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
-                          this.updateInputVal(true, "flag");
-                          this.props.navigation.navigate("chat", {
-                            obj: this.state.Requiestt,
-                          });
                         },
                       },
                     ],
                     { cancelable: false }
                   )
                 }
+
               >
                 <Image
                   style={styles.accject}
@@ -296,7 +257,7 @@ export default class WRequiestDet extends React.Component {
                         },
                       },
                       {
-                        // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب
+                        // اذا ضغط المصمم زر رفض الطلب يصل للعميل اشعار >> تم رفض الطلب  
                         text: "تأكيد",
                         onPress: () => {
                           this.RejectRequest();
@@ -313,7 +274,6 @@ export default class WRequiestDet extends React.Component {
                 />
               </TouchableOpacity>
             </View>
-            {/* {this.state.flag && <RoomScreen ClinetID={this.state.CID} chatID={this.state.Imagekey} />} */}
           </View>
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
@@ -603,8 +563,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
-    borderColor: "#4F3C75",
-    borderWidth: 2,
+    borderColor:"#4F3C75",
+    borderWidth:2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",

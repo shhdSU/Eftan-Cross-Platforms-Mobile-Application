@@ -13,4 +13,3 @@ web-build/
 .DS_Store
 package-lock.json
 package.json
-components/AllChat.js

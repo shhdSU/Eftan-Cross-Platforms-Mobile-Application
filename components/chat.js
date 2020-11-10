@@ -19,10 +19,9 @@ export default class RoomScreen extends React.Component {
       Imagekey: "",
       reciveID: "",
       chatID: "",
-
-
-      // to: props.navigation.state.params.to,
+      title: "",
     };
+    var reciveID;
 
     const CurrentID = firebase.auth().currentUser.uid;
 
@@ -39,7 +38,6 @@ export default class RoomScreen extends React.Component {
 
     }
 
-    var reciveID;
 
     firebase
       .database()
@@ -47,16 +45,22 @@ export default class RoomScreen extends React.Component {
       .on("value", (snapshot) => {
         if (snapshot.child("CID").val() == CurrentID) {
           reciveID = snapshot.child("DID").val();
+          this.updateInputVal(snapshot.child("title").val(), "title")
           console.log("CurrentID" + snapshot.child("DID").val())
+          this.updateInputVal(reciveID, "reciveID");
+
+
 
         } else if (snapshot.child("DID").val() == CurrentID) {
           reciveID = snapshot.child("CID").val();
+          this.updateInputVal(snapshot.child("title").val(), "title")
           console.log("CurrentID///" + snapshot.child("CID").val())
+          this.updateInputVal(reciveID, "reciveID");
+
 
 
         }
       })
-    this.updateInputVal(reciveID, "reciveID");
 
 
   }
@@ -70,13 +74,14 @@ export default class RoomScreen extends React.Component {
   render() {
     return (
 
-      <Retrive chatID={this.state.chatID} thread={this.state.thread} reciveID={this.state.reciveID} />)//to={this.state.to}
+      <Retrive chatID={this.state.chatID} title={this.state.title} reciveID={this.state.reciveID} />)//to={this.state.to}
   }
 }
 
 function Retrive(props) {
   const chatID = props.chatID
   const reciveID = props.reciveID
+  const title = props.title
   const CurrentID = firebase.auth().currentUser.uid;
   console.log("chatID" + chatID)
   console.log("reciveID" + reciveID)
@@ -98,6 +103,7 @@ function Retrive(props) {
           const firebaseData = doc.data();
 
           const data = {
+            title: firebaseData.title,
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),
@@ -142,6 +148,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
+              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -158,6 +165,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
+              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -174,6 +182,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
+                title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -200,6 +209,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
+              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -216,6 +226,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
+              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -232,6 +243,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
+                title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -240,7 +252,18 @@ function Retrive(props) {
               },
               { merge: true }
             );
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(CurrentID)
+            .collection("AllChat")
+            .add(
+              {
+                title: title,
 
+              }
+
+            );
         }
       });
     //------------------------------------------------------------------------------------------------------

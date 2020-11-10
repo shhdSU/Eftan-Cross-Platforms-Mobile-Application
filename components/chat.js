@@ -19,11 +19,10 @@ export default class RoomScreen extends React.Component {
       Imagekey: "",
       reciveID: "",
       chatID: "",
-      title: "",
+
 
       // to: props.navigation.state.params.to,
     };
-    var reciveID;
 
     const CurrentID = firebase.auth().currentUser.uid;
 
@@ -37,9 +36,10 @@ export default class RoomScreen extends React.Component {
 
     if (this.state.thread) {
       this.updateInputVal(this.state.thread._id, "chatID")
+
     }
 
-
+    var reciveID;
 
     firebase
       .database()
@@ -47,23 +47,16 @@ export default class RoomScreen extends React.Component {
       .on("value", (snapshot) => {
         if (snapshot.child("CID").val() == CurrentID) {
           reciveID = snapshot.child("DID").val();
-          console.log("CurrentID" + snapshot.child("CID").val())
-          this.updateInputVal(reciveID, "reciveID");
-          this.updateInputVal(snapshot.child("title").val(), "title")
-
-
+          console.log("CurrentID" + snapshot.child("DID").val())
 
         } else if (snapshot.child("DID").val() == CurrentID) {
           reciveID = snapshot.child("CID").val();
-          console.log("CurrentID///" + snapshot.child("DID").val())
-          this.updateInputVal(reciveID, "reciveID");
-          this.updateInputVal(snapshot.child("title").val(), "title")
-
-
+          console.log("CurrentID///" + snapshot.child("CID").val())
 
 
         }
       })
+    this.updateInputVal(reciveID, "reciveID");
 
 
   }
@@ -77,7 +70,7 @@ export default class RoomScreen extends React.Component {
   render() {
     return (
 
-      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} />)
+      <Retrive chatID={this.state.chatID} thread={this.state.thread} reciveID={this.state.reciveID} />)//to={this.state.to}
   }
 }
 
@@ -85,14 +78,10 @@ function Retrive(props) {
   const chatID = props.chatID
   const reciveID = props.reciveID
   const CurrentID = firebase.auth().currentUser.uid;
-  const title = props.title
-
-  console.log("title--------------" + title)
   console.log("chatID" + chatID)
   console.log("reciveID" + reciveID)
-  console.log("CurrentID" + CurrentID)
-
   const [messages, setMessages] = useState([]);
+
 
   //----------------------------------------retrieve from database
   useEffect(() => {
@@ -109,7 +98,6 @@ function Retrive(props) {
           const firebaseData = doc.data();
 
           const data = {
-            title: firebaseData.title,
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),
@@ -135,6 +123,7 @@ function Retrive(props) {
     return () => messagesListener();
   }, []);
 
+
   // helper method that is sends a message
   function handleSend(messages) {
     const text = messages[0].text;
@@ -153,7 +142,6 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -170,7 +158,6 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -187,7 +174,6 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
-                title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -206,8 +192,6 @@ function Retrive(props) {
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           console.log("im GraphicDesigner")
-          console.log("reciveID" + reciveID)
-          console.log("CurrentID" + CurrentID)
           firebase
             .firestore()
             .collection("UserID")
@@ -232,7 +216,6 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -249,7 +232,6 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
-                title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -258,14 +240,6 @@ function Retrive(props) {
               },
               { merge: true }
             );
-
-          // firebase
-          //   .firestore()
-          //   .collection("UserID")
-          //   .doc(CurrentID)
-          //   .collection("AllChat")
-          //   .add({ title: title })
-
 
         }
       });

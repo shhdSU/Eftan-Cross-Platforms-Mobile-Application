@@ -19,12 +19,12 @@ export default function Display({ navigation }) {
         .collection("UserID")
         .doc(CurrentID)
         .collection("AllChat")
-        // .orderBy('latestMessage.createdAt', 'desc')
+        .orderBy('latestMessage.createdAt', 'desc')
         .onSnapshot(querySnapshot => {
           const threads = querySnapshot.docs.map(documentSnapshot => {
             return {
               _id: documentSnapshot.id,
-              //title: '',
+              title: documentSnapshot.data().title,
               ...documentSnapshot.data()
             };
           });
@@ -94,14 +94,13 @@ export default function Display({ navigation }) {
             onPress={() =>
               navigation.navigate("chat", {
                 thread: item,
-                // to: item.to,
-                // title: title,
+                title: item.title,
               })
             }
           >
             <List.Item
-              //title={item.title}
-              description="Item description"
+              title={item.title}
+              description={item.latestMessage.text}
               titleNumberOfLines={1}
               titleStyle={styles.listTitle}
               descriptionStyle={styles.listDescription}

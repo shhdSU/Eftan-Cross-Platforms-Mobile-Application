@@ -138,6 +138,7 @@ export default class WRequiestDet extends React.Component {
       DID: DID,
       CID: this.state.CID,
       Imagekey: this.state.Imagekey,
+      title: this.state.title,
     });
 
     // asking shahad about prametar that sent { status: "p" }

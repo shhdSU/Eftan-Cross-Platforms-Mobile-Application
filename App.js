@@ -25,7 +25,7 @@ import SignupScreen from "./components/signup";
 import DesignerGalleryScreen from "./components/designerGallery";
 import privacyPolicyScreen from "./components/privacyPolicy";
 import ForgotPassword from "./components/ForgotPassword";
-import React, { Component,useRef, useEffect, useState } from "react";
+import React, { Component, useRef, useEffect, useState } from "react";
 import RequestScreen from "./components/requestForms";
 import UploadNewDesign from "./components/uploadNewDesign";
 import clientprofile from "./components/clientprofile";
@@ -46,6 +46,10 @@ import OrderHistory from "./components/OrderHistory";
 import ViewClientRequests from "./components/ViewClientRequests";
 import Payment from "./components/AddSubscription";
 import Invoice from "./components/Invoice";
+import allChat from "./components/allChat";
+import chat from "./components/chat";
+
+
 
 console.disableYellowBox = true;
 //-------------------------------------------------------
@@ -72,10 +76,22 @@ const Explorescreen = createStackNavigator(
   }
 );
 //-------------------------------------------------------
+const ChatStackScreens = createStackNavigator(
+  {
+
+    allChat: allChat,
+    chat: chat,
+  },
+  {
+    headerMode: "none",
+  }
+);
+//-------------------------------------------------------
 const recievedOrderScreens = createStackNavigator(
   {
     DisplayRequest: DisplayRequest,
     WRequiestDet: WRequiestDet,
+    ChatStackScreens: ChatStackScreens,
     PRequiestDet: PRequiestDet,
     SubmitDesign: SubmitDesign,
     DRequiestDet: DRequiestDet,
@@ -87,17 +103,18 @@ const recievedOrderScreens = createStackNavigator(
 );
 const OrderHistoryScreens = createStackNavigator(
   {
-    OrderHistory:OrderHistory,
+    OrderHistory: OrderHistory,
     ViewClientRequests: ViewClientRequests,
-    Payment:Payment,
-    Invoice:Invoice,
-    
+    Payment: Payment,
+    Invoice: Invoice,
+
   },
   {
     headerMode: "none",
   }
 );
 //-------------------------------------------------------
+
 
 //  client gallery stack << لكل صفحة فيها سلسلة من الصفحات بنسوي لها ستاك بعدين نضيفها كشاشه في المنيو
 const ClientGalleryNavigation = createStackNavigator(
@@ -233,12 +250,12 @@ function email() {
 //-------------------------------------------------------
 // Custom Drawers
 class CustomDrawerComponent extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       url: "",
     }
-  
+
     const user = firebase.auth().currentUser.uid;
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
     var myURL = '';
@@ -246,111 +263,111 @@ class CustomDrawerComponent extends React.Component {
       .getDownloadURL()
       .then((newURL) => {
         myURL = newURL;
-        console.log("myURL inside then" +  myURL);
-        this.updateInputVal(newURL,"url");
+        console.log("myURL inside then" + myURL);
+        this.updateInputVal(newURL, "url");
         console.log(this.state.url);
       })
       .catch((error) => {
         myURL =
           "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-          console.log("myURL inside catch" +  myURL);
-          this.updateInputVal(myURL,"url");
-          console.log(this.state.url);
-
-        });
+        console.log("myURL inside catch" + myURL);
+        this.updateInputVal(myURL, "url");
         console.log(this.state.url);
-    console.log("myURL outside " +  myURL);
+
+      });
+    console.log(this.state.url);
+    console.log("myURL outside " + myURL);
   }
-  
+
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
- 
-  render(){
- return( <SafeAreaView style={{ flex: 1 }}>
-    <View
-      style={{
-        height: 290,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <ImageBackground
-        source={require("./assets/background.png")}
-        style={{ width: undefined, padding: 50, paddingTop: 80 }}
-      >
-        
-        <Image
-      source={{ uri: this.state.url }}
-      style={{ height: 120, width: 120, borderRadius: 60 }}
-    />
-        <Text
-          style={{
-            color: "#4F3C75",
-            fontSize: 15,
-            marginVertical: 8,
-            textAlign: "center",
-          }}
-        >
-          {name()}
-        </Text>
-        <Text
-          style={{
-            color: "#4F3C75",
-            fontSize: 12,
-            marginVertical: 8,
-            textAlign: "center",
-          }}
-        >
-          {email()}
-        </Text>
-      </ImageBackground>
-    </View>
-    <ScrollView>
-      <DrawerItems {...this.props} />
-      <TouchableOpacity
-        onPress={() =>
-          Alert.alert(
-            "تسجيل خروج",
-            "هل انت متأكد من تسجيل خروجك ؟",
-            [
-              {
-                text: "الغاء",
-                onPress: () => {
-                  this.props.navigation.closeDrawer();
-                },
-              },
-              {
-                text: "تأكيد",
-                onPress: () => {
-                  AsyncStorage.clear();
-                  this.props.navigation.navigate("صفحة الدخول");
-                },
-              },
-            ],
-            { cancelable: false }
-          )
-        }
-      >
-        <Text
-          style={{
-            margin: 16,
-            fontWeight: "bold",
-            color: "red",
-            textAlign: "right",
-          }}
-        >
-          تسجيل خروج
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
-  </SafeAreaView>
-); 
 
-        }
-        }
+  render() {
+    return (<SafeAreaView style={{ flex: 1 }}>
+      <View
+        style={{
+          height: 290,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ImageBackground
+          source={require("./assets/background.png")}
+          style={{ width: undefined, padding: 50, paddingTop: 80 }}
+        >
+
+          <Image
+            source={{ uri: this.state.url }}
+            style={{ height: 120, width: 120, borderRadius: 60 }}
+          />
+          <Text
+            style={{
+              color: "#4F3C75",
+              fontSize: 15,
+              marginVertical: 8,
+              textAlign: "center",
+            }}
+          >
+            {name()}
+          </Text>
+          <Text
+            style={{
+              color: "#4F3C75",
+              fontSize: 12,
+              marginVertical: 8,
+              textAlign: "center",
+            }}
+          >
+            {email()}
+          </Text>
+        </ImageBackground>
+      </View>
+      <ScrollView>
+        <DrawerItems {...this.props} />
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert(
+              "تسجيل خروج",
+              "هل انت متأكد من تسجيل خروجك ؟",
+              [
+                {
+                  text: "الغاء",
+                  onPress: () => {
+                    this.props.navigation.closeDrawer();
+                  },
+                },
+                {
+                  text: "تأكيد",
+                  onPress: () => {
+                    AsyncStorage.clear();
+                    this.props.navigation.navigate("صفحة الدخول");
+                  },
+                },
+              ],
+              { cancelable: false }
+            )
+          }
+        >
+          <Text
+            style={{
+              margin: 16,
+              fontWeight: "bold",
+              color: "red",
+              textAlign: "right",
+            }}
+          >
+            تسجيل خروج
+        </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+    );
+
+  }
+}
 //HERE
 //-------------------------------------------------------
 //Client drawer navigation
@@ -358,9 +375,10 @@ const ClientDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": ClientGalleryNavigation,
     "عرض حساب العميل": ClientProfileNavigation,
-     "طلباتي": OrderHistoryScreens,
+    "طلباتي": OrderHistoryScreens,
     //"محادثات": { screen: ChatPassword },
-   
+
+    "محادثات": allChat,
   },
   {
     defaultNavigationOptions: {
@@ -393,7 +411,8 @@ const DesignerDrawer = createDrawerNavigator(
     "عرض حساب المصمم": DesignerProfileNavigation,
     "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
-    //"محادثات": { screen: ChatPassword },
+    "محادثات": allChat,
+
   },
   {
     defaultNavigationOptions: {
@@ -446,7 +465,6 @@ const DDrawerNavigation = createStackNavigator(
 //-------------------------------------------------------
 const CPrimaryNav = createStackNavigator(
   {
-
     loginStack: LoginStack,
     "Cdrawer": CDrawerNavigation,
   },

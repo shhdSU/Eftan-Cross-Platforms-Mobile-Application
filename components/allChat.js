@@ -10,9 +10,9 @@ import "firebase/firestore";
 export default function Display({ navigation }) {
     const [threads, setThreads] = useState([]);
 
+    const CurrentID = firebase.auth().currentUser.uid;
 
     useEffect(() => {
-        const CurrentID = firebase.auth().currentUser.uid;
         const unsubscribe =
             firebase
                 .firestore()
@@ -70,15 +70,15 @@ export default function Display({ navigation }) {
                             fill="#ffeed6"
                         />
                     </G>
-                    <Path
+                    {/* <Path
                         data-name="Icon ionic-ios-arrow-back"
                         d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
                         fill="#4f3c75"
-                        onPress={() => this.props.navigation.goBack()}
-                    />
+                        onPress={() => navigation.goBack()}
+                    /> */}
                     <Path
                         data-name="Icon material-menu"
-                        onPress={() => this.props.navigation.toggleDrawer()}
+                        onPress={() => navigation.toggleDrawer()}
                         d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
                         fill="#4f3c75"
                     />

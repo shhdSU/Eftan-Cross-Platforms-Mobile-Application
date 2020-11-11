@@ -78,8 +78,7 @@ break;
 this.updateInputVal(true,"watingtoggle");
   }
     //START RETURN ALL FORMS
-    const DID = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
+    const DID = firebase.auth().currentUser.uid;
     firebase
       .database()
       .ref("Forms/" + DID)
@@ -167,8 +166,7 @@ this.updateInputVal(true,"watingtoggle");
   } //End of constructor
 
   UpdateStatusAfterAccepted = () => {
-    const DID = "2Uf1Wj14icbxngiiJbjklDDwiZb2";
-    //firebase.auth().currentUser.uid;
+    const DID = firebase.auth().currentUser.uid;
     var key = this.state.Imagekey;
     this.updateInputVal("p", "status");
     firebase

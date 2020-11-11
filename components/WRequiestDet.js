@@ -34,7 +34,8 @@ export default class WRequiestDet extends React.Component {
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "",      
+      rejectedMessage: "",
+      Requiestt:Requiest,     
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image,TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image,TouchableOpacity,ScrollView } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import {
@@ -178,7 +178,7 @@ console.log("can not retreive design url");
             styles.inputStyle2,
             {
               color: "#4F3C75",
-              top: "42%",
+              top: "35%",
               right: "15%",
             },
           ]}
@@ -229,14 +229,12 @@ console.log("can not retreive design url");
         </TouchableOpacity>
         </View>
 
-        <TouchableOpacity>
-        </TouchableOpacity>
         <Text
           style={[
             styles.inputStyle2,
             {
               color: "#4F3C75",
-              top: "7%",
+              top: "5%",
               right: "-23.5%",
               fontWeight: "700",
               backgroundColor:"#fff",
@@ -253,42 +251,60 @@ console.log("can not retreive design url");
           style={[
             {
               color: "#4F3C75",
-              top: "5%",
+              top: "3%",
               left: "0%",
               textAlign: "right",
               fontWeight: "700",
               width: "87%",
-              height: "20%",
+              height: "15%",
               fontSize: 15,
               borderWidth:1,
               borderColor:"#4F3C75",
               borderRadius:25,
-padding:"7%"          
+              padding:"7%"          
   },
           ]}
         >
           {this.state.designDescription}
         </Text>
-        {/* {this.state.hasTags && <View style = {{textAlign:"right",                         fontWeight: "700",
-     color: "#4F3C75",
-   right: "-30%", top: "-6%",
-}}><Text>كلمات مفتاحية</Text></View>} */}
 
-        <View
-                  style={{
-                    top: "-7%",
-                    justifyContent: "space-between",
+ <Text
+          style={[
+            styles.inputStyle2,
+            {
+              color: "#4F3C75",
+              top: "2%",
+              right: "-20%",
+              fontWeight: "700",
+              backgroundColor:"#fff",
+              height:"2.5%",
+              width:"34%",
+              zIndex:2,
+            },
+          ]}
+        >
+          الكلمات المفتاحية
+        </Text>
+                     <View
+                     horizontal={true}
+                    style={{
+                    top: "-1%",
                     flexDirection: "row",
                     flexWrap: "wrap",
-                    alignItems:"right",
-right: -100,
-                   // borderWidth:3,
-                   // borderRadius: 25,
+                    borderWidth:1,
+                    borderRadius: 25,
+                    borderColor:"#4F3C75",
+                    width: "87%",
+                    height: "10%",
+                    justifyContent:"center",
+                    alignItems:"center",
+
                   }}
                 >
         {this.state.hasTags && this.state.designTags.map((element)=>{
            return (<View
-             style = {{borderRadius: 25,         
+             style = {{ marginTop:"10%",
+               borderRadius: 25,
                      marginHorizontal: 5,
                    backgroundColor: "#D4D7FF",
           }}><Text
@@ -308,6 +324,8 @@ right: -100,
         })
       }
       </View>
+       
+{/*        
         <SvgComponent
           style={{
             right: 120,
@@ -315,7 +333,7 @@ right: -100,
         ></SvgComponent>
 
 
-
+ */}
 
       </View>
     );
@@ -335,7 +353,7 @@ const styles = StyleSheet.create({
     height: 280,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "13%",
+    top: "10%",
     borderRadius: 35,
     alignSelf: "center",
   },
@@ -374,7 +392,7 @@ const styles = StyleSheet.create({
 backgroundColor:"#4F3C75",
 width:"87%",
 borderRadius:25,
-top:"8%",
+top:"6%",
 height:"10%",
 shadowColor: "#000",
 shadowOffset: {

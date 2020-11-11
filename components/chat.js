@@ -260,12 +260,12 @@ function Retrive(props) {
               { merge: true }
             );
 
-          firebase
-            .firestore()
-            .collection("UserID")
-            .doc(CurrentID)
-            .collection("AllChat")
-            .add({ title: title })
+          // firebase
+          //   .firestore()
+          //   .collection("UserID")
+          //   .doc(CurrentID)
+          //   .collection("AllChat")
+          //   .add({ title: title })
 
 
         }

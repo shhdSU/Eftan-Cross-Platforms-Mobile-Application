@@ -216,6 +216,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
+              title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -259,12 +260,12 @@ function Retrive(props) {
               { merge: true }
             );
 
-          // firebase
-          //   .firestore()
-          //   .collection("UserID")
-          //   .doc(CurrentID)
-          //   .collection("AllChat")
-          //   .add({ title: title })
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(CurrentID)
+            .collection("AllChat")
+            .add({ title: title })
 
 
         }

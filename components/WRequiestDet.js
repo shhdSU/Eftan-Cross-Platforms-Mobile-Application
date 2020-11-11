@@ -230,6 +230,10 @@ export default class WRequiestDet extends React.Component {
                         text: "حسناً",
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
+                          this.updateInputVal(true, "flag");
+                          this.props.navigation.navigate("chat", {
+                            obj: this.state.Requiestt,
+                          });
                         },
                       },
                     ],

@@ -393,16 +393,7 @@ console.log(searchResults);
           </G>
         </Svg>
            
-        <View
-            style={{
-              height: this.startHeaderHeight,
-              backgroundColor: "white",
-              borderBottomWidth: 1,
-              borderBottomColor: "#DDDDDD",
-              marginTop:"20%",
-
-            }}
-          >
+       
             <View
               style={{
                 flexDirection: "row",
@@ -413,8 +404,9 @@ console.log(searchResults);
                 shadowColor: "black",
                 shadowOpacity: 0.2,
                 elevation: 1,
-                height:"70%",
+                height:"8%",
                 borderRadius:30,
+                marginTop:"35%"
               }}
             >
                   <Icon name="ios-search" size={20} style={{ marginRight: "10%",marginTop:"2.35%",color:"#4f3c75"}} />
@@ -428,7 +420,7 @@ console.log(searchResults);
           onChangeText={(val) => this.searchTags(val)}
         />
         </View>
-        </View>
+        
           {this.state.searching && !this.state.found && !this.state.includesSpec &&//no results found
        (<View style={{marginTop:"50%"}}> 
        <EmptyList style={styles.emptyImage}></EmptyList>
@@ -488,20 +480,15 @@ console.log(searchResults);
 
           {!this.state.searching && !this.state.found && !this.state.includesSpec && //default page (not searching anything)
       (  <View style={{ flex: 1 }}>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: "#dddddd",
-              marginBottom: 25,
-            }}
-          ></View>
+         
 
           <ScrollView scrollEventThrottle={16}>
             <View>
               <View
                 style={{
                   height: 130,
-                  marginTop: 120,
+                  marginTop: "5%",
+                  
                   marginBottom: 40,
                   height: this.startHeaderHeight,
                   borderBottomWidth: 1,

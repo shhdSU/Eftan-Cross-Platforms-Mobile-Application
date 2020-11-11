@@ -118,8 +118,16 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
+    this.updateInputVal(true, "accepted");
+
+    firebase.database().ref("chat/" + key).set({
+      DID: DID,
+      CID: this.state.CID,
+      Imagekey: this.state.Imagekey,
+      title: this.state.title,
+    });
+
+    // asking shahad about prametar that sent { status: "p" }
   };
 
   //---------------رفض طلب--------------

@@ -139,6 +139,8 @@ function Retrive(props) {
   function handleSend(messages) {
     const text = messages[0].text;
     //------------------------------------------------------------------------------------------------------client
+
+
     firebase
       .database()
       .ref(`Client/` + CurrentID)
@@ -225,6 +227,7 @@ function Retrive(props) {
               },
             });
 
+
           firebase
             .firestore()
             .collection("UserID")
@@ -245,6 +248,23 @@ function Retrive(props) {
           firebase
             .firestore()
             .collection("UserID")
+            .doc(reciveID)
+            .collection("AllChat")
+            .doc(chatID) // بيكون اي دي الفورم
+            .set(
+              {
+                title: title,
+                latestMessage: {
+                  to: reciveID,
+                  text,
+                  createdAt: new Date().getTime(),
+                },
+              },
+              { merge: true }
+            );
+          firebase
+            .firestore()
+            .collection("UserID")
             .doc(CurrentID)
             .collection("AllChat")
             .doc(chatID) // بيكون اي دي الفورم
@@ -260,12 +280,16 @@ function Retrive(props) {
               { merge: true }
             );
 
-          // firebase
-          //   .firestore()
-          //   .collection("UserID")
-          //   .doc(CurrentID)
-          //   .collection("AllChat")
-          //   .add({ title: title })
+
+          firebase
+            .firestore()
+            .collection("UserID")
+            .doc(reciveID)
+            .set({
+              field: ""
+            })
+
+
 
 
         }

@@ -34,7 +34,8 @@ export default class WRequiestDet extends React.Component {
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "",      
+      rejectedMessage: "",
+      Requiestt:Requiest,     
     };
 
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
@@ -118,8 +119,16 @@ export default class WRequiestDet extends React.Component {
       .database()
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
-      this.updateInputVal(true,"accepted");
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
+    this.updateInputVal(true, "accepted");
+
+    firebase.database().ref("chat/" + key).set({
+      DID: DID,
+      CID: this.state.CID,
+      Imagekey: this.state.Imagekey,
+      title: this.state.title,
+    });
+
+    // asking shahad about prametar that sent { status: "p" }
   };
 
   //---------------رفض طلب--------------
@@ -224,12 +233,16 @@ export default class WRequiestDet extends React.Component {
                 onPress={() =>
                   Alert.alert(
                     "تنبيه",
-                    "تمت عملية قبول الطلب بنجاح",
+                    "تم قبول الطلب بنجاح، سيتم تحويلك مباشرة لمحادثة العميل",
                     [
                       {
                         text: "حسناً",
                         onPress: () => {
                           this.UpdateStatusAfterAccepted();
+                          this.updateInputVal(true, "flag");
+                          this.props.navigation.navigate("chat", {
+                            obj: this.state.Requiestt,
+                          });
                         },
                       },
                     ],
@@ -407,7 +420,7 @@ export default class WRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.deadLine}
+            {this.state.deadLine == ""?"مفتوح":this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
@@ -449,7 +462,7 @@ export default class WRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.color1}
+            {this.state.color1 == ""?"لايوجد":this.state.color1}
           </Text>
           <Text
             style={[
@@ -472,7 +485,7 @@ export default class WRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.color2}
+            {this.state.color2 == ""?"لايوجد":this.state.color2}
           </Text>
           <Text
             style={[
@@ -495,7 +508,7 @@ export default class WRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.color3}
+            {this.state.color3 == ""?"لايوجد":this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
         </View>

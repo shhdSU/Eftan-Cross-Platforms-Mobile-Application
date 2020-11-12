@@ -46,6 +46,8 @@ import OrderHistory from "./components/OrderHistory";
 import ViewClientRequests from "./components/ViewClientRequests";
 import Payment from "./components/AddSubscription";
 import Invoice from "./components/Invoice";
+import allChat from "./components/allChat";
+import chat from "./components/chat";
 
 console.disableYellowBox = true;
 //-------------------------------------------------------
@@ -72,23 +74,37 @@ const Explorescreen = createStackNavigator(
   }
 );
 //-------------------------------------------------------
-const recievedOrderScreens = createStackNavigator(
+const ChatStackScreens = createStackNavigator(
   {
-    DisplayRequest: DisplayRequest,
-    WRequiestDet: WRequiestDet,
-    PRequiestDet: PRequiestDet,
-    SubmitDesign: SubmitDesign,
-    DRequiestDet: DRequiestDet,
-    ERequestDet: ERequestDet,
+    allChat: allChat,
+    chat: chat,
   },
   {
     headerMode: "none",
   }
 );
+//-------------------------------------------------------
+const recievedOrderScreens = createStackNavigator(
+  {
+    DisplayRequest: DisplayRequest,
+    WRequiestDet: WRequiestDet,
+    ChatStackScreens: ChatStackScreens,
+    PRequiestDet: PRequiestDet,
+    SubmitDesign: SubmitDesign,
+    DRequiestDet: DRequiestDet,
+    ERequestDet:ERequestDet
+
+  },
+  {
+    headerMode: "none",
+  }
+);
+//-----------------------------------------------------
 const OrderHistoryScreens = createStackNavigator(
   {
     OrderHistory:OrderHistory,
     ViewClientRequests: ViewClientRequests,
+    ERequestDet:ERequestDet,
     Payment:Payment,
     Invoice:Invoice,
     
@@ -359,7 +375,7 @@ const ClientDrawer = createDrawerNavigator(
     "معرض التصاميم": ClientGalleryNavigation,
     "عرض حساب العميل": ClientProfileNavigation,
      "طلباتي": OrderHistoryScreens,
-    //"محادثات": { screen: ChatPassword },
+     "محادثات": allChat,
    
   },
   {
@@ -393,7 +409,7 @@ const DesignerDrawer = createDrawerNavigator(
     "عرض حساب المصمم": DesignerProfileNavigation,
     "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
-    //"محادثات": { screen: ChatPassword },
+    "محادثات": allChat,
   },
   {
     defaultNavigationOptions: {

@@ -283,7 +283,7 @@ export default class UploadNewDesign extends Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-3%", position: "relative" ,shadowColor: "#000",
+          style={{ alignSelf: "center", top: "-1.5%", position: "relative" ,shadowColor: "#000",
           shadowOffset: {
             width: 0,
             height: 4,
@@ -319,7 +319,7 @@ export default class UploadNewDesign extends Component {
             fontSize: 25,
             color: "#4F3C75",
             fontWeight: "700",
-            top: "-8.5%",
+            top: "-6.5%",
             alignSelf: "center",
             zIndex: 6,
             fontWeight:"700",
@@ -329,7 +329,7 @@ export default class UploadNewDesign extends Component {
         </Text>
 
         <SvgComponent
-          style={{ alignSelf: "center", top: "-5.5%", position: "relative" }}
+          style={{ alignSelf: "center", top: "-4%", position: "relative" }}
         ></SvgComponent>
 
         <Text
@@ -365,30 +365,7 @@ export default class UploadNewDesign extends Component {
           onChangeText={(val) => this.updateInputVal(val, "designDescription")}
           scrollEnabled={true}
         />
-  <Text
-          style={[
-            styles.inputStyle2,
-            { color: "#4F3C75", top: "-22%", fontWeight: "700" },
-          ]}
-        >
-           كلمات مفتاحية للعمل  {" "}
-        </Text>
-        <Text
-          style={[
-            styles.inputStyle2,
-            { color: "#4F3C75", top: "-27.5%",left: "-20%", fontWeight: "100" },
-          ]}
-        > (يجب ألا تحتوي على رموز)
-        </Text>
-        <TextInput
-          style={styles.inputStyleDescription2}
-          placeholder=" أدخل كلمات مفتاحية بين كل منها مسافة ..."
-          maxLength={250}
-          multiline={true}
-          value={this.state.designTags}
-          onChangeText={(val) => this.updateInputVal(val, "designTags")}
-          scrollEnabled={true}
-        />
+ 
 
         <Text
           style={[
@@ -420,6 +397,31 @@ export default class UploadNewDesign extends Component {
             { color: "#4F3C75", top: "-10%", fontWeight: "700" },
           ]}
         >
+           كلمات مفتاحية للعمل  {" "}
+        </Text>
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-14%",left: "-35%", fontWeight: "100",fontSize:13 },
+          ]}
+        > (يجب ألا تحتوي على رموز)
+        </Text>
+        <TextInput
+          style={styles.inputStyleDescription2}
+          placeholder=" أدخل كلمات مفتاحية بين كل منها مسافة ..."
+          maxLength={250}
+          multiline={true}
+          value={this.state.designTags}
+          onChangeText={(val) => this.updateInputVal(val, "designTags")}
+          scrollEnabled={true}
+        />
+
+        <Text
+          style={[
+            styles.inputStyle2,
+            { color: "#4F3C75", top: "-14%", fontWeight: "700" },
+          ]}
+        >
           فئة التصميم*{" "}
         </Text>
         <Picker
@@ -427,7 +429,7 @@ export default class UploadNewDesign extends Component {
           style={{
             height: "22%",
             width: "80%",
-            bottom: "12%",
+            bottom: "15%",
             alignSelf: "center",
           }}
           onValueChange={(itemValue, itemIndex) =>
@@ -450,26 +452,24 @@ export default class UploadNewDesign extends Component {
         <TouchableOpacity
          style={styles.button}
         onPress={() =>
-          // alert(
-          //   "تأكيد رفع العمل",
-          //   "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
-          //   [
+          Alert.alert(
+            "تأكيد رفع العمل",
+            "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+            [
              
-          //     {
-          //       text: "تأكيد",
-          //       onPress: () => {
-          //       this.uploadDesign()
-          //       },
-          //     }, {
-          //       text: "إلغاء",
-          //       onPress: () => {
-          //       //this.uploadDesign()
-          //       },
-          //     },
-          //   ],
-          //   { cancelable: false }
-          // )
-          this.uploadDesign()
+              {
+                text: "تأكيد",
+                onPress: () => {
+                this.uploadDesign()
+                },
+              }, {
+                text: "إلغاء",
+                onPress: () => {
+                },
+              },
+            ],
+            { cancelable: false }
+          )
         }
       >
         <Text
@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "8%",
     textAlign: "right",
-    top: "-5%",
+    top: "-14%",
     borderColor: "#ccc",
     borderWidth: 2,
   },
@@ -582,7 +582,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "3.5%",
     alignSelf:"center",
-    bottom: "100%", //15
+    bottom: "20%", 
   },
   
 

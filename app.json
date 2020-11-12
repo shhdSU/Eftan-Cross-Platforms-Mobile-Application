@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Eftan",
+    "name": "Eftan (Group 9)",
     "slug": "Eftan",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,8 +10,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "notification": { 
-      "icon": "./assets/Logosquare.png" }, 
+    "notification": {
+      "icon": "./assets/Logosquare.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,7 +24,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-    
+    },
+    "description": "",
+    "githubUrl": "https://github.com/shhdSU/Eftan"
   }
 }

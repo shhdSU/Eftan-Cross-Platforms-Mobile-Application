@@ -13,7 +13,6 @@ import firebase from "../database/firebase";
 import Notify from "./sendNotification";
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-import uuid from "react-native-uuid";
 
 export default class ViewClientRequests extends React.Component {
   constructor(props) {
@@ -39,8 +38,7 @@ export default class ViewClientRequests extends React.Component {
       dname: "",
       acceptedMessage: "",
       rejectedMessage: "", 
-      
-      
+      price:"",
       loading:false,
     };
 
@@ -59,6 +57,7 @@ export default class ViewClientRequests extends React.Component {
     else
     this.updateInputVal(Requiest.reference, "reference");
     this.updateInputVal(Requiest.title, "title");
+    this.updateInputVal(Requiest.Price,"price");
 
     //---------------clientToken-------------------
       firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
@@ -186,7 +185,7 @@ export default class ViewClientRequests extends React.Component {
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "13%",
+                top: "5%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -202,7 +201,7 @@ export default class ViewClientRequests extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "11%",
+                top: "3%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
@@ -227,13 +226,14 @@ export default class ViewClientRequests extends React.Component {
               {
                 flexShrink: 1,
                 color: "#4F3C75",
-                top: "10%",
+                top: "3%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
                 height: "2.5%",
                 width: "23%",
                 zIndex: 2,
+                
               },
             ]}
           >
@@ -244,12 +244,12 @@ export default class ViewClientRequests extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "8%",
+                top: "1%",
                 left: "0%",
                 textAlign: "right",
                 width: "87%",
                 height: "12%",
-                fontSize: 12,
+                fontSize: 15,
                 borderWidth: 2,
                 borderColor: "#ccc",
                 borderRadius: 25,
@@ -272,7 +272,7 @@ export default class ViewClientRequests extends React.Component {
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "7%",
+                top: "1%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -288,7 +288,7 @@ export default class ViewClientRequests extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "5%",
+                top: "-1%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
@@ -303,11 +303,21 @@ export default class ViewClientRequests extends React.Component {
               },
             ]}
           >
-            {this.state.deadLine}
+            {this.state.deadLine == ""?"مفتوح":this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
+{this.state.status != "d" && this.state.status != "f" && <View
+style={{
+  height:"100%",
+  position:"absolute",
+  top:"79%",
+  width:"100%",
+  left:"35%",
+}}
 
-          <Text
+>
+  
+  <Text
             style={[
               styles.inputStyle2,
               {
@@ -345,7 +355,7 @@ export default class ViewClientRequests extends React.Component {
               },
             ]}
           >
-            {this.state.color1}
+            {this.state.color1 == ""?"لايوجد":this.state.color1}
           </Text>
           <Text
             style={[
@@ -368,7 +378,7 @@ export default class ViewClientRequests extends React.Component {
               },
             ]}
           >
-            {this.state.color2}
+            {this.state.color2 == ""?"لايوجد":this.state.color2}
           </Text>
           <Text
             style={[
@@ -391,8 +401,9 @@ export default class ViewClientRequests extends React.Component {
               },
             ]}
           >
-            {this.state.color3}
+            {this.state.color3 == ""?"لايوجد":this.state.color3}
           </Text>
+  </View>}
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
           {this.state.status == "d" && <TouchableOpacity
@@ -409,6 +420,54 @@ export default class ViewClientRequests extends React.Component {
             انتقل للدفع
           </Text>
         </TouchableOpacity>}
+
+        {this.state.status == "d" && <View style={{
+          position:"absolute",
+          flexWrap:"wrap",
+          top:"79%",
+          height:"100%",
+          width:"100%",
+          left:"6.5%"
+        }}>
+          <Text
+            style={
+              {
+                color: "#4F3C75",
+                top: "3.5%",
+                alignSelf:"flex-end",
+                fontWeight: "700",
+                fontSize: 15,
+                backgroundColor: "#fff",
+                height: "2.5%",
+                width: "10.5%",
+                zIndex: 2,
+              }}
+          >
+            المبلغ{" "}
+          </Text>
+          <Text
+            style={[
+              {
+                color: "#4F3C75",
+                top: "2%",
+                textAlign: "right",
+                fontWeight: "700",
+                width: "87%",
+                height: "6%",
+                fontSize: 15,
+                borderWidth: 2,
+                borderColor: "#ccc",
+                borderRadius: 25,
+                fontWeight: "400",
+                paddingRight: 25,
+                paddingTop: 15
+              },
+            ]}
+          >
+             {this.state.price} ريال سعودي 
+          </Text>
+          </View>}
+
 
 
         {this.state.status == "f" && <TouchableOpacity
@@ -446,21 +505,11 @@ const styles = StyleSheet.create({
     height: 235,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "13%",
+    top: "5%",
     borderRadius: 35,
     alignSelf: "center",
   },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#4F3C75",
-    padding: "1%",
-    justifyContent: "center",
-    borderRadius: 25,
-    width: "60%",
-    height: "3.5%",
-    alignSelf: "center",
-    bottom: "15%",
-  },
+ 
   inputStyle2: {
     fontSize: 16,
     marginTop: "4%",
@@ -511,9 +560,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#4F3C75",
     borderRadius: 25,
-    width: ("80%"),
-    height: ("6%"),
+    width: "80%",
+    height: "6%",
     alignSelf: "center",
     justifyContent:"center",
+    bottom:"-10%",
+    zIndex:3,
   },
 });

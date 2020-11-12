@@ -233,7 +233,7 @@ export default class WRequiestDet extends React.Component {
                 onPress={() =>
                   Alert.alert(
                     "تنبيه",
-                    "تمت عملية قبول الطلب بنجاح",
+                    "تم قبول الطلب بنجاح، سيتم تحويلك مباشرة لمحادثة العميل",
                     [
                       {
                         text: "حسناً",

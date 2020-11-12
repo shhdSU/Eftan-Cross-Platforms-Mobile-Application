@@ -323,6 +323,29 @@ console.log("can not retreive design url");
          );
         })
       }
+
+{!this.state.hasTags && <View
+             style = {{ marginTop:"10%",
+               borderRadius: 25,
+                     marginHorizontal: 5,
+
+          }}>
+          <Text
+           style={
+             {
+              color: "#4F3C75",
+               textAlign: "center",
+               fontWeight: "700",
+               fontSize: 18,
+               marginHorizontal: 10,
+                padding:"1%"          
+           }}
+         >
+           لا يوجد
+         </Text></View>
+       
+      }
+
       </View>
        
 {/*        

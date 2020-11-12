@@ -421,7 +421,7 @@ style={{
           </Text>
         </TouchableOpacity>}
 
-        {this.state.status == "d" && <View style={{
+        {(this.state.status == "d" || this.state.status == "f") &&<View style={{
           position:"absolute",
           flexWrap:"wrap",
           top:"79%",

@@ -92,6 +92,8 @@ const recievedOrderScreens = createStackNavigator(
     PRequiestDet: PRequiestDet,
     SubmitDesign: SubmitDesign,
     DRequiestDet: DRequiestDet,
+    ERequestDet:ERequestDet
+
   },
   {
     headerMode: "none",
@@ -102,6 +104,7 @@ const OrderHistoryScreens = createStackNavigator(
   {
     OrderHistory:OrderHistory,
     ViewClientRequests: ViewClientRequests,
+    ERequestDet:ERequestDet,
     Payment:Payment,
     Invoice:Invoice,
     

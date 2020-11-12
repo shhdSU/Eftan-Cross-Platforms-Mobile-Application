@@ -88,7 +88,7 @@ const recievedOrderScreens = createStackNavigator(
   {
     DisplayRequest: DisplayRequest,
     WRequiestDet: WRequiestDet,
-    ChatStackScreens: ChatStackScreens,
+    chat: chat,
     PRequiestDet: PRequiestDet,
     SubmitDesign: SubmitDesign,
     DRequiestDet: DRequiestDet,
@@ -375,7 +375,7 @@ const ClientDrawer = createDrawerNavigator(
     "معرض التصاميم": ClientGalleryNavigation,
     "عرض حساب العميل": ClientProfileNavigation,
      "طلباتي": OrderHistoryScreens,
-     "محادثات": allChat,
+     "محادثات": ChatStackScreens,
    
   },
   {
@@ -409,7 +409,7 @@ const DesignerDrawer = createDrawerNavigator(
     "عرض حساب المصمم": DesignerProfileNavigation,
     "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
-    "محادثات": allChat,
+    "محادثات": ChatStackScreens,
   },
   {
     defaultNavigationOptions: {

@@ -10,8 +10,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "notification": { 
-      "icon": "./assets/Logosquare.png" }, 
+    "notification": {
+      "icon": "./assets/Logosquare.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,7 +24,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-    
+    },
+    "description": "Eftan is a mobile application that aims to manage supply and demand between designers and people who desire their talents in designing logos, illustrations, and other media. A designer registered in the application can upload their portfolio for potential offers.",
+    "githubUrl": "https://github.com/shhdSU/Eftan"
   }
 }

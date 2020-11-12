@@ -313,7 +313,7 @@ export default class DRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.deadLine}
+            {this.state.deadLine == ""?"مفتوح":this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
@@ -355,7 +355,7 @@ export default class DRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.color1}
+            {this.state.color1 == ""?"لايوجد":this.state.color1}
           </Text>
           <Text
             style={[
@@ -378,7 +378,7 @@ export default class DRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.color2}
+            {this.state.color2 == ""?"لايوجد":this.state.color2}
           </Text>
           <Text
             style={[
@@ -401,7 +401,7 @@ export default class DRequiestDet extends React.Component {
               },
             ]}
           >
-            {this.state.color3}
+            {this.state.color3 == ""?"لايوجد":this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
         </View>

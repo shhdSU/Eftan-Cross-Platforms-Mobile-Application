@@ -452,7 +452,7 @@ export default class UploadNewDesign extends Component {
         <TouchableOpacity
          style={styles.button}
         onPress={() =>
-          alert(
+          Alert.alert(
             "تأكيد رفع العمل",
             "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
             [

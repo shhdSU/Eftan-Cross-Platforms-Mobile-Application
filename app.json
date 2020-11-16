@@ -4,7 +4,7 @@
     "slug": "Eftan",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logosquare.png",
     "splash": {
       "image": "./assets/LoadingLogo.png",
       "resizeMode": "contain",

@@ -146,7 +146,7 @@ const DesignerProfileNavigation = createStackNavigator(
 //---------------------------------------------------------
 const DesignerPortfolioNavigation = createStackNavigator(                               //@HadeelHamad
   {
-    "تصاميمي": { screen: designerPersonalPortfolio },
+   // "تصاميمي": { screen: designerPersonalPortfolio },
   //"تعديل حساب المصمم": { screen: designeredit },
   },
   {

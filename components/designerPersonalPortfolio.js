@@ -22,7 +22,7 @@ import {
     constructor(props) {
       super();
       this.state = {
-        
+        nodesign:false,
         localpath: "",
         designUrl: "",
                 designShownState:[]
@@ -37,6 +37,8 @@ import {
     .equalTo(duid);
   ref.on("value", (snapshot) => {
     if (!snapshot.exists()) {
+      this.updateInputVal(true, "nodesign");
+      
      return                                          //@HadeelHamad conisder this case!
     }
     var design = snapshot.val();
@@ -195,7 +197,13 @@ import {
                     flexWrap: "wrap",
                   }}
                 >
-                  {this.readData()}
+                  {!this.state.nodesign && this.readData()}
+                  {this.state.nodesign &&
+       (<View style={{marginTop:"50%"}}> 
+       <EmptyList style={styles.emptyImage}></EmptyList>
+        <Text style={styles.emptyText}>نحن بانتظار تصاميمك</Text>
+        </View>)
+  }
                 </View>
               </View>
             </View>

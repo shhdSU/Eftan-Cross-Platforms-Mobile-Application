@@ -43,33 +43,8 @@ import {
     }
     var design = snapshot.val();
     var designKeys = Object.keys(design);
-    for (var i = 0; i < designKeys.length; i++) {
-      var designInfo = designKeys[i];
-      var categ = design[designInfo].category;
-      var desDis = design[designInfo].designDescription;
-      var desFileKey = design[designInfo].designFileKey;
-      var desTitle = design[designInfo].designTitle;
-      var desUploadingdate = design[designInfo].designUploadingdate;
-      var designUrl = design[designInfo].designUrl;
-      designGallery[i] = {
-        category: categ,
-        designDescription: desDis,
-        designFileKey: desFileKey,
-        designTitle: desTitle,
-        designUploadingdate: desUploadingdate,
-        designUrl: designUrl,
-      };
-
-    }
-       // this.updateInputVal(designGallery, "designGalleryState");
-    //     if(designGallery.length>=2){
-    //     for (var i = 0; i < 2; i++) {
-    //       shownDesigns[i]=designGallery[i];
-    //     }
-    //     this.updateInputVal(shownDesigns, "designShownState");
-    //   }else{
-    //     this.updateInputVal(designGallery, "designShownState");
-    //     }
+   
+    
          
   });
       this.updateInputVal(designGallery, "designShownState");
@@ -101,17 +76,7 @@ import {
             }}
 
           >
-            <Image
-              style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
-                margin: 5,
-              }}
-              width={width}
-              source={{ uri: element.designUrl }}
-            />
+            
           </View>
           <View
             style={{

@@ -9,6 +9,7 @@ import { IconButton } from "react-native-paper";
 import firebase from "../database/firebase";
 import { View, StyleSheet } from "react-native";
 import "firebase/firestore";
+import Notify from "./sendNotification";
 
 export default class RoomScreen extends React.Component {
   constructor(props) {

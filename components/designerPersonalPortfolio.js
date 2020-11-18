@@ -10,6 +10,7 @@ import {
     Dimensions,
     Alert,
       } from "react-native";
+      import { EvilIcons } from '@expo/vector-icons';
   import firebase from "../database/firebase";
   import * as React from "react";
   import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
@@ -28,7 +29,7 @@ import {
         designUrl: "",
                 designShownState:[]
       
-      };
+      }
   
      var duid=firebase.auth().currentUser.uid;
     var ref = firebase
@@ -73,7 +74,14 @@ import {
       state[prop] = val;
       this.setState(state);
     };
-   
+    removeDesign(e) {
+      var array = [...this.state.designShownState]; // make a separate copy of the array
+      var index = array.indexOf(e)
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({people: array});
+      }
+    }
     readData = () => {
          return this.state.designShownState.map((element) => {
         return (
@@ -105,15 +113,33 @@ import {
               width={width}
               source={{ uri: element.designUrl }}
             />
-            <Image
-         onPress={Alert.alert("sjhgghb")}
-         style={{
-           right:54,
-          width: 12,
-    height: 12,
-        }}
-          source={require("../assets/delete.png")}
-        />
+           <EvilIcons name="trash" size={24} color="#ccc"  onPress={() => 
+           Alert.alert(
+            "تمهّل",
+            "سيتم حذف التصميم بشكل نهائي",
+            [
+              {
+                text: "إلغاء",
+                onPress: () => {
+                  this.props.navigation.closeDrawer();
+                },
+              },
+              {
+                text: "حذف",
+                onPress: () => {
+                  firebase
+            .database()
+            .ref("Designs/" + firebase.auth().currentUser.uid + "/" + element.designFileKey)
+            .remove()
+                },
+              },
+            ],
+            { cancelable: false }
+          ),
+         this.removeDesign(element)
+            
+         }
+           />
           </View>
           <View
             style={{

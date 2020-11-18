@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect,useRef } from "react";
 import {
   GiftedChat,
   Bubble,
@@ -9,7 +9,9 @@ import { IconButton } from "react-native-paper";
 import firebase from "../database/firebase";
 import { View, StyleSheet } from "react-native";
 import "firebase/firestore";
-import Notify from "./sendNotification";
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 export default class RoomScreen extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ export default class RoomScreen extends React.Component {
       reciveID: "",
       chatID: "",
       title: "",
-
+notificationsKey: "",
       // to: props.navigation.state.params.to,
     };
     var reciveID;
@@ -65,7 +67,23 @@ export default class RoomScreen extends React.Component {
 
         }
       })
-
+      firebase
+      .database()
+      .ref(`GraphicDesigner/` + this.state.reciveID)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+        
+        this.updateInputVal(snapshot.child("notificationsKey").val(),"notificationsKey")
+        }
+      })
+      firebase
+      .database()
+      .ref(`Client/` + this.state.reciveID)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+        this.updateInputVal(snapshot.child("notificationsKey").val(),"notificationsKey")
+        }
+      })
 
   }
   updateInputVal = (val, prop) => {
@@ -78,8 +96,52 @@ export default class RoomScreen extends React.Component {
   render() {
     return (
 
-      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} />)
+      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} />)
   }
+}
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+
+
+ 
+
+async function sendPushNotification (expoToken,title,myMessage) {
+const message = {
+  to: expoToken, 
+  sound: 'default',
+  title: title,
+  body: myMessage,
+  data: { data: 'goes here' },
+};
+
+console.log("in send function");
+await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+          'Accept': 'application/json',
+         'Content-Type': 'application/json',
+         'accept-encoding': 'gzip, deflate',
+         'host': 'exp.host'
+     },
+   body: JSON.stringify(
+        message
+        ),}).then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson);
+          console.log(responseJson.data);
+        })
+               .catch((error) => {
+                  console.log("error "+ error);
+                });
+                console.log("after sending");
+
 }
 
 function Retrive(props) {
@@ -87,7 +149,8 @@ function Retrive(props) {
   const reciveID = props.reciveID
   const CurrentID = firebase.auth().currentUser.uid;
   const title = props.title
-
+  const receiveToken = props.receiveToken;
+  console.log(receiveToken);
   console.log("title--------------" + title)
   console.log("chatID" + chatID)
   console.log("reciveID" + reciveID)
@@ -95,6 +158,17 @@ function Retrive(props) {
 
   const [messages, setMessages] = useState([]);
 
+
+
+
+  
+  const [notification, setNotification] = useState(false);
+ const notificationListener = useRef();
+ const responseListener = useRef();
+  console.log("designer token is   "+receiveToken)
+
+
+  
   //----------------------------------------retrieve from database
   useEffect(() => {
     const messagesListener = firebase
@@ -133,7 +207,30 @@ function Retrive(props) {
 
         setMessages(messages);
       });
-    return () => messagesListener();
+
+        console.log("in useEffect");
+          // This listener is fired whenever a notification is received while the app is foregrounded
+          console.log("afterRegister");
+    
+          notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            setNotification(notification);
+          });
+    
+          responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+              console.log(response);
+            });
+            console.log("before send");
+    
+          //sendPushNotification(receiveToken,"title","message");
+            
+            console.log("sent!");
+    
+          return () => {
+        Notifications.removeNotificationSubscription(notificationListener);
+        Notifications.removeNotificationSubscription(responseListener);
+        messagesListener();
+      };
+
   }, []);
 
   // helper method that is sends a message
@@ -281,7 +378,6 @@ function Retrive(props) {
               { merge: true }
             );
 
-
           firebase
             .firestore()
             .collection("UserID")
@@ -289,14 +385,10 @@ function Retrive(props) {
             .set({
               field: ""
             })
-
-
-
-
         }
       });
     //------------------------------------------------------------------------------------------------------
-
+    sendPushNotification(receiveToken,"sss","Ssss");
 
   }
 
@@ -346,6 +438,7 @@ function Retrive(props) {
         wrapperStyle={styles.systemMessageWrapper}
         textStyle={styles.systemMessageText}
       />
+      
     );
   }
 

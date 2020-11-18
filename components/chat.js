@@ -24,6 +24,7 @@ export default class RoomScreen extends React.Component {
       chatID: "",
       title: "",
 notificationsKey: "",
+name:"",
       // to: props.navigation.state.params.to,
     };
     var reciveID;
@@ -72,7 +73,7 @@ notificationsKey: "",
       .ref(`GraphicDesigner/` + this.state.reciveID)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
-        
+
         this.updateInputVal(snapshot.child("notificationsKey").val(),"notificationsKey")
         }
       })
@@ -81,10 +82,28 @@ notificationsKey: "",
       .ref(`Client/` + this.state.reciveID)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
+
         this.updateInputVal(snapshot.child("notificationsKey").val(),"notificationsKey")
         }
       })
+      firebase
+      .database()
+      .ref(`GraphicDesigner/` + firebase.auth().currentUser.uid)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          this.updateInputVal(snapshot.child("DFirstName").val() + " " + snapshot.child("DLastName").val() ,"name")
 
+        }
+      })
+      firebase
+      .database()
+      .ref(`Client/` + firebase.auth().currentUser.uid)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          this.updateInputVal(snapshot.child("CFirstName").val() + " " + snapshot.child("CLastName").val() ,"name")
+
+        }
+      })
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -96,7 +115,7 @@ notificationsKey: "",
   render() {
     return (
 
-      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} />)
+      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} name={this.state.name} />)
   }
 }
 
@@ -120,7 +139,8 @@ const message = {
   body: myMessage,
   data: { data: 'goes here' },
 };
-
+console.log(title);
+console.log(myMessage);
 console.log("in send function");
 await fetch('https://exp.host/--/api/v2/push/send', {
     method: 'POST',
@@ -150,6 +170,7 @@ function Retrive(props) {
   const CurrentID = firebase.auth().currentUser.uid;
   const title = props.title
   const receiveToken = props.receiveToken;
+  const name = props.name;
   console.log(receiveToken);
   console.log("title--------------" + title)
   console.log("chatID" + chatID)
@@ -388,7 +409,9 @@ function Retrive(props) {
         }
       });
     //------------------------------------------------------------------------------------------------------
-    sendPushNotification(receiveToken,"sss","Ssss");
+  
+  
+    sendPushNotification(receiveToken,name,text);
 
   }
 

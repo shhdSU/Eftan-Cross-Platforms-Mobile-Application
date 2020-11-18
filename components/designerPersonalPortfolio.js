@@ -79,7 +79,7 @@ import {
       var index = array.indexOf(e)
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({people: array});
+        this.setState({designShownState: array});
       }
     }
     readData = () => {

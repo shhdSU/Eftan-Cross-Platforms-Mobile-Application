@@ -193,10 +193,12 @@ export default class UploadNewDesign extends Component {
     }
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     //we should not accept numbers, too
-    var tags = this.state.designTags.split(" ");
+    var string = this.state.designTags.trim();
+    var tags = string.split(" ");
     var containsSpecial = false;
-    tags.forEach(element => {
-      console.log(element);
+    tags.forEach((element,index) => {
+  
+        tags = tags.filter(function(elem) {  return elem; })
       if (specialCheck.test(element)) {
         Alert.alert(
           "تنبيه",
@@ -213,6 +215,7 @@ export default class UploadNewDesign extends Component {
     if(containsSpecial){
       return;
     }
+    console.log(tags);
     if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
         "تنبيه",

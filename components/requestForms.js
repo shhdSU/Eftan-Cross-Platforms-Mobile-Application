@@ -21,6 +21,7 @@ import { Entypo } from '@expo/vector-icons';
 import uuid from "react-native-uuid";
 import Notify from "./sendNotification";
 import React, { Component} from "react";
+import moment from 'moment/min/moment-with-locales';
 // import * as Permissions from 'expo-permissions';
 // import * as Notifications from 'expo-notifications';
 // import Constants from 'expo-constants';
@@ -291,6 +292,10 @@ export default class RequestForm extends Component {
 
   storeResquset = () => {
     const CID = firebase.auth().currentUser.uid;
+    var fullTime = moment()
+    .utcOffset('+03:00')
+    .format('YYYY-MM-DD hh:mm:ss a');
+    
     firebase
       .database()
       .ref("Forms/"+this.state.DID)
@@ -306,6 +311,7 @@ export default class RequestForm extends Component {
         DID: this.state.DID,
         status: 'w',
         reference: this.state.reference,
+        fullTime:fullTime,
       })
       .then((key) => {
         firebase

@@ -143,11 +143,15 @@ const DesignerProfileNavigation = createStackNavigator(
   }
 );
 
-//---------------------------------------------------------
+
+//-------------------------------------------------------
+
 const DesignerPortfolioNavigation = createStackNavigator(                               //@HadeelHamad
   {
     "تصاميمي": { screen: designerPersonalPortfolio },
-  "تعديل حساب المصمم": { screen: designeredit },
+    "عرض تفاصيل التصميم": DesignDetails,
+    " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+    "أعمال مصمم معين": designerPortfolio,
   },
   {
     headerMode: "none",
@@ -156,8 +160,6 @@ const DesignerPortfolioNavigation = createStackNavigator(                       
     },
   }
 );
-
-//-------------------------------------------------------
 // export navegtion
 
 export default class App extends Component {

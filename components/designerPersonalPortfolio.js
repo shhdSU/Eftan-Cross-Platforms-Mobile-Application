@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
+    Alert,
       } from "react-native";
   import firebase from "../database/firebase";
   import * as React from "react";
@@ -104,6 +105,15 @@ import {
               width={width}
               source={{ uri: element.designUrl }}
             />
+            <Image
+         onPress={Alert.alert("sjhgghb")}
+         style={{
+           right:54,
+          width: 12,
+    height: 12,
+        }}
+          source={require("../assets/delete.png")}
+        />
           </View>
           <View
             style={{
@@ -118,6 +128,8 @@ import {
             >
               {element.designTitle}
             </Text>
+
+            
           </View>
           </View>
         );

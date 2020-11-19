@@ -14,11 +14,15 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert,
+  Animated,
   Image,
 } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import EmptyList from "./emptylist";
+import moment from 'moment/min/moment-with-locales';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+
+
 
 var forms = []; // To retrive all forms here
 var waitingForms = [];
@@ -41,6 +45,7 @@ export default class DisplayRequest extends React.Component {
       currenttoggle: false,
       donetoggle: false, 
       expiretoggle:false,
+      
     }; //End of status
     
     var status = props.navigation.state.params;
@@ -94,7 +99,6 @@ this.updateInputVal(true,"watingtoggle");
             
     ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
           for (var i = 0; i < formsKeys.length; i++) {
-            console.log("loop2   "+i+"  ")
               if (forms[formsKeys[i]].status === "w") {
               waitingForms[waitingLoop] = forms[formsKeys[i]];
               waitingLoop++;
@@ -120,48 +124,46 @@ this.updateInputVal(true,"watingtoggle");
               this.updateInputVal(expiredForms,"displayedExpiredForms");
         }
     
-      //move above later
         //expired 
         this.state.displayedWatingForms.forEach((element, index)=> {
-          var currentDate = new Date();
-          var form = element.deadLine.split('-');
-          var formDate = new Date(form[0], form[1]-1,form[2]);
-          if(currentDate > formDate){
-            console.log("bigger");
-            this.state.displayedWatingForms.splice(index);
-            //change status to e
-            this.updateStatusToExpired(element);
-            this.state.displayedExpiredForms.push(element);
+     
+          var currentTime = moment(); 
+          var uploadTime = moment(element.fullTime,).utcOffset(element.fullTime,);
+     
+          var consumTime = moment.duration(currentTime.diff(uploadTime,'hours'));
+          consumTime = consumTime + "";
+
+          var consumMinute = moment.duration(currentTime.diff(uploadTime,'minutes'));
+          consumMinute = consumMinute + "";
+
+          while(consumMinute >= 60){
+            consumMinute = consumMinute - 60 ;
           }
+
+console.log(consumTime)
+         if(consumTime > 48){
+          this.state.displayedWatingForms.splice(index);
+         // change status to e
+          this.updateStatusToExpired(element);
+          this.state.displayedExpiredForms.push(element);
+         }else {
+          element.remainingTime = 48 - consumTime;
+          element.remainingMinute = consumMinute;
+         }
         })
         this.state.displayedCurrentForms.forEach((element, index)=> {
           var currentDate = new Date();
           var formDate = new Date(element.deadLine);
-          console.log("current" + currentDate);
-          console.log(formDate);
           if(currentDate > formDate){
-            console.log("current" + currentDate);
-            console.log(formDate);
             this.state.displayedCurrentForms.splice(index);
             this.updateStatusToExpired(element);
             this.state.displayedExpiredForms.push(element);
     
           }
         })
-        // this.state.displayedDoneForms.forEach((element, index)=> {
-        //   var currentDate = new Date();
-        //   var formDate = new Date(element.deadLine);
-        //   if(currentDate > formDate){
-        //     this.state.displayedDoneForms.splice(index);
-        //     this.updateStatusToExpired(element);
-        //     this.state.displayedExpiredForms.push(element);
-    
-        //   }
-        // })
+      
        
-      }); //End of on method
-
-    //START sepreate them based on their status
+      }); //End of snapshot method
    
   } //End of constructor
 
@@ -230,12 +232,29 @@ var inProgressForms = [];
 var doneForms = [];
   */
 
+
+  UrgeWithPleasureComponent = () => (
+  <CountdownCircleTimer
+    isPlaying
+    duration={10}
+    colors={[
+      ['#004777', 0.33],
+      ['#F7B801', 0.33],
+      ['#A30000', 0.33],
+    ]}
+  >
+    {({ remainingTime }) => remainingTime}
+  </CountdownCircleTimer>
+)
+
   //DISPLAY WAITING LIST
+
 
   readWaitingList() {
     return this.state.displayedWatingForms.map((element) => {
       var CID = element.CID;
       var ClientName = "";
+     
       firebase
         .database()
         .ref("Client/" + CID)
@@ -254,13 +273,55 @@ var doneForms = [];
         >
           <View key={Math.random()}>
           <Image
-              style={styles.profileImage}
+              style={styles.currentprofileImage}
               source={{ uri: element.reference}}
             />
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
-            <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
-            <Text style={styles.orderText}>{ClientName}</Text>
+            <Text style={styles.currentorderText}>{ClientName}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={styles.currentorderText}>{element.title}</Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
+
+           <View
+           style={{
+            height:70,
+            width:110,
+            top:"25%",
+            borderRightWidth:2,
+            borderRightColor:"#4f3c75",
+            left:"-10%",
+            alignItems:"center"
+          }}
+           >
+              {/* <Text style={{fontWeight:"700",top:"2%",color:"#4f3c75",left:"9%",}}>الاستجابة قبل:</Text> */}
+              <View style={{top:"%",left:"9%"}}>
+<CountdownCircleTimer
+strokeWidth={6}
+    size={70}
+    isPlaying
+    initialRemainingTime={(element.remainingTime*60*60)+(element.remainingMinute*60)}
+    duration={172800}
+    colors={[
+      ['#CABFE0', 0.33],
+      ['#836FAC', 0.33],
+      ['#4F3C75', 0.33],
+    ]}
+  >
+     {/* {({ remainingTime, animatedColor }) => (
+          <Animated.Text
+            style={{ ...styles.remainingTime, color: animatedColor }}>
+            {remainingTime}
+          </Animated.Text>
+        )} */}
+    <Text
+    style={{
+      color:"#4F3C75",
+      textAlign:"center"
+    }}
+    >{element.remainingTime +":"+ element.remainingMinute +"\n متبقي"}</Text>
+  </CountdownCircleTimer>
+  </View>
+           </View>
+           
 
           </View>
         </TouchableOpacity>
@@ -407,7 +468,6 @@ var doneForms = [];
             <Text style={styles.orderText}>{element.title}</Text>
             <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
-            {console.log("LOOP")}
           </View>
         </TouchableOpacity>
       );
@@ -566,6 +626,10 @@ var doneForms = [];
     ); // End of render return
   } //End of render
 } //End of Class
+
+
+
+
 
 ///STYLE SHEET START
 const styles = StyleSheet.create({

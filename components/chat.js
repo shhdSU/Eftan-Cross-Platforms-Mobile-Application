@@ -7,11 +7,13 @@ import {
 } from "react-native-gifted-chat";
 import { IconButton } from "react-native-paper";
 import firebase from "../database/firebase";
-import { View, StyleSheet } from "react-native";
+import Svg, { Defs, G, Path } from "react-native-svg";
+import { View, StyleSheet ,Container,Text , TouchableOpacity ,Image} from "react-native";
 import "firebase/firestore";
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import Display from "./allChat";
 
 export default class RoomScreen extends React.Component {
   constructor(props) {
@@ -23,8 +25,11 @@ export default class RoomScreen extends React.Component {
       reciveID: "",
       chatID: "",
       title: "",
-notificationsKey: "",
-name:"",
+      notificationsKey: "",
+      name:"",
+      reciverName:"",
+      reciverAvatar:"",
+      did:"",
       // to: props.navigation.state.params.to,
     };
     var reciveID;
@@ -43,7 +48,7 @@ name:"",
       this.updateInputVal(this.state.thread._id, "chatID")
     }
 
-
+  
 
     firebase
       .database()
@@ -54,20 +59,54 @@ name:"",
           console.log("CurrentID" + snapshot.child("CID").val())
           this.updateInputVal(reciveID, "reciveID");
           this.updateInputVal(snapshot.child("title").val(), "title")
-
-
-
+          this.updateInputVal(snapshot.child("dname").val(), "reciverName")
+          this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "reciverAvatar")
+         
+          firebase
+          .database()
+          .ref("Forms/" + snapshot.child("DID").val() + "/" + this.state.chatID)
+          .on("value", (snapshot) => {
+            if(snapshot.child("status").val() == "f")
+            {
+              firebase
+              .firestore()
+              .collection("UserID")
+              .doc(CurrentID)
+              .collection('AllChat')
+              .doc(this.state.chatID) 
+              .delete()
+            }
+          })
+          
         } else if (snapshot.child("DID").val() == CurrentID) {
           reciveID = snapshot.child("CID").val();
           console.log("CurrentID///" + snapshot.child("DID").val())
           this.updateInputVal(reciveID, "reciveID");
           this.updateInputVal(snapshot.child("title").val(), "title")
-
-
-
-
+          this.updateInputVal(snapshot.child("name").val(), "reciverName")
+          this.updateInputVal(snapshot.child("ClientProfileImage").val(), "reciverAvatar")
+        
+          firebase
+          .database()
+          .ref("Forms/" + snapshot.child("DID").val() + "/" + this.state.chatID)
+          .on("value", (snapshot) => {
+            if(snapshot.child("status").val() == "f")
+            {
+              firebase
+              .firestore()
+              .collection("UserID")
+              .doc(CurrentID)
+              .collection('AllChat')
+              .doc(this.state.chatID) 
+              .delete()
+            }
+          })
         }
+        this.updateInputVal(snapshot.child("DID").val(), "did")
       })
+
+      
+
       firebase
       .database()
       .ref(`GraphicDesigner/` + this.state.reciveID)
@@ -114,8 +153,7 @@ name:"",
 
   render() {
     return (
-
-      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} name={this.state.name} />)
+      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} name={this.state.name}  reciverName={this.state.reciverName} reciverAvatar={this.state.reciverAvatar} did={this.state.did} />)
   }
 }
 
@@ -169,6 +207,11 @@ function Retrive(props) {
   const reciveID = props.reciveID
   const CurrentID = firebase.auth().currentUser.uid;
   const title = props.title
+  const reciverAvatar = props.reciverAvatar
+  const reciverName = props.reciverName
+  const did = props.did
+  console.log(">>>>>>>>>>>>>" + reciverName)
+
   const receiveToken = props.receiveToken;
   const name = props.name;
   console.log(receiveToken);
@@ -178,8 +221,6 @@ function Retrive(props) {
   console.log("CurrentID" + CurrentID)
 
   const [messages, setMessages] = useState([]);
-
-
 
 
   
@@ -206,6 +247,7 @@ function Retrive(props) {
 
           const data = {
             title: firebaseData.title,
+            did:firebaseData.did,
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),
@@ -275,11 +317,12 @@ function Retrive(props) {
             .collection("MESSAGES")
             .add({
               title: title,
+              reciverName: reciverName,
               text,
               createdAt: new Date().getTime(),
               user: {
                 _id: CurrentID,//العميل
-                to: reciveID,
+                to: reciveID,      
               },
             });
 
@@ -292,11 +335,12 @@ function Retrive(props) {
             .collection("MESSAGES")
             .add({
               title: title,
+              reciverName: reciverName,
               text,
               createdAt: new Date().getTime(),
               user: {
                 _id: CurrentID,
-                to: reciveID,
+                to: reciveID, 
               },
             });
 
@@ -309,6 +353,26 @@ function Retrive(props) {
             .set(
               {
                 title: title,
+                reciverName: reciverName,
+                latestMessage: {
+                  to: reciveID,
+                  text,
+                  createdAt: new Date().getTime(),
+                },
+              },
+              { merge: true }
+            );
+
+            firebase
+            .firestore()
+            .collection("UserID")
+            .doc(reciveID)
+            .collection("AllChat")
+            .doc(chatID) // بيكون اي دي الفورم
+            .set(
+              {
+                title: title,
+                reciverName: reciverName,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -338,6 +402,7 @@ function Retrive(props) {
             .collection("MESSAGES")
             .add({
               title: title,
+              reciverName: reciverName,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -356,6 +421,7 @@ function Retrive(props) {
             .collection("MESSAGES")
             .add({
               title: title,
+              reciverName: reciverName,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -373,6 +439,7 @@ function Retrive(props) {
             .set(
               {
                 title: title,
+                reciverName: reciverName,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -390,6 +457,7 @@ function Retrive(props) {
             .set(
               {
                 title: title,
+                reciverName: reciverName,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -464,25 +532,91 @@ function Retrive(props) {
       
     );
   }
-
+  // function renderAvatar (props) {
+  //   return (
+  //     <SvgUri width="60" height="60" source={{ uri: reciverAvatar }} />
+  //   )
+  // }
 
   return (
-    <GiftedChat
+    <View style={{flex: 1}}>
+      <View style={{flex: 1}}>
+             <Image
+                style={{ height: 58, width: 58, borderRadius: 60,  position: "absolute", top:"13%" , zIndex: 2,  right:"4%"}}
+                source={{ uri: reciverAvatar }}
+     
+    />
+            <Text
+                style={{
+                    fontSize: 25,
+                    fontWeight: "600",
+                    color: "#4f3c75",
+                    alignSelf: "center",
+                    position: "absolute",
+                    zIndex: 2,
+                    top: "16%",
+                    right:"23%"
+                }}
+            >
+                  {reciverName}
+            </Text>
+          
+            <Svg
+                width={416}
+                height={144}
+                style={{
+                    alignSelf: "center", top: "-3%", position: "relative", shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.32,
+                    shadowRadius: 5.46,
+
+                    elevation: 9,
+                }}
+            >
+                <G data-name="Group 7">
+                    <G filter="url(#prefix__a)">
+                        <Path
+                            data-name="Path 117"
+                            d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
+                            fill="#ffeed6"
+                        />
+                    </G>
+                    {/* <Path
+                        data-name="Icon ionic-ios-arrow-back"
+                        d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+                        fill="#4f3c75"
+                        onPress={() => navigation.goBack()}
+                    /> */}
+                     <Path
+                data-name="Icon ionic-ios-arrow-back"
+                onPress={() => this.props.navigation.goBack()}
+                d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+                fill="#4f3c75"
+              />
+                </G>
+            </Svg>
+           
+            </View>
+        <GiftedChat 
       messages={messages}
       onSend={(newMessage) => handleSend(newMessage)}
       placeholder="...اكتب رسالتك هنا"
       user={{
         _id: CurrentID,
         to: reciveID,
-
       }}
+      
       scrollToBottom
       renderBubble={renderBubble}
       renderSend={renderSend}
       alignItems
       scrollToBottomComponent={scrollToBottomComponent}
       renderSystemMessage={renderSystemMessage}
-    />
+      /> 
+              </View>
   );
 }
 
@@ -513,6 +647,20 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
+  container: {
+    backgroundColor: "#fff",
+    flex: 1,
+},
+listTitle: {
+    fontSize: 22,
+    textAlign: "right",
+    paddingRight: "5%",
+},
+listDescription: {
+    fontSize: 16,
+    textAlign: "right",
+    paddingRight: "5%",
+},
 });
 
 

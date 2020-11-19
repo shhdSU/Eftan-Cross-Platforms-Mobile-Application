@@ -28,6 +28,7 @@ export default class WRequiestDet extends React.Component {
       reference: "",
       title: "",
       ClientProfileImage: "",
+      DesignerProfileImage: "",
       name: "",
       clientToken: "",
       accepted:false,
@@ -61,6 +62,17 @@ export default class WRequiestDet extends React.Component {
       .catch((error) => {
         console.log("can not retreive profile img url");
       });
+      //---------------صورة المصمم--------------
+    firebase
+    .storage()
+    .ref("ProfilePictures/" + firebase.auth().currentUser.uid)
+    .getDownloadURL()
+    .then((url) => {
+      this.updateInputVal(url, "DesignerProfileImage");
+    })
+    .catch((error) => {
+      console.log("can not retreive profile img url");
+    });
 
     //---------------اسم العميل--------------
     var Cname = "";
@@ -126,6 +138,10 @@ export default class WRequiestDet extends React.Component {
       CID: this.state.CID,
       Imagekey: this.state.Imagekey,
       title: this.state.title,
+      ClientProfileImage: this.state.ClientProfileImage,
+      DesignerProfileImage:this.state.DesignerProfileImage,
+      name: this.state.name,
+      dname:this.state.dname
     });
 
     // asking shahad about prametar that sent { status: "p" }

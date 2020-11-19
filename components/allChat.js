@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, FlatList, TouchableOpacity } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
-
 import { List, Divider } from "react-native-paper";
-
 import firebase from "../database/firebase";
 import "firebase/firestore";
 
@@ -22,13 +20,36 @@ export default function Display({ navigation }) {
                 .orderBy('latestMessage.createdAt', 'desc')
                 .onSnapshot(querySnapshot => {
                     const threads = querySnapshot.docs.map(documentSnapshot => {
+                        firebase
+                        .database()
+                        .ref(`chat/` + documentSnapshot.id)
+                        .on("value", (snapshot) => {
+                        firebase
+                        .database()
+                        .ref("Forms/" + snapshot.child(documentSnapshot.data().did).val() + "/" + documentSnapshot.id)
+                        .on("value", (snapshot) => {
+                          if(snapshot.child("status").val() == "f")
+                          {
+                            firebase
+                            .firestore()
+                            .collection("UserID")
+                            .doc(CurrentID)
+                            .collection('AllChat')
+                            .doc(documentSnapshot.id) 
+                            .delete()
+                          }
+                        })
+                    })
+                    
                         return {
                             _id: documentSnapshot.id,
                             title: documentSnapshot.data().title,
+                            did:documentSnapshot.data().did,
                             ...documentSnapshot.data()
+                            
                         };
                     });
-
+                   
                     setThreads(threads);
 
 
@@ -132,6 +153,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         textAlign: "right",
         paddingRight: "5%",
+        color:"#4f3c75"
     },
     listDescription: {
         fontSize: 16,

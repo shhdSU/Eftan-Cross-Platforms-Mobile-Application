@@ -125,16 +125,21 @@ this.updateInputVal(true,"watingtoggle");
 
           //expired 
     this.state.displayedWatingForms.forEach((element, index)=> {
-      var currentDate = new Date();
-      var form = element.deadLine.split('-');
-      var formDate = new Date(form[0], form[1]-1,form[2]);
-      if(currentDate > formDate){
-        console.log("bigger");
-        this.state.displayedWatingForms.splice(index);
-        //change status to e
-        this.updateStatusToExpired(element);
-        this.state.displayedExpiredForms.push(element);
-      }
+     
+      var currentTime = moment(); 
+      console.log(currentTime);
+      var uploadTime = moment(element.fullTime,).utcOffset(element.fullTime,);
+ 
+      var consumTime = moment.duration(currentTime.diff(uploadTime,'hours'));
+      consumTime = consumTime + "";
+
+     if(consumTime > 48){
+      this.state.displayedWatingForms.splice(index);
+     // change status to e
+      this.updateStatusToExpired(element);
+      this.state.displayedExpiredForms.push(element);
+     }
+     
     })
     this.state.displayedCurrentForms.forEach((element, index)=> {
       var currentDate = new Date();

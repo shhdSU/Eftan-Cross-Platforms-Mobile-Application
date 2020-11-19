@@ -141,7 +141,7 @@ export default class clientedit extends React.Component {
     firebase
       .database()
       .ref("Client/" + user)
-      .set({
+      .update({
         CFirstName: this.state.firstName,
         CLastName: this.state.lastName,
         Cemail: this.state.email,

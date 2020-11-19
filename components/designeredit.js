@@ -130,7 +130,7 @@ export default class designeredit extends React.Component {
     firebase
       .database()
       .ref("GraphicDesigner/" + user)
-      .set({
+      .update({
         DFirstName: this.state.firstName,
         DLastName: this.state.lastName,
         DEmail: this.state.email,

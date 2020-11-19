@@ -16,6 +16,8 @@ import {
 } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import EmptyList from "./emptylist";
+import moment from 'moment/min/moment-with-locales';
+
 
 var forms = []; // To retrive all forms here
 var filterdForms = []; // to take only form related to this client 
@@ -410,7 +412,7 @@ if(Cforms[Keys[i]].CID === ID){
             />
              <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم العميل: </Text>
+            <Text style={[styles.orderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
             <Text style={styles.orderText}>{ClientName}</Text>
             {console.log("LOOP")}
           </View>

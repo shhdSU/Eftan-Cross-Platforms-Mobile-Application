@@ -83,8 +83,6 @@ export default class ViewClientRequests extends React.Component {
     this.updateInputVal(acceptedmessage,"acceptedMessage");
     this.updateInputVal(rejectedmessage,"rejectedMessage");
 
-    console.log(acceptedmessage);
-    console.log(rejectedmessage);
 
   }
   //---------------تحديث قيم--------------
@@ -94,6 +92,10 @@ export default class ViewClientRequests extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
+
+  deleteOrder(){
+
+  }
 
   onShare = async () => {
     try {
@@ -170,6 +172,57 @@ export default class ViewClientRequests extends React.Component {
               />
             </G>
           </Svg>
+          {/*------------------------------------اذا الطلب منتهي----------------------------------------- */}
+{
+  this.state.status == "e" && (
+    <View
+    style={{
+      flexDirection: "row", 
+      height:"80%",
+      width:"50%",
+      left:"7%",
+      position:"absolute",
+      top:"50%",
+      zIndex:2
+    }}
+    >
+<TouchableOpacity
+          style={[styles.button,{margin:"2.5%"}]}
+          onPress={() => this.deleteOrder}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              
+            }}
+          >
+            اغلاق الطلب
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button,{margin:"2.5%",zIndex:2,}]}
+          onPress={() => this.props.navigation.navigate("RerequestForm",{obj: this.state.object})}
+        >
+          <Text
+            style={{
+              color: "#FFEED6",
+              fontSize: 25,
+              
+            }}
+          >
+            اعادةالطلب
+          </Text>
+        </TouchableOpacity>
+
+
+    </View>
+  )
+}
+
+
+          {/*------------------------------------اذا الطلب منتهي----------------------------------------- */}
 
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
           <Image
@@ -185,7 +238,7 @@ export default class ViewClientRequests extends React.Component {
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "5%",
+                top: "0%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -201,7 +254,7 @@ export default class ViewClientRequests extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "3%",
+                top: "-2%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
@@ -226,7 +279,7 @@ export default class ViewClientRequests extends React.Component {
               {
                 flexShrink: 1,
                 color: "#4F3C75",
-                top: "3%",
+                top: "-3%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -244,7 +297,7 @@ export default class ViewClientRequests extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "1%",
+                top: "-5%",
                 left: "0%",
                 textAlign: "right",
                 width: "87%",
@@ -272,7 +325,7 @@ export default class ViewClientRequests extends React.Component {
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "1%",
+                top: "-5%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -288,7 +341,7 @@ export default class ViewClientRequests extends React.Component {
             style={[
               {
                 color: "#4F3C75",
-                top: "-1%",
+                top: "-7%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
@@ -322,7 +375,7 @@ style={{
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "4%",
+                top: "-2%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -338,7 +391,7 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "4%",
+                top: "-2%",
                 right: "14%",
                 textAlign: "right",
                 fontWeight: "700",
@@ -361,7 +414,7 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-.8%",
+                top: "-7%",
                 right: "-8%",
                 textAlign: "right",
                 fontWeight: "700",
@@ -384,7 +437,7 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-5.8%",
+                top: "-11.8%",
                 right: "-30%",
                 textAlign: "right",
                 fontWeight: "700",
@@ -505,7 +558,7 @@ const styles = StyleSheet.create({
     height: 235,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "5%",
+    top: "1%",
     borderRadius: 35,
     alignSelf: "center",
   },

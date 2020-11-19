@@ -48,6 +48,7 @@ import Payment from "./components/AddSubscription";
 import Invoice from "./components/Invoice";
 import allChat from "./components/allChat";
 import chat from "./components/chat";
+import RerequestForm from "./components/RerequestForm";
 
 console.disableYellowBox = true;
 //-------------------------------------------------------
@@ -104,7 +105,7 @@ const OrderHistoryScreens = createStackNavigator(
   {
     OrderHistory:OrderHistory,
     ViewClientRequests: ViewClientRequests,
-    ERequestDet:ERequestDet,
+    RerequestForm : RerequestForm,
     Payment:Payment,
     Invoice:Invoice,
     

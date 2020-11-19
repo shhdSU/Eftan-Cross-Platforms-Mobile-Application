@@ -177,16 +177,22 @@ console.log("can not retreive design url");
           style={[
             styles.inputStyle2,
             {
-              color: "#4F3C75",
+              color: "#aaa",
               top: "35%",
-              right: "15%",
+              right:"30%",
+              textAlign:"center",
+              fontSize:13,
+
             },
           ]}
         >
           {this.state.date}
         </Text>
 
-        <View style={styles.infoCont}>
+        <View style={styles.infoCont}
+        onTouchStart={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
+
+        >
 <Image
           onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
           style={styles.profileImage}
@@ -197,11 +203,12 @@ console.log("can not retreive design url");
         <Text
           style={[
             {
+              alignSelf:"center",
               color: "#ffeed6",
               top: "-50%",
-              left: "43%",
               fontWeight: "200",
               fontSize:25,
+              textDecorationLine:"underline",
             },
           ]}
           onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
@@ -209,7 +216,7 @@ console.log("can not retreive design url");
         >
           {this.state.name}
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
          
          onPress={() => this.props.navigation.navigate(" عرض حساب المصمم للطلب", { duid: this.state.Duid })}
          
@@ -226,18 +233,18 @@ console.log("can not retreive design url");
           >
            المزيد عن المصمم
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
 
         <Text
           style={[
             styles.inputStyle2,
             {
-              color: "#4F3C75",
+              color: "#ffeed6",
               top: "5%",
               right: "-23.5%",
               fontWeight: "700",
-              backgroundColor:"#fff",
+              backgroundColor:"#4F3C75",
               height:"2.5%",
               width:"23%",
               zIndex:2,
@@ -272,11 +279,12 @@ console.log("can not retreive design url");
           style={[
             styles.inputStyle2,
             {
-              color: "#4F3C75",
+              color: "#ffeed6",
               top: "2%",
               right: "-20%",
               fontWeight: "700",
-              backgroundColor:"#fff",
+              backgroundColor:"#4F3C75",
+              borderRadius:20,
               height:"2.5%",
               width:"34%",
               zIndex:2,

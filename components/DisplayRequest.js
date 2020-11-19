@@ -233,19 +233,6 @@ var doneForms = [];
   */
 
 
-  UrgeWithPleasureComponent = () => (
-  <CountdownCircleTimer
-    isPlaying
-    duration={10}
-    colors={[
-      ['#004777', 0.33],
-      ['#F7B801', 0.33],
-      ['#A30000', 0.33],
-    ]}
-  >
-    {({ remainingTime }) => remainingTime}
-  </CountdownCircleTimer>
-)
 
   //DISPLAY WAITING LIST
 
@@ -293,10 +280,11 @@ var doneForms = [];
           }}
            >
               {/* <Text style={{fontWeight:"700",top:"2%",color:"#4f3c75",left:"9%",}}>الاستجابة قبل:</Text> */}
-              <View style={{top:"%",left:"9%"}}>
+              <View style={{top:"-4%",left:"9%"}}>
 <CountdownCircleTimer
+children 
 strokeWidth={6}
-    size={70}
+    size={75}
     isPlaying
     initialRemainingTime={(element.remainingTime*60*60)+(element.remainingMinute*60)}
     duration={172800}
@@ -306,18 +294,35 @@ strokeWidth={6}
       ['#4F3C75', 0.33],
     ]}
   >
-     {/* {({ remainingTime, animatedColor }) => (
+
+{/* <Animated.Text>
+  {children(new Number(element.remainingTime))}
+</Animated.Text>
+ */}
+  {/* const hours = Math.floor(remainingTime / 3600);
+  const minutes = Math.floor((remainingTime % 3600) / 60);
+  const seconds = remainingTime % 60; */}
+
+     {({ remainingTime, animatedColor }) => (
+       <View>
           <Animated.Text
             style={{ ...styles.remainingTime, color: animatedColor }}>
-            {remainingTime}
+            {Math.floor(remainingTime / 3600) + ":" + Math.floor((remainingTime % 3600) / 60) + ":" + (remainingTime % 60) }
           </Animated.Text>
-        )} */}
-    <Text
+          <Text
+          style={{
+            color:"#4F3C75",
+            textAlign:"center"
+          }}
+          >متبقي</Text>
+          </View>
+        )}
+    {/* <Text
     style={{
       color:"#4F3C75",
       textAlign:"center"
     }}
-    >{element.remainingTime +":"+ element.remainingMinute +"\n متبقي"}</Text>
+    >{element.remainingTime +":"+ element.remainingMinute +"\n متبقي"}</Text> */}
   </CountdownCircleTimer>
   </View>
            </View>
@@ -626,8 +631,6 @@ strokeWidth={6}
     ); // End of render return
   } //End of render
 } //End of Class
-
-
 
 
 

@@ -293,7 +293,7 @@ children
 strokeWidth={6}
     size={75}
     isPlaying
-    initialRemainingTime={(element.remainingTime*60*60)+(element.remainingMinute*60)+element.consumSecond}
+    initialRemainingTime={(element.remainingTime*60*60)-(element.remainingMinute*60)-element.consumSecond}
     duration={172800}
     colors={[
       ['#CABFE0', 0.33],

@@ -292,9 +292,7 @@ export default class RequestForm extends Component {
 
   storeResquset = () => {
     const CID = firebase.auth().currentUser.uid;
-    var fullTime = moment()
-    .utcOffset('+03:00')
-    .format('YYYY-MM-DD hh:mm:ss a');
+    var fullTime = moment().format(); 
     
     firebase
       .database()

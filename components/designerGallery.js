@@ -220,7 +220,7 @@ export default class designerGallery extends React.Component {
 <View style={styles.infoContt}>
           <Image style={styles.image} source={{ uri: this.state.img }} />
           <Text style={styles.nameStyle}>{this.state.firstName +" "+ this.state.lastName}</Text>
-          <Text style={styles.aboutStyle}> نبذة عن{this.state.firstName}  </Text>
+          <Text style={styles.aboutStyle}> نبذة عن{" "+this.state.firstName}  </Text>
           <Text style={styles.bioStyle}>{this.state.bio}</Text>
           </View>
 

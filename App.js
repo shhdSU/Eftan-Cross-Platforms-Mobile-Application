@@ -48,6 +48,8 @@ import Payment from "./components/AddSubscription";
 import Invoice from "./components/Invoice";
 import allChat from "./components/allChat";
 import chat from "./components/chat";
+import designerPersonalPortfolio from "./components/designerPersonalPortfolio";
+
 
 console.disableYellowBox = true;
 //-------------------------------------------------------
@@ -97,6 +99,22 @@ const recievedOrderScreens = createStackNavigator(
   },
   {
     headerMode: "none",
+  }
+);
+//-------------------------------------------------------
+
+const DesignerPortfolioNavigation = createStackNavigator(                               //@HadeelHamad
+  {
+    "تصاميمي": { screen: designerPersonalPortfolio },
+    "عرض تفاصيل التصميم": DesignDetails,
+    " عرض حساب المصمم للطلب": DesignerGalleryScreen,
+    "أعمال مصمم معين": designerPortfolio,
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false,
+    },
   }
 );
 //-----------------------------------------------------

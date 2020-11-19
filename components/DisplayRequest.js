@@ -305,16 +305,18 @@ strokeWidth={6}
 
      {({ remainingTime, animatedColor }) => (
        <View>
+         <Text
+          style={{
+            color:"#4F3C75",
+            textAlign:"center",
+            fontSize:10,
+          }}
+          >القبول قبل</Text>
           <Animated.Text
             style={{ ...styles.remainingTime, color: animatedColor }}>
             {Math.floor(remainingTime / 3600) + ":" + Math.floor((remainingTime % 3600) / 60) + ":" + (remainingTime % 60) }
           </Animated.Text>
-          <Text
-          style={{
-            color:"#4F3C75",
-            textAlign:"center"
-          }}
-          >متبقي</Text>
+          
           </View>
         )}
     {/* <Text

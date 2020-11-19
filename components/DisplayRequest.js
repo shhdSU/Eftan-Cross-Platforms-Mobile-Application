@@ -128,6 +128,7 @@ this.updateInputVal(true,"watingtoggle");
         this.state.displayedWatingForms.forEach((element, index)=> {
      
           var currentTime = moment(); 
+          console.log(currentTime);
           var uploadTime = moment(element.fullTime,).utcOffset(element.fullTime,);
      
           var consumTime = moment.duration(currentTime.diff(uploadTime,'hours'));
@@ -140,7 +141,13 @@ this.updateInputVal(true,"watingtoggle");
             consumMinute = consumMinute - 60 ;
           }
 
-console.log(consumTime)
+          var consumSecond = moment.duration(currentTime.diff(uploadTime,'seconds'));
+          consumSecond = consumSecond + "";
+
+          while(consumSecond >= 60){
+            consumSecond = consumSecond - 60 ;
+          }
+
          if(consumTime > 48){
           this.state.displayedWatingForms.splice(index);
          // change status to e
@@ -149,6 +156,7 @@ console.log(consumTime)
          }else {
           element.remainingTime = 48 - consumTime;
           element.remainingMinute = consumMinute;
+          element.consumSecond = consumSecond;
          }
         })
         this.state.displayedCurrentForms.forEach((element, index)=> {
@@ -279,14 +287,13 @@ var doneForms = [];
             alignItems:"center"
           }}
            >
-              {/* <Text style={{fontWeight:"700",top:"2%",color:"#4f3c75",left:"9%",}}>الاستجابة قبل:</Text> */}
               <View style={{top:"-4%",left:"9%"}}>
 <CountdownCircleTimer
 children 
 strokeWidth={6}
     size={75}
     isPlaying
-    initialRemainingTime={(element.remainingTime*60*60)+(element.remainingMinute*60)}
+    initialRemainingTime={(element.remainingTime*60*60)+(element.remainingMinute*60)+element.consumSecond}
     duration={172800}
     colors={[
       ['#CABFE0', 0.33],
@@ -294,14 +301,6 @@ strokeWidth={6}
       ['#4F3C75', 0.33],
     ]}
   >
-
-{/* <Animated.Text>
-  {children(new Number(element.remainingTime))}
-</Animated.Text>
- */}
-  {/* const hours = Math.floor(remainingTime / 3600);
-  const minutes = Math.floor((remainingTime % 3600) / 60);
-  const seconds = remainingTime % 60; */}
 
      {({ remainingTime, animatedColor }) => (
        <View>
@@ -311,20 +310,16 @@ strokeWidth={6}
             textAlign:"center",
             fontSize:10,
           }}
-          >القبول قبل</Text>
+          >الاستجابة قبل</Text>
           <Animated.Text
             style={{ ...styles.remainingTime, color: animatedColor }}>
-            {Math.floor(remainingTime / 3600) + ":" + Math.floor((remainingTime % 3600) / 60) + ":" + (remainingTime % 60) }
+            {
+            Math.floor(remainingTime / 3600) + ":" + Math.floor((remainingTime % 3600) / 60) + ":" + (remainingTime % 60) }
           </Animated.Text>
           
           </View>
         )}
-    {/* <Text
-    style={{
-      color:"#4F3C75",
-      textAlign:"center"
-    }}
-    >{element.remainingTime +":"+ element.remainingMinute +"\n متبقي"}</Text> */}
+  
   </CountdownCircleTimer>
   </View>
            </View>

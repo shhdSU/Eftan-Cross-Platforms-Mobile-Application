@@ -391,9 +391,9 @@ class CustomDrawerComponent extends React.Component {
 const ClientDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": ClientGalleryNavigation,
-    "عرض حساب العميل": ClientProfileNavigation,
+    "حسابي الشخصي": ClientProfileNavigation,
      "طلباتي": OrderHistoryScreens,
-     "محادثات": ChatStackScreens,
+     "محادثاتي": ChatStackScreens,
    
   },
   {
@@ -424,10 +424,12 @@ const ClientDrawer = createDrawerNavigator(
 const DesignerDrawer = createDrawerNavigator(
   {
     "معرض التصاميم": DesignerGalleryNavigation,
-    "عرض حساب المصمم": DesignerProfileNavigation,
+    "حسابي الشخصي": DesignerProfileNavigation,
     "سجل الطلبات": recievedOrderScreens,
     "رفع تصميم جديد": { screen: UploadNewDesign },
-    "محادثات": ChatStackScreens,
+    "تصاميمي":DesignerPortfolioNavigation,
+    "محادثاتي": ChatStackScreens,
+    
   },
   {
     defaultNavigationOptions: {

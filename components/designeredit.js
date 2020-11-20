@@ -77,7 +77,6 @@ export default class designeredit extends React.Component {
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        alert(errorMessage);
       });
   }
   updateInputVal = (val, prop) => {

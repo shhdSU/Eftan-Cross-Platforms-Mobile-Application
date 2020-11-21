@@ -79,7 +79,7 @@ export default class Invoice extends React.Component {
       
       
     }).then(response =>{
-     if(response.status=="200"){
+     if(true){//response.status=="200"){
        //Update Status
        
     

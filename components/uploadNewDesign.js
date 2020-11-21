@@ -460,14 +460,14 @@ export default class UploadNewDesign extends Component {
             "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
             [
              
-              {
+               {
+                text: "إلغاء",
+                onPress: () => {
+                },
+              },{
                 text: "تأكيد",
                 onPress: () => {
                 this.uploadDesign()
-                },
-              }, {
-                text: "إلغاء",
-                onPress: () => {
                 },
               },
             ],

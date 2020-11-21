@@ -29,7 +29,7 @@ export default class Invoice extends React.Component {
       submitted: false,
       creditCardToken: props.navigation.state.params.creditCardToken,
       popup: false,
-      rate: "",
+      AVG_Rate: 0,
     };
 
     firebase
@@ -113,17 +113,12 @@ export default class Invoice extends React.Component {
         );
     });
   }
+  //---------------*to handle the rate number (clicked star)*----------------------
   ratingCompleted = (rating) => {
     console.log("Rating is: " + rating);
-    this.updateInputVal(rating, "rate");
-
-    firebase
-      .database()
-      .ref("GraphicDesigner/" + this.state.DID)
-      .update({
-        rate: this.state.rate,
-      });
+    this.updateInputVal(rating, "AVG_Rate");
   };
+  //---------------*the pop-up star rate message*----------------------
   popUpWindow = () => {
     this.closePopUp();
     this.updateInputVal(false, "popup");
@@ -133,6 +128,41 @@ export default class Invoice extends React.Component {
     this.updateInputVal(false, "popup");
   };
 
+  //---------------*All the work of the rating :)*----------------------
+
+  sendFunction = () => {
+    //---------------*to get the number of raters and add 1*----------------------
+    var raters;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.DID)
+      .on("value", (dataSnapshot) => {
+        raters = dataSnapshot.child("raters").val();
+      });
+    console.log("raters in send: " + raters);
+    raters = raters + 1;
+
+    //---------------*to get the average of the rating*----------------------
+    var AVG_Rate;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.DID)
+      .on("value", (dataSnapshot) => {
+        AVG_Rate = dataSnapshot.child("AVG_Rate").val();
+      });
+    AVG_Rate = (AVG_Rate + this.state.AVG_Rate) / raters;
+    console.log("AVGRating in send: " + AVG_Rate);
+
+    //---------------*update the values in the database*----------------------
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.DID)
+      .update({
+        AVG_Rate: AVG_Rate,
+        raters: raters,
+      });
+    this.props.navigation.navigate("OrderHistory");
+  };
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -324,14 +354,14 @@ export default class Invoice extends React.Component {
 
               <AirbnbRating
                 count={5}
-                reviews={["سيئة", "متوسطة", "جيدة", "ممتازة", "ممتازة جدا"]}
+                reviews={["سيئة", "متوسطة", "جيدة", "ممتازة", "ممتازة جداً"]}
                 defaultRating={3}
                 size={20}
                 onFinishRating={this.ratingCompleted}
               />
               <TouchableOpacity
                 style={styles.smallbutton}
-                onPress={() => this.props.navigation.navigate("OrderHistory")}
+                onPress={() => this.sendFunction()}
               >
                 <Text
                   style={{

@@ -99,12 +99,13 @@ this.updateInputVal(true,"watingtoggle");
     this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
   getData() {
+    
 
-    forms = []; // To retrive all forms here
-    waitingForms = [];
-    inProgressForms = [];
-    doneForms = [];
-    expiredForms = [];
+    forms = new Array(); // To retrive all forms here
+    waitingForms =  new Array();
+    inProgressForms =  new Array();
+    doneForms =  new Array();
+    expiredForms =  new Array();
       //START RETURN ALL FORMS
       const DID = firebase.auth().currentUser.uid;
       firebase
@@ -196,9 +197,9 @@ this.updateInputVal(true,"watingtoggle");
          
         }); //End of snapshot method
   }
-  componentWillMount() {
-    this.getData()
-        }
+   componentDidUpdate() {
+      this.getData()
+         }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
     const state = this.state;

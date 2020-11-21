@@ -82,96 +82,8 @@ break;
     this.updateInputVal(true,"watingList");
 this.updateInputVal(true,"watingtoggle");
   }
-    //START RETURN ALL FORMS
-    const DID = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref("Forms/" + DID)
-      .on("value", (snapshot) => {
-        //put DID after Path
-        forms = snapshot.val();
-        if (forms != null) {
-          var formsKeys = Object.keys(forms);
-          var waitingLoop = 0;
-          var inProgressLoop = 0;
-          var doneLoop = 0;
-          var expiredLoop = 0;
-            
-    ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
-          for (var i = 0; i < formsKeys.length; i++) {
-              if (forms[formsKeys[i]].status === "w") {
-              waitingForms[waitingLoop] = forms[formsKeys[i]];
-              waitingLoop++;
-             } else if (forms[formsKeys[i]].status === "p" ) {
-              inProgressForms[inProgressLoop] = forms[formsKeys[i]];
-              inProgressLoop++;
-             } else if (forms[formsKeys[i]].status === "d" || forms[formsKeys[i]].status === "f") {
-              doneForms[doneLoop] = forms[formsKeys[i]];
-              doneLoop++;
-            }
-            else if (forms[formsKeys[i]].status === "e"){
-              expiredForms[expiredLoop] = forms[formsKeys[i]];
-              expiredLoop++;
-            }
-          } //End of for loop
-          if (this.state.displayedWatingForms.length != waitingForms.length)
-              this.updateInputVal(waitingForms, "displayedWatingForms");
-              if (this.state.displayedCurrentForms.length != inProgressForms.length)
-              this.updateInputVal(inProgressForms, "displayedCurrentForms");
-              if (this.state.displayedDoneForms.length != doneForms.length)
-              this.updateInputVal(doneForms, "displayedDoneForms");
-              if (this.state.displayedExpiredForms.length != expiredForms.length)
-              this.updateInputVal(expiredForms,"displayedExpiredForms");
-        }
-    
-        //expired 
-        this.state.displayedWatingForms.forEach((element, index)=> {
-     
-          var currentTime = moment(); 
-          console.log(currentTime);
-          var uploadTime = moment(element.fullTime,).utcOffset(element.fullTime,);
-     
-          var consumTime = moment.duration(currentTime.diff(uploadTime,'hours'));
-          consumTime = consumTime + "";
+  this.getData()
 
-          var consumMinute = moment.duration(currentTime.diff(uploadTime,'minutes'));
-          consumMinute = consumMinute + "";
-
-          while(consumMinute >= 60){
-            consumMinute = consumMinute - 60 ;
-          }
-
-          var consumSecond = moment.duration(currentTime.diff(uploadTime,'seconds'));
-          consumSecond = consumSecond + "";
-
-          while(consumSecond >= 60){
-            consumSecond = consumSecond - 60 ;
-          }
-
-         if(consumTime > 48){
-          this.state.displayedWatingForms.splice(index);
-         // change status to e
-          this.updateStatusToExpired(element);
-          this.state.displayedExpiredForms.push(element);
-         }else {
-          element.remainingTime = 48 - consumTime;
-          element.remainingMinute = consumMinute;
-          element.consumSecond = consumSecond;
-         }
-        })
-        this.state.displayedCurrentForms.forEach((element, index)=> {
-          var currentDate = new Date();
-          var formDate = new Date(element.deadLine);
-          if(currentDate > formDate){
-            this.state.displayedCurrentForms.splice(index);
-            this.updateStatusToExpired(element);
-            this.state.displayedExpiredForms.push(element);
-    
-          }
-        })
-      
-       
-      }); //End of snapshot method
    
   } //End of constructor
 
@@ -186,7 +98,102 @@ this.updateInputVal(true,"watingtoggle");
       this.updateInputVal(true,"accepted");
     this.props.navigation.navigate("DisplayRequest",{status:"p"});
   };
+  getData() {
+
+      //START RETURN ALL FORMS
+      const DID = firebase.auth().currentUser.uid;
+      firebase
+        .database()
+        .ref("Forms/" + DID)
+        .on("value", (snapshot) => {
+          //put DID after Path
+          forms = snapshot.val();
+          if (forms != null) {
+            var formsKeys = Object.keys(forms);
+            var waitingLoop = 0;
+            var inProgressLoop = 0;
+            var doneLoop = 0;
+            var expiredLoop = 0;
+              
+      ///--------لوب لاسترجاع باقي معلومات الطلب العملاء----------
+            for (var i = 0; i < formsKeys.length; i++) {
+                if (forms[formsKeys[i]].status === "w") {
+                waitingForms[waitingLoop] = forms[formsKeys[i]];
+                waitingLoop++;
+               } else if (forms[formsKeys[i]].status === "p" ) {
+                inProgressForms[inProgressLoop] = forms[formsKeys[i]];
+                inProgressLoop++;
+               } else if (forms[formsKeys[i]].status === "d" || forms[formsKeys[i]].status === "f") {
+                doneForms[doneLoop] = forms[formsKeys[i]];
+                doneLoop++;
+              }
+              else if (forms[formsKeys[i]].status === "e"){
+                expiredForms[expiredLoop] = forms[formsKeys[i]];
+                expiredLoop++;
+              }
+            } //End of for loop
+            if (this.state.displayedWatingForms.length != waitingForms.length)
+                this.updateInputVal(waitingForms, "displayedWatingForms");
+                if (this.state.displayedCurrentForms.length != inProgressForms.length)
+                this.updateInputVal(inProgressForms, "displayedCurrentForms");
+                if (this.state.displayedDoneForms.length != doneForms.length)
+                this.updateInputVal(doneForms, "displayedDoneForms");
+                if (this.state.displayedExpiredForms.length != expiredForms.length)
+                this.updateInputVal(expiredForms,"displayedExpiredForms");
+          }
+      
+          //expired 
+          this.state.displayedWatingForms.forEach((element, index)=> {
+       
+            var currentTime = moment(); 
+            console.log(currentTime);
+            var uploadTime = moment(element.fullTime,).utcOffset(element.fullTime,);
+       
+            var consumTime = moment.duration(currentTime.diff(uploadTime,'hours'));
+            consumTime = consumTime + "";
   
+            var consumMinute = moment.duration(currentTime.diff(uploadTime,'minutes'));
+            consumMinute = consumMinute + "";
+  
+            while(consumMinute >= 60){
+              consumMinute = consumMinute - 60 ;
+            }
+  
+            var consumSecond = moment.duration(currentTime.diff(uploadTime,'seconds'));
+            consumSecond = consumSecond + "";
+  
+            while(consumSecond >= 60){
+              consumSecond = consumSecond - 60 ;
+            }
+  
+           if(consumTime > 48){
+            this.state.displayedWatingForms.splice(index);
+           // change status to e
+            this.updateStatusToExpired(element);
+            this.state.displayedExpiredForms.push(element);
+           }else {
+            element.remainingTime = 48 - consumTime;
+            element.remainingMinute = consumMinute;
+            element.consumSecond = consumSecond;
+           }
+          })
+          this.state.displayedCurrentForms.forEach((element, index)=> {
+            var currentDate = new Date();
+            var formDate = new Date(element.deadLine);
+            if(currentDate > formDate){
+              this.state.displayedCurrentForms.splice(index);
+              this.updateStatusToExpired(element);
+              this.state.displayedExpiredForms.push(element);
+      
+            }
+          })
+        
+         
+        }); //End of snapshot method
+  }
+  componentDidMount() {
+    this.getData()
+        }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
     const state = this.state;

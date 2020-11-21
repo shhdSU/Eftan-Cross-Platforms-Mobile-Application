@@ -27,6 +27,10 @@ export default class RoomScreen extends React.Component {
       title: "",
       notificationsKey: "",
       name:"",
+      Cname:"",
+      Dname:"",
+      CAvatart:"",
+      DAvatart:"",
       reciverName:"",
       reciverAvatar:"",
       did:"",
@@ -49,7 +53,6 @@ export default class RoomScreen extends React.Component {
     }
 
   
-
     firebase
       .database()
       .ref(`chat/` + this.state.chatID)
@@ -59,54 +62,52 @@ export default class RoomScreen extends React.Component {
           console.log("CurrentID" + snapshot.child("CID").val())
           this.updateInputVal(reciveID, "reciveID");
           this.updateInputVal(snapshot.child("title").val(), "title")
+          this.updateInputVal(snapshot.child("dname").val(), "Dname")
+          this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "DAvatart")
           this.updateInputVal(snapshot.child("dname").val(), "reciverName")
           this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "reciverAvatar")
          
-          firebase
-          .database()
-          .ref("Forms/" + snapshot.child("DID").val() + "/" + this.state.chatID)
-          .on("value", (snapshot) => {
-            if(snapshot.child("status").val() == "f")
-            {
-              firebase
-              .firestore()
-              .collection("UserID")
-              .doc(CurrentID)
-              .collection('AllChat')
-              .doc(this.state.chatID) 
-              .delete()
-            }
-          })
+          
           
         } else if (snapshot.child("DID").val() == CurrentID) {
           reciveID = snapshot.child("CID").val();
           console.log("CurrentID///" + snapshot.child("DID").val())
           this.updateInputVal(reciveID, "reciveID");
           this.updateInputVal(snapshot.child("title").val(), "title")
-          this.updateInputVal(snapshot.child("name").val(), "reciverName")
-          this.updateInputVal(snapshot.child("ClientProfileImage").val(), "reciverAvatar")
+          this.updateInputVal(snapshot.child("name").val(), "Cname")
+          this.updateInputVal(snapshot.child("ClientProfileImage").val(), "CAvatart")
+          this.updateInputVal(snapshot.child("dname").val(), "reciverName")
+          this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "reciverAvatar")
         
-          firebase
-          .database()
-          .ref("Forms/" + snapshot.child("DID").val() + "/" + this.state.chatID)
-          .on("value", (snapshot) => {
-            if(snapshot.child("status").val() == "f")
-            {
-              firebase
-              .firestore()
-              .collection("UserID")
-              .doc(CurrentID)
-              .collection('AllChat')
-              .doc(this.state.chatID) 
-              .delete()
-            }
-          })
         }
         this.updateInputVal(snapshot.child("DID").val(), "did")
+        
+      //   firebase
+      //   .database()
+      //   .ref("Forms/" + this.state.did + "/" +  this.state.chatID)
+      //   .on("value", (snapshot) => {
+      //     if(snapshot.child("status").val() == "f")
+      //     {
+      //       firebase
+      //       .firestore()
+      //       .collection("UserID")
+      //       .doc(snapshot.child("DID").val())
+      //       .collection('AllChat')
+      //       .doc( this.state.chatID) 
+      //       .delete
+    
+      //       firebase
+      //       .firestore()
+      //       .collection("UserID")
+      //       .doc(snapshot.child("CID").val())
+      //       .collection('AllChat')
+      //       .doc( this.state.chatID) 
+      //       .delete
+      //     }
+      //   })
       })
 
-      
-
+    
       firebase
       .database()
       .ref(`GraphicDesigner/` + this.state.reciveID)
@@ -153,7 +154,9 @@ export default class RoomScreen extends React.Component {
 
   render() {
     return (
-      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} name={this.state.name}  reciverName={this.state.reciverName} reciverAvatar={this.state.reciverAvatar} did={this.state.did} />)
+      <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} name={this.state.name} 
+      Cname={this.state.Cname} Dname={this.state.Dname} DAvatart={this.state.DAvatart} CAvatart={this.state.CAvatart} did={this.state.did}
+      reciverAvatar={this.state.reciverAvatar} reciverName={this.state.reciverName} />)
   }
 }
 
@@ -207,10 +210,14 @@ function Retrive(props) {
   const reciveID = props.reciveID
   const CurrentID = firebase.auth().currentUser.uid;
   const title = props.title
+  const Cname = props.Cname
+  const Dname = props.Dname
+  const DAvatart = props.DAvatart
+  const CAvatart= props.CAvatart
   const reciverAvatar = props.reciverAvatar
   const reciverName = props.reciverName
   const did = props.did
-  console.log(">>>>>>>>>>>>>" + reciverName)
+  console.log(">>>>>>>>>>>>>" + reciverAvatar)
 
   const receiveToken = props.receiveToken;
   const name = props.name;
@@ -246,12 +253,18 @@ function Retrive(props) {
           const firebaseData = doc.data();
 
           const data = {
+          
+            Cname :firebaseData.Cname,
+            Dname :firebaseData.Dname,
+            DAvatart : firebaseData.DAvatart,
+            CAvatart:firebaseData.CAvatart,
+            reciverAvatar :firebaseData.reciverAvatar,
+            reciverName :firebaseData.reciverName,
             title: firebaseData.title,
             did:firebaseData.did,
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),
-            // avatar: 'https://placeimg.com/140/140/any',
 
             ...firebaseData,
           };
@@ -260,7 +273,6 @@ function Retrive(props) {
             data.user = {
               ...firebaseData.user,
               name: firebaseData.user.email,
-              // avatar: 'https://placeimg.com/140/140/any',
 
             };
           }
@@ -295,7 +307,6 @@ function Retrive(props) {
       };
 
   }, []);
-
   // helper method that is sends a message
   function handleSend(messages) {
     const text = messages[0].text;
@@ -540,12 +551,10 @@ function Retrive(props) {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 1}}>
+      <View >
              <Image
-                style={{ height: 58, width: 58, borderRadius: 60,  position: "absolute", top:"13%" , zIndex: 2,  right:"4%"}}
-                source={{ uri: reciverAvatar }}
-     
-    />
+                style={{ height: 58, width: 58, borderRadius: 60,  position: "absolute", top:"40%" , zIndex: 2,  right:"4%"}}
+                source={{ uri: reciverAvatar }}/>
             <Text
                 style={{
                     fontSize: 25,
@@ -554,7 +563,7 @@ function Retrive(props) {
                     alignSelf: "center",
                     position: "absolute",
                     zIndex: 2,
-                    top: "16%",
+                    top: "50%",
                     right:"23%"
                 }}
             >

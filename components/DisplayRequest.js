@@ -100,6 +100,11 @@ this.updateInputVal(true,"watingtoggle");
   };
   getData() {
 
+    forms = []; // To retrive all forms here
+    waitingForms = [];
+    inProgressForms = [];
+    doneForms = [];
+    expiredForms = [];
       //START RETURN ALL FORMS
       const DID = firebase.auth().currentUser.uid;
       firebase
@@ -191,7 +196,7 @@ this.updateInputVal(true,"watingtoggle");
          
         }); //End of snapshot method
   }
-  componentDidMount() {
+  componentWillMount() {
     this.getData()
         }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))

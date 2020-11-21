@@ -73,6 +73,18 @@ break;
     this.updateInputVal(true,"watingList");
 this.updateInputVal(true,"watingtoggle");
   }
+  this.getData()
+  } //End of constructor
+
+getData() {
+  forms = new Array(); // To retrive all forms here
+  waitingForms =  new Array();
+  filterLoop = 0;
+  expiredLoop = 0;
+  filterdForms = new Array();
+  inProgressForms =  new Array();
+  doneForms =  new Array();
+  expiredForms =  new Array();
     //START RETURN ALL FORMS
     firebase
       .database()
@@ -173,9 +185,11 @@ this.updateInputVal(true,"watingtoggle");
       }); //End of on method
     //START sepreate them based on their status
     
-  } //End of constructor
+}
+componentDidUpdate(){
+  this.getData();
 
-
+}
   updateStatusToExpired = (element) => {
     const DID = element.DID;
     var key = element.Imagekey;

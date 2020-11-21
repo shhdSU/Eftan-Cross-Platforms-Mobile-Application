@@ -8,7 +8,7 @@
 // 2. Delete from Storage by known URL
 //   firebase.storage().refFromURL(element.designUrl).delete()
 
-
+import { withNavigation } from "react-navigation";
 import {
     View,
     Text,
@@ -77,9 +77,10 @@ import {
         };
   
       }
-           
+      
+      this.updateInputVal(designGallery, "designShownState")    
     });
-    this.updateInputVal(designGallery, "designShownState");
+   
     }
 
 
@@ -88,8 +89,18 @@ import {
       this.getData()
           }
     //----------------------------------------------------------------------------------------  
-
-
+   
+    // componentDidMount() {
+    //   // const { navigation } = this.props;
+    //   // this.focusListener = navigation.addListener('focus', () => {
+    //     this.getData()
+    //   // });
+    // }
+  
+    // componentWillUnmount() {
+    //   this.focusListener.remove();
+    // }
+//-------------------------------------------------------------------------------------
     updateInputVal = (val, prop) => {
       const state = this.state;
       state[prop] = val;
@@ -102,7 +113,8 @@ import {
       var index = array.indexOf(e)
       if (index !== -1) {
         array.splice(index, 1);
-        this.setState({designShownState: array});
+       // this.setState({designShownState: array});
+       this.updateInputVal(designGallery, "designShownState")   
       }
     }
 
@@ -189,6 +201,7 @@ import {
 
     //----------------------------------------------------------------------------------------
     render() {
+      
       return (
        
         <View style={styles.container}>

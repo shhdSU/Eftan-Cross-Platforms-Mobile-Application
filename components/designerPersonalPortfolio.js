@@ -1,5 +1,14 @@
 //هذه صفحة تصاميمي لعرض التصاميم الشخصية للمصمم الحالي حتى يتمكن من حذفها
 
+// Notes about DELETE from DB:
+
+// 1. Delete from realtime DB
+// firebase.database().ref('Designs/' + element.designFileKey).remove().then()
+ 
+// 2. Delete from Storage by known URL
+//   firebase.storage().refFromURL(element.designUrl).delete()
+
+
 import {
     View,
     Text,
@@ -15,12 +24,12 @@ import {
   import * as React from "react";
   import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
   const { width, height } = Dimensions.get("window");
-
-
+  import EmptyList from "./emptylist";
+  import { Component } from "react";
 
   var designGallery = new Array();
 
-  export default class designerPersonalPortfolio extends React.Component {
+  export default class designerPersonalPortfolio extends Component{
     constructor(props) {
       super();
       this.state = {
@@ -30,51 +39,65 @@ import {
                 designShownState:[]
       
       }
-  
-     var duid=firebase.auth().currentUser.uid;
-    var ref = firebase
-    .database()
-    .ref("Designs/")
-    .orderByChild("Duid")
-    .equalTo(duid);
-  ref.on("value", (snapshot) => {
-    if (!snapshot.exists()) {
-      this.updateInputVal(true, "nodesign");
-      
-     return                                          //@HadeelHamad conisder this case!
-    }
-    var design = snapshot.val();
-    var designKeys = Object.keys(design);
-    for (var i = 0; i < designKeys.length; i++) {
-      var designInfo = designKeys[i];
-      var categ = design[designInfo].category;
-      var desDis = design[designInfo].designDescription;
-      var desFileKey = design[designInfo].designFileKey;
-      var desTitle = design[designInfo].designTitle;
-      var desUploadingdate = design[designInfo].designUploadingdate;
-      var designUrl = design[designInfo].designUrl;
-      designGallery[i] = {
-        category: categ,
-        designDescription: desDis,
-        designFileKey: desFileKey,
-        designTitle: desTitle,
-        designUploadingdate: desUploadingdate,
-        designUrl: designUrl,
-      };
-
-    }
+  this.getData()  // All the database retreival code was here, I put it inside getData()
     
-         
-  });
-      this.updateInputVal(designGallery, "designShownState");
-      
     }
+
+
+    //----------------------------------------------------------------------------------------
+    getData(){
+      designGallery = new Array();      // clean the array before any usage
+      var duid=firebase.auth().currentUser.uid;
+      var ref = firebase
+      .database()
+      .ref("Designs/")
+      .orderByChild("Duid")
+      .equalTo(duid);
+    ref.on("value", (snapshot) => {
+      if (!snapshot.exists()) {
+       this.updateInputVal(true, "nodesign");
+        
+       return                                   }
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var designUrl = design[designInfo].designUrl;
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: designInfo,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: designUrl,
+        };
+  
+      }
+           
+    });
+    this.updateInputVal(designGallery, "designShownState");
+    }
+
+
+    //----------------------------------------------------------------------------------------
+    componentWillMount() {
+      this.getData()
+          }
+    //----------------------------------------------------------------------------------------  
+
+
     updateInputVal = (val, prop) => {
       const state = this.state;
       state[prop] = val;
       this.setState(state);
-    };
-    removeDesign(e) {
+    }
+//----------------------------------------------------------------------------------------
+
+    removeDesign(e) {                           // I used this method to update the state by removing the deleted item
       var array = [...this.state.designShownState]; // make a separate copy of the array
       var index = array.indexOf(e)
       if (index !== -1) {
@@ -82,6 +105,8 @@ import {
         this.setState({designShownState: array});
       }
     }
+
+    //----------------------------------------------------------------------------------------
     readData = () => {
          return this.state.designShownState.map((element) => {
         return (
@@ -125,16 +150,18 @@ import {
               {
                 text: "حذف",
                 onPress: () => {
-                  firebase
-            .database()
-            .ref("Designs/" + firebase.auth().currentUser.uid + "/" + element.designFileKey)
-            .remove()
+                  firebase.database().ref('Designs/' + element.designFileKey).remove().then(
+              this.removeDesign(element),
+              firebase.storage().refFromURL(element.designUrl).delete()
+
+              
+            )
                 },
               },
             ],
             { cancelable: false }
-          ),
-         this.removeDesign(element)
+          )
+       
             
          }
            />
@@ -159,10 +186,13 @@ import {
         );
       });
     };
+
+    //----------------------------------------------------------------------------------------
     render() {
       return (
        
         <View style={styles.container}>
+      
             <Svg
               width={416}
               height={144}

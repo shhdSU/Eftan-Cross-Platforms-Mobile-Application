@@ -83,13 +83,55 @@ import {
    
     }
 
+    getData2(){
+      designGallery = new Array();      // clean the array before any usage
+      var duid=firebase.auth().currentUser.uid;
+      var ref = firebase
+      .database()
+      .ref("Designs/"+duid)
+      // .orderByChild("Duid")
+      // .equalTo(duid);
+    ref.on('child_removed', (snapshot) => {
+      if (!snapshot.exists()) {
+       this.updateInputVal(true, "nodesign");
+        
+       return                                   }
+      var design = snapshot.val();
+      var designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var designUrl = design[designInfo].designUrl;
+        designGallery[i] = {
+          category: categ,
+          designDescription: desDis,
+          designFileKey: designInfo,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: designUrl,
+        };
+  
+      }
+      
+    });
+    if (this.state.designShownState.length != designGallery.length)
+    this.updateInputVal(designGallery, "designShownState")    
 
+    }
     //----------------------------------------------------------------------------------------
+    // componentDidUpdate() {
+    //   this.getData()
+    //   this.getData2()
+
+    //       }
+    //----------------------------------------------------------------------------------------  
     componentWillMount() {
       this.getData()
+    //  this.getData2()
           }
-    //----------------------------------------------------------------------------------------  
-   
     // componentDidMount() {
     //   // const { navigation } = this.props;
     //   // this.focusListener = navigation.addListener('focus', () => {
@@ -162,8 +204,9 @@ import {
               {
                 text: "حذف",
                 onPress: () => {
+                  this.getData2()
                   firebase.database().ref('Designs/' + element.designFileKey).remove().then(
-              this.removeDesign(element),
+             // this.removeDesign(element),
               firebase.storage().refFromURL(element.designUrl).delete()
 
               

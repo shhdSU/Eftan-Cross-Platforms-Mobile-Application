@@ -59,181 +59,11 @@ export default class explore extends Component {
        found:false,
        includesSpec:false,
     };
-    logo = [];
-    brand = [];
-    cert = [];
-    packag = [];
-    other = [];
-    filter = [];
-    poster = [];
-    digital = [];
-    // this.updateInputVal(0,"d");
-    // this.updateInputVal(0,"l");
-    // this.updateInputVal(0,"o");
-    // this.updateInputVal(0,"g");
-    // this.updateInputVal(0,"p");
-    // this.updateInputVal(0,"b");
-    // this.updateInputVal(0,"f");
-    // this.updateInputVal(0,"c");
-    this.updateInputVal([],"logo");
-    this.updateInputVal([],"brand");
-    this.updateInputVal([],"other");
-    this.updateInputVal([],"digital");
-    this.updateInputVal([],"cert");
-    this.updateInputVal([],"packag");
-    this.updateInputVal([],"poster");
-    this.updateInputVal([],"filter");
-
-    var ref = firebase.database().ref("Designs/");
-    ref.on("value", (snapshot) => {
-      logo = [];
-      brand = [];
-      cert = [];
-      packag = [];
-      other = [];
-      filter = [];
-      poster = [];
-      digital = [];
-      design = snapshot.val();
-      designKeys = Object.keys(design);
-      for (var i = 0; i < designKeys.length; i++) {
-        var designInfo = designKeys[i];
-        var duid = design[designInfo].Duid;
-        var categ = design[designInfo].category;
-        var desDis = design[designInfo].designDescription;
-        var desTitle = design[designInfo].designTitle;
-        var desUploadingdate = design[designInfo].designUploadingdate;
-        var desUrl = design[designInfo].designUrl;
-        var desTags = design[designInfo].designTags;
-        designGallery[i] = {
-          duid: duid,
-          category: categ,
-          designDescription: desDis,
-          designTitle: desTitle,
-          designUploadingdate: desUploadingdate,
-          designUrl: desUrl,
-          designTags:desTags
-        };
-        if (categ == "علامة تجارية") {
-          brand[brand.length++] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-          };
-          this.updateInputVal(this.state.b+1,"b")
-        } else if (categ == "شعار") {
-          logo[logo.length++] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-          this.updateInputVal(this.state.l+1,"l")
-
-        } else if (categ == "شهادة") {
-          cert[this.state.c] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-          this.updateInputVal(this.state.c+1,"c")
-
-        } else if (categ == "انفوجرافيك") {
-          packag[this.state.g] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-          this.updateInputVal(this.state.g+1,"g")
-
-        } else if (categ == "أخرى") {
-          other[this.state.o] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-          this.updateInputVal(this.state.o+1,"o")
-
-        } else if (categ == "فلتر") {
-          filter[this.state.f] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-          this.updateInputVal(this.state.f+1,"f")
-
-        } else if (categ == "إعلان") {
-          poster[this.state.p] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-          this.updateInputVal(this.state.p+1,"p")
-
-        } else if (categ == "فن رقمي") {
-          digital[digital.length] = {
-            duid: duid,
-            category: categ,
-            designDescription: desDis,
-            designTitle: desTitle,
-            designUploadingdate: desUploadingdate,
-            designUrl: desUrl,
-            designTags:desTags
-
-          };
-        }
-      }
-      if (this.state.designGalleryState.length != designGallery.length)
-        this.updateInputVal(designGallery, "designGalleryState");
-
-      this.updateInputVal(digital,"digital");
-      this.updateInputVal(logo,"logo");
-      this.updateInputVal(other,"other");
-      this.updateInputVal(packag,"packag");
-      this.updateInputVal(poster,"poster");
-      this.updateInputVal(brand,"brand");
-      this.updateInputVal(filter,"filter");
-      this.updateInputVal(cert,"cert");
-
-
-
-
-    });
+    
+   
 
   }
+
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -250,7 +80,7 @@ export default class explore extends Component {
     return arr.map((element) => {
       return (
         <View
-          style={{ width: width / 2 - 40, height: width / 2 - 20 }}
+          style={{ width: width / 2 - 40 }}
           key={element.designUrl}
         >
 
@@ -265,19 +95,24 @@ export default class explore extends Component {
               shadowRadius: 3,
               elevation: 5,
               backgroundColor: "white",
-              margin: 10,
+              marginBottom: 10,
+              width: 150,
+              height: 150,
+              borderRadius: 15,
             }}
 
           >
             <Image
               style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
-                margin: 5,
+                width: 140,
+      height: 140,
+      borderColor: "#ccc",
+      borderWidth: 1,
+      top: "3%",
+      borderRadius: 15,
+      alignSelf: "center",
               }}
-              width={width}
+              
               source={{ uri: element.designUrl }}
             />
           </View>
@@ -288,7 +123,7 @@ export default class explore extends Component {
             }}
           >
             <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" ,top:-5, marginBottom:4}}
               onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
 
             >

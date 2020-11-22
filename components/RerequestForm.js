@@ -54,6 +54,7 @@ export default class RerequestForm extends Component {
       uploading:false,
       designerToken: "",
       notify:false,
+      designers:[],
     };
     
     firebase.database().ref('GraphicDesigner/'+this.state.DID).child("notificationsKey").on(('value'), (dataSnapshot)=> {
@@ -62,6 +63,20 @@ export default class RerequestForm extends Component {
       console.log("designer token    "+this.state.designerToken)
     })
     console.log("designer token    "+this.state.designerToken)
+
+
+
+
+//---------------------  ----------------  استرجاع جميع المصممين  ----------------  ---------------------- //
+firebase
+.database()
+.ref("GraphicDesigner/")
+.on("value", (snapshot) => {
+
+  this.updateInputVal(snapshot.val(),"designers")
+// var Keys = Object.keys(designers);
+// designersKey = Keys;
+});//End of snapshot
 
 
   
@@ -255,25 +270,6 @@ export default class RerequestForm extends Component {
     )
   }
 
-  doneButton = () => {
-    Alert.alert(
-      "تأكيد رفع الطلب",
-      "هل انت متأكد من رفع طلبك",
-      [
-        {
-          text: "الغاء",
-        },
-        {
-          text: "تأكيد",
-          onPress: () => {
-            
-            this.storeResquset()
-           },
-        },
-      ],
-      { cancelable: false }
-    )
-  }
 
   storeResquset = () => {
     const CID = firebase.auth().currentUser.uid;
@@ -579,9 +575,9 @@ export default class RerequestForm extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.button, { height: "50%" }]}
-                  onPress={() => this.doneButton()}
+                 onPress={() =>  this.props.navigation.navigate("designersName", { obj: this.state.designers }) }
                 >
-                  <Text style={styles.buttonText}> رفع الطلب </Text>
+                  <Text style={styles.buttonText}> التالي </Text>
                 </TouchableOpacity>
 
               </View>

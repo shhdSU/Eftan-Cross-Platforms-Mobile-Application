@@ -114,8 +114,9 @@ export default class SignupScreen extends Component {
                     DFirstName: this.state.firstName,
                     DLastName: this.state.lastName,
                     DEmail: this.state.email,
+                    AVG_Rate: 0,
+                    raters: 0,
                     notificationsKey: "",
-
                   });
               }
 

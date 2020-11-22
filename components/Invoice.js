@@ -29,7 +29,6 @@ export default class Invoice extends React.Component {
       submitted: false,
       creditCardToken: props.navigation.state.params.creditCardToken,
       popup: false,
-      AVG_Rate: 0,
     };
 
     firebase
@@ -150,7 +149,8 @@ export default class Invoice extends React.Component {
       .on("value", (dataSnapshot) => {
         AVG_Rate = dataSnapshot.child("AVG_Rate").val();
       });
-    AVG_Rate = parseInt((AVG_Rate + this.state.AVG_Rate) / raters);
+
+    AVG_Rate = (Number(AVG_Rate.toFixed(1)) + this.state.AVG_Rate) / raters;
     console.log("AVGRating in send: " + AVG_Rate);
 
     //---------------*update the values in the database*----------------------

@@ -14,7 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-import { AirbnbRating } from "react-native-ratings";
+import { AirbnbRating, Rating } from "react-native-ratings";
 
 const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
@@ -251,7 +251,7 @@ export default class designerGallery extends React.Component {
             <Text style={styles.nameStyle}>
               {this.state.firstName + " " + this.state.lastName}
             </Text>
-            <AirbnbRating
+            {/* <AirbnbRating
               starContainerStyle={{
                 alignSelf: "center",
                 top: "58%",
@@ -261,6 +261,17 @@ export default class designerGallery extends React.Component {
               showRating={false}
               defaultRating={this.AVG_Rate()}
               size={20}
+            />
+            <Text style={styles.rated}>({this.raters()})</Text> */}
+            <Rating
+              style={{ alignSelf: "center", top: "32%", right: "2%" }}
+              readonly={true}
+              type="custom"
+              // ratingImage={rating_star}
+              startingValue={this.AVG_Rate()}
+              ratingBackgroundColor="#c8c7c8"
+              tintColor="white"
+              imageSize={25}
             />
             <Text style={styles.rated}>({this.raters()})</Text>
             <Text style={styles.aboutStyle}>

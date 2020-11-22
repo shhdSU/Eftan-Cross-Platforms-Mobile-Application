@@ -15,8 +15,9 @@ import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 var designGallery = new Array();
 const { width, height } = Dimensions.get("window");
 import { AntDesign } from "@expo/vector-icons";
-import { AirbnbRating } from "react-native-ratings";
+import { AirbnbRating, Rating } from "react-native-ratings";
 
+const rating_star = require("../assets/rating.png");
 var fName, lName, email, bio, image;
 export default class designerprofile extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class designerprofile extends React.Component {
       bio: "",
       img: "",
       designGalleryState: [],
+
       // num_rating: 0,
       // total_rating: 0,
     };
@@ -262,7 +264,7 @@ export default class designerprofile extends React.Component {
             {this.state.firstName + " " + this.state.lastName}
           </Text>
 
-          <AirbnbRating
+          {/* <AirbnbRating
             starContainerStyle={{
               alignSelf: "center",
               top: "58%",
@@ -273,12 +275,26 @@ export default class designerprofile extends React.Component {
             defaultRating={this.AVG_Rate()}
             size={20}
           />
+          <Text style={styles.rated}>({this.raters()})</Text> */}
+
+          <Rating
+            style={{ alignSelf: "center", top: "32%", right: "2%" }}
+            readonly={true}
+            type="custom"
+            // ratingImage={rating_star}
+            startingValue={this.AVG_Rate()}
+            ratingBackgroundColor="#c8c7c8"
+            tintColor="white"
+            imageSize={25}
+          />
           <Text style={styles.rated}>({this.raters()})</Text>
+          <Text style={styles.avg}> 5/{this.AVG_Rate()} نجوم</Text>
 
           <Text style={styles.emailStyle}>البريد الالكتروني</Text>
           <Text style={styles.gemailStyle}>{this.state.email}</Text>
           <Text style={styles.aboutStyle}>نبذتي الشخصية</Text>
           <Text style={styles.bioStyle}>{this.state.bio}</Text>
+
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("تعديل حساب المصمم")}
           >
@@ -313,7 +329,17 @@ const styles = StyleSheet.create({
   },
   rated: {
     top: "32.5%",
-    left: "65%",
+    left: "66%",
+    fontSize: 15,
+    color: "#ffeed6",
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    fontWeight: "200",
+  },
+  avg: {
+    top: "37%",
+    left: "40%",
     fontSize: 15,
     color: "#ffeed6",
     position: "absolute",

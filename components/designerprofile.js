@@ -264,19 +264,6 @@ export default class designerprofile extends React.Component {
             {this.state.firstName + " " + this.state.lastName}
           </Text>
 
-          {/* <AirbnbRating
-            starContainerStyle={{
-              alignSelf: "center",
-              top: "58%",
-              right: "50%",
-            }}
-            isDisabled={true}
-            showRating={false}
-            defaultRating={this.AVG_Rate()}
-            size={20}
-          />
-          <Text style={styles.rated}>({this.raters()})</Text> */}
-
           <Rating
             style={{ alignSelf: "center", top: "32%", right: "2%" }}
             readonly={true}

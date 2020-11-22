@@ -58,6 +58,7 @@ import {
        this.updateInputVal(true, "nodesign");
         
        return                                   }
+       this.updateInputVal(false, "nodesign");
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -174,34 +175,28 @@ import {
             style={{
               flex: 1,
               alignItems: "center",
-             
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowOpacity: 0.5,
               shadowRadius: 3,
               elevation: 5,
+              backgroundColor: "white",
+              marginBottom: 10,
               width: 150,
-              height: 160,
-              borderColor: "#4f3c75",
-              borderWidth: 1.5,
-              top: "8%",
+              height: 150,
               borderRadius: 15,
-              alignSelf: "center",
-             
-              margin: 5,
-              
-              
-              
             }}
 
           >
             <Image
-             style={styles.image}
-              // style={{
-              //   flex: 1,
-              //   width: null,
-              //   height: null,
-              //   resizeMode: "contain",
-              //   margin: 5,
-              // }}
-              // width={width}
+              style={{
+                width: 140,
+      height: 140,
+      borderColor: "#ccc",
+      borderWidth: 1,
+      top: "3%",
+      borderRadius: 15,
+      alignSelf: "center",
+              }}
               source={{ uri: element.designUrl }}
             />
            <EvilIcons name="trash" size={24} color="#ccc"style={styles.trash}  onPress={() => 
@@ -363,18 +358,10 @@ import {
     textAlign: "center",
     fontWeight: "700",
     } ,
-     image: {
-      width: 125,
-      height: 125,
-      borderColor: "#ccc",
-      borderWidth: 1,
-      top: "4%",
-      borderRadius: 15,
-      alignSelf: "center",
-    },
+     
     trash:{
 
-      top: "6%",
+      top: "9%",
       right:"-40%"
 
     },

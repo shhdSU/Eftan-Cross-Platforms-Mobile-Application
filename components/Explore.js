@@ -59,6 +59,7 @@ export default class explore extends Component {
        found:false,
        includesSpec:false,
     };
+    this.childRemoved();
     this.getData();
 
 
@@ -66,10 +67,11 @@ export default class explore extends Component {
 
   getData(){
     console.log("inside get data")
-    designGallery=[];
-    this.updateInputVal([],"designGalleryState")
+    
     var ref = firebase.database().ref("Designs/");
     ref.on("value", (snapshot) => {
+      designGallery=[];
+    this.updateInputVal([],"designGalleryState")
       logo = [];
       brand = [];
       cert = [];
@@ -219,7 +221,11 @@ export default class explore extends Component {
 
     ////////////////////////////////////////////////////////////////////
 
-    console.log("inside delete")
+    
+  }
+  
+childRemoved(){
+  console.log("inside delete")
     
    
     var ref = firebase.database().ref("Designs/");
@@ -372,24 +378,15 @@ export default class explore extends Component {
 
 
     }); 
-  }
-  
-
+}
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
 
- componentDidMount(){
-   this.getData();
- }
- componentWillMount(){
-  this.getData();
-}
-// componentDidUpdate(){
-//   this.getData();
-// }
+
+
      
     
     
@@ -459,6 +456,8 @@ export default class explore extends Component {
     if(Platform.OS == 'android'){
       this.startHeaderHeight = 100 + StatusBar.currentHeight
     }
+     this.getData();
+    // this.childRemoved();
   }
   searchTags = (val) => {
     if(val == ""){
@@ -493,7 +492,7 @@ this.updateInputVal(searchResults,"searchResults");
 console.log(searchResults);
   }
   render() {
-
+   
     return (
       <View  style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text

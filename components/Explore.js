@@ -59,31 +59,15 @@ export default class explore extends Component {
        found:false,
        includesSpec:false,
     };
-    logo = [];
-    brand = [];
-    cert = [];
-    packag = [];
-    other = [];
-    filter = [];
-    poster = [];
-    digital = [];
-    // this.updateInputVal(0,"d");
-    // this.updateInputVal(0,"l");
-    // this.updateInputVal(0,"o");
-    // this.updateInputVal(0,"g");
-    // this.updateInputVal(0,"p");
-    // this.updateInputVal(0,"b");
-    // this.updateInputVal(0,"f");
-    // this.updateInputVal(0,"c");
-    this.updateInputVal([],"logo");
-    this.updateInputVal([],"brand");
-    this.updateInputVal([],"other");
-    this.updateInputVal([],"digital");
-    this.updateInputVal([],"cert");
-    this.updateInputVal([],"packag");
-    this.updateInputVal([],"poster");
-    this.updateInputVal([],"filter");
+    this.getData();
 
+
+  }
+
+  getData(){
+    console.log("inside get data")
+    designGallery=[];
+    this.updateInputVal([],"designGalleryState")
     var ref = firebase.database().ref("Designs/");
     ref.on("value", (snapshot) => {
       logo = [];
@@ -216,7 +200,6 @@ export default class explore extends Component {
           };
         }
       }
-      if (this.state.designGalleryState.length != designGallery.length)
         this.updateInputVal(designGallery, "designGalleryState");
 
       this.updateInputVal(digital,"digital");
@@ -233,15 +216,181 @@ export default class explore extends Component {
 
     });
 
+
+    ////////////////////////////////////////////////////////////////////
+
+    console.log("inside delete")
+    
+   
+    var ref = firebase.database().ref("Designs/");
+    ref.on("child_removed", (snapshot) => {
+      designGallery=[];
+      this.updateInputVal([],"designGalleryState")
+
+      logo = [];
+      brand = [];
+      cert = [];
+      packag = [];
+      other = [];
+      filter = [];
+      poster = [];
+      digital = [];
+      design = snapshot.val();
+      designKeys = Object.keys(design);
+      for (var i = 0; i < designKeys.length; i++) {
+        var designInfo = designKeys[i];
+        var duid = design[designInfo].Duid;
+        var categ = design[designInfo].category;
+        var desDis = design[designInfo].designDescription;
+        var desTitle = design[designInfo].designTitle;
+        var desUploadingdate = design[designInfo].designUploadingdate;
+        var desUrl = design[designInfo].designUrl;
+        var desTags = design[designInfo].designTags;
+        designGallery[i] = {
+          duid: duid,
+          category: categ,
+          designDescription: desDis,
+          designTitle: desTitle,
+          designUploadingdate: desUploadingdate,
+          designUrl: desUrl,
+          designTags:desTags
+        };
+        if (categ == "علامة تجارية") {
+          brand[brand.length++] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+          };
+          this.updateInputVal(this.state.b+1,"b")
+        } else if (categ == "شعار") {
+          logo[logo.length++] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+          this.updateInputVal(this.state.l+1,"l")
+
+        } else if (categ == "شهادة") {
+          cert[this.state.c] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+          this.updateInputVal(this.state.c+1,"c")
+
+        } else if (categ == "انفوجرافيك") {
+          packag[this.state.g] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+          this.updateInputVal(this.state.g+1,"g")
+
+        } else if (categ == "أخرى") {
+          other[this.state.o] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+          this.updateInputVal(this.state.o+1,"o")
+
+        } else if (categ == "فلتر") {
+          filter[this.state.f] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+          this.updateInputVal(this.state.f+1,"f")
+
+        } else if (categ == "إعلان") {
+          poster[this.state.p] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+          this.updateInputVal(this.state.p+1,"p")
+
+        } else if (categ == "فن رقمي") {
+          digital[digital.length] = {
+            duid: duid,
+            category: categ,
+            designDescription: desDis,
+            designTitle: desTitle,
+            designUploadingdate: desUploadingdate,
+            designUrl: desUrl,
+            designTags:desTags
+
+          };
+        }
+      }
+        this.updateInputVal(designGallery, "designGalleryState");
+
+      this.updateInputVal(digital,"digital");
+      this.updateInputVal(logo,"logo");
+      this.updateInputVal(other,"other");
+      this.updateInputVal(packag,"packag");
+      this.updateInputVal(poster,"poster");
+      this.updateInputVal(brand,"brand");
+      this.updateInputVal(filter,"filter");
+      this.updateInputVal(cert,"cert");
+
+
+
+
+    }); 
   }
+  
+
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
 
- 
-      
+ componentDidMount(){
+   this.getData();
+ }
+ componentWillMount(){
+  this.getData();
+}
+// componentDidUpdate(){
+//   this.getData();
+// }
+     
     
     
   

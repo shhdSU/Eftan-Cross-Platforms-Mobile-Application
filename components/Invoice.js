@@ -150,7 +150,7 @@ export default class Invoice extends React.Component {
       .on("value", (dataSnapshot) => {
         AVG_Rate = dataSnapshot.child("AVG_Rate").val();
       });
-    AVG_Rate = (AVG_Rate + this.state.AVG_Rate) / raters;
+    AVG_Rate = parseInt((AVG_Rate + this.state.AVG_Rate) / raters);
     console.log("AVGRating in send: " + AVG_Rate);
 
     //---------------*update the values in the database*----------------------

@@ -14,8 +14,8 @@ import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 var designGallery = new Array();
 const { width, height } = Dimensions.get("window");
-import { AntDesign } from '@expo/vector-icons';
-
+import { AntDesign } from "@expo/vector-icons";
+import { AirbnbRating } from "react-native-ratings";
 
 var fName, lName, email, bio, image;
 export default class designerprofile extends React.Component {
@@ -31,6 +31,7 @@ export default class designerprofile extends React.Component {
       // num_rating: 0,
       // total_rating: 0,
     };
+
     const user = firebase.auth().currentUser.uid;
     //firebase.auth().currentUser.uid;
     // var num_rating = 0;
@@ -60,8 +61,7 @@ export default class designerprofile extends React.Component {
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
         // Alert.alert("No images found");
-      }
-      else {
+      } else {
         var design = snapshot.val();
         var designKeys = Object.keys(design);
         for (var i = 0; i < designKeys.length; i++) {
@@ -83,7 +83,6 @@ export default class designerprofile extends React.Component {
         }
         this.updateVal(designGallery, "designGalleryState");
       }
-
     });
   }
   updateVal(val, prop) {
@@ -169,6 +168,38 @@ export default class designerprofile extends React.Component {
       );
     });
   };
+  //---------------*to get the number of raters*----------------------
+
+  raters = () => {
+    const user = firebase.auth().currentUser.uid;
+    var raters;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + user)
+      .on("value", (dataSnapshot) => {
+        raters = dataSnapshot.child("raters").val();
+      });
+    //  this.updateVal(raters, "raters");
+    console.log("raters in the constructer" + raters);
+    return raters;
+  };
+  //---------------*to get the avrage of the rating and display it as a star*----------------------
+
+  AVG_Rate = () => {
+    const user = firebase.auth().currentUser.uid;
+
+    var AVG_Rate;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + user)
+      .on("value", (dataSnapshot) => {
+        AVG_Rate = dataSnapshot.child("AVG_Rate").val();
+      });
+    //this.updateVal(AVG_Rate, "AVG_Rate");
+    console.log("AVG_Rate in the constructer" + AVG_Rate);
+    return AVG_Rate;
+  };
+
   render() {
     const user = firebase.auth().currentUser.uid;
     const profileImage = firebase.storage().ref("ProfilePictures/" + user);
@@ -187,15 +218,20 @@ export default class designerprofile extends React.Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-8%", position: "absolute",shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 4,
-          },
-          shadowOpacity: 0.32,
-          shadowRadius: 5.46,
-          
-          elevation: 9,  }}
+          style={{
+            alignSelf: "center",
+            top: "-8%",
+            position: "absolute",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+
+            elevation: 9,
+          }}
         >
           <G data-name="Group 7">
             <G filter="url(#prefix__a)">
@@ -219,41 +255,46 @@ export default class designerprofile extends React.Component {
           </G>
         </Svg>
 
-<View style={styles.infoContainer}>
-        <Text style={styles.forText}>حسابي الشخصي</Text>
-        <Image style={styles.image} source={{ uri: this.state.img }} />
-        <Text style={styles.nameStyle}>{this.state.firstName + ' ' + this.state.lastName}</Text>
-        <Text style={styles.emailStyle}>البريد الالكتروني</Text>
-        <Text style={styles.gemailStyle}>{this.state.email}</Text>
-        <Text style={styles.aboutStyle}>نبذتي الشخصية</Text>
-        <Text style={styles.bioStyle}>{this.state.bio}</Text>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("تعديل حساب المصمم")}
-        >
-          <AntDesign name="edit" size={35} color="#ffeed6" 
-       style={{position:"absolute" , left:"5%",marginTop:"153%",zIndex:50,}}
-       />
-        </TouchableOpacity>
-        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.forText}>حسابي الشخصي</Text>
+          <Image style={styles.image} source={{ uri: this.state.img }} />
+          <Text style={styles.nameStyle}>
+            {this.state.firstName + " " + this.state.lastName}
+          </Text>
 
-        {/* <Text>Number of ratings:</Text>
-        <Text>{this.state.num_rating}</Text>
-        <Text>Total rating:</Text>
-        <Text>{this.state.total_rating}</Text> */}
-        
-      
-        {/* <View
-          style={{
-            top: "175%",
-            paddingLeft: 30,
-            paddingRight: 30,
-            justifyContent: "space-between",
-            flexDirection: "row",
-            flexWrap: "wrap",
-          }}
-        >
-          {this.readData()}
-        </View> */}
+          <AirbnbRating
+            starContainerStyle={{
+              alignSelf: "center",
+              top: "58%",
+              right: "50%",
+            }}
+            isDisabled={true}
+            showRating={false}
+            defaultRating={this.AVG_Rate()}
+            size={20}
+          />
+          <Text style={styles.rated}>({this.raters()})</Text>
+
+          <Text style={styles.emailStyle}>البريد الالكتروني</Text>
+          <Text style={styles.gemailStyle}>{this.state.email}</Text>
+          <Text style={styles.aboutStyle}>نبذتي الشخصية</Text>
+          <Text style={styles.bioStyle}>{this.state.bio}</Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("تعديل حساب المصمم")}
+          >
+            <AntDesign
+              name="edit"
+              size={35}
+              color="#ffeed6"
+              style={{
+                position: "absolute",
+                left: "5%",
+                marginTop: "160%",
+                zIndex: 50,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -270,6 +311,16 @@ const styles = StyleSheet.create({
     top: "5%",
     padding: "1%",
   },
+  rated: {
+    top: "32.5%",
+    left: "65%",
+    fontSize: 15,
+    color: "#ffeed6",
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    fontWeight: "200",
+  },
   image: {
     flex: 1,
     width: 120,
@@ -280,8 +331,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 150 / 2,
     top: "5%",
-    borderColor:"#ffeed6",
-    borderWidth:3,
+    borderColor: "#ffeed6",
+    borderWidth: 3,
   },
   forText: {
     position: "absolute",
@@ -290,14 +341,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignSelf: "center",
     fontWeight: "700",
-    zIndex:5,
+    zIndex: 5,
   },
-  infoContainer:{
-    backgroundColor:"#4F3C75",
-    height:"70%",
-    width:"90%",
-    borderRadius:35,
-    top:"-2%",
+  infoContainer: {
+    backgroundColor: "#4F3C75",
+    height: "75%",
+    width: "90%",
+    borderRadius: 35,
+    top: "-2%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -305,10 +356,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1.48,
     shadowRadius: 15.95,
-    elevation: 19, 
-  }, 
+    elevation: 19,
+  },
   nameStyle: {
-    top: "28%",
+    top: "25%",
     alignSelf: "center",
     fontSize: 30,
     color: "#ffeed6",
@@ -317,49 +368,48 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   gemailStyle: {
-    top: "83%",
+    top: "86%",
     fontSize: 20,
     color: "#ffeed6",
     position: "absolute",
-    alignSelf:"center",
+    alignSelf: "center",
     justifyContent: "center",
-    fontWeight:"200",
-
+    fontWeight: "200",
   },
   emailStyle: {
-    top: "76%",
+    top: "80%",
     fontSize: 20,
     color: "#ffeed6",
     position: "absolute",
     justifyContent: "center",
     textAlign: "center",
-    fontWeight:"200",
-    alignSelf:"center",
+    fontWeight: "200",
+    alignSelf: "center",
   },
   bioStyle: {
-    top: "41%",
+    top: "47%",
     fontSize: 20,
     color: "#ffeed6",
     position: "absolute",
     alignSelf: "center",
-    borderWidth:1,
-    borderColor:"#ffeed6",
-    fontWeight:"200",
-    height:"30%",
-    width:"95%",
-    alignItems:"center",
-    textAlign:"center",
-    padding:"5%",
-    borderRadius:15,
+    borderWidth: 1,
+    borderColor: "#ffeed6",
+    fontWeight: "200",
+    height: "30%",
+    width: "95%",
+    alignItems: "center",
+    textAlign: "center",
+    padding: "5%",
+    borderRadius: 15,
   },
   aboutStyle: {
-    top: "38.5%",
+    top: "44.5%",
     alignSelf: "center",
     fontSize: 20,
     color: "#ffeed6",
     position: "absolute",
-    fontWeight:"200",
-    backgroundColor:"#4F3C75",
-    zIndex:2,
+    fontWeight: "200",
+    backgroundColor: "#4F3C75",
+    zIndex: 2,
   },
 });

@@ -14,6 +14,8 @@ import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 import GalleryImage from "./GalleryImage";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
+import { AirbnbRating } from "react-native-ratings";
+
 const { width, height } = Dimensions.get("window");
 var designGallery = new Array();
 var shownDesigns = new Array();
@@ -35,8 +37,7 @@ export default class designerGallery extends React.Component {
       propsUser: "",
       designGalleryState: [],
       isClient: false,
-      designShownState:[]
-    
+      designShownState: [],
     };
 
     const propsUser = props.navigation.state.params.duid;
@@ -77,7 +78,6 @@ export default class designerGallery extends React.Component {
       .equalTo(propsUser);
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
-       
       }
       var design = snapshot.val();
       var designKeys = Object.keys(design);
@@ -97,18 +97,16 @@ export default class designerGallery extends React.Component {
           designUploadingdate: desUploadingdate,
           designUrl: designUrl,
         };
-
       }
-          this.updateInputVal(designGallery, "designGalleryState");
-          if(designGallery.length>=2){
-          for (var i = 0; i < 2; i++) {
-            shownDesigns[i]=designGallery[i];
-          }
-          this.updateInputVal(shownDesigns, "designShownState");
-        }else{
-          this.updateInputVal(designGallery, "designShownState");
-          }
-           
+      this.updateInputVal(designGallery, "designGalleryState");
+      if (designGallery.length >= 2) {
+        for (var i = 0; i < 2; i++) {
+          shownDesigns[i] = designGallery[i];
+        }
+        this.updateInputVal(shownDesigns, "designShownState");
+      } else {
+        this.updateInputVal(designGallery, "designShownState");
+      }
     });
 
     const user = firebase.auth().currentUser.uid;
@@ -118,23 +116,21 @@ export default class designerGallery extends React.Component {
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
           this.updateInputVal(true, "isClient");
-
         }
       });
-
   }
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
- 
+
   readData = () => {
-       return this.state.designShownState.map((element) => {
+    return this.state.designShownState.map((element) => {
       return (
         <View
           key={element.designUrl}
-          style={{ width: width / 2 - 40, height: width / 2 - 20, }}
+          style={{ width: width / 2 - 40, height: width / 2 - 20 }}
         >
           <View
             style={{
@@ -176,6 +172,35 @@ export default class designerGallery extends React.Component {
       );
     });
   };
+
+  //---------------*to get the number of raters*----------------------
+
+  raters = () => {
+    var raters;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.propsUser)
+      .on("value", (dataSnapshot) => {
+        raters = dataSnapshot.child("raters").val();
+      });
+    //  this.updateVal(raters, "raters");
+    console.log("raters in the constructer" + raters);
+    return raters;
+  };
+  //---------------*to get the avrage of the rating and display it as a star*----------------------
+
+  AVG_Rate = () => {
+    var AVG_Rate;
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.propsUser)
+      .on("value", (dataSnapshot) => {
+        AVG_Rate = dataSnapshot.child("AVG_Rate").val();
+      });
+    //this.updateVal(AVG_Rate, "AVG_Rate");
+    console.log("AVG_Rate in the constructer" + AVG_Rate);
+    return AVG_Rate;
+  };
   render() {
     return (
       <ScrollView style={{ backgroundColor: "#fff" }}>
@@ -183,15 +208,20 @@ export default class designerGallery extends React.Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-13%", position: "absolute",shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            
-            elevation: 9,  }}
+            style={{
+              alignSelf: "center",
+              top: "-13%",
+              position: "absolute",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+
+              elevation: 9,
+            }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">
@@ -216,27 +246,44 @@ export default class designerGallery extends React.Component {
           </Svg>
           <Text style={styles.forText}>حساب المصمم</Text>
 
-
-<View style={styles.infoContt}>
-          <Image style={styles.image} source={{ uri: this.state.img }} />
-          <Text style={styles.nameStyle}>{this.state.firstName +" "+ this.state.lastName}</Text>
-          <Text style={styles.aboutStyle}> نبذة عن{this.state.firstName}  </Text>
-          <Text style={styles.bioStyle}>{this.state.bio}</Text>
+          <View style={styles.infoContt}>
+            <Image style={styles.image} source={{ uri: this.state.img }} />
+            <Text style={styles.nameStyle}>
+              {this.state.firstName + " " + this.state.lastName}
+            </Text>
+            <AirbnbRating
+              starContainerStyle={{
+                alignSelf: "center",
+                top: "58%",
+                right: "50%",
+              }}
+              isDisabled={true}
+              showRating={false}
+              defaultRating={this.AVG_Rate()}
+              size={20}
+            />
+            <Text style={styles.rated}>({this.raters()})</Text>
+            <Text style={styles.aboutStyle}>
+              {" "}
+              نبذة عن{this.state.firstName}{" "}
+            </Text>
+            <Text style={styles.bioStyle}>{this.state.bio}</Text>
           </View>
 
-
-
-
-          {this.state.isClient && <TouchableOpacity style={styles.Reuestbutton}>
-            <Text
-              style={styles.editText}
-              onPress={() =>
-                this.props.navigation.navigate("طلب تصميم", { DID: this.state.propsUser })
-              }
-            >
-              طلب تصميم جديد
-            </Text>
-          </TouchableOpacity>}
+          {this.state.isClient && (
+            <TouchableOpacity style={styles.Reuestbutton}>
+              <Text
+                style={styles.editText}
+                onPress={() =>
+                  this.props.navigation.navigate("طلب تصميم", {
+                    DID: this.state.propsUser,
+                  })
+                }
+              >
+                طلب تصميم جديد
+              </Text>
+            </TouchableOpacity>
+          )}
           <View
             style={{
               top: "100%",
@@ -252,18 +299,22 @@ export default class designerGallery extends React.Component {
         </View>
 
         <TouchableOpacity
-         style={styles.Morebutton}
-         onPress={() => this.props.navigation.navigate("أعمال مصمم معين", { arr: this.state.designGalleryState })}
-         
-      >
-        <Text
+          style={styles.Morebutton}
+          onPress={() =>
+            this.props.navigation.navigate("أعمال مصمم معين", {
+              arr: this.state.designGalleryState,
+            })
+          }
+        >
+          <Text
             style={{
               fontSize: 20,
-    color: "#4F3C75",
-    textDecorationLine:"underline",
+              color: "#4F3C75",
+              textDecorationLine: "underline",
             }}
           >
-           المزيد من أعمال المصمم {">"}        </Text>
+            المزيد من أعمال المصمم {">"}{" "}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     );
@@ -286,7 +337,6 @@ export default class designerGallery extends React.Component {
 //   </View>;
 // })}
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -298,6 +348,16 @@ const styles = StyleSheet.create({
     top: "5%",
     padding: "1%",
   },
+  rated: {
+    top: "32.5%",
+    left: "65%",
+    fontSize: 15,
+    color: "#ffeed6",
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    fontWeight: "200",
+  },
   image: {
     flex: 1,
     width: 120,
@@ -308,20 +368,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 150 / 2,
     top: "5%",
-    borderColor:"#ffeed6",
-    borderWidth:3,
-
+    borderColor: "#ffeed6",
+    borderWidth: 3,
   },
   Morebutton: {
     top: "410%",
     height: "30%",
     width: "90%",
-alignSelf:"center",
-alignItems:"center",
+    alignSelf: "center",
+    alignItems: "center",
     position: "absolute",
-    justifyContent:"center",
+    justifyContent: "center",
   },
-  Reuestbutton:{
+  Reuestbutton: {
     top: "285%",
     backgroundColor: "#4F3C75",
     height: "30%",
@@ -330,7 +389,7 @@ alignItems:"center",
     alignSelf: "center",
     alignItems: "center",
     position: "absolute",
-    justifyContent:"center",
+    justifyContent: "center",
   },
   editText: {
     fontSize: 25,
@@ -360,15 +419,15 @@ alignItems:"center",
     color: "#ffeed6",
     position: "absolute",
     alignSelf: "center",
-    borderWidth:1,
-    borderColor:"#ffeed6",
-    fontWeight:"200",
-    height:"30%",
-    width:"95%",
-    alignItems:"center",
-    textAlign:"center",
-    padding:"5%",
-borderRadius:15,
+    borderWidth: 1,
+    borderColor: "#ffeed6",
+    fontWeight: "200",
+    height: "30%",
+    width: "95%",
+    alignItems: "center",
+    textAlign: "center",
+    padding: "5%",
+    borderRadius: 15,
   },
   aboutStyle: {
     top: "60%",
@@ -376,23 +435,23 @@ borderRadius:15,
     fontSize: 20,
     color: "#ffeed6",
     position: "absolute",
-    fontWeight:"200",
-    backgroundColor:"#4F3C75",
-zIndex:2,
+    fontWeight: "200",
+    backgroundColor: "#4F3C75",
+    zIndex: 2,
   },
-  infoContt:{
-    backgroundColor:"#4F3C75",
-height:"200%",
-width:"90%",
-borderRadius:35,
-top:"175%",
-shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 0,
-},
-shadowOpacity: 1.48,
-shadowRadius: 15.95,
-elevation: 19,
-  }
+  infoContt: {
+    backgroundColor: "#4F3C75",
+    height: "200%",
+    width: "90%",
+    borderRadius: 35,
+    top: "175%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1.48,
+    shadowRadius: 15.95,
+    elevation: 19,
+  },
 });

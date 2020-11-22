@@ -66,7 +66,6 @@ export default class RoomScreen extends React.Component {
           this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "DAvatart")
           this.updateInputVal(snapshot.child("dname").val(), "reciverName")
           this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "reciverAvatar")
-         
           
           
         } else if (snapshot.child("DID").val() == CurrentID) {
@@ -76,38 +75,14 @@ export default class RoomScreen extends React.Component {
           this.updateInputVal(snapshot.child("title").val(), "title")
           this.updateInputVal(snapshot.child("name").val(), "Cname")
           this.updateInputVal(snapshot.child("ClientProfileImage").val(), "CAvatart")
-          this.updateInputVal(snapshot.child("dname").val(), "reciverName")
-          this.updateInputVal(snapshot.child("DesignerProfileImage").val(), "reciverAvatar")
-        
+          this.updateInputVal(snapshot.child("name").val(), "reciverName")
+          this.updateInputVal(snapshot.child("ClientProfileImage").val(), "reciverAvatar")
         }
+       
         this.updateInputVal(snapshot.child("DID").val(), "did")
-        
-      //   firebase
-      //   .database()
-      //   .ref("Forms/" + this.state.did + "/" +  this.state.chatID)
-      //   .on("value", (snapshot) => {
-      //     if(snapshot.child("status").val() == "f")
-      //     {
-      //       firebase
-      //       .firestore()
-      //       .collection("UserID")
-      //       .doc(snapshot.child("DID").val())
-      //       .collection('AllChat')
-      //       .doc( this.state.chatID) 
-      //       .delete
-    
-      //       firebase
-      //       .firestore()
-      //       .collection("UserID")
-      //       .doc(snapshot.child("CID").val())
-      //       .collection('AllChat')
-      //       .doc( this.state.chatID) 
-      //       .delete
-      //     }
-      //   })
+
       })
 
-    
       firebase
       .database()
       .ref(`GraphicDesigner/` + this.state.reciveID)
@@ -206,18 +181,18 @@ await fetch('https://exp.host/--/api/v2/push/send', {
 }
 
 function Retrive(props) {
-  const chatID = props.chatID
-  const reciveID = props.reciveID
+  const chatID = props.chatID;
+  const reciveID = props.reciveID;
   const CurrentID = firebase.auth().currentUser.uid;
-  const title = props.title
-  const Cname = props.Cname
-  const Dname = props.Dname
-  const DAvatart = props.DAvatart
-  const CAvatart= props.CAvatart
-  const reciverAvatar = props.reciverAvatar
-  const reciverName = props.reciverName
-  const did = props.did
-  console.log(">>>>>>>>>>>>>" + reciverAvatar)
+  const title = props.title;
+  const Cname = props.Cname;
+  const Dname = props.Dname;
+  const DAvatart = props.DAvatart;
+  const CAvatart= props.CAvatart;
+  const reciverAvatar = props.reciverAvatar;
+  const reciverName = props.reciverName;
+  const did = props.did;
+  var unreadCount = Number('0');
 
   const receiveToken = props.receiveToken;
   const name = props.name;
@@ -226,6 +201,7 @@ function Retrive(props) {
   console.log("chatID" + chatID)
   console.log("reciveID" + reciveID)
   console.log("CurrentID" + CurrentID)
+
 
   const [messages, setMessages] = useState([]);
 
@@ -251,21 +227,18 @@ function Retrive(props) {
       .onSnapshot((querySnapshot) => {
         const messages = querySnapshot.docs.map((doc) => {
           const firebaseData = doc.data();
-
           const data = {
-          
-            Cname :firebaseData.Cname,
-            Dname :firebaseData.Dname,
-            DAvatart : firebaseData.DAvatart,
-            CAvatart:firebaseData.CAvatart,
-            reciverAvatar :firebaseData.reciverAvatar,
-            reciverName :firebaseData.reciverName,
-            title: firebaseData.title,
-            did:firebaseData.did,
+            // Cname :Cname,
+            // Dname :Dname,
+            // DAvatart :DAvatart,
+            // CAvatart:CAvatart,
+            // reciverAvatar :firebaseData.reciverAvatar,
+            // reciverName :firebaseData.reciverName,
+            // title: title,
+            // did:did,
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),
-
             ...firebaseData,
           };
 
@@ -282,8 +255,24 @@ function Retrive(props) {
 
         setMessages(messages);
       });
+      
+      firebase
+      .firestore()
+      .collection("UserID")
+      .doc(CurrentID)
+      .collection('AllChat')
+      .doc(chatID) // بيكون اي دي الفورم
+      .update({
+        unreadCountMassages: Number(unreadCount)
+      })
+
+      
+     
+    
+
 
         console.log("in useEffect");
+
           // This listener is fired whenever a notification is received while the app is foregrounded
           console.log("afterRegister");
     
@@ -307,11 +296,54 @@ function Retrive(props) {
       };
 
   }, []);
+
+  firebase
+  .firestore()
+  .collection("UserID")
+  .doc(CurrentID)
+  .collection("AllChat")
+  .doc(chatID) // بيكون اي دي الفورم
+  .set({
+      title: title,
+      Dname:Dname,
+      DAvatart:DAvatart,
+      Cname:Cname,
+      CAvatart:CAvatart,
+      did:did,
+      latestMessage: {
+        to: reciveID,
+        createdAt: new Date().getTime(),
+      },
+    },
+    { merge: true }
+  );
+
+  firebase
+  .firestore()
+  .collection("UserID")
+  .doc(reciveID)
+  .collection("AllChat")
+  .doc(chatID) // بيكون اي دي الفورم
+  .set({
+      title: title,
+      Dname:Dname,
+      DAvatart:DAvatart,
+      Cname:Cname,
+      CAvatart:CAvatart,
+      did:did,
+      latestMessage: {
+        to: CurrentID,
+        createdAt: new Date().getTime(),
+      },
+    },
+    { merge: true }
+  );
+  
+ 
   // helper method that is sends a message
   function handleSend(messages) {
     const text = messages[0].text;
     //------------------------------------------------------------------------------------------------------client
-
 
     firebase
       .database()
@@ -327,8 +359,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
-              reciverName: reciverName,
+              //title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -345,8 +376,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
-              reciverName: reciverName,
+            //  title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -363,8 +393,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
-                title: title,
-                reciverName: reciverName,
+                //title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -382,8 +411,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
-                title: title,
-                reciverName: reciverName,
+               // title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -392,6 +420,15 @@ function Retrive(props) {
               },
               { merge: true }
             );
+            firebase
+      .firestore()
+      .collection("UserID")
+      .doc(reciveID)
+      .collection('AllChat')
+      .doc(chatID) // بيكون اي دي الفورم
+      .update({
+        unreadCountMassages: Number(unreadCount+1)
+      })
         }
       });
     //------------------------------------------------------------------------------------------------------
@@ -412,8 +449,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
-              reciverName: reciverName,
+             // title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -431,8 +467,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .collection("MESSAGES")
             .add({
-              title: title,
-              reciverName: reciverName,
+           //   title: title,
               text,
               createdAt: new Date().getTime(),
               user: {
@@ -449,8 +484,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
-                title: title,
-                reciverName: reciverName,
+              //  title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -467,8 +501,7 @@ function Retrive(props) {
             .doc(chatID) // بيكون اي دي الفورم
             .set(
               {
-                title: title,
-                reciverName: reciverName,
+               // title: title,
                 latestMessage: {
                   to: reciveID,
                   text,
@@ -484,6 +517,16 @@ function Retrive(props) {
             .doc(reciveID)
             .set({
               field: ""
+            })
+
+            firebase
+            .firestore()
+            .collection("UserID")
+            .doc(reciveID)
+            .collection('AllChat')
+            .doc(chatID) // بيكون اي دي الفورم
+            .update({
+              unreadCountMassages: Number(unreadCount+1)
             })
         }
       });

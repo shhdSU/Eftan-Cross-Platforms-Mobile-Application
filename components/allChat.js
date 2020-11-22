@@ -4,6 +4,8 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import { List, Divider ,Avatar} from "react-native-paper";
 import firebase from "../database/firebase";
 import "firebase/firestore";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { firestore } from "firebase";
 
 
 export default function Display({ navigation }) {
@@ -21,7 +23,7 @@ export default function Display({ navigation }) {
                 .orderBy('latestMessage.createdAt', 'desc')
                 .onSnapshot(querySnapshot => {
                     const threads = querySnapshot.docs.map(documentSnapshot => {
-                    
+                        console.log("documentSnapshot.data().Cname  "+documentSnapshot.data().Cname)
                         //--------------------------- to remove chat after payed
                         firebase
                         .database()
@@ -35,7 +37,7 @@ export default function Display({ navigation }) {
                             .doc(snapshot.child("DID").val())
                             .collection('AllChat')
                             .doc(documentSnapshot.id) 
-                            .delete
+                            .delete()
 
                     
                             firebase
@@ -44,7 +46,7 @@ export default function Display({ navigation }) {
                             .doc(snapshot.child("CID").val())
                             .collection('AllChat')
                             .doc(documentSnapshot.id) 
-                            .delete
+                            .delete()
 
                         //--------------------------- 
                           }
@@ -56,12 +58,12 @@ export default function Display({ navigation }) {
                             did:documentSnapshot.data().did,
                             reciverAvatar:documentSnapshot.data().reciverAvatar,
                             reciverName:documentSnapshot.data().reciverName,
-                            Cname: documentSnapshot.data().Cname,
-                            Dname: documentSnapshot.data().Dname,
-                            CAvatart: documentSnapshot.data().CAvatart,
-                            DAvatart: documentSnapshot.data().DAvatart,
-
+                            // Cname: documentSnapshot.data().Cname,
+                            // Dname: documentSnapshot.data().Dname,
+                            // CAvatart: documentSnapshot.data().CAvatart,
+                            // DAvatart: documentSnapshot.data().DAvatart,
                             ...documentSnapshot.data()
+                            
                             
                         };
                     });
@@ -78,6 +80,9 @@ export default function Display({ navigation }) {
     }, []);
 
 
+    
+
+   
     
     return (
         <View style={styles.container}>
@@ -136,6 +141,7 @@ export default function Display({ navigation }) {
                 keyExtractor={(item) => item._id}
                 ItemSeparatorComponent={() => <Divider />}
                 renderItem={({ item }) => (
+                   
                     <TouchableOpacity
 
                         onPress={() =>
@@ -144,43 +150,53 @@ export default function Display({ navigation }) {
                                 title: item.title,
                             })
                         }
+                        
                     >
+                        
                         <List.Item
-                        right={
-                            function choosinga({item}) {
-                            console.log("inside choosing avatar   "+ item.DAvatart+"    "+item.CAvatart+"    "+item.did)
-                            if(CurrentID==item.did){
+                     
+                        right={()=> {
+                            console.log("inside choosing avatar   "+item.did+"    "+item.CAvatart+"    "+item.DAvatart)
+                            if(CurrentID == item.did){
                             return (
                                 <Avatar.Image
-                                    source={{uri: item.DAvatart}}
+                                    source={{uri: item.CAvatart}}
                                     size={55}
                                     />
                                     );}
                                     else{ 
                                         return (
                                             <Avatar.Image
-                                                source={{uri: item.CAvatart}}
+                                                source={{uri: item.DAvatart}}
                                                 size={55}
                                                 />
                                                 );
                                     }
-                                }}
-                            title={function choosingn({item}){
-                                console.log("inside choosing name   "+item.Cname+"     "+item.Dname)
-                                if(CurrentID==item.did){
-                                    return( item.Cname);}
-                                else{
-                                    return(item.Dname);}}
-                                 
-                             }
-                            //  right={CurrentID==item.did ? (<Avatar.Image source={{uri: item.CAvatart}} size={55} />) : (<Avatar.Image source={{uri: item.DAvatart}} size={55}/>)}
-                            //  title={CurrentID == item.did ? (item.Cname) : (item.Dname)}
+                                }
+                            }
+
+                            title={(CurrentID == item.did)? (item.Cname) : (item.Dname)}
                             description={item.latestMessage.text}
                             titleNumberOfLines={1}
                             titleStyle={styles.listTitle}
                             descriptionStyle={styles.listDescription}
                             descriptionNumberOfLines={1}
-                            
+                            left={props =>{
+                                firebase
+                                .firestore()
+                                .collection("UserID")
+                                .doc(CurrentID)
+                                .collection('AllChat')
+                                .doc(item._id)
+                                .get()
+                                .then(documentSnapshot => {                              
+                                  if (documentSnapshot.data().unreadCountMassages!= Number('0')) {
+                                    <Icon name="comment" size={25} color="#cc1100" style={{left:20} ,{top:12}}/>
+                                  }
+                                });
+
+                               }
+                            }
                         />
                     </TouchableOpacity>
                 )}
@@ -206,3 +222,4 @@ const styles = StyleSheet.create({
         paddingRight: "5%",
     },
 });
+

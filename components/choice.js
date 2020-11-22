@@ -40,28 +40,33 @@ export default class choice extends Component {
   print = (arr) => {
     return arr.map((element) => {
       return (
-        <View style={{ width: width / 2 - 40, height: width / 2 - 20 }}>
+        <View style={{ width: width / 2 - 40}}>
           <View
+           style={{
+            flex: 1,
+            alignItems: "center",
+            shadowOffset: { width: 0.5, height: 0.5 },
+            shadowOpacity: 0.5,
+            shadowRadius: 3,
+            elevation: 5,
+            backgroundColor: "white",
+            marginBottom: 10,
+            width: 150,
+            height: 150,
+            borderRadius: 15,
+          }}
+
+        >
+          <Image
             style={{
-              flex: 1,
-              alignItems: "center",
-              shadowOffset: { width: 0.5, height: 0.5 },
-              shadowOpacity: 0.5,
-              shadowRadius: 3,
-              elevation: 5,
-              backgroundColor: "white",
-              margin: 10,
+              width: 140,
+    height: 140,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    top: "3%",
+    borderRadius: 15,
+    alignSelf: "center",
             }}
-          >
-            <Image
-              style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
-                margin: 5,
-              }}
-              width={width}
               source={{ uri: element.designUrl }}
             />
           </View>
@@ -73,7 +78,7 @@ export default class choice extends Component {
             }}
           >
             <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" ,top:-5, marginBottom:4}}
               onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
             >
               {element.designTitle}

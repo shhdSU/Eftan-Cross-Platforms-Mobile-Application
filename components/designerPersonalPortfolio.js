@@ -96,6 +96,7 @@ import {
        this.updateInputVal(true, "nodesign");
         
        return                                   }
+       this.updateInputVal(false, "nodesign");
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -166,33 +167,44 @@ import {
         return (
           <View
             key={element.designUrl}
-            style={{ width: width / 2 - 40, height: width / 2 - 20, }}
+            style={{ width: width / 2 - 40}}
+              // height: width / 2 - 20, }}
           >
            <View
             style={{
               flex: 1,
               alignItems: "center",
-              shadowOffset: { width: 0.5, height: 0.5 },
-              shadowOpacity: 0.5,
+             
               shadowRadius: 3,
               elevation: 5,
-              backgroundColor: "white",
-              margin: 10,
+              width: 150,
+              height: 160,
+              borderColor: "#4f3c75",
+              borderWidth: 1.5,
+              top: "8%",
+              borderRadius: 15,
+              alignSelf: "center",
+             
+              margin: 5,
+              
+              
+              
             }}
 
           >
             <Image
-              style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
-                margin: 5,
-              }}
-              width={width}
+             style={styles.image}
+              // style={{
+              //   flex: 1,
+              //   width: null,
+              //   height: null,
+              //   resizeMode: "contain",
+              //   margin: 5,
+              // }}
+              // width={width}
               source={{ uri: element.designUrl }}
             />
-           <EvilIcons name="trash" size={24} color="#ccc"  onPress={() => 
+           <EvilIcons name="trash" size={24} color="#ccc"style={styles.trash}  onPress={() => 
            Alert.alert(
             "تمهّل",
             "سيتم حذف التصميم بشكل نهائي",
@@ -220,7 +232,7 @@ import {
             
          }
            />
-          </View>
+          
           <View
             style={{
               justifyContent: "space-evenly",
@@ -228,7 +240,7 @@ import {
             }}
           >
             <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" ,top:-9}}
               onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}//@HadeelHamad 
 
             >
@@ -236,6 +248,7 @@ import {
             </Text>
 
             
+          </View>
           </View>
           </View>
         );
@@ -349,6 +362,35 @@ import {
     fontSize: 25,
     textAlign: "center",
     fontWeight: "700",
-    } 
+    } ,
+     image: {
+      width: 125,
+      height: 125,
+      borderColor: "#ccc",
+      borderWidth: 1,
+      top: "4%",
+      borderRadius: 15,
+      alignSelf: "center",
+    },
+    trash:{
+
+      top: "6%",
+      right:"-40%"
+
+    },
+    emptyText:{
+      color: "#4f3c75",
+      fontSize: 27,
+      textAlign:"center",
+      fontWeight:"200",
+      marginTop:20
+    },
+    emptyImage:{
+      
+
+
+      alignSelf:"center",
+      justifyContent:"center",
+    },
   });
   

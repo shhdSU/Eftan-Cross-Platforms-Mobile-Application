@@ -9,20 +9,51 @@ import {
   ScrollView,
   Animated,
   Image,
+  Dimensions
 } from "react-native";
 import Svg, { Defs, G, Path } from "react-native-svg";
+import { array } from "yup";
 
-
+const { width, height } = Dimensions.get("window");
+var tmpArray = [];
+var Rurl = "";
 
 export default class designersName extends Component {
 
     constructor(props) {
+
         super();
         this.state = {
-          designers : props.navigation.state.params.obj,
+          req: props.navigation.state.params.req,
+          designers : [],
+          Rurl:"",
         }; //End of status
 
-//console.log(this.state.designers);
+
+
+
+
+
+//---------------------  ----------------  استرجاع جميع المصممين  ----------------  ---------------------- //
+firebase
+.database()
+.ref("GraphicDesigner/")
+.on("value", (snapshot) => {
+
+  var array = snapshot.val();
+  var Keys = Object.keys(array);
+
+  for(var i = 0 ; i < Keys.length ; i++){
+    tmpArray[i] = array[Keys[i]];
+    tmpArray[i].Dkey = Keys[i];
+    this.updateInputVal(tmpArray,"designers");
+    
+  }//End of for loop
+});//End of snapshot
+
+
+
+
     }//End of constractor
 
 
@@ -38,49 +69,74 @@ updateInputVal = (val, prop) => {
 
 
 //--------------------- ---------------- استرجاع صور المصممين ---------------- ---------------------- //
-Images(){
-
-    this.state.designersKey.map((element) => {
-
-        firebase
-        .storage()
-        .ref("ProfilePictures/" + element)
-        .getDownloadURL()
-        .then((url) => {
-      console.log(element);
-
-        })
-        .catch((error) => {
-          console.log("can not retreive profile img url");
-        });
-    
-        
+Images(key){
+var imageURL = "";
+    firebase
+    .storage()
+    .ref("ProfilePictures/" + key)
+    .getDownloadURL()
+    .then((url) => {
+      imageURL = url
+      console.log("INSIDE1      "+imageURL);
+    })
+    .catch((error) => {
+      imageURL = "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
+      console.log("INSIDE3      "+imageURL);
     });
     
+    console.log("INSIDE3      "+imageURL);
+       
 }
 
   //--------------------- ----------------عرض جميع المصممين ---------------- ---------------------- //
 
-displayDesigners(array){
-  var Keys = Object.keys(array);
+displayDesigners(){
+
+ 
   
-  Keys.map((element) => {
-     
+  return this.state.designers.map((element) => {
+    //console.log("HHHEEEERRRRRREEEE       "+element.imageURL);
 return(
-
-<View style={styles.designersCont}>
-
-{/* <image style={styles.preview}
-
-/> */}
+  <View
+          style={{ width: width / 2 - 30, height: 70, }}
+          key={element.Dkey}
+        >
 
 
-<Text style={styles.Name}>
-{ array[element].DFirstName}
-    
-</Text>
 
-</View>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 5,
+              backgroundColor: "white",
+              margin: 10,
+              borderRadius:25,
+              backgroundColor:"#4f3c75",
+            }}
+onTouchStart = {() => this.props.navigation.navigate("RedesignerPortfolio", { obj: element.Dkey, req:this.state.req })}
+
+          >
+            
+            <View
+            style={{
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{ fontSize: 16, fontWeight: "bold", color: "#ffff",marginTop:13}}
+
+            >
+              {element.DFirstName + " " + element.DLastName}
+            </Text>
+          </View>
+          </View>
+          
+        </View>
 
 );//End of map return
 
@@ -91,7 +147,6 @@ return(
 
 
 render(){
-  var designersArray = this.state.designers ; 
     return(
 <View style= {styles.container}>
 
@@ -135,19 +190,49 @@ render(){
               fill="#4f3c75"
               onPress={() => this.props.navigation.goBack()}
             />
-            <Path
+            {/* <Path
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
-            />
+            /> */}
           </G>
         </Svg>
-{this.displayDesigners(designersArray)}
+
+       
+        <ScrollView scrollEventThrottle={16}>
+            <View>
+
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                </ScrollView>
+
+              <View
+                style={{
+                  marginTop: 40,
+                }}
+              >
+                <View
+                  style={{
+                    marginTop: -50,
+                    paddingLeft: 30,
+                    paddingRight: 30,
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {this.displayDesigners()}
+                </View>
+              </View>
+            </View>
+          </ScrollView>
 </View>
 );// End of render return
 
-
+//
 
 }// End of render
 
@@ -161,11 +246,12 @@ const styles = StyleSheet.create({
       alignItems: "center",
       backgroundColor: "#FFF",
     },
-    designersCont:{
+    designersFCont:{
       flex: 2,
-height:"100%",
+      width: width / 2 - 40, height: width / 2 - 20 ,
 borderWidth:2,
-position:"absolute",
+justifyContent: "space-evenly",
+              alignItems: "center",
     },
     Name:{
 alignSelf:"center",

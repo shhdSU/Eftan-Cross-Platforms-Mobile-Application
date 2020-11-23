@@ -35,6 +35,7 @@ export default class RerequestForm extends Component {
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
+      req:Requiest,
       title: Requiest.title,
       description: Requiest.description,
       color1: Requiest.color1,
@@ -66,17 +67,6 @@ export default class RerequestForm extends Component {
 
 
 
-
-//---------------------  ----------------  استرجاع جميع المصممين  ----------------  ---------------------- //
-firebase
-.database()
-.ref("GraphicDesigner/")
-.on("value", (snapshot) => {
-
-  this.updateInputVal(snapshot.val(),"designers")
-// var Keys = Object.keys(designers);
-// designersKey = Keys;
-});//End of snapshot
 
 
   
@@ -271,44 +261,6 @@ firebase
   }
 
 
-  storeResquset = () => {
-    const CID = firebase.auth().currentUser.uid;
-    var fullTime = moment().format(); 
-    
-    firebase
-      .database()
-      .ref("Forms/"+this.state.DID)
-      .push({
-        title: this.state.title,
-        description: this.state.description,
-        color1: this.state.color1,
-        color2: this.state.color2,
-        color3: this.state.color3,
-        category: this.state.category,
-        deadLine: this.state.deadLine,
-        CID: CID,
-        DID: this.state.DID,
-        status: 'w',
-        reference: this.state.reference,
-        fullTime:fullTime,
-      })
-      .then((key) => {
-        firebase
-          .database()
-          .ref("Forms/"+this.state.DID)
-         .child(key.key)
-         .update({ Imagekey: key.key })
-        
-        
-      });
-      this.updateInputVal(true,"notify");
-      console.log(this.state.designerToken);
-    Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
-      cancelable: false,
-    });
-
-    this.props.navigation.navigate("معرض التصاميم من منظور العميل");
-  };
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -575,7 +527,7 @@ firebase
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.button, { height: "50%" }]}
-                 onPress={() =>  this.props.navigation.navigate("designersName", { obj: this.state.designers }) }
+                 onPress={() =>  this.props.navigation.navigate("designersName", { obj: this.state.designers,req:this.state.req}) }
                 >
                   <Text style={styles.buttonText}> التالي </Text>
                 </TouchableOpacity>

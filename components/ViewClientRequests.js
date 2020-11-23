@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Share,
-  CameraRoll,
+  Alert,
 } from "react-native";
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
@@ -23,6 +23,7 @@ export default class ViewClientRequests extends React.Component {
       object:"",
       Imagekey: "",
       CID: "",
+      DID:"",
       category: "",
       color1: "",
       color2: "",
@@ -46,6 +47,7 @@ export default class ViewClientRequests extends React.Component {
     this.updateInputVal(Requiest.Imagekey, "Imagekey");
     this.updateInputVal(Requiest.category, "category");
     this.updateInputVal(Requiest.CID, "CID");
+    this.updateInputVal(Requiest.DID, "DID");
     this.updateInputVal(Requiest.color1, "color1");
     this.updateInputVal(Requiest.color2, "color2");
     this.updateInputVal(Requiest.color3, "color3");
@@ -95,6 +97,42 @@ export default class ViewClientRequests extends React.Component {
 
   deleteOrder(){
 
+    Alert.alert(
+      "تأكيد اغلاق الطلب",
+      "هل انت متأكد من اغلاق الطلب؟ سيتم حذف الطلب ولن تستطيع التراجع لاحقًا",
+      [
+        {
+          text: "الغاء",
+        },
+        {
+          text: "تأكيد",
+          onPress: () => {
+            
+            this.deleteIt()
+           },
+        },
+      ],
+      { cancelable: false }
+    )
+
+  }
+
+  deleteIt(){
+    // 1. Delete from realtime DB
+firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).remove().then(
+
+  firebase.storage().refFromURL(this.state.reference).delete().then(
+
+    Alert.alert("تم الاغلاق", "لقد تم اغلاق الطلب بنجاح ", [{ text: "حسنًا" }], {
+      cancelable: false,
+    })
+
+  )
+
+)
+ 
+// 2. Delete from Storage by known URL
+//   
   }
 
   onShare = async () => {
@@ -188,7 +226,7 @@ export default class ViewClientRequests extends React.Component {
     >
 <TouchableOpacity
           style={[styles.button,{margin:"2.5%"}]}
-          onPress={() => this.deleteOrder}
+          onPress={() => this.deleteOrder()}
         >
           <Text
             style={{

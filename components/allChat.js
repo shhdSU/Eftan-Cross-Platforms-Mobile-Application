@@ -10,7 +10,7 @@ import { firestore } from "firebase";
 
 export default function Display({ navigation }) {
     const CurrentID = firebase.auth().currentUser.uid;
-
+    const [count, setCount] = useState(0);
     const [threads, setThreads] = useState([]);
 
     useEffect(() => {
@@ -54,10 +54,10 @@ export default function Display({ navigation }) {
                     
                         return {
                             _id: documentSnapshot.id,
-                            title: documentSnapshot.data().title,
-                            did:documentSnapshot.data().did,
-                            reciverAvatar:documentSnapshot.data().reciverAvatar,
-                            reciverName:documentSnapshot.data().reciverName,
+                            // title: documentSnapshot.data().title,
+                            // did:documentSnapshot.data().did,
+                            // reciverAvatar:documentSnapshot.data().reciverAvatar,
+                            // reciverName:documentSnapshot.data().reciverName,
                             // Cname: documentSnapshot.data().Cname,
                             // Dname: documentSnapshot.data().Dname,
                             // CAvatart: documentSnapshot.data().CAvatart,
@@ -154,7 +154,7 @@ export default function Display({ navigation }) {
                     >
                         
                         <List.Item
-                     
+                      style = { {backgroundColor:"#f2f2f2", width:'95%', borderRadius:30, margin:10, marginBottom:10, paddingTop:10, paddingBottom:10, paddingLeft:10, position:'absolute', zIndex: 1}}
                         right={()=> {
                             console.log("inside choosing avatar   "+item.did+"    "+item.CAvatart+"    "+item.DAvatart)
                             if(CurrentID == item.did){
@@ -181,7 +181,8 @@ export default function Display({ navigation }) {
                             titleStyle={styles.listTitle}
                             descriptionStyle={styles.listDescription}
                             descriptionNumberOfLines={1}
-                            left={props =>{
+                            left={()=>{   
+                                var x                  
                                 firebase
                                 .firestore()
                                 .collection("UserID")
@@ -189,14 +190,20 @@ export default function Display({ navigation }) {
                                 .collection('AllChat')
                                 .doc(item._id)
                                 .get()
-                                .then(documentSnapshot => {                              
-                                  if (documentSnapshot.data().unreadCountMassages!= Number('0')) {
-                                    <Icon name="comment" size={25} color="#cc1100" style={{left:20} ,{top:12}}/>
-                                  }
-                                });
-
-                               }
+                                .then(documentSnapshot => { 
+                                   setCount(documentSnapshot.data().unreadCountMassages)
+                                   console.log("-------"+documentSnapshot.data().unreadCountMassages)
+                               })
+                               
+                               if (Number(count) != Number(0) ) { 
+                                console.log("-------"+count)
+                                return <Icon name="comments-o" size={25} color="#e33232" style={{right:50} ,{top:20}}/>
                             }
+                            else{console.log("read")}
+                            }
+}
+                            
+
                         />
                     </TouchableOpacity>
                 )}

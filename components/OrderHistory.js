@@ -165,6 +165,7 @@ getData() {
         console.log(formDate);
         this.state.displayedCurrentForms.splice(index);
         this.updateStatusToExpired(element);
+        
         this.state.displayedExpiredForms.push(element);
 
       }

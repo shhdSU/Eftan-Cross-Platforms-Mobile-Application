@@ -171,7 +171,7 @@ this.updateInputVal(true,"watingtoggle");
               consumSecond = consumSecond - 60 ;
             }
   
-           if(consumTime > 48){
+           if(consumTime >= 48){
             this.state.displayedWatingForms.splice(index);
            // change status to e
             this.updateStatusToExpired(element);
@@ -188,6 +188,10 @@ this.updateInputVal(true,"watingtoggle");
             if(currentDate > formDate){
               this.state.displayedCurrentForms.splice(index);
               this.updateStatusToExpired(element);
+
+
+
+
               this.state.displayedExpiredForms.push(element);
       
             }

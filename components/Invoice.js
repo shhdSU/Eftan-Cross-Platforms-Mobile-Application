@@ -29,6 +29,7 @@ export default class Invoice extends React.Component {
       submitted: false,
       creditCardToken: props.navigation.state.params.creditCardToken,
       popup: false,
+      AVG_Rate :0,
     };
 
     firebase
@@ -47,6 +48,7 @@ export default class Invoice extends React.Component {
           " " +
           dataSnapshot.child("DLastName").val();
       });
+     
   }
   //////for udate state values
   updateInputVal = (val, prop) => {

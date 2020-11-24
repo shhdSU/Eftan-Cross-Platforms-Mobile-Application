@@ -263,6 +263,7 @@ export default class designerGallery extends React.Component {
               imageSize={25}
             />
             <Text style={styles.rated}>({this.raters()})</Text>
+            <Text style={styles.avg}> 5/{this.AVG_Rate()} نجوم</Text>
             <Text style={styles.aboutStyle}>
               {" "}
               نبذة عن{this.state.firstName}{" "}

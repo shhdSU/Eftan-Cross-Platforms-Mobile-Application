@@ -314,9 +314,9 @@ const styles = StyleSheet.create({
     top: "5%",
     padding: "1%",
   },
-  rated: {
-    top: "32.5%",
-    left: "66%",
+  avg: {
+    top: "54%",
+    left: "40%",
     fontSize: 15,
     color: "#ffeed6",
     position: "absolute",
@@ -324,9 +324,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     fontWeight: "200",
   },
-  avg: {
-    top: "37%",
-    left: "40%",
+  rated: {
+    top: "47.5%",
+    left: "70%",
     fontSize: 15,
     color: "#ffeed6",
     position: "absolute",

@@ -251,9 +251,20 @@ export default class designerGallery extends React.Component {
             <Text style={styles.nameStyle}>
               {this.state.firstName + " " + this.state.lastName}
             </Text>
-
+<View
+style={{
+  top: "46.5%",
+  backgroundColor:"#fff",
+  width:"45%",
+  height:"7%",
+  borderRadius:25,
+  alignSelf: "center",
+  right:"3.5%",
+  justifyContent:"center",
+}}
+>
             <Rating
-              style={{ alignSelf: "center", top: "32%", right: "2%" }}
+              style={{ alignSelf: "center", borderRadius:20, }}
               readonly={true}
               type="custom"
               // ratingImage={rating_star}
@@ -262,11 +273,12 @@ export default class designerGallery extends React.Component {
               tintColor="white"
               imageSize={25}
             />
+            </View>
             <Text style={styles.rated}>({this.raters()})</Text>
             <Text style={styles.avg}> 5/{this.AVG_Rate()} نجوم</Text>
             <Text style={styles.aboutStyle}>
               {" "}
-              نبذة عن{this.state.firstName}{" "}
+              نبذة عن {this.state.firstName}{" "}
             </Text>
             <Text style={styles.bioStyle}>{this.state.bio}</Text>
           </View>
@@ -287,7 +299,7 @@ export default class designerGallery extends React.Component {
           )}
           <View
             style={{
-              top: "100%",
+              top: "105%",
               paddingLeft: 30,
               paddingRight: 30,
               justifyContent: "space-between",
@@ -349,9 +361,19 @@ const styles = StyleSheet.create({
     top: "5%",
     padding: "1%",
   },
+  avg: {
+    top: "54%",
+    left: "40%",
+    fontSize: 15,
+    color: "#ffeed6",
+    position: "absolute",
+    alignSelf: "center",
+    justifyContent: "center",
+    fontWeight: "200",
+  },
   rated: {
-    top: "32.5%",
-    left: "65%",
+    top: "47.5%",
+    left: "70%",
     fontSize: 15,
     color: "#ffeed6",
     position: "absolute",
@@ -382,7 +404,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   Reuestbutton: {
-    top: "285%",
+    top: "275%",
     backgroundColor: "#4F3C75",
     height: "30%",
     width: "90%",
@@ -406,7 +428,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   nameStyle: {
-    top: "42%",
+    top: "35%",
     alignSelf: "center",
     fontSize: 30,
     color: "#ffeed6",
@@ -445,7 +467,7 @@ const styles = StyleSheet.create({
     height: "200%",
     width: "90%",
     borderRadius: 35,
-    top: "175%",
+    top: "160%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

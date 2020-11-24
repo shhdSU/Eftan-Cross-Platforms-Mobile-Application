@@ -49,7 +49,9 @@ import Invoice from "./components/Invoice";
 import allChat from "./components/allChat";
 import chat from "./components/chat";
 import designerPersonalPortfolio from "./components/designerPersonalPortfolio";
-
+import RerequestForm from "./components/RerequestForm";
+import designersName from "./components/designersName";
+import RedesignerPortfolio from "./components/RedesignerPortfolio";
 
 console.disableYellowBox = true;
 //-------------------------------------------------------
@@ -122,7 +124,9 @@ const OrderHistoryScreens = createStackNavigator(
   {
     OrderHistory:OrderHistory,
     ViewClientRequests: ViewClientRequests,
-    ERequestDet:ERequestDet,
+    RerequestForm : RerequestForm,
+    designersName:designersName,
+    RedesignerPortfolio:RedesignerPortfolio,
     Payment:Payment,
     Invoice:Invoice,
     

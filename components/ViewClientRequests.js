@@ -276,7 +276,7 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "0%",
+                top: "1.5%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -292,7 +292,7 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
             style={[
               {
                 color: "#4F3C75",
-                top: "-2%",
+                top: "-0.5%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
@@ -317,7 +317,7 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
               {
                 flexShrink: 1,
                 color: "#4F3C75",
-                top: "-3%",
+                top: "-1%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -335,7 +335,7 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
             style={[
               {
                 color: "#4F3C75",
-                top: "-5%",
+                top: "-3.5%",
                 left: "0%",
                 textAlign: "right",
                 width: "87%",
@@ -363,7 +363,7 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "-5%",
+                top: "-2%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -379,7 +379,7 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
             style={[
               {
                 color: "#4F3C75",
-                top: "-7%",
+                top: "-4%",
                 textAlign: "right",
                 fontWeight: "700",
                 width: "87%",
@@ -413,7 +413,7 @@ style={{
               styles.inputStyle2,
               {
                 color: "#4F3C75",
-                top: "-2%",
+                top: "%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -429,7 +429,7 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-2%",
+                top: "0%",
                 right: "14%",
                 textAlign: "right",
                 fontWeight: "700",
@@ -452,7 +452,7 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-7%",
+                top: "-5%",
                 right: "-8%",
                 textAlign: "right",
                 fontWeight: "700",
@@ -475,7 +475,7 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-11.8%",
+                top: "-9.8%",
                 right: "-30%",
                 textAlign: "right",
                 fontWeight: "700",
@@ -596,7 +596,7 @@ const styles = StyleSheet.create({
     height: 235,
     borderColor: "#ccc",
     borderWidth: 2,
-    top: "1%",
+    top: "3%",
     borderRadius: 35,
     alignSelf: "center",
   },

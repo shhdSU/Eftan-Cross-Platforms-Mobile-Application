@@ -105,7 +105,7 @@ export default class WRequiestDet extends React.Component {
         dataSnapshot.child("DLastName").val();
       this.updateInputVal(designerName, "dname");
     });
-    var acceptedmessage = "لقد تم قبول طلبك من قبل المصمم" + this.state.dname;
+    var acceptedmessage = " لقد تم قبول طلبك من قبل المصمم " + this.state.dname;
     var rejectedmessage = "لم يتمكن المصمم "+ this.state.dname + " من قبول طلبك";
     this.updateInputVal(acceptedmessage,"acceptedMessage");
     this.updateInputVal(rejectedmessage,"rejectedMessage");

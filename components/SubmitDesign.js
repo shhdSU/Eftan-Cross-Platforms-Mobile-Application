@@ -61,7 +61,7 @@ export default class SubmitDesign extends React.Component {
           dataSnapshot.child("DLastName").val();
         this.updateInputVal(designerName, "dname");
       });
-    var doneMessage = "لقد تم إنجاز طلبك من قبل المصمم" + this.state.dname;
+    var doneMessage = " لقد تم إنجاز طلبك من قبل المصمم " + this.state.dname;
     this.updateInputVal(doneMessage, "doneMessage");
 
     console.log(doneMessage);

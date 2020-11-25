@@ -40,6 +40,7 @@ export default class SignupScreen extends Component {
 
   registerUser = () => {
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
+    var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/g;//check whether string contains arabic characters
     var numCheck = /\d/; //check whether string contains numbers
     if (
       this.state.email === "" ||
@@ -84,7 +85,14 @@ export default class SignupScreen extends Component {
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
-    } else {
+    } else if(!arabicCheck.test(this.state.firstName) || !arabicCheck.test(this.state.lastName)){
+      Alert.alert(
+        "تنبيه",
+        "يجب أن يحتوي الاسم الأول والأخير على حروف عربية فقط",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    }else {
       this.setState({
         isLoading: true,
       });
@@ -203,12 +211,14 @@ export default class SignupScreen extends Component {
           style={styles.inputStyle}
           placeholder="الاسم الأول"
           value={this.state.firstName}
+          maxLength={8}
           onChangeText={(val) => this.updateInputVal(val, "firstName")}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="الاسم الأخير"
           value={this.state.lastName}
+          maxLength={9}
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
         />
         <TextInput

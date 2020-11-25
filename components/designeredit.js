@@ -85,6 +85,7 @@ export default class designeredit extends React.Component {
     this.setState(state);
   };
   confirmChanges = () => {
+    var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/g;//check whether string contains arabic characters
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
@@ -114,7 +115,14 @@ export default class designeredit extends React.Component {
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
-    } else {
+    } else if(!arabicCheck.test(this.state.firstName) || !arabicCheck.test(this.state.lastName)){
+      Alert.alert(
+        "تنبيه",
+        "يجب أن يحتوي الاسم الأول والأخير على حروف عربية فقط",
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
+    }else {
       Alert.alert(
         "تنبيه",
         "هل ترغب في حفظ تغييراتك؟",
@@ -230,6 +238,7 @@ export default class designeredit extends React.Component {
           placeholder="الاسم الاول"
           value={this.state.firstName}
           onChangeText={(val) => this.updateInputVal(val, "firstName")}
+          maxLength={8}
         />
 
         <TextInput
@@ -237,7 +246,7 @@ export default class designeredit extends React.Component {
           placeholder="الاسم الاخير"
           value={this.state.lastName}
           onChangeText={(val) => this.updateInputVal(val, "lastName")}
-          maxLength={15}
+          maxLength={9}
         />
         <TextInput
           style={styles.inputStyle3}

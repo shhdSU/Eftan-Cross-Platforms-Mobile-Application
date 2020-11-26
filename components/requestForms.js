@@ -44,7 +44,7 @@ export default class RequestForm extends Component {
       Cemail: "",
       Demail: "",
       ImagePath: "",
-      reference: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2Fno-photos.png?alt=media&token=27e6d1c3-0ce6-4dc2-9509-4aa7e5bc2e21",
+      reference: "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2FdefultImageRequest.png?alt=media&token=c6f54fdc-25ce-4d65-a3cd-39de1f18bf1e",
       Imagekey: "",
       popup: false,
       colorNum: 0,
@@ -348,7 +348,15 @@ export default class RequestForm extends Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "relative" }}
+            style={{ alignSelf: "center", top: "-2%", position: "relative",shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            
+            elevation: 9,  }}
           >
             <G data-name="Group 7">
               <G filter="url(#prefix__a)">

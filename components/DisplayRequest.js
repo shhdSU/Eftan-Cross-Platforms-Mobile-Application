@@ -405,6 +405,7 @@ var doneForms = [];
               <View style={{top:"-4%",left:"9%"}}>
 <CountdownCircleTimer
 children 
+onComplete = {()=>this.updateStatusToExpired(element)}
 strokeWidth={6}
     size={75}
     isPlaying

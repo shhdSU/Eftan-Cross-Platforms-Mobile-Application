@@ -168,8 +168,9 @@ import {
         return (
           <View
             key={element.designUrl}
-            style={{ width: width / 2 - 40}}
+            style={{ width: width / 2 - 40,marginRight:6}}
               // height: width / 2 - 20, }}
+
           >
            <View
             style={{
@@ -180,7 +181,8 @@ import {
               shadowRadius: 3,
               elevation: 5,
               backgroundColor: "white",
-              marginBottom: 10,
+              marginBottom: 40,
+              
               width: 150,
               height: 150,
               borderRadius: 15,
@@ -260,7 +262,15 @@ import {
             <Svg
               width={416}
               height={144}
-              style={{ alignSelf: "center", top: "-9%", position: "absolute" }}
+              style={{ alignSelf: "center", top: "-9%", position: "absolute" ,shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+              
+              elevation: 9,  }}
             >
               <G data-name="Group 7">
                 <G filter="url(#prefix__a)">

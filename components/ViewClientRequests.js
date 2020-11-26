@@ -125,7 +125,10 @@ firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).
 
     Alert.alert("تم الاغلاق", "لقد تم اغلاق الطلب بنجاح ", [{ text: "حسنًا" }], {
       cancelable: false,
-    })
+    }),
+    this.props.navigation.navigate("OrderHistory")
+
+    
 
   )
 

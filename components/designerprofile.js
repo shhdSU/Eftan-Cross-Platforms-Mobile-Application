@@ -264,16 +264,29 @@ export default class designerprofile extends React.Component {
             {this.state.firstName + " " + this.state.lastName}
           </Text>
 
-          <Rating
-            style={{ alignSelf: "center", top: "32%", right: "2%" }}
-            readonly={true}
-            type="custom"
-            // ratingImage={rating_star}
-            startingValue={this.AVG_Rate()}
-            ratingBackgroundColor="#c8c7c8"
-            tintColor="white"
-            imageSize={25}
-          />
+          <View
+style={{
+  top: "32%",
+  backgroundColor:"#fff",
+  width:"45%",
+  height:"7%",
+  borderRadius:25,
+  alignSelf: "center",
+  right:"3.5%",
+  justifyContent:"center",
+}}
+>
+            <Rating
+              style={{ alignSelf: "center", borderRadius:20, }}
+              readonly={true}
+              type="custom"
+              // ratingImage={rating_star}
+              startingValue={this.AVG_Rate()}
+              ratingBackgroundColor="#c8c7c8"
+              tintColor="white"
+              imageSize={25}
+            />
+            </View>
           <Text style={styles.rated}>({this.raters()})</Text>
           <Text style={styles.avg}> 5/{this.AVG_Rate()} نجوم</Text>
 
@@ -292,7 +305,7 @@ export default class designerprofile extends React.Component {
               style={{
                 position: "absolute",
                 left: "5%",
-                marginTop: "160%",
+                marginTop: "155%",
                 zIndex: 50,
               }}
             />
@@ -315,7 +328,7 @@ const styles = StyleSheet.create({
     padding: "1%",
   },
   avg: {
-    top: "54%",
+    top: "40%",
     left: "40%",
     fontSize: 15,
     color: "#ffeed6",
@@ -325,7 +338,7 @@ const styles = StyleSheet.create({
     fontWeight: "200",
   },
   rated: {
-    top: "47.5%",
+    top: "33.5%",
     left: "70%",
     fontSize: 15,
     color: "#ffeed6",
@@ -349,7 +362,7 @@ const styles = StyleSheet.create({
   },
   forText: {
     position: "absolute",
-    top: "-16.5%",
+    top: "-12.5%",
     color: "#4F3C75",
     fontSize: 25,
     alignSelf: "center",

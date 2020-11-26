@@ -290,6 +290,34 @@ this.updateInputVal(true,"watingtoggle");
             if(currentDate > formDate){
               this.state.displayedCurrentForms.splice(index);
               this.updateStatusToExpired(element);
+
+              const DID = firebase.auth().currentUser.uid;
+            var raters;
+            firebase
+              .database()
+              .ref("GraphicDesigner/" + DID)
+              .on("value", (dataSnapshot) => {
+                raters = dataSnapshot.child("raters").val();
+              });
+            console.log("raters in send: " + raters);
+            raters = raters + 1;
+            var AVG_Rate;
+            firebase
+              .database()
+              .ref("GraphicDesigner/" + DID)
+              .on("value", (dataSnapshot) => {
+                AVG_Rate = dataSnapshot.child("AVG_Rate").val();
+              });
+            AVG_Rate = Number(AVG_Rate.toFixed(1) + 1) / raters;
+            console.log("AVGRating in send: " + AVG_Rate);
+            firebase
+              .database()
+              .ref("GraphicDesigner/" + DID)
+              .update({
+                AVG_Rate: AVG_Rate,
+                raters: raters,
+              });
+
               this.state.displayedExpiredForms.push(element);
       
             }

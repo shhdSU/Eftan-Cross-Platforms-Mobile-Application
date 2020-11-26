@@ -299,7 +299,6 @@ this.updateInputVal(true,"watingtoggle");
               .on("value", (dataSnapshot) => {
                 raters = dataSnapshot.child("raters").val();
               });
-            console.log("raters in send: " + raters);
             raters = raters + 1;
             var AVG_Rate;
             firebase
@@ -309,7 +308,6 @@ this.updateInputVal(true,"watingtoggle");
                 AVG_Rate = dataSnapshot.child("AVG_Rate").val();
               });
             AVG_Rate = Number(AVG_Rate.toFixed(1) + 1) / raters;
-            console.log("AVGRating in send: " + AVG_Rate);
             firebase
               .database()
               .ref("GraphicDesigner/" + DID)

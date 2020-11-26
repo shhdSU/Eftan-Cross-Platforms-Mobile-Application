@@ -154,7 +154,7 @@ export default function Display({ navigation }) {
                     >
                         
                         <List.Item
-                      style = { {backgroundColor:"#f2f2f2", width:'95%', borderRadius:30, margin:10, marginBottom:10, paddingTop:10, paddingBottom:10, paddingLeft:10, position:'absolute', zIndex: 1}}
+                      style = { {backgroundColor:"#f2f2f2", width:'95%', borderRadius:30, margin:10, marginBottom:10, paddingTop:10, paddingBottom:10, paddingLeft:10}}
                         right={()=> {
                             console.log("inside choosing avatar   "+item.did+"    "+item.CAvatart+"    "+item.DAvatart)
                             if(CurrentID == item.did){

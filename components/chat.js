@@ -130,7 +130,7 @@ export default class RoomScreen extends React.Component {
     return (
       <Retrive chatID={this.state.chatID} reciveID={this.state.reciveID} title={this.state.title} receiveToken={this.state.notificationsKey} name={this.state.name} 
       Cname={this.state.Cname} Dname={this.state.Dname} DAvatart={this.state.DAvatart} CAvatart={this.state.CAvatart} did={this.state.did}
-      reciverAvatar={this.state.reciverAvatar} reciverName={this.state.reciverName} />)
+      reciverAvatar={this.state.reciverAvatar} reciverName={this.state.reciverName}/>)
   }
 }
 
@@ -152,7 +152,7 @@ const message = {
   sound: 'default',
   title: title,
   body: myMessage,
-  data: { data: 'goes here' },
+  data: { data: "object" },
 };
 console.log(title);
 console.log(myMessage);
@@ -194,7 +194,6 @@ function Retrive(props) {
   const receiveToken = props.receiveToken;
   const name = props.name;
   const unreadCount = Number('0')
-
   console.log(receiveToken);
   console.log("title--------------" + title)
   console.log("chatID" + chatID)
@@ -275,6 +274,8 @@ function Retrive(props) {
     
           notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             setNotification(notification);
+            this.props.navigation.navigate("allChat");
+
           });
     
           responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
@@ -529,7 +530,7 @@ function Retrive(props) {
     //------------------------------------------------------------------------------------------------------
   
   
-    sendPushNotification(receiveToken,name,text);
+    sendPushNotification(receiveToken,name,text,object);
 
   }
 

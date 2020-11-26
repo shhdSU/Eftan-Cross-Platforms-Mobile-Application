@@ -152,7 +152,7 @@ const message = {
   sound: 'default',
   title: title,
   body: myMessage,
-  data: { data: "object" },
+  data: { data: 'object' },
 };
 console.log(title);
 console.log(myMessage);
@@ -274,7 +274,7 @@ function Retrive(props) {
     
           notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             setNotification(notification);
-            this.props.navigation.navigate("allChat");
+           // this.props.navigation.navigate("allChat");
 
           });
     
@@ -530,7 +530,7 @@ function Retrive(props) {
     //------------------------------------------------------------------------------------------------------
   
   
-    sendPushNotification(receiveToken,name,text,object);
+    sendPushNotification(receiveToken,name,text);
 
   }
 

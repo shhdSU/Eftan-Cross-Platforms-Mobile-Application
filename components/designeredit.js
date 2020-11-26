@@ -59,7 +59,7 @@ export default class designeredit extends React.Component {
       .catch((error) => {
         image =
           "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/ProfilePictures%2FIcon%20material-account-circle.png?alt=media&token=1830cb42-2c4e-4fb5-a5ed-c18e73f8d4ea";
-        this.updateVal(image, "img");
+        this.updateInputVal(image, "img");
       });
   }
   resetPassword() {

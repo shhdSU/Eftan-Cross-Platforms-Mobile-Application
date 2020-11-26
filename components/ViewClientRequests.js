@@ -121,16 +121,10 @@ export default class ViewClientRequests extends React.Component {
     // 1. Delete from realtime DB
 firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).remove().then(
 
-  firebase.storage().refFromURL(this.state.reference).delete().then(
-
-    Alert.alert("تم الاغلاق", "لقد تم اغلاق الطلب بنجاح ", [{ text: "حسنًا" }], {
-      cancelable: false,
-    }),
-    this.props.navigation.navigate("OrderHistory")
-
-    
-
-  )
+  Alert.alert("تم الاغلاق", "لقد تم اغلاق الطلب بنجاح ", [{ text: "حسنًا" }], {
+    cancelable: false,
+  }),
+  this.props.navigation.navigate("OrderHistory")
 
 )
  

@@ -151,8 +151,8 @@ export default class SubmitDesign extends React.Component {
     }
 
     Alert.alert(
-      "تأكيد رفع العمل",
-      "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+      "تأكيد تسليم الطلب",
+      "هل أنت متأكد من رغبتك في تسليم هذا الطلب؟",
       [
         {
           text: "إلغاء",

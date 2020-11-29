@@ -211,6 +211,30 @@ export default class App extends Component {
     );
     return <Nav />;
   }
+
+  async componentWillMount(){
+    this.startHeaderHeight = 80;
+    if(Platform.OS == 'android'){
+      this.startHeaderHeight = 100 + StatusBar.currentHeight
+    }
+     this.getData();
+    // this.childRemoved();
+
+    await Font.loadAsync({
+      'Tajawal-Black': require('./assets/fonts/Tajawal-Black.ttf'),
+      'Tajawal-Bold': require('./assets/fonts/Tajawal-Bold.ttf'),
+      'Tajawal-ExtraBold': require('./assets/fonts/Tajawal-ExtraBold.ttf'),
+      'Tajawal-ExtraLight': require('./assets/fonts/Tajawal-ExtraLight.ttf'),
+      'Tajawal-Light': require('./assets/fonts/Tajawal-Light.ttf'),
+      'Tajawal-Medium': require('./assets/fonts/Tajawal-Medium.ttf'),
+      'Tajawal-Regular': require('./assets/fonts/Tajawal-Regular.ttf'),
+      ...Ionicons.font,
+    });    
+    this.updateInputVal(false,"loading")
+
+
+  }
+
 }
 
 //-------------------------------------------------------
@@ -330,6 +354,7 @@ class CustomDrawerComponent extends React.Component {
             fontSize: 15,
             marginVertical: 8,
             textAlign: "center",
+            fontFamily:"Tajawal-Medium",
           }}
         >
           {name()}
@@ -340,6 +365,7 @@ class CustomDrawerComponent extends React.Component {
             fontSize: 12,
             marginVertical: 8,
             textAlign: "center",
+            fontFamily:"Tajawal-Medium",
           }}
         >
           {email()}
@@ -378,6 +404,7 @@ class CustomDrawerComponent extends React.Component {
             fontWeight: "bold",
             color: "red",
             textAlign: "right",
+            fontFamily:"Tajawal-Medium",
           }}
         >
           تسجيل خروج
@@ -415,6 +442,7 @@ const ClientDrawer = createDrawerNavigator(
       activeBackgroundColor: "#FFEED6",
       itemStyle: {
         flexDirection: "row-reverse",
+        fontFamily:"Tajawal-Medium",
       },
     },
     drawerOpenRoute: "DrawerOpen",

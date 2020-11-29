@@ -15,7 +15,9 @@ import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
 import EmptyList from "./emptylist";
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
+import * as Font from 'expo-font';
 var designGallery = new Array();
 var design = "";
 var designKeys = "";
@@ -58,6 +60,7 @@ export default class explore extends Component {
        searching:false,
        found:false,
        includesSpec:false,
+       loading:true,
     };
     this.childRemoved();
     this.getData();
@@ -439,7 +442,7 @@ childRemoved(){
             }}
           >
             <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" ,top:-5, marginBottom:4}}
+              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" ,top:-5, marginBottom:4,fontFamily:"Tajawal-Medium"}}
               onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
 
             >
@@ -451,14 +454,32 @@ childRemoved(){
 
     });
   };
-  componentWillMount(){
+   async componentWillMount(){
     this.startHeaderHeight = 80;
     if(Platform.OS == 'android'){
       this.startHeaderHeight = 100 + StatusBar.currentHeight
     }
      this.getData();
     // this.childRemoved();
+
+    await Font.loadAsync({
+      'Tajawal-Black': require('../assets/fonts/Tajawal-Black.ttf'),
+      'Tajawal-Bold': require('../assets/fonts/Tajawal-Bold.ttf'),
+      'Tajawal-ExtraBold': require('../assets/fonts/Tajawal-ExtraBold.ttf'),
+      'Tajawal-ExtraLight': require('../assets/fonts/Tajawal-ExtraLight.ttf'),
+      'Tajawal-Light': require('../assets/fonts/Tajawal-Light.ttf'),
+      'Tajawal-Medium': require('../assets/fonts/Tajawal-Medium.ttf'),
+      'Tajawal-Regular': require('../assets/fonts/Tajawal-Regular.ttf'),
+      ...Ionicons.font,
+    });    
+    this.updateInputVal(false,"loading")
+
+
   }
+
+
+  
+
   searchTags = (val) => {
     if(val == ""){
       this.updateInputVal(false,"searching");
@@ -492,7 +513,11 @@ this.updateInputVal(searchResults,"searchResults");
 console.log(searchResults);
   }
   render() {
-   
+
+    if (this.state.loading){
+      //return 
+    }
+
     return (
       <View  style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
@@ -504,6 +529,7 @@ console.log(searchResults);
             top: "8%",
             position: "absolute",
             zIndex: 2,
+            fontFamily:"Tajawal-Medium"
           }}
         >
           معرض التصاميم
@@ -567,7 +593,7 @@ console.log(searchResults);
 
 <TextInput 
               maxLength={45}
-              style = {{ flex: 1, fontWeight: "700", backgroundColor: "white",zIndex:10,textAlign:"right" }}
+              style = {{ flex: 1, fontWeight: "700", backgroundColor: "white",zIndex:10,textAlign:"right",fontFamily:"Tajawal-Medium" }}
           placeholderTextColor="grey"
           placeholder=" ادخل كلمات مفتاحية مفصولة بمسافة..."
           onChangeText={(val) => this.searchTags(val)}
@@ -774,12 +800,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+
   },
   emptyText:{
     color: "#4f3c75",
     fontSize: 30,
     textAlign:"center",
-    fontWeight:"200"
+    fontFamily:"Tajawal-Medium",
   },
   emptyImage:{
     alignSelf:"center",

@@ -17,6 +17,8 @@ import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -24,6 +26,8 @@ import {
 import App from "../App";
 import NotifyPermission from './reqNotifyPermission';
 import Constants from 'expo-constants';
+
+
 
 
 async function registerForPushNotificationsAsync (){
@@ -87,8 +91,26 @@ export default class LoginPage extends Component {
       email: "",
       password: "",
       isLoading: false,
+      loading:true,
     };
     
+  }
+
+
+  async componentWillMount(){
+    await Font.loadAsync({
+      'Tajawal-Black': require('../assets/fonts/Tajawal-Black.ttf'),
+      'Tajawal-Bold': require('../assets/fonts/Tajawal-Bold.ttf'),
+      'Tajawal-ExtraBold': require('../assets/fonts/Tajawal-ExtraBold.ttf'),
+      'Tajawal-ExtraLight': require('../assets/fonts/Tajawal-ExtraLight.ttf'),
+      'Tajawal-Light': require('../assets/fonts/Tajawal-Light.ttf'),
+      'Tajawal-Medium': require('../assets/fonts/Tajawal-Medium.ttf'),
+      'Tajawal-Regular': require('../assets/fonts/Tajawal-Regular.ttf'),
+      ...Ionicons.font,
+    });    
+    this.updateInputVal(false,"loading")
+
+
   }
 
   updateInputVal = (val, prop) => {
@@ -211,6 +233,13 @@ export default class LoginPage extends Component {
         </View>
       );
     }
+
+    if (this.state.loading){
+      return (
+        <View></View>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <LoginScrees style={styles.svgComponant} />
@@ -236,6 +265,8 @@ export default class LoginPage extends Component {
             color: "#4F3C75",
             textAlign: "left",
             textDecorationLine: "underline",
+            fontFamily:"Tajawal-Medium",
+            
           }}
           onPress={() => this.props.navigation.navigate("نسيت كلمة السر!")}
         >
@@ -282,6 +313,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     textAlign: "right",
     top: hp("15%"),
+    fontFamily:"Tajawal-Medium",
   },
   loginText: {
     fontSize: 18,
@@ -292,6 +324,7 @@ const styles = StyleSheet.create({
     top: wp("63%"),
     textDecorationLine: "underline",
     zIndex: 10,
+    fontFamily:"Tajawal-Medium",
   },
   loginText2: {
     fontSize: 18,
@@ -300,12 +333,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     top: hp("30%"),
+    fontFamily:"Tajawal-Medium",
   },
   preloader: {
     position: "relative",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
+    fontFamily:"Tajawal-Medium",
   },
   svgComponant: {
     top: hp("-5%"),
@@ -322,14 +357,16 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignSelf: "center",
     alignItems: "center",
+    fontFamily:"Tajawal-Medium",
   },
   loginButton2: {
-    top: hp("0.75%"),
+    top: hp("1.75%"),
     color: "#FFEED6",
-    fontSize: 27,
+    fontSize: 25,
     height: hp("19%"),
     width: wp("42%"),
     textAlign: "center",
     justifyContent: "center",
+    fontFamily:"Tajawal-Medium",
   },
 });

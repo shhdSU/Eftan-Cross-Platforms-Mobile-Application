@@ -413,7 +413,6 @@ export default class UploadNewDesign extends Component {
           style={styles.inputStyleDescription2}
           placeholder=" أدخل كلمات مفتاحية بين كل منها مسافة ..."
           maxLength={25}
-          multiline={true}
           value={this.state.designTags}
           onChangeText={(val) => this.updateInputVal(val, "designTags")}
           scrollEnabled={true}

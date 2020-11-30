@@ -84,34 +84,6 @@ export default class designeredit extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-  componentDidUpdate(){
-    const user = firebase.auth().currentUser.uid;
-    var fName, lName, email, bio, num_rating, total_rating, image;
-    firebase
-      .database()
-      .ref(`GraphicDesigner/` + user)
-      .on("value", (snapshot) => {
-        if (snapshot.exists()) {
-          firebase
-            .database()
-            .ref(`GraphicDesigner/` + user)
-            .on("value", (dataSnapshot) => {
-              fName = dataSnapshot.child("DFirstName").val();
-              lName = dataSnapshot.child("DLastName").val();
-              email = dataSnapshot.child("DEmail").val();
-              bio = dataSnapshot.child("bio").val();
-              //   num_rating = dataSnapshot.child("number_of_rating").val();
-              //  total_rating = dataSnapshot.child("total_rating").val();
-              this.updateInputVal(fName, "firstName");
-              this.updateInputVal(lName, "lastName");
-              this.updateInputVal(email, "email");
-              this.updateInputVal(bio, "bio");
-              //  this.updateInputVal(num_rating, "num_rating");
-              //  this.updateInputVal(total_rating, "total_rating");
-            });
-        }
-      });
-  }
   confirmChanges = () => {
     var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/;//check whether string contains arabic characters
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters

@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
   TextInput,
 } from "react-native";
 import firebase from "../database/firebase";
@@ -190,6 +192,7 @@ export default class clientedit extends React.Component {
   }
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Svg
           width={416}
@@ -256,6 +259,8 @@ export default class clientedit extends React.Component {
           تعديل كلمة السر
         </Text>
       </View>
+      </TouchableWithoutFeedback>
+
     );
   }
 }

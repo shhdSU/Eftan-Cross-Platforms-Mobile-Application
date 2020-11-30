@@ -167,6 +167,28 @@ export default class clientedit extends React.Component {
       );
        
   }
+  componentDidUpdate(){
+    const user = firebase.auth().currentUser.uid;
+    var fName, lName, email, image;
+    firebase
+      .database()
+      .ref(`Client/` + user)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          firebase
+            .database()
+            .ref(`Client/` + user)
+            .on("value", (dataSnapshot) => {
+              fName = dataSnapshot.child("CFirstName").val();
+              lName = dataSnapshot.child("CLastName").val();
+              email = dataSnapshot.child("Cemail").val();
+              this.updateInputVal(fName, "firstName");
+              this.updateInputVal(lName, "lastName");
+              this.updateInputVal(email, "email");
+            });
+        }
+      });
+  }
   signOutUser = () => {
     firebase.auth().signOut();
     this.props.navigation.navigate("صفحة الدخول");

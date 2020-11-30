@@ -85,7 +85,7 @@ export default class designeredit extends React.Component {
     this.setState(state);
   };
   confirmChanges = () => {
-    var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/g;//check whether string contains arabic characters
+    var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/;//check whether string contains arabic characters
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
@@ -148,10 +148,12 @@ export default class designeredit extends React.Component {
       Alert.alert(
         "رسالة",
         "تم حفظ التغييرات بنجاح",
-        [{ text: "حسنًا" }],
+        { text: "حسنًا",  onPress: () => {
+              
+          this.props.navigation.navigate("عرض حساب المصمم");
+        },},
         { cancelable: false }
       );
-    this.props.navigation.navigate("عرض حساب المصمم");
   }
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);

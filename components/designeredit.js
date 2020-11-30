@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
   TextInput,
 } from "react-native";
 import firebase from "../database/firebase";
@@ -85,7 +87,7 @@ export default class designeredit extends React.Component {
     this.setState(state);
   };
   confirmChanges = () => {
-    var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/;//check whether string contains arabic characters
+    var arabicCheck = /([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])/;//check whether string contains arabic characters
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
@@ -130,6 +132,8 @@ export default class designeredit extends React.Component {
         { cancelable: false }
       );     
     }
+    return;
+
   };
 
   saveChanges =() =>{ 
@@ -146,16 +150,8 @@ export default class designeredit extends React.Component {
         //  total_rating: this.state.total_rating,
         bio: this.state.bio,
       });
-      Alert.alert(
-        "رسالة",
-        "تم حفظ التغييرات بنجاح",
-        { text: "حسنًا",  onPress: () => {
-              
-          this.props.navigation.navigate("عرض حساب المصمم");
-        },},
-        { cancelable: false }
-      );
-  }
+      this.props.navigation.navigate("عرض حساب المصمم")
+      }
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -196,6 +192,7 @@ export default class designeredit extends React.Component {
   };
   render() {
     return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Svg
           width={416}
@@ -269,6 +266,7 @@ export default class designeredit extends React.Component {
           تعديل كلمة السر
         </Text>
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

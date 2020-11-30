@@ -184,7 +184,8 @@ export default class designeredit extends React.Component {
           console.log("error")
         });
         Alert.alert(
-          "رسالة", " تم رفع الصورة بنجاح، نرجو الانتظار قليلًأ حتى تظهر في حسابك الشخصي  "
+          "رسالة",
+        "تم رفع الصورة بنجاح، نرجو الانتظار قليلًأ حتى تظهر في حسابك الشخصي ",
           [{ text: "حسنًا" }],
           { cancelable: false }
         );

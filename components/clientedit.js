@@ -82,7 +82,7 @@ export default class clientedit extends React.Component {
   confirmChanges = () => {
     
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
-    var arabicCheck = /^([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])*$/;//check whether string contains arabic characters
+    var arabicCheck = /([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])/;//check whether string contains arabic characters
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
       Alert.alert(
@@ -128,6 +128,7 @@ export default class clientedit extends React.Component {
       );     
     
     }
+    return;
   };
   saveChanges =() =>{ 
     const user = firebase.auth().currentUser.uid;

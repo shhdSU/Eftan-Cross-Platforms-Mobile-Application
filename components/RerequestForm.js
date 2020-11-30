@@ -44,8 +44,6 @@ export default class RerequestForm extends Component {
       category: Requiest.category,
       reference: Requiest.reference,
       deadLine: "",
-      Cemail: "",
-      Demail: "",
       ImagePath: "الرسم التوضيحي الحالي",
       Imagekey: Requiest.Imagekey,
       popup: false,
@@ -259,6 +257,24 @@ export default class RerequestForm extends Component {
       { cancelable: false }
     )
   }
+
+ sendIt(){
+
+
+  this.state.req.title= this.state.title,
+  this.state.req.description= this.state.description,
+  this.state.req.color1= this.state.color1,
+  this.state.req.color2= this.state.color2,
+  this.state.req.color3= this.state.color3,
+  this.state.req.category= this.state.category,
+  this.state.req.reference= this.state.reference,
+  this.state.req.deadLine= this.state.deadLine,
+  
+
+
+  this.props.navigation.navigate("designersName", { obj: this.state.designers,req:this.state.req})
+
+ }
 
 
   render() {
@@ -527,7 +543,7 @@ export default class RerequestForm extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.button, { height: "50%" }]}
-                 onPress={() =>  this.props.navigation.navigate("designersName", { obj: this.state.designers,req:this.state.req}) }
+                 onPress={() =>  this.sendIt() }
                 >
                   <Text style={styles.buttonText}> التالي </Text>
                 </TouchableOpacity>

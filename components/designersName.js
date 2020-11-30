@@ -98,7 +98,7 @@ displayDesigners(){
     //console.log("HHHEEEERRRRRREEEE       "+element.imageURL);
 return(
   <View
-          style={{ width: width / 2 - 30, height: 70, }}
+          style={{ width: width / 2 - 40, height: width / 2 - 15 }}
           key={element.Dkey}
         >
 
@@ -117,7 +117,7 @@ return(
               borderRadius:25,
               backgroundColor:"#4f3c75",
             }}
-onTouchStart = {() => this.props.navigation.navigate("RedesignerPortfolio", { obj: element.Dkey, req:this.state.req })}
+              onTouchStart = {() => this.props.navigation.navigate("RedesignerPortfolio", { obj: element.Dkey, req:this.state.req })}
 
           >
             
@@ -127,8 +127,22 @@ onTouchStart = {() => this.props.navigation.navigate("RedesignerPortfolio", { ob
               alignItems: "center",
             }}
           >
+            <Image
+              style={{
+                width: 110,
+      height: 110,
+      borderColor: "#fff",
+      borderWidth: 2,
+      top: "4%",
+      borderRadius: 100,
+      alignSelf: "center",
+      backgroundColor:"#fff"
+              }}
+              
+              source={{ uri: element.imgURL }}
+            />
             <Text
-              style={{ fontSize: 16, fontWeight: "bold", color: "#ffff",marginTop:13}}
+              style={{ fontSize: 16, fontWeight: "bold", color: "#ffff",top:10}}
 
             >
               {element.DFirstName + " " + element.DLastName}

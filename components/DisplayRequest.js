@@ -559,7 +559,7 @@ strokeWidth={6}
               source={{ uri: element.submissionUrl}}
             />
             <Text style={styles.currentorderText}>{ClientName}</Text>
-            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم المصمم: </Text>
+            <Text style={[styles.currentorderText,{fontWeight:"700"}]}>اسم العميل: </Text>
             <Text style={styles.currentorderText}>{element.title}</Text>
             <Text style={[styles.currentorderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
 
@@ -606,7 +606,7 @@ strokeWidth={6}
           <View key={Math.random()}>
           <Image
               style={styles.profileImage}
-              source={{ uri: element.submissionUrl}}
+              source={{ uri: element.reference}}
             />
              <Text style={[styles.orderText,{fontWeight:"700"}]}>عنوان الطلب: </Text>
             <Text style={styles.orderText}>{element.title}</Text>

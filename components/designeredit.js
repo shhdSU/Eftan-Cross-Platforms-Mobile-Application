@@ -141,6 +141,7 @@ export default class designeredit extends React.Component {
         DFirstName: this.state.firstName,
         DLastName: this.state.lastName,
         DEmail: this.state.email,
+        imgURL:this.state.img,
         //   number_of_rating: this.state.num_rating,
         //  total_rating: this.state.total_rating,
         bio: this.state.bio,

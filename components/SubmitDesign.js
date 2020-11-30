@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Picker,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import firebase from "../database/firebase";
@@ -421,8 +420,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderColor: "#ccc",
     borderWidth: 2,
-    borderRadius:25,
+    borderRadius:15,
     textAlign: "right",
+    padding:15
   },
   preloader: {
     position: "relative",

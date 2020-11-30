@@ -119,17 +119,18 @@ export default class ViewClientRequests extends React.Component {
 
   deleteIt(){
     // 1. Delete from realtime DB
-firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).remove().then(
+firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).remove();
+
+if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2FdefultImageRequest.png?alt=media&token=c6f54fdc-25ce-4d65-a3cd-39de1f18bf1e"){
+  firebase.storage().refFromURL(this.state.reference).delete();}
 
   Alert.alert("تم الاغلاق", "لقد تم اغلاق الطلب بنجاح ", [{ text: "حسنًا" }], {
     cancelable: false,
   }),
   this.props.navigation.navigate("OrderHistory")
 
-)
- 
-// 2. Delete from Storage by known URL
-//   
+
+
   }
 
   onShare = async () => {

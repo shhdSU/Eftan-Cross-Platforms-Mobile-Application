@@ -153,6 +153,7 @@ export default class clientedit extends React.Component {
         CFirstName: this.state.firstName,
         CLastName: this.state.lastName,
         Cemail: this.state.email,
+        imgURL:this.state.img,
       });
       Alert.alert(
         "رسالة",

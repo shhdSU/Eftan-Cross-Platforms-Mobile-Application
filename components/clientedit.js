@@ -159,16 +159,7 @@ export default class clientedit extends React.Component {
         Cemail: this.state.email,
         imgURL:this.state.img,
       });
-      Alert.alert(
-        "رسالة",
-        "تم حفظ التغييرات بنجاح",
-        { text: "حسنًا",  onPress: () => {
-              
-          this.props.navigation.navigate("عرض حساب العميل");
-         },},
-        { cancelable: false }
-      );
-       
+      this.props.navigation.navigate("عرض حساب العميل")
   }
   signOutUser = () => {
     firebase.auth().signOut();

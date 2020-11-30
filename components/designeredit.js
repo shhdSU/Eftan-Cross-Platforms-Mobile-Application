@@ -150,16 +150,8 @@ export default class designeredit extends React.Component {
         //  total_rating: this.state.total_rating,
         bio: this.state.bio,
       });
-      Alert.alert(
-        "رسالة",
-        "تم حفظ التغييرات بنجاح",
-        { text: "حسنًا",  onPress: () => {
-              
-          this.props.navigation.navigate("عرض حساب المصمم");
-        },},
-        { cancelable: false }
-      );
-  }
+      this.props.navigation.navigate("عرض حساب المصمم")
+      }
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);
     const blob = await response.blob();

@@ -148,10 +148,12 @@ export default class designeredit extends React.Component {
       Alert.alert(
         "رسالة",
         "تم حفظ التغييرات بنجاح",
-        [{ text: "حسنًا" }],
+        { text: "حسنًا",  onPress: () => {
+              
+          this.props.navigation.navigate("عرض حساب المصمم");
+        },},
         { cancelable: false }
       );
-    this.props.navigation.navigate("عرض حساب المصمم");
   }
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);

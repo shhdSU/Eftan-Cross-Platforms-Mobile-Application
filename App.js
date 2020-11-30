@@ -52,6 +52,9 @@ import designerPersonalPortfolio from "./components/designerPersonalPortfolio";
 import RerequestForm from "./components/RerequestForm";
 import designersName from "./components/designersName";
 import RedesignerPortfolio from "./components/RedesignerPortfolio";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Right } from "native-base";
+
 
 console.disableYellowBox = true;
 //-------------------------------------------------------
@@ -238,8 +241,6 @@ export default class App extends Component {
 }
 
 //-------------------------------------------------------
-
-//-------------------------------------------------------
 // retreive name
 function name() {
   var name = "";
@@ -337,6 +338,7 @@ class CustomDrawerComponent extends React.Component {
         height: 290,
         alignItems: "center",
         justifyContent: "center",
+        fontFamily:"Tajawal-Medium",
       }}
     >
       <ImageBackground
@@ -362,7 +364,7 @@ class CustomDrawerComponent extends React.Component {
         <Text
           style={{
             color: "#4F3C75",
-            fontSize: 12,
+            fontSize: 10,
             marginVertical: 8,
             textAlign: "center",
             fontFamily:"Tajawal-Medium",
@@ -397,18 +399,23 @@ class CustomDrawerComponent extends React.Component {
             { cancelable: false }
           )
         }
-      >
-        <Text
+      ><View >
+     <Icon name="sign-out" size={20} color="#4F3C75" style={{left:187 ,top:3}}/>
+     <Text
           style={{
             margin: 16,
             fontWeight: "bold",
             color: "red",
             textAlign: "right",
             fontFamily:"Tajawal-Medium",
+            bottom:30,
+            right:55
           }}
         >
           تسجيل خروج
         </Text>
+    </View>
+       
       </TouchableOpacity>
     </ScrollView>
   </SafeAreaView>
@@ -421,10 +428,10 @@ class CustomDrawerComponent extends React.Component {
 //Client drawer navigation
 const ClientDrawer = createDrawerNavigator(
   {
-    "معرض التصاميم": ClientGalleryNavigation,
-    "حسابي الشخصي": ClientProfileNavigation,
-     "طلباتي": OrderHistoryScreens,
-     "محادثاتي": ChatStackScreens,
+    "معرض التصاميم": {screen:ClientGalleryNavigation,navigationOptions: { drawerIcon: (<Icon name="image" size={20} color="#4F3C75" />), },},
+    "حسابي الشخصي": {screen:ClientProfileNavigation,navigationOptions: { drawerIcon: (<Icon name="user-circle" size={20} color="#4F3C75" />), },},
+     "طلباتي": {screen:OrderHistoryScreens,navigationOptions: {drawerIcon: ( <Icon name="folder-open" size={20} color="#4F3C75" />),},},
+     "محادثاتي": {screen:ChatStackScreens,navigationOptions: { drawerIcon: (<Icon name="comments" size={20} color="#4F3C75" />), },},
    
   },
   {
@@ -440,14 +447,13 @@ const ClientDrawer = createDrawerNavigator(
       activeTintColor: "#4F3C75",
       inactiveTintColor: "#4F3C75",
       activeBackgroundColor: "#FFEED6",
-      itemStyle: {
-        flexDirection: "row-reverse",
+      labelStyle: {
         fontFamily:"Tajawal-Medium",
       },
+      itemStyle: {
+        flexDirection: "row-reverse",
+      },
     },
-    drawerOpenRoute: "DrawerOpen",
-    drawerCloseRoute: "DrawerClose",
-    drawerToggleRoute: "DrawerToggle",
   }
 );
 
@@ -455,12 +461,12 @@ const ClientDrawer = createDrawerNavigator(
 //Designer drawer navigation
 const DesignerDrawer = createDrawerNavigator(
   {
-    "معرض التصاميم": DesignerGalleryNavigation,
-    "حسابي الشخصي": DesignerProfileNavigation,
-    "سجل الطلبات": recievedOrderScreens,
-    "رفع تصميم جديد": { screen: UploadNewDesign },
-    "تصاميمي":DesignerPortfolioNavigation,
-    "محادثاتي": ChatStackScreens,
+    "معرض التصاميم":  {screen:DesignerGalleryNavigation,navigationOptions: { drawerIcon: (<Icon name="image" size={20} color="#4F3C75" />), },},
+    "حسابي الشخصي": {screen:DesignerProfileNavigation ,navigationOptions: { drawerIcon: (<Icon name="user-circle" size={20} color="#4F3C75" />), },},
+    "سجل الطلبات":{screen: recievedOrderScreens,navigationOptions: {drawerIcon: ( <Icon name="folder-open" size={20} color="#4F3C75" />),},},
+    "رفع تصميم جديد": { screen: UploadNewDesign,navigationOptions: { drawerIcon: (<Icon name="upload" size={20} color="#4F3C75" />), },},
+    "تصاميمي":{screen:DesignerPortfolioNavigation,navigationOptions: { drawerIcon: (<Icon name="paint-brush" size={20} color="#4F3C75" />), },},
+    "محادثاتي": {screen:ChatStackScreens,navigationOptions: { drawerIcon: (<Icon name="comments" size={20} color="#4F3C75" />), },},
     
   },
   {
@@ -476,13 +482,14 @@ const DesignerDrawer = createDrawerNavigator(
       activeTintColor: "#4F3C75",
       inactiveTintColor: "#4F3C75",
       activeBackgroundColor: "#FFEED6",
+      labelStyle: {
+        fontFamily:"Tajawal-Medium",
+      },
       itemStyle: {
         flexDirection: "row-reverse",
       },
     },
-    drawerOpenRoute: "DrawerOpen",
-    drawerCloseRoute: "DrawerClose",
-    drawerToggleRoute: "DrawerToggle",
+  
   }
 );
 //-------------------------------------------------------

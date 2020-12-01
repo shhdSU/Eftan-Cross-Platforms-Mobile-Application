@@ -227,14 +227,6 @@ function Retrive(props) {
         const messages = querySnapshot.docs.map((doc) => {
           const firebaseData = doc.data();
           const data = {
-            // Cname :Cname,
-            // Dname :Dname,
-            // DAvatart :DAvatart,
-            // CAvatart:CAvatart,
-            // reciverAvatar :firebaseData.reciverAvatar,
-            // reciverName :firebaseData.reciverName,
-            // title: title,
-            // did:did,
             _id: doc.id,
             text: "",
             createdAt: new Date().getTime(),

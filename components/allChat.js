@@ -54,7 +54,7 @@ export default function Display({ navigation }) {
                     
                         return {
                             _id: documentSnapshot.id,
-                            // title: documentSnapshot.data().title,
+                            unreadCountMassages: documentSnapshot.data().unreadCountMassages,
                             // did:documentSnapshot.data().did,
                             // reciverAvatar:documentSnapshot.data().reciverAvatar,
                             // reciverName:documentSnapshot.data().reciverName,
@@ -181,25 +181,12 @@ export default function Display({ navigation }) {
                             titleStyle={styles.listTitle}
                             descriptionStyle={styles.listDescription}
                             descriptionNumberOfLines={1}
+
                             left={()=>{   
-                                var x                  
-                                firebase
-                                .firestore()
-                                .collection("UserID")
-                                .doc(CurrentID)
-                                .collection('AllChat')
-                                .doc(item._id)
-                                .get()
-                                .then(documentSnapshot => { 
-                                   setCount(documentSnapshot.data().unreadCountMassages)
-                                   console.log("-------"+documentSnapshot.data().unreadCountMassages)
-                               })
-                               
-                               if (Number(count) != Number(0) ) { 
-                                console.log("-------"+count)
+                               if (item.unreadCountMassages != 0 ) { 
                                 return <Icon name="comments-o" size={25} color="#e33232" style={{right:50} ,{top:20}}/>
                             }
-                            else{console.log("read")}
+                                 else{console.log("read")}
                             }
 }
                             

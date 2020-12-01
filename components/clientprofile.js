@@ -67,7 +67,7 @@ export default class clientprofile extends React.Component {
           height={144}
           style={{
             alignSelf: "center",
-            top: windowWidth - 1.09 * windowWidth,
+            top: windowWidth - 1.06 * windowWidth,
             zIndex: 25,
           }}
         >
@@ -136,8 +136,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: windowWidth - 0.35 * windowWidth,
-    height: null,
+    width: windowWidth - 0.3 * windowWidth,
     justifyContent: "center",
     alignSelf: "center",
     borderRadius: 1000,
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
   },
 
   forText: {
-    top: windowWidth - 1.25 * windowWidth,
+    top: windowWidth - 1.2 * windowWidth,
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",

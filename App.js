@@ -332,7 +332,7 @@ class CustomDrawerComponent extends React.Component {
   };
  
   render(){
- return( <SafeAreaView style={{ flex: 1 }}>
+ return( <View style={{ flex: 1 }}>
     <View
       style={{
         height: 290,
@@ -343,18 +343,18 @@ class CustomDrawerComponent extends React.Component {
     >
       <ImageBackground
         source={require("./assets/background.png")}
-        style={{ width: undefined, padding: 50, paddingTop: 80 }}
+        style={{ width: undefined, paddingTop: 80 ,width:225 }}
       >
         
         <Image
       source={{ uri: this.state.url }}
-      style={{ height: 120, width: 120, borderRadius: 60 }}
+      style={{ height: 150, width: 150, borderRadius: 100,alignSelf:"center", }}
     />
         <Text
           style={{
             color: "#4F3C75",
-            fontSize: 15,
-            marginVertical: 8,
+            fontSize: 20,
+            marginVertical: 13,
             textAlign: "center",
             fontFamily:"Tajawal-Medium",
           }}
@@ -364,8 +364,8 @@ class CustomDrawerComponent extends React.Component {
         <Text
           style={{
             color: "#4F3C75",
-            fontSize: 10,
-            marginVertical: 8,
+            fontSize: 15,
+            //marginVertical: 0,
             textAlign: "center",
             fontFamily:"Tajawal-Medium",
           }}
@@ -418,7 +418,7 @@ class CustomDrawerComponent extends React.Component {
        
       </TouchableOpacity>
     </ScrollView>
-  </SafeAreaView>
+  </View>
 ); 
 
         }

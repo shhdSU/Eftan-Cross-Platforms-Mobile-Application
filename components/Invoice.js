@@ -176,15 +176,7 @@ export default class Invoice extends React.Component {
               alignSelf: "center",
               top: "-8%",
               position: "absolute",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 4,
-              },
-              shadowOpacity: 0.32,
-              shadowRadius: 5.46,
-
-              elevation: 9,
+              
             }}
           >
             <G data-name="Group 7">
@@ -192,7 +184,7 @@ export default class Invoice extends React.Component {
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
-                  fill="#ffeed6"
+                  fill="#fff"
                 />
               </G>
               <Path
@@ -216,7 +208,8 @@ export default class Invoice extends React.Component {
               alignSelf: "center",
               position: "absolute",
               zIndex: 2,
-              top: "1.5%",
+              top: "3.5%",
+              fontFamily: "Tajawal-Regular",
             }}
           >
             الفاتورة
@@ -229,6 +222,8 @@ export default class Invoice extends React.Component {
                   style={{
                     fontSize: 20,
                     color: "#04BF9D",
+                    fontFamily: "Tajawal-Regular",
+                    top:"5%"
                   }}
                 >
                   تمت عملية الدفع بنجاح !
@@ -240,9 +235,10 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-40%",
+                  top: "-30%",
                   left: "30%",
-                  color: "#4f3c75",
+                  color: "#FEB518",
+                  fontFamily: "Tajawal-Bold",
                 }}
               >
                 عنوان الطلب
@@ -251,8 +247,9 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-20%",
+                  top: "-15%",
                   color: "#4f3c75",
+                  fontFamily: "Tajawal-Regular",
                 }}
               >
                 {this.state.reqTitle}
@@ -263,9 +260,10 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-35%",
-                  left: "16%",
-                  color: "#4f3c75",
+                  top: "-29%",
+                  left: "13%",
+                  color: "#FEB518",
+                  fontFamily: "Tajawal-Bold",
                 }}
               >
                 المبلغ المستحق للتصميم
@@ -274,8 +272,9 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-20%",
+                  top: "-15%",
                   color: "#4f3c75",
+                  fontFamily: "Tajawal-Regular",
                 }}
               >
                 {price} ريال سعودي
@@ -287,9 +286,10 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-40%",
-                  left: "26%",
-                  color: "#4f3c75",
+                  top: "-32%",
+                  left: "23%",
+                  color: "#FEB518",
+                  fontFamily: "Tajawal-Bold",
                 }}
               >
                 من البطاقة رقم:
@@ -298,8 +298,9 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-20%",
+                  top: "-15%",
                   color: "#4f3c75",
+                  fontFamily: "Tajawal-Regular",
                 }}
               >
                 {this.state.cardNumber}
@@ -311,9 +312,10 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-40%",
+                  top: "-30%",
                   left: "28%",
-                  color: "#4f3c75",
+                  color: "#FEB518",
+                  fontFamily: "Tajawal-Bold",
                 }}
               >
                 إلى المصمم
@@ -322,8 +324,9 @@ export default class Invoice extends React.Component {
                 style={{
                   fontSize: 20,
                   backgroundColor: "#fff",
-                  top: "-20%",
+                  top: "-15%",
                   color: "#4f3c75",
+                  fontFamily: "Tajawal-Regular",
                 }}
               >
                 {designerName}
@@ -338,9 +341,11 @@ export default class Invoice extends React.Component {
             >
               <Text
                 style={{
-                  color: "#FFEED6",
+                  color: "#fff",
                   fontSize: 25,
                   fontWeight: "500",
+                  marginTop:"2%",
+                  fontFamily: "Tajawal-Regular",
                 }}
               >
                 العودة
@@ -385,9 +390,11 @@ export default class Invoice extends React.Component {
             >
               <Text
                 style={{
-                  color: "#FFEED6",
+                  color: "#fff",
                   fontSize: 25,
                   fontWeight: "500",
+                  marginTop:"2%",
+                  fontFamily: "Tajawal-Regular",
                 }}
               >
                 ادفع الآن
@@ -469,7 +476,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     borderRadius: 25,
     borderColor: "#4f3c75",
-    borderWidth: 2,
+    borderWidth: 0.5,
 
     width: 350,
     height: 70,

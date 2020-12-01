@@ -16,8 +16,6 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
 import EmptyList from "./emptylist";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Ionicons } from "@expo/vector-icons";
-import * as Font from "expo-font";
 var designGallery = new Array();
 var design = "";
 var designKeys = "";
@@ -60,7 +58,6 @@ export default class explore extends Component {
       searching: false,
       found: false,
       includesSpec: false,
-      loading: true,
     };
     this.childRemoved();
     this.getData();
@@ -367,7 +364,7 @@ export default class explore extends Component {
 
               elevation: 4,
               // backgroundColor: "white",
-              marginBottom: 47,
+              marginBottom: 30,
               width: 150,
               height: 150,
               // borderRadius: 15,
@@ -382,8 +379,8 @@ export default class explore extends Component {
             >
               <Image
                 style={{
-                  width: 180,
-                  height: 180,
+                  width: 160,
+                  height: 160,
                   top: "3%",
                   borderRadius: 15,
                   alignSelf: "center",
@@ -393,6 +390,7 @@ export default class explore extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        
       );
     });
   };
@@ -403,18 +401,6 @@ export default class explore extends Component {
     }
     this.getData();
     // this.childRemoved();
-
-    await Font.loadAsync({
-      "Tajawal-Black": require("../assets/fonts/Tajawal-Black.ttf"),
-      "Tajawal-Bold": require("../assets/fonts/Tajawal-Bold.ttf"),
-      "Tajawal-ExtraBold": require("../assets/fonts/Tajawal-ExtraBold.ttf"),
-      "Tajawal-ExtraLight": require("../assets/fonts/Tajawal-ExtraLight.ttf"),
-      "Tajawal-Light": require("../assets/fonts/Tajawal-Light.ttf"),
-      "Tajawal-Medium": require("../assets/fonts/Tajawal-Medium.ttf"),
-      "Tajawal-Regular": require("../assets/fonts/Tajawal-Regular.ttf"),
-      ...Ionicons.font,
-    });
-    this.updateInputVal(false, "loading");
   }
 
   searchTags = (val) => {
@@ -462,7 +448,7 @@ export default class explore extends Component {
             fontWeight: "700",
             color: "#4f3c75",
             alignSelf: "center",
-            top: "8%",
+            top: "9%",
             position: "absolute",
             zIndex: 2,
             fontFamily: "Tajawal-Medium",
@@ -491,19 +477,19 @@ export default class explore extends Component {
         >
           <Defs></Defs>
           <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+            {/* <G filter="url(#prefix__a)">
               <Path
                 data-name="Path 117"
                 d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
-            </G>
+            </G> */}
 
             <Path
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
-              fill="#4f3c75"
+              fill="#FEB518"
             />
           </G>
         </Svg>
@@ -525,8 +511,8 @@ export default class explore extends Component {
         >
           <Icon
             name="ios-search"
-            size={20}
-            style={{ marginRight: "10%", marginTop: "2.35%", color: "#4f3c75" }}
+            size={30}
+            style={{ marginRight: "10%", marginTop: "%", color: "#FEB518" }}
           />
 
           <TextInput
@@ -551,7 +537,7 @@ export default class explore extends Component {
             <View style={{ marginTop: "50%" }}>
               <EmptyList style={styles.emptyImage}></EmptyList>
               <Text style={styles.emptyText}>
-                نأسف، لم يتم العثور على أي تصاميم بهذه الكلمات المفتاحية
+                نأسف، لم يتم العثور على أي تصاميم بهذه الكلمة المفتاحية
               </Text>
             </View>
           )}
@@ -559,13 +545,13 @@ export default class explore extends Component {
           this.state.found &&
           !this.state.includesSpec && ( //search results found
             <View style={{ flex: 1 }}>
-              <View
+              {/* <View
                 style={{
                   borderBottomWidth: 1,
                   borderBottomColor: "#dddddd",
                   marginBottom: 25,
                 }}
-              ></View>
+              ></View> */}
 
               <ScrollView scrollEventThrottle={16}>
                 <View>
@@ -576,7 +562,7 @@ export default class explore extends Component {
 
                   <View
                     style={{
-                      marginTop: 40,
+                      marginTop: 80,
                     }}
                   >
                     <View
@@ -601,7 +587,7 @@ export default class explore extends Component {
           <View style={{ marginTop: "50%" }}>
             <EmptyList style={styles.emptyImage}></EmptyList>
             <Text style={styles.emptyText}>
-              يجب ان تحتوي الكلمات المفتاحية على أحرف وأرقام فقط
+              يجب ان تحتوي الكلمة المفتاحية على أحرف وأرقام فقط
             </Text>
           </View>
         )}
@@ -754,7 +740,7 @@ const styles = StyleSheet.create({
     color: "#4f3c75",
     fontSize: 30,
     textAlign: "center",
-    fontFamily: "Tajawal-Medium",
+    fontFamily: "Tajawal-Light",
   },
   emptyImage: {
     alignSelf: "center",

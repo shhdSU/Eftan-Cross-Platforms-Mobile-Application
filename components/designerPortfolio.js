@@ -51,7 +51,7 @@ export default class designerPortfolio extends React.Component {
               shadowOpacity: 0.23,
               shadowRadius: 2.62,
               elevation: 4,
-              marginBottom: 47,
+              marginBottom: 30,
               width: 150,
               height: 150,
             }}
@@ -65,8 +65,8 @@ export default class designerPortfolio extends React.Component {
             >
               <Image
                 style={{
-                  width: 180,
-                  height: 180,
+                  width: 160,
+                  height: 160,
                   top: "3%",
                   borderRadius: 15,
                   alignSelf: "center",
@@ -102,18 +102,18 @@ export default class designerPortfolio extends React.Component {
             }}
           >
             <G data-name="Group 7">
-              <G filter="url(#prefix__a)">
+              {/* <G filter="url(#prefix__a)">
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                   fill="#ffeed6"
                 />
-              </G>
+              </G> */}
               <Path
                 data-name="Icon ionic-ios-arrow-back"
                 onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
               {/* <Path
                   data-name="Icon material-menu"
@@ -126,7 +126,7 @@ export default class designerPortfolio extends React.Component {
 
           <View
             style={{
-              marginTop: -140,
+              marginTop: 100,
               paddingLeft: 30,
               paddingRight: 20,
               justifyContent: "space-between",
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   forText: {
     position: "absolute",
-    top: "-6.6%",
+    top: "6%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",

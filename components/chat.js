@@ -540,7 +540,9 @@ function Retrive(props) {
         }}
         textStyle={{
           right: {
-            color: '#fff'
+            color: '#fff',
+            fontFamily: "Tajawal-Medium",
+
           }
         }}
       />
@@ -582,10 +584,11 @@ function Retrive(props) {
   // }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,backgroundColor:"#fff"}}>
       <View >
              <Image
-                style={{ height: 58, width: 58, borderRadius: 60,  position: "absolute", top:"40%" , zIndex: 2,  right:"4%"}}
+                style={{ height: 58, width: 58, borderRadius: 60,  position: "absolute", top:"40%" , zIndex: 2,  right:"4%" , borderColor: "#FEB518",
+                borderWidth: 2,}}
                 source={{ uri: reciverAvatar }}/>
             <Text
                 style={{
@@ -595,8 +598,10 @@ function Retrive(props) {
                     alignSelf: "center",
                     position: "absolute",
                     zIndex: 2,
-                    top: "50%",
-                    right:"23%"
+                    top: "53%",
+                    right:"23%",
+                    fontFamily: "Tajawal-Medium",
+
                 }}
             >
                   {reciverName}
@@ -618,13 +623,13 @@ function Retrive(props) {
                 }}
             >
                 <G data-name="Group 7">
-                    <G filter="url(#prefix__a)">
+                    {/* <G filter="url(#prefix__a)">
                         <Path
                             data-name="Path 117"
                             d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                             fill="#ffeed6"
                         />
-                    </G>
+                    </G> */}
                     {/* <Path
                         data-name="Icon ionic-ios-arrow-back"
                         d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
@@ -635,13 +640,14 @@ function Retrive(props) {
                 data-name="Icon ionic-ios-arrow-back"
                 onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
                 </G>
             </Svg>
            
             </View>
         <GiftedChat 
+        st
       messages={messages}
       onSend={(newMessage) => handleSend(newMessage)}
       placeholder="...اكتب رسالتك هنا"
@@ -673,6 +679,8 @@ const styles = StyleSheet.create({
   sendingContainer: {
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: "Tajawal-Medium",
+
   },
   bottomComponentContainer: {
     justifyContent: "center",
@@ -687,6 +695,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#fff",
     fontWeight: "bold",
+    fontFamily: "Tajawal-Medium",
+
   },
   container: {
     backgroundColor: "#fff",
@@ -696,11 +706,15 @@ listTitle: {
     fontSize: 22,
     textAlign: "right",
     paddingRight: "5%",
+    fontFamily: "Tajawal-Medium",
+
 },
 listDescription: {
     fontSize: 16,
     textAlign: "right",
     paddingRight: "5%",
+    fontFamily: "Tajawal-Medium",
+
 },
 });
 

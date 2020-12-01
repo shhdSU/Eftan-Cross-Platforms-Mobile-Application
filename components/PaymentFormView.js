@@ -26,8 +26,9 @@ export default class PaymentFormView extends React.Component {
            labelStyle={{
             fontSize: 15,
             
-            color:"#4f3c75",
-            alignSelf:"center"
+            color:"#FEB518",
+            alignSelf:"center",
+            fontFamily: "Tajawal-Bold",
             
           }}
             onChange={(cardData) => this.setState({ cardData })} />
@@ -39,14 +40,19 @@ export default class PaymentFormView extends React.Component {
     width:"80%",
     fontSize:25,
     marginTop:"15%",
+    height:"14%",
     
     
     alignSelf:"center",}} >
        
           <Button
+          style={{
+            fontSize:45
+          }}
             title='إضافة بطاقتي'
-            color="#ffeed6"
-                       disabled={!this.state.cardData.valid || submitted}
+            color="#fff"
+            
+            disabled={!this.state.cardData.valid || submitted}
             onPress={() => onSubmit(this.state.cardData)}
           />
         </View>

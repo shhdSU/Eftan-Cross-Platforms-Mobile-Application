@@ -189,7 +189,7 @@ export default class clientedit extends React.Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-8%", position: "absolute",
+          style={{ alignSelf: "center", top: "-4%", position: "absolute",
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -201,18 +201,18 @@ export default class clientedit extends React.Component {
           elevation: 9,  }}
         >
           <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+            {/* <G filter="url(#prefix__a)">
               <Path
                 data-name="Path 117"
                 d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
-            </G>
+            </G> */}
             <Path
               data-name="Icon ionic-ios-arrow-back"
               onPress={() => this.props.navigation.navigate("عرض حساب العميل")}
               d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-              fill="#4f3c75"
+              fill="#FEB518"
             />
             {/* <Path
               data-name="Icon material-menu"
@@ -262,21 +262,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#fff",
-    top: "5%",
-    padding: "1%",
+   
   },
   forText: {
     position: "absolute",
-    top: "1.5%",
+    top: "7%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
     alignItems: "center",
-    fontWeight: "700",
-  },
+    fontFamily: "Tajawal-Medium",
+    },
   forText2: {
     alignItems: "center",
     position: "absolute",
@@ -285,6 +283,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     textDecorationLine: "underline",
+    fontFamily: "Tajawal-Medium",
   },
   forText3: {
     alignItems: "center",
@@ -294,6 +293,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     textDecorationLine: "underline",
+    fontFamily: "Tajawal-Light",
   },
   image: {
     flex: 1,
@@ -308,6 +308,8 @@ const styles = StyleSheet.create({
     top: "15%",
     left: "30%",
     right: "5%",
+    borderColor: "#FEB518",
+    borderWidth: 3,
   },
   button: {
     top: "70%",
@@ -321,13 +323,14 @@ const styles = StyleSheet.create({
   },
 
   editText: {
-    fontSize: 20,
-    color: "#FFEED6",
-    marginTop: "1%",
+    fontSize: 25,
+    color: "#fff",
+    marginTop: "4%",
     textAlign: "center",
     alignItems: "center",
     top: "5%",
     zIndex: 10,
+    fontFamily: "Tajawal-Medium",
   },
   profileImg: {
     width: 50,
@@ -346,6 +349,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     top: "46%",
     left: "10%",
+    fontFamily: "Tajawal-Medium",
   },
   inputStyle2: {
     position: "absolute",
@@ -359,5 +363,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     textAlign: "right",
     top: "53%",
+    fontFamily: "Tajawal-Medium",
   },
 });

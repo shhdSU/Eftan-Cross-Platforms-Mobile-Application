@@ -163,13 +163,14 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
           <Text
             style={{
               color: "#4F3C75",
-              top: "7.5%",
+              top: "8.5%",
               fontWeight: "700",
               position: "absolute",
               fontSize: 25,
               textAlign: "center",
               alignSelf: "center",
               zIndex: 1,
+              fontFamily: "Tajawal-Medium",
             }}
           >
             {this.state.title}
@@ -193,21 +194,23 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
            }}
           >
             <G data-name="Group 7">
-              <G filter="url(#prefix__a)">
+              {/* <G filter="url(#prefix__a)">
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                   fill="#ffeed6"
                 />
-              </G>
+              </G> */}
               <Path
                 data-name="Icon ionic-ios-arrow-back"
                 onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
             </G>
           </Svg>
+
+         
           {/*------------------------------------اذا الطلب منتهي----------------------------------------- */}
 {
   this.state.status == "e" && (
@@ -218,7 +221,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
       width:"50%",
       left:"7%",
       position:"absolute",
-      top:"50%",
+      top:"52%",
       zIndex:2
     }}
     >
@@ -228,9 +231,10 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
         >
           <Text
             style={{
-              color: "#FFEED6",
+              color: "#fff",
               fontSize: 25,
-              
+              fontFamily: "Tajawal-Medium",
+              marginTop:6
             }}
           >
             اغلاق الطلب
@@ -243,9 +247,10 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
         >
           <Text
             style={{
-              color: "#FFEED6",
+              color: "#fff",
               fontSize: 25,
-              
+              fontFamily: "Tajawal-Medium",
+              marginTop:6
             }}
           >
             اعادةالطلب
@@ -273,14 +278,14 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
-                top: "1.5%",
+                color: "#FEB518",
+                top: "2%",
                 right: "-23.5%",
-                fontWeight: "700",
                 backgroundColor: "#fff",
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -296,12 +301,13 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 width: "87%",
                 height: "6%",
                 fontSize: 15,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: 0.5,
+                borderColor: "#4F3C75",
                 borderRadius: 25,
                 fontWeight: "400",
                 paddingRight: 25,
                 paddingTop: 15,
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -314,15 +320,15 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
               styles.inputStyle2,
               {
                 flexShrink: 1,
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "-1%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
                 height: "2.5%",
-                width: "23%",
+                width: "23.5%",
                 zIndex: 2,
-                
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -339,16 +345,16 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 width: "87%",
                 height: "12%",
                 fontSize: 15,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: .5,
+                borderColor: "#4F3C75",
                 borderRadius: 25,
                 padding: "7%",
                 minHeight: 50,
                 paddingLeft: 5,
-                paddingTop: 10,
+                paddingTop: 15,
                 paddingBottom: 5,
-                fontWeight: "400",
-              },
+                fontFamily: "Tajawal-Medium",
+                            },
             ]}
           >
             {this.state.description}
@@ -360,7 +366,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "-2%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -368,6 +374,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -383,12 +390,13 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 width: "87%",
                 height: "6%",
                 fontSize: 15,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: .5,
+                borderColor: "#4F3C75",
                 borderRadius: 25,
                 fontWeight: "400",
                 paddingRight: 25,
                 paddingTop: 15,
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -402,6 +410,7 @@ style={{
   top:"79%",
   width:"100%",
   left:"35%",
+  fontFamily: "Tajawal-Medium",
 }}
 
 >
@@ -410,14 +419,15 @@ style={{
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
-                top: "%",
-                right: "-23.5%",
+                color: "#FEB518",
+                top: "1%",
+                right: "-24%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
-                height: "2.5%",
+                height: "2%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -427,20 +437,21 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "0%",
-                right: "14%",
-                textAlign: "right",
+                top: "١%",
+                right: "23%",
+                textAlign: "center",
                 fontWeight: "700",
                 width: "21%",
                 height: "5%",
                 fontSize: 13,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: .5,
+                borderColor: "#4F3C75",
                 borderRadius: 20,
-                paddingTop: 10,
+                paddingTop: 15,
                 paddingRight: 9,
                 backgroundColor: this.state.color1,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -450,20 +461,21 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-5%",
-                right: "-8%",
-                textAlign: "right",
+                top: "-4%",
+                right: "-7%",
+                textAlign: "center",
                 fontWeight: "700",
                 width: "21%",
                 height: "5%",
                 fontSize: 13,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: .5,
+                borderColor: "#4F3C75",
                 borderRadius: 20,
-                paddingTop: 10,
+                paddingTop: 15,
                 paddingRight: 9,
                 backgroundColor: this.state.color2,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -473,20 +485,21 @@ style={{
             style={[
               {
                 color: "#4F3C75",
-                top: "-9.8%",
-                right: "-30%",
-                textAlign: "right",
+                top: "-8.8%",
+                right: "-35%",
+                textAlign: "center",
                 fontWeight: "700",
                 width: "21%",
                 height: "5%",
                 fontSize: 13,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: .5,
+                borderColor: "#4F3C75",
                 borderRadius: 20,
                 paddingTop: 10,
                 paddingRight: 9,
                 backgroundColor: this.state.color3,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -501,9 +514,10 @@ style={{
         >
           <Text
             style={{
-              color: "#FFEED6",
+              color: "#fff",
               fontSize: 25,
-              
+              fontFamily: "Tajawal-Medium",
+              marginTop:5
             }}
           >
             انتقل للدفع
@@ -521,22 +535,26 @@ style={{
           <Text
             style={
               {
-                color: "#4F3C75",
-                top: "3.5%",
-                alignSelf:"flex-end",
+                color: "#FEB518",
+                top: "1%",
                 fontWeight: "700",
                 fontSize: 15,
                 backgroundColor: "#fff",
                 height: "2.5%",
                 width: "10.5%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
+                left:"67.5%",
+                position:"absolute"
               }}
           >
             المبلغ{" "}
           </Text>
+          
           <Text
             style={[
               {
+                fontFamily: "Tajawal-Medium",
                 color: "#4F3C75",
                 top: "2%",
                 textAlign: "right",
@@ -544,12 +562,12 @@ style={{
                 width: "87%",
                 height: "6%",
                 fontSize: 15,
-                borderWidth: 2,
-                borderColor: "#ccc",
+                borderWidth: .5,
+                borderColor: "#4F3C75",
                 borderRadius: 25,
                 fontWeight: "400",
                 paddingRight: 25,
-                paddingTop: 15
+                paddingTop: 20
               },
             ]}
           >
@@ -565,9 +583,10 @@ style={{
         >
           <Text
             style={{
-              color: "#FFEED6",
+              color: "#fff",
               fontSize: 25,
-              
+              fontFamily: "Tajawal-Medium",
+              marginTop:5
             }}
           >
             مشاركة العمل
@@ -592,8 +611,7 @@ const styles = StyleSheet.create({
   preview: {
     width: 300,
     height: 235,
-    borderColor: "#ccc",
-    borderWidth: 2,
+
     top: "3%",
     borderRadius: 35,
     alignSelf: "center",
@@ -607,6 +625,7 @@ const styles = StyleSheet.create({
     paddingBottom: "2%",
     textAlign: "right",
     top: "0%",
+    fontFamily: "Tajawal-Medium",
   },
   profileImage: {
     width: 60,
@@ -626,6 +645,7 @@ const styles = StyleSheet.create({
     top: -75,
     paddingRight: 35,
     backgroundColor: "#fff",
+    fontFamily: "Tajawal-Medium",
   },
   infoCont: {
     backgroundColor: "#EFEEFF",

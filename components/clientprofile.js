@@ -69,6 +69,15 @@ export default class clientprofile extends React.Component {
             alignSelf: "center",
             top: windowWidth - 1.06 * windowWidth,
             zIndex: 25,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+
+            elevation: 9,
           }}
         >
           <G data-name="Group 7">
@@ -88,7 +97,7 @@ export default class clientprofile extends React.Component {
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
-              fill="#4F3C75"
+              fill="#FEB518"
             />
           </G>
         </Svg>
@@ -109,7 +118,10 @@ export default class clientprofile extends React.Component {
               name="edit"
               size={35}
               color="#FEB518"
-              style={{  left: windowWidth - 0.9 * windowWidth , marginTop: windowWidth - 0.35 * windowWidth }}
+              style={{
+                left: windowWidth - 0.9 * windowWidth,
+                marginTop: windowWidth - 0.35 * windowWidth,
+              }}
             />
           </TouchableOpacity>
         </View>
@@ -136,7 +148,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: windowWidth - 0.3 * windowWidth,
+    width: windowWidth - 0.34 * windowWidth,
     justifyContent: "center",
     alignSelf: "center",
     borderRadius: 1000,
@@ -144,6 +156,7 @@ const styles = StyleSheet.create({
     zIndex: 20,
     borderColor: "#FEB518",
     borderWidth: 3,
+    backgroundColor:"#fff"
   },
 
   forText: {
@@ -167,7 +180,7 @@ const styles = StyleSheet.create({
   },
 
   cemailStyle: {
-    top: windowWidth - 0.45 * windowWidth,
+    top: windowWidth - 0.43 * windowWidth,
     fontSize: 20,
     color: "#fff",
     alignSelf: "center",
@@ -175,12 +188,15 @@ const styles = StyleSheet.create({
     fontFamily: "Tajawal-Regular",
   },
   emailStyle: {
+    paddingTop:"2%",
     top: windowWidth - 0.45 * windowWidth,
+    //backgroundColor:"#fff",
+    borderRadius:25,
     fontSize: 20,
-    color: "#fff",
+    color: "#FEB518",
     justifyContent: "center",
     textAlign: "center",
     alignSelf: "center",
-    fontFamily: "Tajawal-Regular",
+    fontFamily: "Tajawal-Bold",
   },
 });

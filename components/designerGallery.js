@@ -154,8 +154,8 @@ export default class designerGallery extends React.Component {
           >
             <Image
               style={{
-                width: 150,
-                height: 150,
+                width: 140,
+                height: 140,
                 top: "3%",
                 borderRadius: 15,
                 alignSelf: "center",
@@ -169,11 +169,12 @@ export default class designerGallery extends React.Component {
               alignItems: "center",
             }}
           >
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" }}
+            {/* <Text
+              style={{ fontSize: 12,  color: "#4f3c75",    fontFamily: "Tajawal-Medium",marginTop:"2%"
+            }}
             >
               {element.designTitle}
-            </Text>
+            </Text> */}
           </View>
         </View>
       );
@@ -231,18 +232,18 @@ export default class designerGallery extends React.Component {
             }}
           >
             <G data-name="Group 7">
-              <G filter="url(#prefix__a)">
+              {/* <G filter="url(#prefix__a)">
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                   fill="#ffeed6"
                 />
-              </G>
+              </G> */}
               <Path
                 data-name="Icon ionic-ios-arrow-back"
                 onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
               {/* <Path
                 data-name="Icon material-menu"
@@ -328,10 +329,12 @@ export default class designerGallery extends React.Component {
         >
           <Text
             style={{
-              top: "-100%",
+              top: "-130%",
               fontSize: 20,
               color: "#4F3C75",
               textDecorationLine: "underline",
+              fontFamily: "Tajawal-Medium",
+
             }}
           >
             المزيد من أعمال المصمم {">"}{" "}
@@ -342,21 +345,6 @@ export default class designerGallery extends React.Component {
   }
 }
 
-// {designGallery.map((element) => {
-//   <View style={{ marginBottom: 30 }}>
-//     <ScrollView scrollEventThrottle={16}>
-//       <View>
-//         <GalleryImage
-//           name={element.designTitle}
-//           width={width}
-//           imageUri={element.designUrl}
-//         />
-//         <Text>{"اسم" + element.designTitle}</Text>
-//         <Text>text</Text>
-//       </View>
-//     </ScrollView>
-//   </View>;
-// })}
 
 const styles = StyleSheet.create({
   container: {
@@ -370,36 +358,40 @@ const styles = StyleSheet.create({
     padding: "1%",
   },
   avg: {
-    top: "54%",
+    top: "55%",
     left: "40%",
     fontSize: 15,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
     fontWeight: "200",
+    fontFamily: "Tajawal-Medium",
+
   },
   rated: {
-    top: "47.5%",
+    top: "48.5%",
     left: "70%",
     fontSize: 15,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
     fontWeight: "200",
+    fontFamily: "Tajawal-Medium",
+
   },
   image: {
     flex: 1,
-    width: 120,
-    height: 120,
+    width: 160,
+    height: 160,
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    borderRadius: 150 / 2,
-    top: "5%",
-    borderColor: "#ffeed6",
+    borderRadius: 150 ,
+    top: "-5%",
+    borderColor: "#FEB518",
     borderWidth: 3,
   },
   Morebutton: {
@@ -410,65 +402,71 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     justifyContent: "center",
+    fontFamily: "Tajawal-Medium",
   },
   Reuestbutton: {
     top: "275%",
     backgroundColor: "#4F3C75",
     height: "30%",
     width: "90%",
-    borderRadius: 25,
+    borderRadius: 45,
     alignSelf: "center",
     alignItems: "center",
     position: "absolute",
     justifyContent: "center",
+    fontFamily: "Tajawal-Medium",
   },
   editText: {
     fontSize: 25,
-    color: "#FFEED6",
+    color: "#fff",
+    marginTop:"3%",
+    fontFamily: "Tajawal-Medium",
   },
 
   forText: {
     position: "absolute",
-    top: "100%",
+    top: "36%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
-    fontWeight: "700",
-  },
+    fontFamily: "Tajawal-Medium",
+    },
   nameStyle: {
-    top: "35%",
+    top: "37.5%",
     alignSelf: "center",
     fontSize: 30,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     justifyContent: "center",
-    fontWeight: "400",
-  },
+    fontFamily: "Tajawal-Medium",
+    },
   bioStyle: {
     top: "65%",
     fontSize: 20,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "#ffeed6",
+    borderWidth: .5,
+    borderColor: "#fff",
     fontWeight: "200",
     height: "30%",
     width: "95%",
     alignItems: "center",
     textAlign: "center",
-    padding: "5%",
+    padding: "7%",
     borderRadius: 15,
+    fontFamily: "Tajawal-Medium",
   },
   aboutStyle: {
-    top: "60%",
+    top: "63%",
     alignSelf: "center",
     fontSize: 20,
-    color: "#ffeed6",
+    color: "#FEB518",
     position: "absolute",
     fontWeight: "200",
     backgroundColor: "#4F3C75",
     zIndex: 2,
+    fontFamily: "Tajawal-Medium",
   },
   infoContt: {
     backgroundColor: "#4F3C75",
@@ -476,13 +474,6 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 35,
     top: "160%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1.48,
-    shadowRadius: 15.95,
-    elevation: 19,
+    
   },
 });

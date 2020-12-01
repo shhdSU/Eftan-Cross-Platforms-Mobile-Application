@@ -25,6 +25,8 @@ firebase
             .then((url) => {
               this.updateInputVal(url, "designFile");
               */
+import * as Animatable from "react-native-animatable";
+import LottieView from 'lottie-react-native';
 import React, { Component } from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import SvgComponent from "./uploadSVG";
@@ -56,6 +58,8 @@ export default class UploadNewDesign extends Component {
       uploading: false,
       localpath: "",
       designUrl: "",
+      popup: true,
+      doneText:""
     };
   }
   updateInputVal = (val, prop) => {
@@ -63,7 +67,20 @@ export default class UploadNewDesign extends Component {
     state[prop] = val;
     this.setState(state);
   };
+  //-------------------------------
+  popUpWindow = () => {
+    // this.closePopUp();
+    // this.updateInputVal(false, "popup");
+    this.updateInputVal(true, "popup");
+  };
+  //-----------------------------------------
+  closePopUp = () => {
+    this.updateInputVal(false, "popup");
+    this.updateInputVal("", "doneText");
+    this.props.navigation.navigate("معرض التصاميم من منظور المصمم")
 
+  };
+//--------------------------------------
   onChooseImagePress = async () => {
     //takes image from the mobile gallery
     let SelectResult = await ImagePicker.launchImageLibraryAsync({
@@ -117,45 +134,6 @@ export default class UploadNewDesign extends Component {
     }
   };
 
-  // uploadImage = async (uri, draftName) => {
-  //   //upload img to storage knowing its local path
-  //   const response = await fetch(uri);
-  //   const blob = await response.blob();
-  // var ref = firebase
-  //   .storage()
-  //   .ref()
-  //   .child("DesignWork/" + this.state.designFileKey);
-  // return ref.put(blob);
-  // };
-  // RenderImage = () => {
-  //   let { designUrl } = this.state;
-  //   if (!designUrl) {
-  //     return;
-  //   }
-
-  //   return (
-  //     <View
-  //       style={{
-  //         marginTop: 30,
-  //         width: 250,
-  //         borderRadius: 3,
-  //         elevation: 2,
-  //       }}>
-  //       <View
-  //         style={{
-  //           borderTopRightRadius: 3,
-  //           borderTopLeftRadius: 3,
-  //           shadowColor: 'rgba(0,0,0,1)',
-  //           shadowOpacity: 0.2,
-  //           shadowOffset: { width: 4, height: 4 },
-  //           shadowRadius: 5,
-  //           overflow: 'hidden',
-  //         }}>
-  //         <Image source={{ uri: designUrl }} style={{ width: 100, height: 100 }} />
-  //       </View>
-  //     </View>
-  //   );
-  // };
   uploadDesign() {
     //upload info to realtime DB, retreive their key to be the key of the img in storage
     if (
@@ -226,7 +204,7 @@ export default class UploadNewDesign extends Component {
       this.updateInputVal("", "designTitle");
       return;
     }
-    
+    this.updateInputVal(true, "popup");
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -245,34 +223,39 @@ export default class UploadNewDesign extends Component {
         designTags: tags,
       })
       .then((key) => {
+         this.updateInputVal(true, "popup");
         //this.updateInputVal(key.key, "designFileKey");
         this.updateInputVal("", "designTitle");
         this.updateInputVal("", "category");
         this.updateInputVal("", "designDescription");
         this.updateInputVal("", "designTags");
-        // firebase
-        //   .database()
-        //   .ref("Designs/")
-        //   .child(this.state.designFileKey)
-        //   .update({ designFileKey: this.state.designFileKey })
-        //   .then(
-        //     this.uploadImage(this.state.localpath, this.state.designFileKey)
-        //   );
-        Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
-          cancelable: false,
-        }),
-          this.updateInputVal("", "localpath"),
-          this.props.navigation.navigate("معرض التصاميم من منظور المصمم");
+      
+        // Alert.alert("تنبيه", "تم رفع العمل بنجاح", [{ text: "حسنًا" }], {
+        //   cancelable: false,
+        // }),
+       // this.popUpWindow(),
+      
+          this.updateInputVal("", "localpath");
+        //  this.props.navigation.navigate("معرض التصاميم من منظور المصمم")
+         
       })
       .catch((error) => {
         Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {
           cancelable: false,
         });
       });
+
+      
   }
   setSelectedValue = (val) => {
     this.updateInputVal(val, "category");
   };
+  finish=()=>{
+    this.updateInputVal("تم رفع العمل بنجاح", "doneText"), 
+    setTimeout(() => {
+      this.closePopUp()
+    }, 2000)
+  }
   render() {
     if (this.state.isLoading) {
       return (
@@ -387,7 +370,7 @@ export default class UploadNewDesign extends Component {
         />
         <Image
           style={styles.preview}
-          onTouchStart={this.onChooseImagePress}
+         // onTouchStart={this.onChooseImagePress}
           source={{
             uri: this.state.localpath,
           }}
@@ -410,12 +393,12 @@ export default class UploadNewDesign extends Component {
         > (يجب ألا تحتوي على رموز)
         </Text>
         <TextInput
-          style={styles.inputStyleDescription2}
-          placeholder=" أدخل كلمات مفتاحية بين كل منها مسافة ..."
+          style={styles.tags}
+          placeholder="كلمات مفتاحية مفصولة بمسافة"
           maxLength={25}
           value={this.state.designTags}
           onChangeText={(val) => this.updateInputVal(val, "designTags")}
-          scrollEnabled={true}
+         
         />
 
         <Text
@@ -467,13 +450,16 @@ export default class UploadNewDesign extends Component {
                 text: "تأكيد",
                 onPress: () => {
                 this.uploadDesign()
+                
+
+                
                 },
               },
             ],
             { cancelable: false }
           )
         }
-      >
+      > 
         <Text
             style={{
               color: "#FFEED6",
@@ -483,9 +469,45 @@ export default class UploadNewDesign extends Component {
             رفع العمل
           </Text>
         </TouchableOpacity>
+        {this.state.popup && (
+        <Animatable.View style={styles.popUp} animation="bounceIn">
+          
+        <LottieView
+        source={require('../assets/lottie/uploaded.json')}
+        loop={false}
+        onAnimationFinish={() => this.finish()}
+       speed={1.5}
+        autoPlay
+     
+        style={{ width: "90%", height: "90%" ,alignSelf:"center",justifyContent:"center",right:"1%",top:"-3%"
+        
+        //margin:"5%"
+      }}
+      />
+      
+      <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"8%"}}>
+           { this.state.doneText}
+          </Text>
+          {/* <TouchableOpacity
+                style={styles.smallbutton}
+                onPress={() => this.closePopUp()}
+              >
+                <Text
+                  style={{
+                    color: "#ffffff",
+                    fontSize: 15,
+                    fontWeight: "500",
+                    fontFamily:"Tajawal-Medium"
+                  }}
+                >
+                  العودة
+                </Text>
+              </TouchableOpacity> */}
+          </Animatable.View>)}
       </ScrollView>
     );
   } //End of Second return
+  
 }
 
 async function uploadImageAsync(uri) {
@@ -520,6 +542,17 @@ const styles = StyleSheet.create({
     // padding: "10%",
     backgroundColor: "#fff",
   },
+  smallbutton: {
+    alignItems: "center",
+    backgroundColor: "#603F98",
+    padding: "1%",
+    justifyContent: "center",
+    borderRadius: 20,
+    width: "20%",
+    height: "15%",
+    alignSelf: "center",
+    bottom: "-15%",
+  },
   inputStyleDescription: {
     alignSelf: "center",
     fontSize: 18,
@@ -530,15 +563,15 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 2,
   },
-  inputStyleDescription2: {
+  tags: {
     alignSelf: "center",
     fontSize: 18,
     width: "80%",
-    height: "8%",
+    // height: "8%",
     textAlign: "right",
     top: "-14%",
     borderColor: "#ccc",
-    borderWidth: 2,
+    borderBottomWidth: 2,
   },
   tinyLogo: {
     width: 30,
@@ -564,6 +597,27 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     textAlign: "right",
     top: "-7%",
+  },
+  popUp: {
+    backgroundColor: "#fff",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    marginTop: "170%",
+    height: "5%",
+    width: "75%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
+    borderRadius: 30,
   },
   inputStyle2: {
     fontSize: 18,

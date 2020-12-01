@@ -5,13 +5,17 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
+  Dimensions,
 } from "react-native";
 import firebase from "../database/firebase";
 import * as React from "react";
 import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+
 var fName, lName, email, image;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 export default class clientprofile extends React.Component {
   constructor() {
     super();
@@ -61,25 +65,20 @@ export default class clientprofile extends React.Component {
         <Svg
           width={416}
           height={144}
-          style={{ alignSelf: "center", top: "-8%", position: "absolute",
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 4,
-          },
-          shadowOpacity: 0.32,
-          shadowRadius: 5.46,
-          
-          elevation: 9,  }}
+          style={{
+            alignSelf: "center",
+            top: windowWidth - 1.09 * windowWidth,
+            zIndex: 25,
+          }}
         >
           <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+            {/* <G filter="url(#prefix__a)">
               <Path
                 data-name="Path 117"
                 d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
-                fill="#ffeed6"
+                fill="#fff"
               />
-            </G>
+            </G> */}
             {/* <Path
               data-name="Icon ionic-ios-arrow-back"
               d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
@@ -89,26 +88,31 @@ export default class clientprofile extends React.Component {
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
-              fill="#4f3c75"
+              fill="#4F3C75"
             />
           </G>
         </Svg>
         <Text style={styles.forText}>حسابي الشخصي</Text>
+
         <Image style={styles.image} source={{ uri: this.state.img }} />
+
         <View style={styles.infoContainer}>
-       
-        <Text style={styles.textStyle}>{this.state.firstName + " " + this.state.lastName}</Text>
-        <Text style={styles.emailStyle}>البريد الالكتروني:</Text>
-        <Text style={styles.cemailStyle}>{this.state.cemail}</Text>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("تعديل حساب العميل")}
-        >
-       <AntDesign name="edit" size={35} color="#ffeed6" 
-       style={{position:"absolute" , left:"5%",marginTop:"153%"}}
-       />
-        </TouchableOpacity>
+          <Text style={styles.textStyle}>
+            {this.state.firstName + " " + this.state.lastName}
+          </Text>
+          <Text style={styles.emailStyle}>البريد الالكتروني:</Text>
+          <Text style={styles.cemailStyle}>{this.state.cemail}</Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("تعديل حساب العميل")}
+          >
+            <AntDesign
+              name="edit"
+              size={35}
+              color="#FEB518"
+              style={{  left: windowWidth - 0.9 * windowWidth , marginTop: windowWidth - 0.35 * windowWidth }}
+            />
+          </TouchableOpacity>
         </View>
-       
       </View>
     );
   }
@@ -122,77 +126,62 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#fff",
-    top: "5%",
   },
-  infoContainer:{
-backgroundColor:"#4F3C75",
-height:"70%",
-width:"90%",
-borderRadius:35,
-top:"-2%",
-shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 0,
-},
-shadowOpacity: 1.48,
-shadowRadius: 15.95,
-
-elevation: 19,
+  infoContainer: {
+    backgroundColor: "#4F3C75",
+    height: windowHeight - 0.52 * windowHeight,
+    width: windowWidth - 0.1 * windowWidth,
+    borderRadius: 35,
+    top: windowWidth - 1.5 * windowWidth,
   },
   image: {
     flex: 1,
-    width: "65%",
-    height: "30%",
-    position: "absolute",
+    width: windowWidth - 0.35 * windowWidth,
+    height: null,
     justifyContent: "center",
     alignSelf: "center",
-    borderRadius: 550,
-    top: "20%",
-    zIndex:20,
-    borderColor:"#ffeed6",
-    borderWidth:3,
+    borderRadius: 1000,
+    top: windowWidth - 1.15 * windowWidth,
+    zIndex: 20,
+    borderColor: "#FEB518",
+    borderWidth: 3,
   },
- 
+
   forText: {
-    position: "absolute",
-    top: "1.5%",
+    top: windowWidth - 1.25 * windowWidth,
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
-    fontWeight:"700",
-
+    fontFamily: "Tajawal-Medium",
+    zIndex: 25,
   },
- 
+
   textStyle: {
-    top: "57%",
+    top: windowWidth - 0.55 * windowWidth,
     textAlign: "center",
     fontSize: 30,
-    color: "#ffeed6",
-    position: "absolute",
+    color: "#fff",
     justifyContent: "center",
-    alignSelf:"center",
-    fontWeight:"400",
+    alignSelf: "center",
+    fontWeight: "400",
+    fontFamily: "Tajawal-Regular",
   },
-  
-  cemailStyle: {
-    top: "82%",
-    fontSize: 20,
-    color: "#ffeed6",
-    position: "absolute",
-    alignSelf:"center",
-    justifyContent: "center",
-    fontWeight:"200",
 
+  cemailStyle: {
+    top: windowWidth - 0.45 * windowWidth,
+    fontSize: 20,
+    color: "#fff",
+    alignSelf: "center",
+    justifyContent: "center",
+    fontFamily: "Tajawal-Regular",
   },
   emailStyle: {
-    top: "75%",
+    top: windowWidth - 0.45 * windowWidth,
     fontSize: 20,
-    color: "#ffeed6",
-    position: "absolute",
+    color: "#fff",
     justifyContent: "center",
     textAlign: "center",
-    fontWeight:"200",
-alignSelf:"center",
+    alignSelf: "center",
+    fontFamily: "Tajawal-Regular",
   },
 });

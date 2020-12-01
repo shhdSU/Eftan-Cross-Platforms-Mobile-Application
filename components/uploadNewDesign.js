@@ -58,7 +58,7 @@ export default class UploadNewDesign extends Component {
       uploading: false,
       localpath: "",
       designUrl: "",
-      popup: false,
+      popup: true,
       doneText:""
     };
   }
@@ -479,7 +479,10 @@ export default class UploadNewDesign extends Component {
        speed={1.5}
         autoPlay
      
-        style={{ width: "90%", height: "90%" ,alignSelf:"center",margin:"5%"}}
+        style={{ width: "90%", height: "90%" ,alignSelf:"center",justifyContent:"center",right:"1%",top:"-3%"
+        
+        //margin:"5%"
+      }}
       />
       
       <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"8%"}}>

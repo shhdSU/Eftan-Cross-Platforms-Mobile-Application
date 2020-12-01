@@ -20,11 +20,10 @@ import * as Animatable from "react-native-animatable";
 import { Entypo } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
 import Notify from "./sendNotification";
-import React, { Component } from "react";
-import moment from "moment/min/moment-with-locales";
-// import * as Permissions from 'expo-permissions';
-// import * as Notifications from 'expo-notifications';
-// import Constants from 'expo-constants';
+import React, { Component} from "react";
+import moment from 'moment/min/moment-with-locales';
+import LottieView from 'lottie-react-native';
+
 
 export default class RequestForm extends Component {
   constructor(props) {
@@ -45,6 +44,7 @@ export default class RequestForm extends Component {
         "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2FdefultImageRequest.png?alt=media&token=c6f54fdc-25ce-4d65-a3cd-39de1f18bf1e",
       Imagekey: "",
       popup: false,
+      popup2: false,
       colorNum: 0,
       mainStep: true,
       DID: "",
@@ -64,6 +64,17 @@ export default class RequestForm extends Component {
         console.log("designer token    " + this.state.designerToken);
       });
     console.log("designer token    " + this.state.designerToken);
+  }
+  closePopUp2 = () => {
+    this.updateInputVal(false, "popup2");
+    this.updateInputVal("", "doneText");
+    this.props.navigation.navigate("معرض التصاميم من منظور العميل");
+  };
+  finish=()=>{
+    this.updateInputVal("تم رفع الطلب بنجاح", "doneText"), 
+    setTimeout(() => {
+      this.closePopUp2()
+    }, 2000)
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -181,22 +192,7 @@ export default class RequestForm extends Component {
     else console.log("Method fail");
   };
 
-  // uploadImage = async (uri, draftName) => {
-  //   const response = await fetch(uri);
-  //   const blob = await response.blob();
-
-  //   var ref = firebase
-  //     .storage()
-  //     .ref()
-  //     .child("Draft/" + draftName).getDownloadURL().then((url) =>{
-  //       firebase.database().ref("/Draft").child(this.state.Imagekey).update({
-  //         reference: url,
-  //         Imagekey:this.state.Imagekey
-  //       })
-  //     })
-  //   return ref.put(blob);
-  // };
-
+  
   onChooseImagePress = async () => {
     let SelectResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -288,6 +284,7 @@ export default class RequestForm extends Component {
   };
 
   storeResquset = () => {
+    this.updateInputVal(true, "popup2");
     const CID = firebase.auth().currentUser.uid;
     var fullTime = moment().format();
 
@@ -315,13 +312,13 @@ export default class RequestForm extends Component {
           .child(key.key)
           .update({ Imagekey: key.key });
       });
-    this.updateInputVal(true, "notify");
-    console.log(this.state.designerToken);
-    Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
-      cancelable: false,
-    });
+      this.updateInputVal(true,"notify");
+      console.log(this.state.designerToken);
+    // Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
+    //   cancelable: false,
+    // });
 
-    this.props.navigation.navigate("معرض التصاميم من منظور العميل");
+   // this.props.navigation.navigate("معرض التصاميم من منظور العميل");
   };
   render() {
     return (
@@ -724,6 +721,28 @@ export default class RequestForm extends Component {
               )}
             </Animatable.View>
           )}
+          {this.state.popup2 && 
+        <Animatable.View style={styles.popUp2} animation="bounceIn">
+          
+        <LottieView
+        source={require('../assets/lottie/request.json')}
+        loop={false}
+        
+        onAnimationFinish={() => this.finish()}
+       speed={1.5}
+        autoPlay
+     
+        style={{ width: "90%", height: "90%" ,alignSelf:"center",justifyContent:"center",right:"1%",top:"-3%"
+        
+        //margin:"5%"
+      }}
+      />
+      
+      <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"8%"}}>
+           { this.state.doneText}
+          </Text>
+         
+          </Animatable.View>}
         </View>
       </TouchableWithoutFeedback>
     ); // end of render return
@@ -758,6 +777,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  popUp2: {
+    backgroundColor: "#fff",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    marginTop: "80%",
+    height: "25%",
+    width: "75%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
+    borderRadius: 30,
   },
   mainScreen: {
     flex: 3,

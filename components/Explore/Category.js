@@ -6,9 +6,9 @@ class Category extends Component {
     return (
       <View
         style={{
-          height: 90,
-          width: 130,
-          marginLeft: 20,
+          height: 70,
+          width: 110,
+          marginLeft: 10,
 
           //  borderWidth: 0.5,
           //borderColor: "#dddddd",

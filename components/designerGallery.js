@@ -69,7 +69,7 @@ export default class designerGallery extends React.Component {
       });
 
     //=======================================================
-    
+
     var ref = firebase
       .database()
       .ref("Designs/")
@@ -78,7 +78,7 @@ export default class designerGallery extends React.Component {
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
       }
-      designGallery=[];
+      designGallery = [];
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -99,7 +99,7 @@ export default class designerGallery extends React.Component {
         };
       }
       this.updateInputVal(designGallery, "designGalleryState");
-      shownDesigns=[];
+      shownDesigns = [];
       if (designGallery.length >= 2) {
         for (var i = 0; i < 2; i++) {
           shownDesigns[i] = designGallery[i];
@@ -135,25 +135,31 @@ export default class designerGallery extends React.Component {
         >
           <View
             style={{
+              width: 180,
               flex: 1,
               alignItems: "center",
               shadowOffset: { width: 0.5, height: 0.5 },
-              shadowOpacity: 0.5,
-              shadowRadius: 3,
-              elevation: 5,
-              backgroundColor: "white",
-              margin: 10,
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.23,
+              shadowRadius: 2.62,
+              elevation: 4,
+              marginBottom: 47,
+              width: 150,
+              height: 150,
             }}
           >
             <Image
               style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: "contain",
-                margin: 5,
+                width: 150,
+                height: 150,
+                top: "3%",
+                borderRadius: 15,
+                alignSelf: "center",
               }}
-              width={width}
               source={{ uri: element.designUrl }}
             />
           </View>
@@ -252,28 +258,28 @@ export default class designerGallery extends React.Component {
             <Text style={styles.nameStyle}>
               {this.state.firstName + " " + this.state.lastName}
             </Text>
-<View
-style={{
-  top: "46.5%",
-  backgroundColor:"#fff",
-  width:"45%",
-  height:"7%",
-  borderRadius:25,
-  alignSelf: "center",
-  right:"3.5%",
-  justifyContent:"center",
-}}
->
-            <Rating
-              style={{ alignSelf: "center", borderRadius:20, }}
-              readonly={true}
-              type="custom"
-              // ratingImage={rating_star}
-              startingValue={this.AVG_Rate()}
-              ratingBackgroundColor="#c8c7c8"
-              tintColor="white"
-              imageSize={25}
-            />
+            <View
+              style={{
+                top: "46.5%",
+                backgroundColor: "#fff",
+                width: "45%",
+                height: "7%",
+                borderRadius: 25,
+                alignSelf: "center",
+                right: "3.5%",
+                justifyContent: "center",
+              }}
+            >
+              <Rating
+                style={{ alignSelf: "center", borderRadius: 20 }}
+                readonly={true}
+                type="custom"
+                // ratingImage={rating_star}
+                startingValue={this.AVG_Rate()}
+                ratingBackgroundColor="#c8c7c8"
+                tintColor="white"
+                imageSize={25}
+              />
             </View>
             <Text style={styles.rated}>({this.raters()})</Text>
             <Text style={styles.avg}> 5/{this.AVG_Rate()} نجوم</Text>
@@ -322,10 +328,10 @@ style={{
         >
           <Text
             style={{
+              top: "-100%",
               fontSize: 20,
               color: "#4F3C75",
               textDecorationLine: "underline",
-              
             }}
           >
             المزيد من أعمال المصمم {">"}{" "}
@@ -423,7 +429,7 @@ const styles = StyleSheet.create({
 
   forText: {
     position: "absolute",
-    top: "33%",
+    top: "100%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",

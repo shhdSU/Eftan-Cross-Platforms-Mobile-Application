@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 const { width } = Dimensions.get("window");
 import Svg, { Defs, G, Path } from "react-native-svg";
@@ -26,7 +27,7 @@ export default class choice extends Component {
     const { navigation } = props.navigation;
     cat = props.navigation.state.params.category;
     console.log(props.navigation.state.params.array);
-    this.updateInputVal(props.navigation.state.params.array,"arr");
+    this.updateInputVal(props.navigation.state.params.array, "arr");
     this.updateInputVal(cat, "cat1");
     console.log(this.state.arr);
   }
@@ -40,49 +41,43 @@ export default class choice extends Component {
   print = (arr) => {
     return arr.map((element) => {
       return (
-        <View style={{ width: width / 2 - 40}}>
-          <View
-           style={{
-            flex: 1,
-            alignItems: "center",
-            shadowOffset: { width: 0.5, height: 0.5 },
-            shadowOpacity: 0.5,
-            shadowRadius: 3,
-            elevation: 5,
-            backgroundColor: "white",
-            marginBottom: 10,
-            width: 150,
-            height: 150,
-            borderRadius: 15,
-          }}
-
-        >
-          <Image
-            style={{
-              width: 140,
-    height: 140,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    top: "3%",
-    borderRadius: 15,
-    alignSelf: "center",
-            }}
-              source={{ uri: element.designUrl }}
-            />
-          </View>
-
+        <View style={{ width: width / 2 - 40 }}>
           <View
             style={{
-              justifyContent: "space-evenly",
+              flex: 1,
               alignItems: "center",
+              shadowOffset: { width: 0.5, height: 0.5 },
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.23,
+              shadowRadius: 2.62,
+              elevation: 4,
+              marginBottom: 47,
+              width: 150,
+              height: 150,
             }}
           >
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#4f3c75" ,top:-5, marginBottom:4}}
-              onPress={() => this.props.navigation.navigate("عرض تفاصيل التصميم", { obj: element })}
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("عرض تفاصيل التصميم", {
+                  obj: element,
+                })
+              }
             >
-              {element.designTitle}
-            </Text>
+              <Image
+                style={{
+                  width: 180,
+                  height: 180,
+                  top: "3%",
+                  borderRadius: 15,
+                  alignSelf: "center",
+                }}
+                source={{ uri: element.designUrl }}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       );

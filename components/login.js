@@ -11,78 +11,82 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebase";
 import LoginScrees from "./LoginScreen";
-import * as Permissions from 'expo-permissions';
-import * as Notifications from 'expo-notifications';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import * as Permissions from "expo-permissions";
+import * as Notifications from "expo-notifications";
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import App from "../App";
-import NotifyPermission from './reqNotifyPermission';
-import Constants from 'expo-constants';
+import NotifyPermission from "./reqNotifyPermission";
+import Constants from "expo-constants";
 
-
-
-
-async function registerForPushNotificationsAsync (){
+async function registerForPushNotificationsAsync() {
   let token;
   console.log("begin register");
 
-if (Constants.isDevice) {
-  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  let finalStatus = existingStatus;
-  if (existingStatus !== 'granted') {
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    finalStatus = status;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
+      return;
+    }
+    console.log("before");
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log("after");
+  } else {
+    alert("Must use physical device for Push Notifications");
   }
-  if (finalStatus !== 'granted') {
-    alert('Failed to get push token for push notification!');
-    return;
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
   }
-  console.log("before");
-  token = (await Notifications.getExpoPushTokenAsync()).data;
-  console.log("after")
-} else {
-  alert('Must use physical device for Push Notifications');
-}
+  console.log("end register");
 
-if (Platform.OS === 'android') {
-  Notifications.setNotificationChannelAsync('default', {
-    name: 'default',
-    importance: Notifications.AndroidImportance.MAX,
-    vibrationPattern: [0, 250, 250, 250],
-    lightColor: '#FF231F7C',
-  });
-}
-console.log("end register");
-
-const x = firebase.auth().currentUser.uid;
+  const x = firebase.auth().currentUser.uid;
   //inserting token in database
-              firebase
-               .database()
-               .ref(`Client/` + x)
-               .on("value", (snapshot) => {
-                 if (snapshot.exists()) {
-                 firebase.database().ref(`Client/` + x).update({notificationsKey: token});
-                 }
-               });
-             firebase
-               .database()
-               .ref(`GraphicDesigner/` + x)
-               .on("value", (snapshot) => {
-                 if (snapshot.exists()) {
-                   firebase.database().ref(`GraphicDesigner/` + x).update({notificationsKey: token});
-                 }
-        });
+  firebase
+    .database()
+    .ref(`Client/` + x)
+    .on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        firebase
+          .database()
+          .ref(`Client/` + x)
+          .update({ notificationsKey: token });
+      }
+    });
+  firebase
+    .database()
+    .ref(`GraphicDesigner/` + x)
+    .on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        firebase
+          .database()
+          .ref(`GraphicDesigner/` + x)
+          .update({ notificationsKey: token });
+      }
+    });
 
-       return token;
-        
+  return token;
 }
 export default class LoginPage extends Component {
   constructor() {
@@ -91,26 +95,22 @@ export default class LoginPage extends Component {
       email: "",
       password: "",
       isLoading: false,
-      loading:true,
+      loading: true,
     };
-    
   }
 
-
-  async componentWillMount(){
+  async componentWillMount() {
     await Font.loadAsync({
-      'Tajawal-Black': require('../assets/fonts/Tajawal-Black.ttf'),
-      'Tajawal-Bold': require('../assets/fonts/Tajawal-Bold.ttf'),
-      'Tajawal-ExtraBold': require('../assets/fonts/Tajawal-ExtraBold.ttf'),
-      'Tajawal-ExtraLight': require('../assets/fonts/Tajawal-ExtraLight.ttf'),
-      'Tajawal-Light': require('../assets/fonts/Tajawal-Light.ttf'),
-      'Tajawal-Medium': require('../assets/fonts/Tajawal-Medium.ttf'),
-      'Tajawal-Regular': require('../assets/fonts/Tajawal-Regular.ttf'),
+      "Tajawal-Black": require("../assets/fonts/Tajawal-Black.ttf"),
+      "Tajawal-Bold": require("../assets/fonts/Tajawal-Bold.ttf"),
+      "Tajawal-ExtraBold": require("../assets/fonts/Tajawal-ExtraBold.ttf"),
+      "Tajawal-ExtraLight": require("../assets/fonts/Tajawal-ExtraLight.ttf"),
+      "Tajawal-Light": require("../assets/fonts/Tajawal-Light.ttf"),
+      "Tajawal-Medium": require("../assets/fonts/Tajawal-Medium.ttf"),
+      "Tajawal-Regular": require("../assets/fonts/Tajawal-Regular.ttf"),
       ...Ionicons.font,
-    });    
-    this.updateInputVal(false,"loading")
-
-
+    });
+    this.updateInputVal(false, "loading");
   }
 
   updateInputVal = (val, prop) => {
@@ -119,9 +119,7 @@ export default class LoginPage extends Component {
     this.setState(state);
   };
 
-
   userLogin = () => {
-   
     const { email, password } = this.state;
     firebase
       .auth()
@@ -143,7 +141,7 @@ export default class LoginPage extends Component {
                 email: "",
                 password: "",
               });
-              <NotifyPermission />
+              <NotifyPermission />;
               registerForPushNotificationsAsync();
               const user = firebase.auth().currentUser.uid;
               firebase
@@ -151,7 +149,7 @@ export default class LoginPage extends Component {
                 .ref(`Client/` + user)
                 .on("value", (snapshot) => {
                   if (snapshot.exists()) {
-                    console.log('I am here');
+                    console.log("I am here");
                     this.props.navigation.navigate(
                       "معرض التصاميم من منظور العميل"
                     );
@@ -163,10 +161,10 @@ export default class LoginPage extends Component {
                 .database()
                 .ref(`GraphicDesigner/` + user)
                 .on("value", (snapshot) => {
-
                   if (snapshot.exists()) {
                     this.props.navigation.navigate(
-                      "معرض التصاميم من منظور المصمم");
+                      "معرض التصاميم من منظور المصمم"
+                    );
                   }
                   return;
                 });
@@ -176,11 +174,8 @@ export default class LoginPage extends Component {
                 password: "",
               });
             }
-           
           }
-
         });
-
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -222,22 +217,18 @@ export default class LoginPage extends Component {
         });
       });
   };
- 
- 
+
   render() {
     if (this.state.isLoading) {
       return (
-       
         <View style={styles.preloader}>
           <ActivityIndicator size="large" color="#9E9E9E" />
         </View>
       );
     }
 
-    if (this.state.loading){
-      return (
-        <View></View>
-      );
+    if (this.state.loading) {
+      return <View></View>;
     }
 
     return (
@@ -253,7 +244,7 @@ export default class LoginPage extends Component {
 
         <TextInput
           style={styles.inputStyle}
-          placeholder="كلمة السر"
+          placeholder="كلمة المرور"
           value={this.state.password}
           onChangeText={(val) => this.updateInputVal(val, "password")}
           maxLength={15}
@@ -265,8 +256,7 @@ export default class LoginPage extends Component {
             color: "#4F3C75",
             textAlign: "left",
             textDecorationLine: "underline",
-            fontFamily:"Tajawal-Medium",
-            
+            fontFamily: "Tajawal-Medium",
           }}
           onPress={() => this.props.navigation.navigate("نسيت كلمة السر!")}
         >
@@ -282,9 +272,7 @@ export default class LoginPage extends Component {
         </Text>
 
         <View style={styles.loginButton}>
-          <TouchableOpacity
-            onPress={() => this.userLogin()}
-          >
+          <TouchableOpacity onPress={() => this.userLogin()}>
             <Text style={styles.loginButton2}>تسجيل الدخول</Text>
           </TouchableOpacity>
         </View>
@@ -313,7 +301,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     textAlign: "right",
     top: hp("15%"),
-    fontFamily:"Tajawal-Medium",
+    fontFamily: "Tajawal-Medium",
   },
   loginText: {
     fontSize: 18,
@@ -324,7 +312,7 @@ const styles = StyleSheet.create({
     top: wp("63%"),
     textDecorationLine: "underline",
     zIndex: 10,
-    fontFamily:"Tajawal-Medium",
+    fontFamily: "Tajawal-Medium",
   },
   loginText2: {
     fontSize: 18,
@@ -333,14 +321,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     top: hp("30%"),
-    fontFamily:"Tajawal-Medium",
+    fontFamily: "Tajawal-Medium",
   },
   preloader: {
     position: "relative",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    fontFamily:"Tajawal-Medium",
+    fontFamily: "Tajawal-Medium",
   },
   svgComponant: {
     top: hp("-5%"),
@@ -357,7 +345,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignSelf: "center",
     alignItems: "center",
-    fontFamily:"Tajawal-Medium",
+    fontFamily: "Tajawal-Medium",
   },
   loginButton2: {
     top: hp("1.75%"),
@@ -367,6 +355,6 @@ const styles = StyleSheet.create({
     width: wp("42%"),
     textAlign: "center",
     justifyContent: "center",
-    fontFamily:"Tajawal-Medium",
+    fontFamily: "Tajawal-Medium",
   },
 });

@@ -14,7 +14,7 @@ import Svg, { Path, G } from "react-native-svg";
 import firebase from "../database/firebase";
 import * as Animatable from "react-native-animatable";
 import { AirbnbRating } from "react-native-ratings";
-
+import LottieView from 'lottie-react-native';
 var designerName = "";
 var price = 0;
 
@@ -30,6 +30,9 @@ export default class Invoice extends React.Component {
       creditCardToken: props.navigation.state.params.creditCardToken,
       popup: false,
       AVG_Rate :0,
+      popup2: false,
+      
+
     };
 
     firebase
@@ -50,6 +53,19 @@ export default class Invoice extends React.Component {
       });
      
   }
+  closePopUp2 = () => {
+    this.updateInputVal(false, "popup2");
+    this.updateInputVal("", "doneText");
+    //this.props.navigation.navigate("معرض التصاميم من منظور العميل");
+  };
+  finish=()=>{
+    this.updateInputVal("تمت عملية الدفع بنجاح", "doneText"), 
+    this.updateInputVal("شكرًا لاختياركم اِفتن", "doneText2"), 
+    this.updateInputVal(true, "submitted");
+    setTimeout(() => {
+      this.closePopUp2()
+    }, 3000)
+  }
   //////for udate state values
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -58,6 +74,7 @@ export default class Invoice extends React.Component {
   }; //////END of udate state values function
 
   onSubmit() {
+    this.updateInputVal(true, "popup2");
     const paymentData = {
       amount: price,
       currency: "SAR",
@@ -95,16 +112,8 @@ export default class Invoice extends React.Component {
         firebase
           .database()
           .ref("Forms/" + this.state.DID + "/" + this.state.requestKey)
-          .update({ status: "f" }),
-          setTimeout(() => {
-            Alert.alert(
-              "تنبيه",
-              "تمت عملية الدفع بنجاح، شكرًا لاختياركم اِفتن",
-              [{ text: "حسنًا" }],
-              { cancelable: false }
-            ),
-              this.updateInputVal(true, "submitted");
-          }, 1000);
+          .update({ status: "f" })
+         
       } else
         Alert.alert(
           "تنبيه",
@@ -223,7 +232,7 @@ export default class Invoice extends React.Component {
           </Text>
 
           <View style={{ top: "-3%" }}>
-            {this.state.submitted && (
+            {/* {this.state.submitted && (
               <View style={styles.done}>
                 <Text
                   style={{
@@ -234,7 +243,7 @@ export default class Invoice extends React.Component {
                   تمت عملية الدفع بنجاح !
                 </Text>
               </View>
-            )}
+            )} */}
             <View style={styles.border}>
               <Text
                 style={{
@@ -394,6 +403,31 @@ export default class Invoice extends React.Component {
               </Text>
             </TouchableOpacity>
           )}
+             {this.state.popup2 && 
+        <Animatable.View style={styles.popUp2} animation="bounceIn">
+          
+        <LottieView
+        source={require('../assets/lottie/pay.json')}
+        loop={false}
+        
+        onAnimationFinish={() => this.finish()}
+       speed={1}
+        autoPlay
+     
+        style={{ width: "100%", height: "95%" ,alignSelf:"center",justifyContent:"center",right:"1%",top:"-3%"
+        
+        //margin:"5%"
+      }}
+      />
+      
+      <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"3%",top:"-10%"}}>
+           { this.state.doneText}
+          </Text>
+          <Text style={{ color: "#FEB518", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"5%",top:"-10%"}}>
+           { this.state.doneText2}
+          </Text>
+         
+          </Animatable.View>}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -410,6 +444,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     top: "5%",
     padding: "1%",
+  },popUp2: {
+    backgroundColor: "#fff",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    marginTop: "80%",
+    height: "37%",
+    width: "75%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
+    borderRadius: 30,
   },
   popUp: {
     backgroundColor: "#fff",

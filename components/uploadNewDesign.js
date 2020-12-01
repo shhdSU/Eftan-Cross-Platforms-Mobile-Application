@@ -42,6 +42,7 @@ import {
   ActivityIndicator,
   Picker,
 } from "react-native";
+import { Feather } from '@expo/vector-icons'; 
 import * as ImagePicker from "expo-image-picker";
 import firebase from "../database/firebase";
 import uuid from "react-native-uuid";
@@ -58,7 +59,7 @@ export default class UploadNewDesign extends Component {
       uploading: false,
       localpath: "",
       designUrl: "",
-      popup: true,
+      popup: false,
       doneText:""
     };
   }
@@ -69,9 +70,7 @@ export default class UploadNewDesign extends Component {
   };
   //-------------------------------
   popUpWindow = () => {
-    // this.closePopUp();
-    // this.updateInputVal(false, "popup");
-    this.updateInputVal(true, "popup");
+      this.updateInputVal(true, "popup");
   };
   //-----------------------------------------
   closePopUp = () => {
@@ -361,13 +360,13 @@ export default class UploadNewDesign extends Component {
         >
           اختيار ملف التصميم *{" "}
         </Text>
-
-        <Image
+        <Feather name="upload" size={30} color="#FEB518"style={styles.tinyLogo}  onPress={() => this.onChooseImagePress()} />
+        {/* <Image
           onPress={this.onChooseImagePress}
           onTouchStart={this.onChooseImagePress}
           style={styles.tinyLogo}
           source={require("../assets/upload.png")}
-        />
+        /> */}
         <Image
           style={styles.preview}
          // onTouchStart={this.onChooseImagePress}
@@ -488,21 +487,7 @@ export default class UploadNewDesign extends Component {
       <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"8%"}}>
            { this.state.doneText}
           </Text>
-          {/* <TouchableOpacity
-                style={styles.smallbutton}
-                onPress={() => this.closePopUp()}
-              >
-                <Text
-                  style={{
-                    color: "#ffffff",
-                    fontSize: 15,
-                    fontWeight: "500",
-                    fontFamily:"Tajawal-Medium"
-                  }}
-                >
-                  العودة
-                </Text>
-              </TouchableOpacity> */}
+         
           </Animatable.View>)}
       </ScrollView>
     );
@@ -542,17 +527,7 @@ const styles = StyleSheet.create({
     // padding: "10%",
     backgroundColor: "#fff",
   },
-  smallbutton: {
-    alignItems: "center",
-    backgroundColor: "#603F98",
-    padding: "1%",
-    justifyContent: "center",
-    borderRadius: 20,
-    width: "20%",
-    height: "15%",
-    alignSelf: "center",
-    bottom: "-15%",
-  },
+ 
   inputStyleDescription: {
     alignSelf: "center",
     fontSize: 18,

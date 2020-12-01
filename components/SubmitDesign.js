@@ -1,3 +1,5 @@
+import * as Animatable from "react-native-animatable";
+import LottieView from 'lottie-react-native';
 import React, { Component } from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import SvgComponent from "./uploadSVG";
@@ -11,7 +13,9 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+
 } from "react-native";
+import { Feather } from '@expo/vector-icons'; 
 import * as ImagePicker from "expo-image-picker";
 import firebase from "../database/firebase";
 import uuid from "react-native-uuid";
@@ -29,6 +33,8 @@ export default class SubmitDesign extends React.Component {
       submissionUrl: "",
       status: "",
       done: false,
+      popup: false,
+      doneText:"",
       dname: "",
       doneMessage: "",
       clientToken: "",
@@ -66,6 +72,15 @@ export default class SubmitDesign extends React.Component {
     console.log(doneMessage);
 
   }
+  //------------------------------------
+ 
+//-----------------------------------------
+closePopUp = () => {
+  this.updateInputVal(false, "popup");
+  this.updateInputVal("", "doneText");
+  this.props.navigation.navigate("DisplayRequest",{status:"d"});
+};
+//--------------------------------------
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -82,7 +97,7 @@ export default class SubmitDesign extends React.Component {
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
 
-    this.props.navigation.navigate("DisplayRequest",{status:this.state.status});
+    
   };
 
   onChooseImagePress = async () => {
@@ -149,20 +164,8 @@ export default class SubmitDesign extends React.Component {
       return;
     }
 
-    Alert.alert(
-      "تأكيد تسليم الطلب",
-      "هل أنت متأكد من رغبتك في تسليم هذا الطلب؟",
-      [
-        {
-          text: "إلغاء",
-          onPress: () => {
-            this.props.navigation.navigate("SubmitDesign");
-          },
-        },
-
-        {
-          text: "تأكيد",
-          onPress: () => {
+    
+            this.updateInputVal(true, "popup");
             this.UpdateStatusAfterAccepted();
             var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
@@ -183,12 +186,9 @@ export default class SubmitDesign extends React.Component {
         })
         .then(
           this.updateInputVal("", "submissionUrl"),
-          Alert.alert("تنبيه", "تم تسليم الطلب بنجاح", [{ text: "حسنًا" }], {
-            cancelable: false,
-          }),
           this.updateInputVal("", "localpath"),
           this.updateInputVal("", "price"),
-          this.props.navigation.navigate("DisplayRequest",{status:"d"})//المفروض ينقله للطلبات مره ثانية بس ما ضبطت
+         
         )
         .catch((error) => {
           Alert.alert("فشل في حفظ التصميم ، حاول مرة أخرى", [{ text: "حسنًا" }], {
@@ -196,16 +196,16 @@ export default class SubmitDesign extends React.Component {
           });
         });
 
-          },
-        },
-      ],
-      { cancelable: false }
-    )
+         
+     
   
+  };
 
-    
-
-    
+  finish=()=>{
+    this.updateInputVal("تم تسليم الطلب بنجاح", "doneText"), 
+    setTimeout(() => {
+      this.closePopUp()
+    }, 2000)
   }
 
   render() {
@@ -304,12 +304,8 @@ export default class SubmitDesign extends React.Component {
         >
           اختيار ملف التصميم *{" "}
         </Text>
-
-        <Image
-          onTouchStart={this.onChooseImagePress}
-          style={styles.tinyLogo}
-          source={require("../assets/upload.png")}
-        />
+        <Feather name="upload" size={32} color="#FEB518"style={styles.tinyLogo}  onPress={() => this.onChooseImagePress()} />
+        
         <Image
           style={styles.preview}
           //onTouchStart={this.onChooseImagePress}
@@ -323,7 +319,27 @@ export default class SubmitDesign extends React.Component {
 
           style={styles.button}
           onPress={() =>
-           this.uploadDesign()}
+            Alert.alert(
+              "تأكيد رفع العمل",
+              "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+              [
+               
+                 {
+                  text: "إلغاء",
+                  onPress: () => {
+                  },
+                },{
+                  text: "تأكيد",
+                  onPress: () => {
+                  this.uploadDesign()
+                  
+  
+                  
+                  },
+                },
+              ],
+              { cancelable: false }
+            )}
         >
           <Text
             style={{
@@ -334,7 +350,31 @@ export default class SubmitDesign extends React.Component {
           >
             تسليم الطلب
           </Text>
+         
         </TouchableOpacity>
+
+        {this.state.popup && 
+        <Animatable.View style={styles.popUp} animation="bounceIn">
+          
+        <LottieView
+        source={require('../assets/lottie/uploaded.json')}
+        loop={false}
+        
+        onAnimationFinish={() => this.finish()}
+       speed={1.5}
+        autoPlay
+     
+        style={{ width: "90%", height: "90%" ,alignSelf:"center",justifyContent:"center",right:"1%",top:"-3%"
+        
+        //margin:"5%"
+      }}
+      />
+      
+      <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"8%"}}>
+           { this.state.doneText}
+          </Text>
+         
+          </Animatable.View>}
       </ScrollView>
     );
   }
@@ -371,7 +411,27 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#fff",
   },
+  popUp: {
+    backgroundColor: "#fff",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    marginTop: "80%",
+    height: "25%",
+    width: "75%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
 
+    elevation: 24,
+    borderRadius: 30,
+  },
   tinyLogo: {
     width: 30,
     height: 30,

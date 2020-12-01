@@ -201,7 +201,7 @@ import {
               }}
               source={{ uri: element.designUrl }}
             />
-           <EvilIcons name="trash" size={27} color="#A299A5"style={styles.trash}  onPress={() => 
+           <EvilIcons name="trash" size={27} color="#FEB518"style={styles.trash}  onPress={() => 
            Alert.alert(
             "تمهّل",
             "سيتم حذف التصميم بشكل نهائي",

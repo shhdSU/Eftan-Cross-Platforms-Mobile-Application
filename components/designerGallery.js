@@ -69,8 +69,7 @@ export default class designerGallery extends React.Component {
       });
 
     //=======================================================
-    //const user = "2Uf1Wj14icbxngiiJbjklDDwiZb2"
-    //firebase.auth().currentUser.uid;
+    
     var ref = firebase
       .database()
       .ref("Designs/")
@@ -79,6 +78,7 @@ export default class designerGallery extends React.Component {
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
       }
+      designGallery=[];
       var design = snapshot.val();
       var designKeys = Object.keys(design);
       for (var i = 0; i < designKeys.length; i++) {
@@ -99,6 +99,7 @@ export default class designerGallery extends React.Component {
         };
       }
       this.updateInputVal(designGallery, "designGalleryState");
+      shownDesigns=[];
       if (designGallery.length >= 2) {
         for (var i = 0; i < 2; i++) {
           shownDesigns[i] = designGallery[i];
@@ -324,6 +325,7 @@ style={{
               fontSize: 20,
               color: "#4F3C75",
               textDecorationLine: "underline",
+              
             }}
           >
             المزيد من أعمال المصمم {">"}{" "}

@@ -232,7 +232,7 @@ export default class Invoice extends React.Component {
           </Text>
 
           <View style={{ top: "-3%" }}>
-            {/* {this.state.submitted && (
+            {this.state.submitted && (
               <View style={styles.done}>
                 <Text
                   style={{
@@ -243,7 +243,7 @@ export default class Invoice extends React.Component {
                   تمت عملية الدفع بنجاح !
                 </Text>
               </View>
-            )} */}
+            )}
             <View style={styles.border}>
               <Text
                 style={{

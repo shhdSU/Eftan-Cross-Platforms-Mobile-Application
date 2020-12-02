@@ -462,7 +462,7 @@ var doneForms = [];
                             color: "#fff",
                             textAlign: "center",
                             fontSize: 9.5,
-                            fontFamily: "Tajawal-Medium"
+                            fontFamily: "Tajawal-Medium",
                           }}
                         >
                           الاستجابة قبل
@@ -516,47 +516,61 @@ var doneForms = [];
         });
       return (
         <Animatable.View animation="fadeInUp">
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate("PRequiestDet", { obj: element })
-          }
-          style={styles.listStyle}
-        >
-          <View key={Math.random()}>
-            <Image
-              style={styles.currentprofileImage}
-              source={{ uri: element.reference }}
-            />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("PRequiestDet", { obj: element })
+            }
+            style={styles.listStyle}
+          >
+            <View key={Math.random()}>
+              <Image
+                style={styles.currentprofileImage}
+                source={{ uri: element.reference }}
+              />
 
-            <Text style={styles.currentorderText}>{ClientName}</Text>
-            <Text style={[styles.currentorderText, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-              اسم العميل:{" "}
-            </Text>
-            <Text style={styles.currentorderText}>{element.title}</Text>
-            <Text style={[styles.currentorderText, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-              عنوان الطلب:{" "}
-            </Text>
-            <View
-              style={{
-                height: 50,
-                width: 110,
-                marginTop: "8%",
-                borderRightWidth: 2,
-                borderRightColor: "#fff",
-                left: "-10%",
-              }}
-            >
-              <Text style={[styles.deaslineStyle, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-                التسليم{" "}
+              <Text style={styles.currentorderText}>{ClientName}</Text>
+              <Text
+                style={[
+                  styles.currentorderText,
+                  { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                ]}
+              >
+                اسم العميل:{" "}
               </Text>
-              <Text style={styles.deaslineStyle}>
-                {element.deadLine == "" ? "مفتوح" : element.deadLine}
+              <Text style={styles.currentorderText}>{element.title}</Text>
+              <Text
+                style={[
+                  styles.currentorderText,
+                  { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                ]}
+              >
+                عنوان الطلب:{" "}
               </Text>
+              <View
+                style={{
+                  height: 50,
+                  width: 110,
+                  marginTop: "8%",
+                  borderRightWidth: 2,
+                  borderRightColor: "#fff",
+                  left: "-10%",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.deaslineStyle,
+                    { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                  ]}
+                >
+                  التسليم{" "}
+                </Text>
+                <Text style={styles.deaslineStyle}>
+                  {element.deadLine == "" ? "مفتوح" : element.deadLine}
+                </Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </Animatable.View>
-
       );
     });
   }
@@ -577,46 +591,60 @@ var doneForms = [];
         });
       return (
         <Animatable.View animation="fadeInUp">
-
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate("DRequiestDet", { obj: element })
-          }
-          style={styles.listStyle}
-        >
-          <View key={Math.random()}>
-            <Image
-              style={styles.currentprofileImage}
-              source={{ uri: element.submissionUrl }}
-            />
-            <Text style={styles.currentorderText}>{ClientName}</Text>
-            <Text style={[styles.currentorderText, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-              اسم العميل:{" "}
-            </Text>
-            <Text style={styles.currentorderText}>{element.title}</Text>
-            <Text style={[styles.currentorderText, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-              عنوان الطلب:{" "}
-            </Text>
-
-            <View
-              style={{
-                height: 50,
-                width: 110,
-                marginTop: "8%",
-                borderRightWidth: 2,
-                borderRightColor: "#fff",
-                left: "-10%",
-              }}
-            >
-              <Text style={[styles.deaslineStyle, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-                الحالة{" "}
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("DRequiestDet", { obj: element })
+            }
+            style={styles.listStyle}
+          >
+            <View key={Math.random()}>
+              <Image
+                style={styles.currentprofileImage}
+                source={{ uri: element.submissionUrl }}
+              />
+              <Text style={styles.currentorderText}>{ClientName}</Text>
+              <Text
+                style={[
+                  styles.currentorderText,
+                  { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                ]}
+              >
+                اسم العميل:{" "}
               </Text>
-              <Text style={styles.deaslineStyle}>
-                {element.status == "f" ? "مدفوع" : "غير مدفوع"}
+              <Text style={styles.currentorderText}>{element.title}</Text>
+              <Text
+                style={[
+                  styles.currentorderText,
+                  { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                ]}
+              >
+                عنوان الطلب:{" "}
               </Text>
+
+              <View
+                style={{
+                  height: 50,
+                  width: 110,
+                  marginTop: "8%",
+                  borderRightWidth: 2,
+                  borderRightColor: "#fff",
+                  left: "-10%",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.deaslineStyle,
+                    { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                  ]}
+                >
+                  الحالة{" "}
+                </Text>
+                <Text style={styles.deaslineStyle}>
+                  {element.status == "f" ? "مدفوع" : "غير مدفوع"}
+                </Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </Animatable.View>
       );
     });
@@ -638,28 +666,37 @@ var doneForms = [];
         });
       return (
         <Animatable.View animation="fadeInUp">
-
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate("ERequestDet", { obj: element })
-          }
-          style={styles.listStyle}
-        >
-          <View key={Math.random()}>
-            <Image
-              style={styles.profileImage}
-              source={{ uri: element.reference }}
-            />
-            <Text style={[styles.orderText, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-              عنوان الطلب:{" "}
-            </Text>
-            <Text style={styles.orderText}>{element.title}</Text>
-            <Text style={[styles.orderText, { fontFamily: "Tajawal-Bold", color: "#FEB518" }]}>
-              اسم العميل:{" "}
-            </Text>
-            <Text style={styles.orderText}>{ClientName}</Text>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("ERequestDet", { obj: element })
+            }
+            style={styles.listStyle}
+          >
+            <View key={Math.random()}>
+              <Image
+                style={styles.profileImage}
+                source={{ uri: element.reference }}
+              />
+              <Text
+                style={[
+                  styles.orderText,
+                  { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                ]}
+              >
+                عنوان الطلب:{" "}
+              </Text>
+              <Text style={styles.orderText}>{element.title}</Text>
+              <Text
+                style={[
+                  styles.orderText,
+                  { fontFamily: "Tajawal-Bold", color: "#FEB518" },
+                ]}
+              >
+                اسم العميل:{" "}
+              </Text>
+              <Text style={styles.orderText}>{ClientName}</Text>
+            </View>
+          </TouchableOpacity>
         </Animatable.View>
       );
     });

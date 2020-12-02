@@ -44,7 +44,6 @@ export default class DRequiestDet extends React.Component {
     this.updateInputVal(Requiest.title, "title");
     this.updateInputVal(Requiest.category, "category");
 
-
     //-------------retreive client's profile image----------------
     firebase
       .storage()
@@ -88,14 +87,14 @@ export default class DRequiestDet extends React.Component {
       .ref("Forms/" + DID + "/" + key)
       .update({ status: this.state.status });
     console.log(this.state.CID);
-    this.props.navigation.navigate("DisplayRequest",{status:"p"});
+    this.props.navigation.navigate("DisplayRequest", { status: "p" });
   };
   RemoveRequest = () => {
     firebase
       .database()
       .ref("Forms/" + DID + "/" + key)
       .remove();
-    this.props.navigation.navigate("DisplayRequest",{status:"w"}); // تغيير الانتقال الى سجل الطلبات مع حذف الطلب
+    this.props.navigation.navigate("DisplayRequest", { status: "w" }); // تغيير الانتقال الى سجل الطلبات مع حذف الطلب
   };
   //-----------------------------
 
@@ -113,6 +112,7 @@ export default class DRequiestDet extends React.Component {
               textAlign: "center",
               alignSelf: "center",
               zIndex: 1,
+              fontFamily: "Tajawal-Medium",
             }}
           >
             {this.state.title}
@@ -121,29 +121,34 @@ export default class DRequiestDet extends React.Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "absolute",shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            
-            elevation: 9, }}
+            style={{
+              alignSelf: "center",
+              top: "-2%",
+              position: "absolute",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+
+              elevation: 9,
+            }}
           >
             <G data-name="Group 7">
-              <G filter="url(#prefix__a)">
+              {/* <G filter="url(#prefix__a)">
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                   fill="#ffeed6"
                 />
-              </G>
+              </G> */}
               <Path
                 data-name="Icon ionic-ios-arrow-back"
                 onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
             </G>
           </Svg>
@@ -157,11 +162,12 @@ export default class DRequiestDet extends React.Component {
             <Text
               style={[
                 {
-                  color: "#4F3C75",
-                  top: "-50%",
+                  color: "#fff",
+                  top: "-40%",
                   left: "42%",
                   fontWeight: "300",
                   fontSize: 20,
+                  fontFamily: "Tajawal-Light",
                 },
               ]}
             >
@@ -194,7 +200,7 @@ export default class DRequiestDet extends React.Component {
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "13%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -202,6 +208,7 @@ export default class DRequiestDet extends React.Component {
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -223,6 +230,7 @@ export default class DRequiestDet extends React.Component {
                 fontWeight: "400",
                 paddingRight: 25,
                 paddingTop: 15,
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -235,7 +243,7 @@ export default class DRequiestDet extends React.Component {
               styles.inputStyle2,
               {
                 flexShrink: 1,
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "10%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -243,6 +251,7 @@ export default class DRequiestDet extends React.Component {
                 height: "2.5%",
                 width: "23%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -252,6 +261,8 @@ export default class DRequiestDet extends React.Component {
           <Text
             style={[
               {
+                fontFamily: "Tajawal-Medium",
+
                 color: "#4F3C75",
                 top: "8%",
                 left: "0%",
@@ -268,7 +279,7 @@ export default class DRequiestDet extends React.Component {
                 paddingLeft: 5,
                 paddingTop: 10,
                 paddingBottom: 5,
-                fontWeight: "400",
+                fontWeight: "700",
               },
             ]}
           >
@@ -281,7 +292,7 @@ export default class DRequiestDet extends React.Component {
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "7%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -289,6 +300,7 @@ export default class DRequiestDet extends React.Component {
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -310,10 +322,11 @@ export default class DRequiestDet extends React.Component {
                 fontWeight: "400",
                 paddingRight: 25,
                 paddingTop: 15,
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.deadLine == ""?"مفتوح":this.state.deadLine}
+            {this.state.deadLine == "" ? "مفتوح" : this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
@@ -321,7 +334,7 @@ export default class DRequiestDet extends React.Component {
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "4%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -329,6 +342,7 @@ export default class DRequiestDet extends React.Component {
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -352,10 +366,11 @@ export default class DRequiestDet extends React.Component {
                 paddingRight: 9,
                 backgroundColor: this.state.color1,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.color1 == ""?"لايوجد":this.state.color1}
+            {this.state.color1 == "" ? "لايوجد" : this.state.color1}
           </Text>
           <Text
             style={[
@@ -375,10 +390,11 @@ export default class DRequiestDet extends React.Component {
                 paddingRight: 9,
                 backgroundColor: this.state.color2,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.color2 == ""?"لايوجد":this.state.color2}
+            {this.state.color2 == "" ? "لايوجد" : this.state.color2}
           </Text>
           <Text
             style={[
@@ -398,10 +414,11 @@ export default class DRequiestDet extends React.Component {
                 paddingRight: 9,
                 backgroundColor: this.state.color3,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.color3 == ""?"لايوجد":this.state.color3}
+            {this.state.color3 == "" ? "لايوجد" : this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
         </View>
@@ -429,13 +446,13 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: "1%",
-    justifyContent: "center",
     borderRadius: 25,
-    width: "60%",
-    height: "3.5%",
+    width: "80%",
+    height: "6%",
     alignSelf: "center",
-    bottom: "15%",
+    justifyContent: "center",
+    bottom: "-10%",
+    zIndex: 3,
   },
   inputStyle2: {
     fontSize: 16,
@@ -445,6 +462,7 @@ const styles = StyleSheet.create({
     paddingBottom: "2%",
     textAlign: "right",
     top: "0%",
+    fontFamily: "Tajawal-Medium",
   },
   profileImage: {
     width: 60,
@@ -452,7 +470,7 @@ const styles = StyleSheet.create({
     top: "9%",
     left: "76%",
     borderRadius: 35,
-    borderColor: "#4F3C75",
+    borderColor: "#FEB518",
     borderWidth: 2,
     backgroundColor: "#fff",
   },
@@ -464,13 +482,14 @@ const styles = StyleSheet.create({
     top: -75,
     paddingRight: 35,
     backgroundColor: "#fff",
+    fontFamily: "Tajawal-Medium",
   },
   infoCont: {
-    backgroundColor: "#EFEEFF",
+    backgroundColor: "#4F3C75",
     width: "96%",
     borderRadius: 25,
-    borderColor:"#4F3C75",
-    borderWidth:2,
+    borderColor: "#4F3C75",
+    borderWidth: 2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",

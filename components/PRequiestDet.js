@@ -44,7 +44,6 @@ export default class PRequiestDet extends React.Component {
     this.updateInputVal(Requiest.title, "title");
     this.updateInputVal(Requiest.category, "category");
 
-
     //-----------------------------retreive client's profile image
     firebase
       .storage()
@@ -69,7 +68,6 @@ export default class PRequiestDet extends React.Component {
           dataSnapshot.child("CLastName").val();
         this.updateInputVal(Cname, "name");
       });
-    
   }
 
   updateInputVal = (val, prop) => {
@@ -77,11 +75,11 @@ export default class PRequiestDet extends React.Component {
     state[prop] = val;
     this.setState(state);
   };
-navigateToSubmit = () => {
-  this.props.navigation.navigate("SubmitDesign", {
-    obj: this.props.navigation.state.params.obj
-  })
-}
+  navigateToSubmit = () => {
+    this.props.navigation.navigate("SubmitDesign", {
+      obj: this.props.navigation.state.params.obj,
+    });
+  };
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -89,13 +87,14 @@ navigateToSubmit = () => {
           <Text
             style={{
               color: "#4F3C75",
-              top: "7.5%",
+              top: "8.5%",
               fontWeight: "700",
               position: "absolute",
               fontSize: 25,
               textAlign: "center",
               alignSelf: "center",
               zIndex: 1,
+              fontFamily: "Tajawal-Medium",
             }}
           >
             {this.state.title}
@@ -104,29 +103,34 @@ navigateToSubmit = () => {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "absolute",shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            
-            elevation: 9,  }}
+            style={{
+              alignSelf: "center",
+              top: "-2%",
+              position: "absolute",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+
+              elevation: 9,
+            }}
           >
             <G data-name="Group 7">
-              <G filter="url(#prefix__a)">
+              {/* <G filter="url(#prefix__a)">
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                   fill="#ffeed6"
                 />
-              </G>
+              </G> */}
               <Path
                 data-name="Icon ionic-ios-arrow-back"
                 onPress={() => this.props.navigation.goBack()}
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
             </G>
           </Svg>
@@ -140,11 +144,12 @@ navigateToSubmit = () => {
             <Text
               style={[
                 {
-                  color: "#4F3C75",
-                  top: "-50%",
+                  color: "#fff",
+                  top: "-40%",
                   left: "42%",
                   fontWeight: "300",
                   fontSize: 20,
+                  fontFamily: "Tajawal-Light",
                 },
               ]}
             >
@@ -163,23 +168,25 @@ navigateToSubmit = () => {
               }}
             >
               <TouchableOpacity
-                // اذا ضغط المصمم زر تسليم الطلب يصل للعميل اشعار >> تم تسليم الطلب  
-                onPress={() =>
-                    this.navigateToSubmit()
-                }
+                // اذا ضغط المصمم زر تسليم الطلب يصل للعميل اشعار >> تم تسليم الطلب
+                onPress={() => this.navigateToSubmit()}
               >
                 <Image
                   style={styles.accject}
                   source={require("../assets/sent.png")}
                 />
-                <Text style={{
-                  color: "#949494",
-                  width: 200,
-                  height: 35,
-                  left: -10,
-                  top: -83,
-                  fontSize: 10,
-                }}>تسليم الطلب</Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    width: 200,
+                    height: 35,
+                    left: -10,
+                    top: -83,
+                    fontSize: 10,
+                  }}
+                >
+                  تسليم الطلب
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -197,7 +204,7 @@ navigateToSubmit = () => {
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "13%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -205,6 +212,7 @@ navigateToSubmit = () => {
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -226,6 +234,7 @@ navigateToSubmit = () => {
                 fontWeight: "400",
                 paddingRight: 25,
                 paddingTop: 15,
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
@@ -238,7 +247,7 @@ navigateToSubmit = () => {
               styles.inputStyle2,
               {
                 flexShrink: 1,
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "10%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -246,6 +255,7 @@ navigateToSubmit = () => {
                 height: "2.5%",
                 width: "23%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -255,6 +265,8 @@ navigateToSubmit = () => {
           <Text
             style={[
               {
+                fontFamily: "Tajawal-Medium",
+
                 color: "#4F3C75",
                 top: "8%",
                 left: "0%",
@@ -271,7 +283,7 @@ navigateToSubmit = () => {
                 paddingLeft: 5,
                 paddingTop: 10,
                 paddingBottom: 5,
-                fontWeight: "400",
+                fontWeight: "700",
               },
             ]}
           >
@@ -284,7 +296,7 @@ navigateToSubmit = () => {
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "7%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -292,6 +304,7 @@ navigateToSubmit = () => {
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -313,10 +326,11 @@ navigateToSubmit = () => {
                 fontWeight: "400",
                 paddingRight: 25,
                 paddingTop: 15,
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.deadLine == ""?"مفتوح":this.state.deadLine}
+            {this.state.deadLine == "" ? "مفتوح" : this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
@@ -324,7 +338,7 @@ navigateToSubmit = () => {
             style={[
               styles.inputStyle2,
               {
-                color: "#4F3C75",
+                color: "#FEB518",
                 top: "4%",
                 right: "-23.5%",
                 fontWeight: "700",
@@ -332,6 +346,7 @@ navigateToSubmit = () => {
                 height: "2.5%",
                 width: "27%",
                 zIndex: 2,
+                fontFamily: "Tajawal-Bold",
               },
             ]}
           >
@@ -355,10 +370,11 @@ navigateToSubmit = () => {
                 paddingRight: 9,
                 backgroundColor: this.state.color1,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.color1 == ""?"لايوجد":this.state.color1}
+            {this.state.color1 == "" ? "لايوجد" : this.state.color1}
           </Text>
           <Text
             style={[
@@ -378,10 +394,11 @@ navigateToSubmit = () => {
                 paddingRight: 9,
                 backgroundColor: this.state.color2,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.color2 == ""?"لايوجد":this.state.color2}
+            {this.state.color2 == "" ? "لايوجد" : this.state.color2}
           </Text>
           <Text
             style={[
@@ -401,10 +418,11 @@ navigateToSubmit = () => {
                 paddingRight: 9,
                 backgroundColor: this.state.color3,
                 overflow: "hidden",
+                fontFamily: "Tajawal-Medium",
               },
             ]}
           >
-            {this.state.color3 == ""?"لايوجد":this.state.color3}
+            {this.state.color3 == "" ? "لايوجد" : this.state.color3}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
         </View>
@@ -432,13 +450,13 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
-    padding: "1%",
-    justifyContent: "center",
     borderRadius: 25,
-    width: "60%",
-    height: "3.5%",
+    width: "80%",
+    height: "6%",
     alignSelf: "center",
-    bottom: "15%",
+    justifyContent: "center",
+    bottom: "-10%",
+    zIndex: 3,
   },
   inputStyle2: {
     fontSize: 16,
@@ -448,6 +466,7 @@ const styles = StyleSheet.create({
     paddingBottom: "2%",
     textAlign: "right",
     top: "0%",
+    fontFamily: "Tajawal-Medium",
   },
   profileImage: {
     width: 60,
@@ -455,7 +474,7 @@ const styles = StyleSheet.create({
     top: "9%",
     left: "76%",
     borderRadius: 35,
-    borderColor: "#4F3C75",
+    borderColor: "#FEB518",
     borderWidth: 2,
     backgroundColor: "#fff",
   },
@@ -463,16 +482,18 @@ const styles = StyleSheet.create({
   accject: {
     width: 34,
     height: 35,
-    right: 1,
-    top: -75,
+    right: 5,
+    top: -85,
     paddingRight: 35,
+    backgroundColor: "#fff",
+    fontFamily: "Tajawal-Medium",
   },
   infoCont: {
-    backgroundColor: "#EFEEFF",
+    backgroundColor: "#4F3C75",
     width: "96%",
     borderRadius: 25,
-    borderColor:"#4F3C75",
-    borderWidth:2,
+    borderColor: "#4F3C75",
+    borderWidth: 2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",

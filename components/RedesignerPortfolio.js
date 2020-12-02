@@ -12,25 +12,40 @@ import {
   import * as React from "react";
   import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
   import moment from 'moment/min/moment-with-locales';
+  import * as Animatable from "react-native-animatable";
+  import LottieView from 'lottie-react-native';
+
 
 
 
 
   var designGallery = [];
+  var propsUser = "";
   const { width, height } = Dimensions.get("window");
   export default class RedesignerPortfolio extends React.Component {
     constructor(props) {
       var req = props.navigation.state.params.req;
       super();
-      var propsUser =  props.navigation.state.params.obj;
+      var propsUser2 =  props.navigation.state.params.obj;
+      propsUser = propsUser2;
       this.state = {
         isLoading: false,
         designShownState:[],
         req:req,
+        showAnimation:false,
 
       
       };
-  console.log(this.state.req)
+      
+      
+    }
+    updateInputVal = (val, prop) => {
+      const state = this.state;
+      state[prop] = val;
+      this.setState(state);
+    };
+
+    componentWillMount(){
       var ref = firebase
       .database()
       .ref("Designs/")
@@ -64,13 +79,7 @@ import {
       this.updateInputVal(designGallery,"designShownState")
     } 
     });
-      
     }
-    updateInputVal = (val, prop) => {
-      const state = this.state;
-      state[prop] = val;
-      this.setState(state);
-    };
    
     readData = () => {
          return this.state.designShownState.map((element) => {
@@ -89,7 +98,6 @@ import {
               elevation: 5,
               backgroundColor: "white",
               margin: 10,
-              borderRadius: 15,
             }}
 
           >
@@ -187,14 +195,29 @@ import {
       })
   
       this.updateInputVal(true,"notify");
-      console.log(this.state.designerToken);
-    Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
-      cancelable: false,
-    });
+      this.updateInputVal(true,"showAnimation");
 
+      console.log(this.state.designerToken);
+    // Alert.alert("تنبيه", "تم رفع الطلب بنجاح ", [{ text: "حسنًا" }], {
+    //   cancelable: false,
+    // });
+
+  };
+
+
+
+  closePopUp2 = () => {
+    this.updateInputVal(false, "showAnimation");
+    this.updateInputVal("", "doneText");
     this.props.navigation.navigate("OrderHistory");
   };
 
+  finish=()=>{
+    this.updateInputVal("تم رفع الطلب بنجاح", "doneText"), 
+    setTimeout(() => {
+      this.closePopUp2()
+    }, 2000)
+  }
 
     render() {
       return (
@@ -203,7 +226,7 @@ import {
             <Svg
               width={416}
               height={144}
-              style={{ alignSelf: "center", top: "-6%", position: "absolute",shadowColor: "#000",
+              style={{ alignSelf: "center", top: "-3%", position: "absolute",shadowColor: "#000",
               shadowOffset: {
                 width: 0,
                 height: 4,
@@ -214,18 +237,18 @@ import {
               elevation: 9,  }}
             >
               <G data-name="Group 7">
-                <G filter="url(#prefix__a)">
+                {/* <G filter="url(#prefix__a)">
                   <Path
                     data-name="Path 117"
                     d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                     fill="#ffeed6"
                   />
-                </G>
+                </G> */}
                 <Path
                   data-name="Icon ionic-ios-arrow-back"
                   onPress={() => this.props.navigation.goBack()}
                   d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                  fill="#4f3c75"
+                  fill="#FEB518"
                 />
                 {/* <Path
                   data-name="Icon material-menu"
@@ -265,6 +288,29 @@ import {
               {this.readData()}
             </View>
             </ScrollView>
+
+            {this.state.showAnimation && 
+        <Animatable.View style={styles.popUp2} animation="bounceIn">
+          
+        <LottieView
+        source={require('../assets/lottie/request.json')}
+        loop={false}
+        
+        onAnimationFinish={() => this.finish()}
+       speed={1.5}
+        autoPlay
+     
+        style={{ width: "90%", height: "90%" ,alignSelf:"center",justifyContent:"center",right:"1%",top:"-3%"
+        
+        //margin:"5%"
+      }}
+      />
+      
+      <Text style={{ color: "#603F98", fontSize: 18 , fontFamily:"Tajawal-Medium",marginBottom:"8%"}}>
+           { this.state.doneText}
+          </Text>
+         
+          </Animatable.View>}
           </View>
   
           
@@ -282,34 +328,84 @@ import {
       flexDirection: "column",
       justifyContent: "center",
       backgroundColor: "#fff",
-      top: "5%",
       padding: "1%",
     },  
     forText:{
       position: "absolute",
-    top: "3%",
+    top: "8.5%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
     fontWeight: "700",
+    fontFamily: "Tajawal-Medium",
+
     } ,
     button: {
       alignItems: "center",
       backgroundColor: "#4F3C75",
       borderRadius: 25,
-      margin: "2%",
+      margin: "10%",
       width: "40%",
-      height: "30%",
+      height: "25%",
       alignSelf: "center",
       justifyContent: "center",
+      top:"5%",
+      zIndex:14
     },
     buttonText: {
-      color: "#FFEED6",
+      color: "#fff",
       fontSize: 25,
-      top: "-9%",
+      top: "10%",
       alignSelf: "center",
       textAlign: "center",
       justifyContent: "center",
+      fontFamily: "Tajawal-Medium",
+
+    },
+    popUp2: {
+      backgroundColor: "#fff",
+      alignSelf: "center",
+      justifyContent: "center",
+      alignContent: "center",
+      alignItems: "center",
+      position: "absolute",
+      marginTop: "80%",
+      height: "25%",
+      width: "75%",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.0,
+  
+      elevation: 24,
+      borderRadius: 30,
+    },
+    mainScreen: {
+      flex: 3,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    fistStepScreen: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#fff",
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      paddingHorizontal: 10,
+      paddingVertical: 100,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.0,
+  
+      elevation: 24,
     },
   });
   

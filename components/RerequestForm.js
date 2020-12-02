@@ -17,17 +17,14 @@ import Svg, { Defs, G, Path } from "react-native-svg";
 import { fromHsv, TriangleColorPicker, toHsv } from "react-native-color-picker";
 import SvgComponent from "./rquestPageImage";
 import * as Animatable from "react-native-animatable";
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
 import Notify from "./sendNotification";
-import React, { Component} from "react";
-import moment from 'moment/min/moment-with-locales';
+import React, { Component } from "react";
+import moment from "moment/min/moment-with-locales";
 // import * as Permissions from 'expo-permissions';
 // import * as Notifications from 'expo-notifications';
 // import Constants from 'expo-constants';
-
-
-
 
 export default class RerequestForm extends Component {
   constructor(props) {
@@ -35,7 +32,7 @@ export default class RerequestForm extends Component {
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
-      req:Requiest,
+      req: Requiest,
       title: Requiest.title,
       description: Requiest.description,
       color1: Requiest.color1,
@@ -50,24 +47,22 @@ export default class RerequestForm extends Component {
       colorNum: 0,
       mainStep: true,
       DID: "",
-      uploading:false,
+      uploading: false,
       designerToken: "",
-      notify:false,
-      designers:[],
+      notify: false,
+      designers: [],
     };
-    
-    firebase.database().ref('GraphicDesigner/'+this.state.DID).child("notificationsKey").on(('value'), (dataSnapshot)=> {
-      console.log("dataSnapshot   "+ dataSnapshot.val())
-      this.updateInputVal(dataSnapshot.val(),"designerToken");
-      console.log("designer token    "+this.state.designerToken)
-    })
-    console.log("designer token    "+this.state.designerToken)
 
-
-
-
-
-  
+    firebase
+      .database()
+      .ref("GraphicDesigner/" + this.state.DID)
+      .child("notificationsKey")
+      .on("value", (dataSnapshot) => {
+        console.log("dataSnapshot   " + dataSnapshot.val());
+        this.updateInputVal(dataSnapshot.val(), "designerToken");
+        console.log("designer token    " + this.state.designerToken);
+      });
+    console.log("designer token    " + this.state.designerToken);
   }
   //////for udate state values @#$%^Y$#$%^&*&^%$#@#$%^&*(*&^%$#@$%^&*(*&^%$#$%^&*()))
   updateInputVal = (val, prop) => {
@@ -185,7 +180,6 @@ export default class RerequestForm extends Component {
     else console.log("Method fail");
   };
 
-
   onChooseImagePress = async () => {
     let SelectResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -238,7 +232,6 @@ export default class RerequestForm extends Component {
     }
   };
 
-
   cancelproccess = () => {
     Alert.alert(
       "تراجع عن اعادة ارسال الطلب",
@@ -250,32 +243,28 @@ export default class RerequestForm extends Component {
         {
           text: "تأكيد",
           onPress: () => {
-            this.props.navigation.goBack()
+            this.props.navigation.goBack();
           },
         },
       ],
       { cancelable: false }
-    )
+    );
+  };
+
+  sendIt() {
+    (this.state.req.title = this.state.title),
+      (this.state.req.description = this.state.description),
+      (this.state.req.color1 = this.state.color1),
+      (this.state.req.color2 = this.state.color2),
+      (this.state.req.color3 = this.state.color3),
+      (this.state.req.category = this.state.category),
+      (this.state.req.reference = this.state.reference),
+      (this.state.req.deadLine = this.state.deadLine),
+      this.props.navigation.navigate("designersName", {
+        obj: this.state.designers,
+        req: this.state.req,
+      });
   }
-
- sendIt(){
-
-
-  this.state.req.title= this.state.title,
-  this.state.req.description= this.state.description,
-  this.state.req.color1= this.state.color1,
-  this.state.req.color2= this.state.color2,
-  this.state.req.color3= this.state.color3,
-  this.state.req.category= this.state.category,
-  this.state.req.reference= this.state.reference,
-  this.state.req.deadLine= this.state.deadLine,
-  
-
-
-  this.props.navigation.navigate("designersName", { obj: this.state.designers,req:this.state.req})
-
- }
-
 
   render() {
     return (
@@ -283,13 +272,14 @@ export default class RerequestForm extends Component {
         <View style={styles.container}>
           <Text
             style={{
-              fontSize: 30,
+              fontSize: 25,
               color: "#4F3C75",
               fontWeight: "700",
-              top: "6.5%",
+              top: "10%",
               alignSelf: "center",
               position: "absolute",
               zIndex: 10,
+              fontFamily: "Tajawal-Medium",
             }}
           >
             طلب تصميم
@@ -297,21 +287,34 @@ export default class RerequestForm extends Component {
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "relative" }}
+            style={{
+              alignSelf: "center",
+              top: "-1%",
+              position: "relative",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+
+              elevation: 9,
+            }}
           >
             <G data-name="Group 7">
-              <G filter="url(#prefix__a)">
+              {/* <G filter="url(#prefix__a)">
                 <Path
                   data-name="Path 117"
                   d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                   fill="#ffeed6"
                 />
-              </G>
+              </G> */}
               <Path
                 onPress={() => this.cancelproccess()}
                 data-name="Icon ionic-ios-arrow-back"
                 d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-                fill="#4f3c75"
+                fill="#FEB518"
               />
               {/* <Path
                 data-name="Icon material-menu"
@@ -321,23 +324,48 @@ export default class RerequestForm extends Component {
             </G>
           </Svg>
           <SvgComponent
-            style={{alignSelf: "center", top: "-2%", position: "relative",  }}
+            style={{ alignSelf: "center", top: "-4%", position: "relative" }}
           ></SvgComponent>
           {this.state.mainStep && (
             <View style={styles.mainScreen}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  alignSelf: "flex-end",
+                  top: "-3.5%",
+                  color: "#4F3C75",
+                  fontWeight: "700",
+                  marginRight: "10%",
+                  fontFamily: "Tajawal-Bold",
+                }}
+              >
+                العنوان*
+              </Text>
               <TextInput
                 style={styles.inputStyle}
                 maxLength={20}
-                placeholder="عنوان الطلب*"
+                placeholder="احرف فقط "
                 value={this.state.title}
                 onChangeText={(val) => this.updateInputVal(val, "title")}
               />
 
+              <Text
+                style={{
+                  fontSize: 20,
+                  alignSelf: "flex-end",
+                  top: "-7.5%",
+                  color: "#4F3C75",
+                  fontWeight: "700",
+                  marginRight: "10%",
+                  fontFamily: "Tajawal-Bold",
+                }}
+              >
+                وصف الطلب*
+              </Text>
               <TextInput
                 style={styles.inputStyleDescription}
                 maxLength={250}
                 multiline={true}
-                placeholder="وصف الطلب*"
                 value={this.state.description}
                 onChangeText={(val) => this.updateInputVal(val, "description")}
                 scrollEnabled={true}
@@ -350,6 +378,7 @@ export default class RerequestForm extends Component {
                   color: "#4F3C75",
                   fontWeight: "700",
                   marginRight: "10%",
+                  fontFamily: "Tajawal-Bold",
                 }}
               >
                 التصنيف*
@@ -377,8 +406,7 @@ export default class RerequestForm extends Component {
                 <Picker.Item label="أخرى" value="أخرى" />
               </Picker>
 
-
-              <View style={{ flexDirection: "row", }}>
+              <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => this.cancelproccess()}
@@ -392,8 +420,6 @@ export default class RerequestForm extends Component {
                   <Text style={styles.buttonText}>التالي</Text>
                 </TouchableOpacity>
               </View>
-
-
             </View>
           )}
 
@@ -412,6 +438,7 @@ export default class RerequestForm extends Component {
                   alignSelf: "center",
                   marginTop: "5%",
                   position: "absolute",
+                  fontFamily: "Tajawal-Medium",
                 }}
               >
                 جميع البيانات في هذا الخطوة اختيارية{" "}
@@ -426,6 +453,7 @@ export default class RerequestForm extends Component {
                   alignSelf: "center",
                   marginTop: "15%",
                   position: "absolute",
+                  fontFamily: "Tajawal-Medium",
                 }}
               >
                 الألوان المراد استخدامها:
@@ -467,7 +495,7 @@ export default class RerequestForm extends Component {
                   {
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "65%",
+                    marginTop: "60%",
                     position: "absolute",
                     width: "80%",
                   },
@@ -487,7 +515,7 @@ export default class RerequestForm extends Component {
                   <G
                     data-name="Icon feather-upload"
                     fill="none"
-                    stroke="#c5c3c1"
+                    stroke="#FEB518"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={3}
@@ -512,8 +540,12 @@ export default class RerequestForm extends Component {
                   locale={"ar"}
                   cancelBtnText="إلغاء"
                   iconComponent={
-                    <Entypo style={styles.dateIcon} name="calendar" size={35} color="#ccc" />
-
+                    <Entypo
+                      style={styles.dateIcon}
+                      name="calendar"
+                      size={35}
+                      color="#FEB518"
+                    />
                   }
                   customStyles={{
                     placeholder: {
@@ -533,21 +565,26 @@ export default class RerequestForm extends Component {
                   }}
                 />
               </View>
-              {this.state.notify &&  <Notify token = {this.state.designerToken} myTitle= "بانتظار إبداعك" myMessage = "هناك طلب جديد بانتظارك"/>}
-              <View style={{flexDirection: "row" , top:"10%"}}>
-              <TouchableOpacity
-                  style={[styles.button,{height:"50%"}]}
+              {this.state.notify && (
+                <Notify
+                  token={this.state.designerToken}
+                  myTitle="بانتظار إبداعك"
+                  myMessage="هناك طلب جديد بانتظارك"
+                />
+              )}
+              <View style={{ flexDirection: "row", top: "10%" }}>
+                <TouchableOpacity
+                  style={[styles.button, { height: "50%" }]}
                   onPress={() => this.updateInputVal(true, "mainStep")}
                 >
                   <Text style={styles.buttonText}> السابق </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.button, { height: "50%" }]}
-                 onPress={() =>  this.sendIt() }
+                  onPress={() => this.sendIt()}
                 >
                   <Text style={styles.buttonText}> التالي </Text>
                 </TouchableOpacity>
-
               </View>
             </Animatable.View>
           )}
@@ -631,9 +668,7 @@ export default class RerequestForm extends Component {
             </Animatable.View>
           )}
         </View>
-     
       </TouchableWithoutFeedback>
-  
     ); // end of render return
   } //End of render
 } //End of class
@@ -661,7 +696,6 @@ async function uploadImageAsync(uri) {
 
   return await snapshot.ref.getDownloadURL();
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -703,12 +737,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    color: "#FFEED6",
+    color: "#fff",
     fontSize: 25,
-    top: "-9%",
+    top: "6%",
     alignSelf: "center",
     textAlign: "center",
     justifyContent: "center",
+    fontFamily: "Tajawal-Medium",
   },
   inputStyle: {
     alignSelf: "center",
@@ -720,6 +755,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     padding: "3%",
     margin: "4%",
+    fontFamily: "Tajawal-Medium",
   },
   inputStyleDescription: {
     alignSelf: "center",
@@ -732,6 +768,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: "3%",
     margin: "4%",
+    fontFamily: "Tajawal-Medium",
   },
   colorsbutton: {
     borderWidth: 2,
@@ -745,9 +782,11 @@ const styles = StyleSheet.create({
     marginRight: "2.5%",
   },
   buttoncolorsText: {
-    color: "#4F3C75",
+    color: "#FEB518",
     fontSize: 30,
+    top: "10%",
     justifyContent: "center",
+    fontFamily: "Tajawal-Medium",
   },
   colorsbuttoncontainar: {
     height: "100%",

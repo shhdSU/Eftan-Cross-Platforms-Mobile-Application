@@ -19,13 +19,22 @@ class privacyPolicy extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.textStyle}>
-          نقدر مخاوفكم واهتمامكم بشأن خصوصية بياناتكم على شبكة الإنترنت. لقد تم
+       
+       <Text style={styles.textStyle}>
+          نقدر مخاوفكم واهتمامكم بشأن خصوصية بياناتكم على شبكة الإنترنت.     ولقد تم
           إعداد هذه السياسة لمساعدتكم في تفهم طبيعة البيانات التي نقوم بتجميعها
-          منكم عند زيارتكم لتطبيقنا وكيفية تعاملنا مع هذه البيانات الشخصية. لم
-          نقم بتصميم هذا الموقع أو التطبيق من أجل تجميع بياناتك الشخصية من جهاز
-          الكمبيوتر الخاص بك أثناء تصفحك لهذا الموقع, وإنما سيتم فقط استخدام
-          البيانات المقدمة من قبلك بمعرفتك ومحض إرادتك. سنحافظ في كافة الأوقات
+          منكم عند زيارتكم لتطبيقنا وكيفية تعاملنا مع هذه البيانات الشخصية.
+          
+        </Text>
+        <Text style={styles.textStyle2}>
+          
+          1. لم نقم بتصميم هذا التطبيق من أجل تجميع بياناتك الشخصية، وإنما سيتم فقط استخدام
+          البيانات المقدمة من قبلك بمعرفتك ومحض إرادتك. 
+          
+        </Text>
+        <Text style={styles.textStyle3}>
+          
+          2. سنحافظ في كافة الأوقات
           على خصوصية وسرية كافة البيانات الشخصية التي نحصل عليها ولن يتم إفشاء
           هذه المعلومات إلا إذا كان ذلك مطلوباً بموجب أي قانون أو عندما نعتقد
           بحسن نية أن مثل هذا الإجراء سيكون مطلوباً أو مرغوباً فيه للتمشي مع
@@ -38,8 +47,9 @@ class privacyPolicy extends Component {
         >
           <Text
             style={{
-              color: "#FFEED6",
+              color: "#FFffff",
               fontSize: 25,
+              fontFamily: "Tajawal-Medium",
             }}
           >
             عودة
@@ -49,6 +59,7 @@ class privacyPolicy extends Component {
           shadowOffset: {
             width: 0,
             height: 4,
+            
           },
           shadowOpacity: 0.32,
           shadowRadius: 5.46,
@@ -62,11 +73,11 @@ class privacyPolicy extends Component {
           <G data-name="Policy Screen" clipPath="url(#prefix__a)">
             <G data-name="Group 6">
               <G filter="url(#prefix__b)">
-                <Path
+                {/* <Path
                   data-name="Path 117"
                   d="M27-32h322a38 38 0 0138 38v50a38 38 0 01-38 38H27a38 38 0 01-38-38V6a38 38 0 0138-38z"
                   fill="#ffeed6"
-                />
+                /> */}
               </G>
               {/* <Path
                 data-name="Icon ionic-ios-arrow-back"
@@ -134,6 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   textStyle: {
+    paddingTop:"1%",
     top: wp("35%"),
     alignSelf: "center",
     textAlign: "center",
@@ -141,7 +153,32 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: "#4F3C75",
     position: "absolute",
+    
     marginLeft: wp("15%"),
+    fontFamily: "Tajawal-Medium",
+  },textStyle2: {
+    paddingTop:"1%",
+    top: wp("80%"),
+    alignSelf: "center",
+    textAlign: "right",
+    backgroundColor: "#fff",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    marginLeft: wp("15%"),
+    fontFamily: "Tajawal-Medium",
+  },
+  textStyle3: {
+    paddingTop:"3%",
+    top:  wp("105%"),
+    alignSelf: "center",
+    textAlign: "right",
+    backgroundColor: "#fff",
+    fontSize: 19,
+    color: "#4F3C75",
+    position: "absolute",
+    marginLeft: wp("15%"),
+    fontFamily: "Tajawal-Medium",
   },
   button: {
     alignItems: "center",

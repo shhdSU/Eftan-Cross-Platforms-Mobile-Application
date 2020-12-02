@@ -26,7 +26,7 @@ import {
   const { width, height } = Dimensions.get("window");
   import EmptyList from "./emptylist";
   import { Component } from "react";
-
+  import * as Animatable from "react-native-animatable";
   var designGallery = new Array();
 
   export default class designerPersonalPortfolio extends Component{
@@ -166,7 +166,7 @@ import {
     readData = () => {
          return this.state.designShownState.map((element) => {
         return (
-          <View
+          <Animatable.View animation="fadeInUp"
             key={element.designUrl}
             style={{ width: width / 2 - 40,marginRight:6}}
               // height: width / 2 - 20, }}
@@ -247,7 +247,7 @@ import {
             
           </View>
           </View>
-          </View>
+          </Animatable.View >
         );
       });
     };
@@ -257,7 +257,7 @@ import {
       
       return (
        
-        <View style={styles.container}>
+        <Animatable.View animation="fadeInUp" style={styles.container}>
       
             <Svg
               width={416}
@@ -340,7 +340,7 @@ import {
               </View>
             </View>
           </ScrollView>
-          </View>
+          </Animatable.View >
   
           
         

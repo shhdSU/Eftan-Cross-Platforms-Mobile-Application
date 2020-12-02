@@ -253,7 +253,7 @@ export default class LoginPage extends Component {
         <Text
           style={{
             top: hp("13%"),
-            color: "#4F3C75",
+            color: "#FEB518",
             textAlign: "left",
             textDecorationLine: "underline",
             fontFamily: "Tajawal-Medium",
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   },
   loginText2: {
     fontSize: 18,
-    color: "#B7B7B7",
+    color: "#FEB518",
     marginTop: hp("3%"),
     textAlign: "center",
     alignItems: "center",
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
   },
   loginButton2: {
     top: hp("1.75%"),
-    color: "#FFEED6",
+    color: "#FFffff",
     fontSize: 25,
     height: hp("19%"),
     width: wp("42%"),

@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   forText: {
     position: "absolute",
-    top: "6%",
+    top: "3%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",

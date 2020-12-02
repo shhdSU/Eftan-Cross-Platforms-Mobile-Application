@@ -87,7 +87,7 @@ export default class designeredit extends React.Component {
     this.setState(state);
   };
   confirmChanges = () => {
-    var arabicCheck = /([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])/;//check whether string contains arabic characters
+    var arabicCheck = /([\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufbc1]|[\ufbd3-\ufd3f]|[\ufd50-\ufd8f]|[\ufd92-\ufdc7]|[\ufe70-\ufefc]|[\ufdf0-\ufdfd])/; //check whether string contains arabic characters
     var specialCheck = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; //check whether string contains special characters
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
@@ -117,27 +117,29 @@ export default class designeredit extends React.Component {
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
-    } else if(!arabicCheck.test(this.state.firstName) || !arabicCheck.test(this.state.lastName)){
+    } else if (
+      !arabicCheck.test(this.state.firstName) ||
+      !arabicCheck.test(this.state.lastName)
+    ) {
       Alert.alert(
         "لطفاً",
         "يجب أن يحتوي الاسم الأول والأخير على حروف عربية فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
-    }else {
+    } else {
       Alert.alert(
         "لطفاً",
         "هل ترغب في حفظ تغييراتك؟",
-        [{ text: "نعم", onPress: () => this.saveChanges() }, {text: "لا"}],
+        [{ text: "نعم", onPress: () => this.saveChanges() }, { text: "لا" }],
         { cancelable: false }
-      );     
+      );
     }
     return;
-
   };
 
-  saveChanges =() =>{ 
-     const user = firebase.auth().currentUser.uid;
+  saveChanges = () => {
+    const user = firebase.auth().currentUser.uid;
     firebase
       .database()
       .ref("GraphicDesigner/" + user)
@@ -145,13 +147,13 @@ export default class designeredit extends React.Component {
         DFirstName: this.state.firstName,
         DLastName: this.state.lastName,
         DEmail: this.state.email,
-        imgURL:this.state.img,
+        imgURL: this.state.img,
         //   number_of_rating: this.state.num_rating,
         //  total_rating: this.state.total_rating,
         bio: this.state.bio,
       });
-      this.props.navigation.navigate("عرض حساب المصمم")
-      }
+    this.props.navigation.navigate("عرض حساب المصمم");
+  };
   uploadImage = async (uri, draftName) => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -180,92 +182,101 @@ export default class designeredit extends React.Component {
           });
         })
         .catch((error) => {
-          console.log("error")
+          console.log("error");
         });
-        Alert.alert(
-          "رسالة",
+      Alert.alert(
+        "رسالة",
         "تم رفع الصورة بنجاح، نرجو الانتظار قليلًأ حتى تظهر في حسابك الشخصي ",
-          [{ text: "حسنًا" }],
-          { cancelable: false }
-        );
+        [{ text: "حسنًا" }],
+        { cancelable: false }
+      );
     }
   };
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Svg
-          width={416}
-          height={144}
-          style={{ alignSelf: "center", top: "-8%", position: "absolute" ,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 4,
-          },
-          shadowOpacity: 0.32,
-          shadowRadius: 5.46,
-          
-          elevation: 9, }}
-        >
-          <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+        <View style={styles.container}>
+          <Svg
+            width={416}
+            height={144}
+            style={{
+              alignSelf: "center",
+              top: "-4%",
+              position: "absolute",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+
+              elevation: 9,
+            }}
+          >
+            <G data-name="Group 7">
+              {/* <G filter="url(#prefix__a)">
               <Path
                 data-name="Path 117"
                 d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
-            </G>
-            <Path
-              data-name="Icon ionic-ios-arrow-back"
-              onPress={() => this.props.navigation.navigate("عرض حساب المصمم")}
-              d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
-              fill="#4f3c75"
-            />
-            {/* <Path
+            </G> */}
+              <Path
+                data-name="Icon ionic-ios-arrow-back"
+                onPress={() =>
+                  this.props.navigation.navigate("عرض حساب المصمم")
+                }
+                d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+                fill="#FEB518"
+              />
+              {/* <Path
               data-name="Icon material-menu"
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
               fill="#4f3c75"
             /> */}
-          </G>
-        </Svg>
-        <Text style={styles.forText}>تعديل الحساب</Text>
-        <Image style={styles.image} source={{ uri: this.state.img }} />
-        <Text onPress={() => this.onChooseImagePress()} style={styles.forText2}>
-          رفع صورة شخصية
-        </Text>
-        <TextInput
-          style={styles.inputStyle}
-          placeholder="الاسم الاول"
-          value={this.state.firstName}
-          onChangeText={(val) => this.updateInputVal(val, "firstName")}
-          maxLength={8}
-        />
-
-        <TextInput
-          style={styles.inputStyle2}
-          placeholder="الاسم الاخير"
-          value={this.state.lastName}
-          onChangeText={(val) => this.updateInputVal(val, "lastName")}
-          maxLength={9}
-        />
-        <TextInput
-          style={styles.inputStyle3}
-          placeholder="نبذة"
-          value={this.state.bio}
-          onChangeText={(val) => this.updateInputVal(val, "bio")}
-          maxLength={260}
-          multiline={true}
-        />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.editText} onPress={() => this.confirmChanges()}>
-            حفظ التغييرات
+            </G>
+          </Svg>
+          <Text style={styles.forText}>تعديل الحساب</Text>
+          <Image style={styles.image} source={{ uri: this.state.img }} />
+          <Text
+            onPress={() => this.onChooseImagePress()}
+            style={styles.forText2}
+          >
+            رفع صورة شخصية
           </Text>
-        </TouchableOpacity>
-        <Text onPress={() => this.resetPassword()} style={styles.forText3}>
-          تعديل كلمة السر
-        </Text>
-      </View>
+          <TextInput
+            style={styles.inputStyle}
+            placeholder="الاسم الاول"
+            value={this.state.firstName}
+            onChangeText={(val) => this.updateInputVal(val, "firstName")}
+            maxLength={8}
+          />
+
+          <TextInput
+            style={styles.inputStyle2}
+            placeholder="الاسم الاخير"
+            value={this.state.lastName}
+            onChangeText={(val) => this.updateInputVal(val, "lastName")}
+            maxLength={9}
+          />
+          <TextInput
+            style={styles.inputStyle3}
+            placeholder="نبذة"
+            value={this.state.bio}
+            onChangeText={(val) => this.updateInputVal(val, "bio")}
+            maxLength={260}
+            multiline={true}
+          />
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.editText} onPress={() => this.confirmChanges()}>
+              حفظ التغييرات
+            </Text>
+          </TouchableOpacity>
+          <Text onPress={() => this.resetPassword()} style={styles.forText3}>
+            تعديل كلمة السر
+          </Text>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -279,7 +290,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#fff",
-    top: "5%",
     padding: "1%",
   },
   image: {
@@ -295,6 +305,8 @@ const styles = StyleSheet.create({
     top: "15%",
     left: "30%",
     right: "5%",
+    borderColor: "#FEB518",
+    borderWidth: 3,
   },
   button: {
     top: "75%",
@@ -309,22 +321,25 @@ const styles = StyleSheet.create({
   editText: {
     fontSize: 25,
     color: "#fff",
-    marginTop: "1%",
+    marginTop: "4%",
     textAlign: "center",
     alignItems: "center",
     top: "5%",
     zIndex: 10,
+    fontFamily: "Tajawal-Medium",
   },
 
   forText: {
     position: "absolute",
-    top: "1.5%",
+    top: "7%",
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
     fontWeight: "700",
+    fontFamily: "Tajawal-Medium",
   },
   forText2: {
+    paddingRight: 19,
     alignItems: "center",
     position: "absolute",
     top: "35%",
@@ -332,6 +347,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     textDecorationLine: "underline",
+    fontFamily: "Tajawal-Medium",
   },
   forText3: {
     alignItems: "center",
@@ -341,6 +357,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     textDecorationLine: "underline",
+    fontFamily: "Tajawal-Light",
   },
   profileImg: {
     width: 50,
@@ -370,6 +387,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     top: "40%",
     left: "10%",
+    fontFamily: "Tajawal-Medium",
   },
   inputStyle2: {
     position: "absolute",
@@ -383,6 +401,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     textAlign: "right",
     top: "47%",
+    fontFamily: "Tajawal-Medium",
   },
   inputStyle3: {
     position: "absolute",
@@ -397,6 +416,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     textAlign: "right",
     top: "54%",
+    fontFamily: "Tajawal-Medium",
   },
   textStyle2: {
     top: "45%",

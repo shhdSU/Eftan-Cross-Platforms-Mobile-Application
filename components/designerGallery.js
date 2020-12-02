@@ -365,7 +365,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
-    fontWeight: "200",
     fontFamily: "Tajawal-Medium",
 
   },
@@ -377,7 +376,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
-    fontWeight: "200",
     fontFamily: "Tajawal-Medium",
 
   },
@@ -448,7 +446,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderWidth: .5,
     borderColor: "#fff",
-    fontWeight: "200",
     height: "30%",
     width: "95%",
     alignItems: "center",

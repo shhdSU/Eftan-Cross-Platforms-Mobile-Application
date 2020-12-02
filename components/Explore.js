@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import * as Animatable from "react-native-animatable";
 import Category from "./Explore/Category";
 import Svg, { Defs, G, Path } from "react-native-svg";
 import firebase from "../database/firebase";
@@ -348,8 +349,8 @@ export default class explore extends Component {
   readData = (arr) => {
     return arr.map((element) => {
       return (
-        <View style={{ width: width / 2 - 40 }} key={element.designUrl}>
-          <View
+        <Animatable.View animation="fadeInUp" style={{ width: width / 2 - 40 }} key={element.designUrl}>
+          <View 
             style={{
               flex: 1,
               alignItems: "center",
@@ -388,8 +389,8 @@ export default class explore extends Component {
                 source={{ uri: element.designUrl }}
               />
             </TouchableOpacity>
-          </View>
-        </View>
+          </View >
+        </Animatable.View >
         
       );
     });
@@ -441,7 +442,7 @@ export default class explore extends Component {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <Animatable.View animation="fadeInUp" style={{ flex: 1, backgroundColor: "#fff" }}>
         <Text
           style={{
             fontSize: 25,
@@ -725,7 +726,7 @@ export default class explore extends Component {
               </ScrollView>
             </View>
           )}
-      </View>
+      </Animatable.View >
     );
   }
 }

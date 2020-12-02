@@ -279,13 +279,13 @@ export default class UploadNewDesign extends Component {
           elevation: 9, }}
         >
           <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+            {/* <G filter="url(#prefix__a)">
               <Path
                 data-name="Path 117"
                 d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
-            </G>
+            </G> */}
             {/* <Path
               data-name="Icon ionic-ios-arrow-back"
               d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
@@ -295,7 +295,7 @@ export default class UploadNewDesign extends Component {
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
-              fill="#4f3c75"
+              fill="#FEB518"
             />
           </G>
         </Svg>
@@ -304,10 +304,11 @@ export default class UploadNewDesign extends Component {
             fontSize: 25,
             color: "#4F3C75",
             fontWeight: "700",
-            top: "-6.5%",
+            top: "-5.5%",
             alignSelf: "center",
             zIndex: 6,
             fontWeight:"700",
+            fontFamily: "Tajawal-Regular"
           }}
         >
           رفع تصميم جديد
@@ -320,7 +321,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-5%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-5%", fontFamily: "Tajawal-Bold" },
           ]}
         >
           عنوان العمل *{" "}
@@ -336,7 +337,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-6.5%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-6.5%", fontFamily: "Tajawal-Bold" },
           ]}
         >
           وصف العمل *{" "}
@@ -355,7 +356,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-7%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-7%", fontFamily: "Tajawal-Bold"},
           ]}
         >
           اختيار ملف التصميم *{" "}
@@ -379,7 +380,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-10%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-10%", fontFamily: "Tajawal-Bold", },
           ]}
         >
            كلمات مفتاحية للعمل  {" "}
@@ -403,7 +404,7 @@ export default class UploadNewDesign extends Component {
         <Text
           style={[
             styles.inputStyle2,
-            { color: "#4F3C75", top: "-14%", fontWeight: "700" },
+            { color: "#4F3C75", top: "-14%", fontFamily: "Tajawal-Bold", },
           ]}
         >
           فئة التصميم*{" "}
@@ -415,6 +416,7 @@ export default class UploadNewDesign extends Component {
             width: "80%",
             bottom: "15%",
             alignSelf: "center",
+            
           }}
           onValueChange={(itemValue, itemIndex) =>
             this.setSelectedValue(itemValue)
@@ -461,8 +463,10 @@ export default class UploadNewDesign extends Component {
       > 
         <Text
             style={{
-              color: "#FFEED6",
-              fontSize: 20,
+              color: "#fff",
+              fontSize: 25,
+              fontFamily: "Tajawal-Medium",
+              top:"5%",
             }}
           >
             رفع العمل
@@ -537,6 +541,7 @@ const styles = StyleSheet.create({
     top: "-7%",
     borderColor: "#ccc",
     borderWidth: 2,
+    fontFamily: "Tajawal-Medium",
   },
   tags: {
     alignSelf: "center",
@@ -547,6 +552,7 @@ const styles = StyleSheet.create({
     top: "-14%",
     borderColor: "#ccc",
     borderBottomWidth: 2,
+    fontFamily: "Tajawal-Medium",
   },
   tinyLogo: {
     width: 30,
@@ -572,6 +578,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     textAlign: "right",
     top: "-7%",
+    fontFamily: "Tajawal-Regular"
   },
   popUp: {
     backgroundColor: "#fff",
@@ -603,6 +610,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     top: "0%",
     left: "10%",
+    fontFamily: "Tajawal-Light"
   },
   button: {
     alignItems: "center",
@@ -622,6 +630,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
+    fontFamily: "Tajawal-Regular"
   },
   
 

@@ -204,6 +204,7 @@ export default class SignupScreen extends Component {
             fontWeight: "700",
             alignSelf: "center",
             top: wp("-6%"),
+            fontFamily: "Tajawal-Medium",
           }}
         >
           إنشاء حساب جديد
@@ -269,8 +270,10 @@ export default class SignupScreen extends Component {
         >
           <Text
             style={{
-              color: "#FFEED6",
+              color: "#ffffff",
               fontSize: 25,
+              fontFamily: "Tajawal-Medium",
+
             }}
           >
             إنشاء حساب
@@ -279,10 +282,12 @@ export default class SignupScreen extends Component {
 
         <Text
           style={{
-            color: "#B7B7B7",
+            color: "#FEB518",
             fontSize: 10,
             textAlign: "center",
             top: hp("0%"),
+            fontFamily: "Tajawal-Medium",
+
           }}
           onPress={() => this.props.navigation.navigate("سياسة الخصوصية")}
         >
@@ -302,7 +307,7 @@ export default class SignupScreen extends Component {
           style={[
             styles.createAccount,
             {
-              color: "#B7B7B7",
+              color: "#FEB518",
             },
           ]}
         >
@@ -352,6 +357,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     textAlign: "right",
     top: wp("-5%"),
+    fontFamily: "Tajawal-Medium",
+
   },
   inputStyle2: {
     fontSize: 18,
@@ -361,6 +368,8 @@ const styles = StyleSheet.create({
     paddingBottom: hp("2%"),
     textAlign: "right",
     top: hp("0%"),
+    fontFamily: "Tajawal-Medium",
+
   },
   button: {
     alignItems: "center",
@@ -377,6 +386,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     margin: hp("-3%"),
+    fontFamily: "Tajawal-Medium",
+
   },
   preloader: {
     position: "relative",
@@ -394,5 +405,7 @@ const styles = StyleSheet.create({
   radioText: {
     fontSize: 18,
     color: "#B7B7B7",
+    fontFamily: "Tajawal-Medium",
+
   },
 });

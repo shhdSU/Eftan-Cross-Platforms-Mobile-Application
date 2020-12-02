@@ -1,13 +1,9 @@
 //هذه صفحة تصاميمي لعرض التصاميم الشخصية للمصمم الحالي حتى يتمكن من حذفها
-
 // Notes about DELETE from DB:
-
 // 1. Delete from realtime DB
 // firebase.database().ref('Designs/' + element.designFileKey).remove().then()
-
 // 2. Delete from Storage by known URL
 //   firebase.storage().refFromURL(element.designUrl).delete()
-
 import { withNavigation } from "react-navigation";
 import {
   View,
@@ -26,9 +22,8 @@ import Svg, { Defs, ClipPath, Path, G, Rect } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
 import EmptyList from "./emptylist";
 import { Component } from "react";
-import Icon from "react-native-vector-icons/Ionicons";
+import * as Animatable from "react-native-animatable";
 var designGallery = new Array();
-
 export default class designerPersonalPortfolio extends Component {
   constructor(props) {
     super();
@@ -40,7 +35,6 @@ export default class designerPersonalPortfolio extends Component {
     };
     this.getData(); // All the database retreival code was here, I put it inside getData()
   }
-
   //----------------------------------------------------------------------------------------
   getData() {
     designGallery = new Array(); // clean the array before any usage
@@ -53,7 +47,6 @@ export default class designerPersonalPortfolio extends Component {
     ref.on("value", (snapshot) => {
       if (!snapshot.exists()) {
         this.updateInputVal(true, "nodesign");
-
         return;
       }
       this.updateInputVal(false, "nodesign");
@@ -75,11 +68,9 @@ export default class designerPersonalPortfolio extends Component {
           designUrl: designUrl,
         };
       }
-
       this.updateInputVal(designGallery, "designShownState");
     });
   }
-
   getData2() {
     designGallery = new Array(); // clean the array before any usage
     var duid = firebase.auth().currentUser.uid;
@@ -89,7 +80,6 @@ export default class designerPersonalPortfolio extends Component {
     ref.on("child_removed", (snapshot) => {
       if (!snapshot.exists()) {
         this.updateInputVal(true, "nodesign");
-
         return;
       }
       this.updateInputVal(false, "nodesign");
@@ -119,7 +109,6 @@ export default class designerPersonalPortfolio extends Component {
   // componentDidUpdate() {
   //   this.getData()
   //   this.getData2()
-
   //       }
   //----------------------------------------------------------------------------------------
   componentWillMount() {
@@ -132,7 +121,6 @@ export default class designerPersonalPortfolio extends Component {
   //     this.getData()
   //   // });
   // }
-
   // componentWillUnmount() {
   //   this.focusListener.remove();
   // }
@@ -143,7 +131,6 @@ export default class designerPersonalPortfolio extends Component {
     this.setState(state);
   };
   //----------------------------------------------------------------------------------------
-
   removeDesign(e) {
     // I used this method to update the state by removing the deleted item
     var array = [...this.state.designShownState]; // make a separate copy of the array
@@ -154,12 +141,12 @@ export default class designerPersonalPortfolio extends Component {
       this.updateInputVal(designGallery, "designShownState");
     }
   }
-
   //----------------------------------------------------------------------------------------
   readData = () => {
     return this.state.designShownState.map((element) => {
       return (
-        <View
+        <Animatable.View
+          animation="fadeInUp"
           key={element.designUrl}
           style={{ width: width / 2 - 40, marginRight: 6 }}
           // height: width / 2 - 20, }}
@@ -169,37 +156,28 @@ export default class designerPersonalPortfolio extends Component {
               flex: 1,
               alignItems: "center",
               shadowOffset: { width: 0.5, height: 0.5 },
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.23,
-              shadowRadius: 2.62,
-              elevation: 4,
-              marginBottom: 30,
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 5,
+              backgroundColor: "white",
+              marginBottom: 40,
               width: 150,
               height: 150,
+              borderRadius: 15,
             }}
           >
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("عرض تفاصيل التصميم", {
-                  obj: element,
-                })
-              }
-            >
-              <Image
-                style={{
-                  width: 160,
-                  height: 160,
-                  top: "3%",
-                  borderRadius: 15,
-                  alignSelf: "center",
-                }}
-                source={{ uri: element.designUrl }}
-              />
-            </TouchableOpacity>
+            <Image
+              style={{
+                width: 140,
+                height: 140,
+                borderColor: "#ccc",
+                borderWidth: 1,
+                top: "3%",
+                borderRadius: 15,
+                alignSelf: "center",
+              }}
+              source={{ uri: element.designUrl }}
+            />
             <EvilIcons
               name="trash"
               size={27}
@@ -235,7 +213,6 @@ export default class designerPersonalPortfolio extends Component {
                 )
               }
             />
-
             <View
               style={{
                 justifyContent: "space-evenly",
@@ -244,11 +221,10 @@ export default class designerPersonalPortfolio extends Component {
             >
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: "bold",
                   color: "#4f3c75",
                   top: -9,
-                  fontFamily: "Tajawal-Medium",
                 }}
                 onPress={() =>
                   this.props.navigation.navigate("عرض تفاصيل التصميم", {
@@ -260,37 +236,21 @@ export default class designerPersonalPortfolio extends Component {
               </Text>
             </View>
           </View>
-        </View>
+        </Animatable.View>
       );
     });
   };
-
   //----------------------------------------------------------------------------------------
   render() {
     return (
-      <View style={styles.container}>
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "700",
-            color: "#4f3c75",
-            alignSelf: "center",
-            top: "9%",
-            position: "absolute",
-            zIndex: 2,
-            fontFamily: "Tajawal-Medium",
-          }}
-        >
-          تصاميمي
-        </Text>
+      <Animatable.View animation="fadeInUp" style={styles.container}>
         <Svg
           width={416}
           height={144}
           style={{
-            position: "absolute",
             alignSelf: "center",
-            top: "-2%",
-            zIndex: 1,
+            top: "-9%",
+            position: "absolute",
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -298,26 +258,37 @@ export default class designerPersonalPortfolio extends Component {
             },
             shadowOpacity: 0.32,
             shadowRadius: 5.46,
-
             elevation: 9,
           }}
         >
           <G data-name="Group 7">
+            <G filter="url(#prefix__a)">
+              <Path
+                data-name="Path 117"
+                d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
+                fill="#ffeed6"
+              />
+            </G>
+            <Path
+              data-name="Icon ionic-ios-arrow-back"
+              onPressIn={() => this.props.navigation.goBack()}
+              d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
+              fill="#4f3c75"
+            />
             <Path
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
-              fill="#FEB518"
+              fill="#4f3c75"
             />
           </G>
         </Svg>
-
+        <Text style={styles.forText}>تصاميمي</Text>
         <View
           style={{
             height: 10,
-            marginTop: 80,
+            marginTop: 20,
             marginBottom: 40,
-
             borderBottomWidth: 1,
             borderBottomColor: "#dddddd",
           }}
@@ -333,7 +304,7 @@ export default class designerPersonalPortfolio extends Component {
                 style={{
                   marginTop: 10,
                   paddingLeft: 30,
-                  paddingRight: 20,
+                  paddingRight: 30,
                   justifyContent: "space-between",
                   flexDirection: "row",
                   flexWrap: "wrap",
@@ -350,11 +321,10 @@ export default class designerPersonalPortfolio extends Component {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </Animatable.View>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -363,7 +333,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#fff",
-
+    top: "5%",
     padding: "1%",
   },
   forText: {
@@ -372,11 +342,8 @@ const styles = StyleSheet.create({
     color: "#4F3C75",
     fontSize: 25,
     textAlign: "center",
-    fontFamily: "Tajawal-Medium",
-
     fontWeight: "700",
   },
-
   trash: {
     top: "9%",
     right: "-40%",
@@ -386,8 +353,6 @@ const styles = StyleSheet.create({
     fontSize: 27,
     textAlign: "center",
     fontWeight: "200",
-    fontFamily: "Tajawal-Light",
-
     marginTop: 20,
   },
   emptyImage: {

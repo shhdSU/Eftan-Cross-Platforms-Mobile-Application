@@ -11,8 +11,8 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
-import * as Permissions from 'expo-permissions';
-import * as FileSystem from 'expo-file-system';
+import * as Permissions from "expo-permissions";
+import * as FileSystem from "expo-file-system";
 
 export default class ViewClientRequests extends React.Component {
   constructor(props) {
@@ -20,10 +20,10 @@ export default class ViewClientRequests extends React.Component {
     var Requiest = props.navigation.state.params.obj;
 
     this.state = {
-      object:"",
+      object: "",
       Imagekey: "",
       CID: "",
-      DID:"",
+      DID: "",
       category: "",
       color1: "",
       color2: "",
@@ -34,13 +34,13 @@ export default class ViewClientRequests extends React.Component {
       reference: "",
       title: "",
       clientToken: "",
-      accepted:false,
+      accepted: false,
       rejected: false,
       dname: "",
       acceptedMessage: "",
-      rejectedMessage: "", 
-      price:"",
-      loading:false,
+      rejectedMessage: "",
+      price: "",
+      loading: false,
     };
 
     this.updateInputVal(Requiest, "object");
@@ -54,38 +54,44 @@ export default class ViewClientRequests extends React.Component {
     this.updateInputVal(Requiest.deadLine, "deadLine");
     this.updateInputVal(Requiest.description, "description");
     this.updateInputVal(Requiest.status, "status");
-    if(Requiest.reference === "")
-    this.updateInputVal(Requiest.submissionUrl, "reference");
-    else
-    this.updateInputVal(Requiest.reference, "reference");
+    if (Requiest.reference === "")
+      this.updateInputVal(Requiest.submissionUrl, "reference");
+    else this.updateInputVal(Requiest.reference, "reference");
     this.updateInputVal(Requiest.title, "title");
-    this.updateInputVal(Requiest.Price,"price");
+    this.updateInputVal(Requiest.Price, "price");
 
     //---------------clientToken-------------------
-      firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
-          if(dataSnapshot.exists()){
-            firebase.database().ref("Client/"+this.state.CID).child("notificationsKey").on("value",(dataSnapshot) => {
-              this.updateInputVal(dataSnapshot.val(),"clientToken");
-          })
-      }
-    })
+    firebase
+      .database()
+      .ref("Client/" + this.state.CID)
+      .child("notificationsKey")
+      .on("value", (dataSnapshot) => {
+        if (dataSnapshot.exists()) {
+          firebase
+            .database()
+            .ref("Client/" + this.state.CID)
+            .child("notificationsKey")
+            .on("value", (dataSnapshot) => {
+              this.updateInputVal(dataSnapshot.val(), "clientToken");
+            });
+        }
+      });
     var designerName;
     firebase
-    .database()
-    .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
-    .on("value", (dataSnapshot) => {
-      designerName =
-        dataSnapshot.child("DFirstName").val() +
-        " " +
-        dataSnapshot.child("DLastName").val();
-      this.updateInputVal(designerName, "dname");
-    });
+      .database()
+      .ref("GraphicDesigner/" + firebase.auth().currentUser.uid)
+      .on("value", (dataSnapshot) => {
+        designerName =
+          dataSnapshot.child("DFirstName").val() +
+          " " +
+          dataSnapshot.child("DLastName").val();
+        this.updateInputVal(designerName, "dname");
+      });
     var acceptedmessage = "لقد تم قبول طلبك من قبل المصمم" + this.state.dname;
-    var rejectedmessage = "لم يتمكن المصمم "+ this.state.dname + " من قبول طلبك";
-    this.updateInputVal(acceptedmessage,"acceptedMessage");
-    this.updateInputVal(rejectedmessage,"rejectedMessage");
-
-
+    var rejectedmessage =
+      "لم يتمكن المصمم " + this.state.dname + " من قبول طلبك";
+    this.updateInputVal(acceptedmessage, "acceptedMessage");
+    this.updateInputVal(rejectedmessage, "rejectedMessage");
   }
   //---------------تحديث قيم--------------
 
@@ -95,8 +101,7 @@ export default class ViewClientRequests extends React.Component {
     this.setState(state);
   };
 
-  deleteOrder(){
-
+  deleteOrder() {
     Alert.alert(
       "تأكيد اغلاق الطلب",
       "هل انت متأكد من اغلاق الطلب؟ سيتم حذف الطلب ولن تستطيع التراجع لاحقًا",
@@ -107,40 +112,50 @@ export default class ViewClientRequests extends React.Component {
         {
           text: "تأكيد",
           onPress: () => {
-            
-            this.deleteIt()
-           },
+            this.deleteIt();
+          },
         },
       ],
       { cancelable: false }
-    )
-
+    );
   }
 
-  deleteIt(){
+  deleteIt() {
     // 1. Delete from realtime DB
-firebase.database().ref('Forms/' + this.state.DID + "/" + this.state.Imagekey ).remove();
+    firebase
+      .database()
+      .ref("Forms/" + this.state.DID + "/" + this.state.Imagekey)
+      .remove();
 
-if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2FdefultImageRequest.png?alt=media&token=c6f54fdc-25ce-4d65-a3cd-39de1f18bf1e"){
-  firebase.storage().refFromURL(this.state.reference).delete();}
+    if (
+      this.state.reference !=
+      "https://firebasestorage.googleapis.com/v0/b/eftan2020.appspot.com/o/Drafts%2FdefultImageRequest.png?alt=media&token=c6f54fdc-25ce-4d65-a3cd-39de1f18bf1e"
+    ) {
+      firebase.storage().refFromURL(this.state.reference).delete();
+    }
 
-  Alert.alert("تم الاغلاق", "لقد تم اغلاق الطلب بنجاح ", [{ text: "حسنًا" }], {
-    cancelable: false,
-  }),
-  this.props.navigation.navigate("OrderHistory")
-
-
-
+    Alert.alert(
+      "تم الاغلاق",
+      "لقد تم اغلاق الطلب بنجاح ",
+      [{ text: "حسنًا" }],
+      {
+        cancelable: false,
+      }
+    ),
+      this.props.navigation.navigate("OrderHistory");
   }
 
   onShare = async () => {
     try {
-      const downloadPath = FileSystem.cacheDirectory + this.state.Imagekey + '.jpg';
-      const localUrl = await FileSystem.downloadAsync(this.state.reference,downloadPath);
+      const downloadPath =
+        FileSystem.cacheDirectory + this.state.Imagekey + ".jpg";
+      const localUrl = await FileSystem.downloadAsync(
+        this.state.reference,
+        downloadPath
+      );
       const result = await Share.share({
-        message:"لقد حصلت على هذا التصميم من تطبيق اِفتن",
-        url:
-        localUrl.uri,
+        message: "لقد حصلت على هذا التصميم من تطبيق اِفتن",
+        url: localUrl.uri,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -154,7 +169,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
     } catch (error) {
       alert(error.message);
     }
-  }
+  };
 
   render() {
     return (
@@ -175,23 +190,38 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
           >
             {this.state.title}
           </Text>
-          {this.state.accepted &&  <Notify token = {this.state.clientToken} myTitle= "تهانينا" myMessage = {this.state.acceptedMessage}/>}
-          {this.state.rejected &&  <Notify token = {this.state.clientToken} myTitle= "يا للأسف" myMessage = {this.state.rejectedMessage}/>}
+          {this.state.accepted && (
+            <Notify
+              token={this.state.clientToken}
+              myTitle="تهانينا"
+              myMessage={this.state.acceptedMessage}
+            />
+          )}
+          {this.state.rejected && (
+            <Notify
+              token={this.state.clientToken}
+              myTitle="يا للأسف"
+              myMessage={this.state.rejectedMessage}
+            />
+          )}
 
           <Svg
             width={416}
             height={144}
-            style={{ alignSelf: "center", top: "-2%", position: "absolute",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            
-            elevation: 9,
-           }}
+            style={{
+              alignSelf: "center",
+              top: "-2%",
+              position: "absolute",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.32,
+              shadowRadius: 5.46,
+
+              elevation: 9,
+            }}
           >
             <G data-name="Group 7">
               {/* <G filter="url(#prefix__a)">
@@ -210,58 +240,56 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
             </G>
           </Svg>
 
-         
           {/*------------------------------------اذا الطلب منتهي----------------------------------------- */}
-{
-  this.state.status == "e" && (
-    <View
-    style={{
-      flexDirection: "row", 
-      height:"80%",
-      width:"50%",
-      left:"7%",
-      position:"absolute",
-      top:"52%",
-      zIndex:2
-    }}
-    >
-<TouchableOpacity
-          style={[styles.button,{margin:"2.5%"}]}
-          onPress={() => this.deleteOrder()}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 25,
-              fontFamily: "Tajawal-Medium",
-              marginTop:6
-            }}
-          >
-            اغلاق الطلب
-          </Text>
-        </TouchableOpacity>
+          {this.state.status == "e" && (
+            <View
+              style={{
+                flexDirection: "row",
+                height: "80%",
+                width: "50%",
+                left: "7%",
+                position: "absolute",
+                top: "52%",
+                zIndex: 2,
+              }}
+            >
+              <TouchableOpacity
+                style={[styles.button, { margin: "2.5%" }]}
+                onPress={() => this.deleteOrder()}
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 25,
+                    fontFamily: "Tajawal-Medium",
+                    marginTop: 6,
+                  }}
+                >
+                  اغلاق الطلب
+                </Text>
+              </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.button,{margin:"2.5%",zIndex:2,}]}
-          onPress={() => this.props.navigation.navigate("RerequestForm",{obj: this.state.object})}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 25,
-              fontFamily: "Tajawal-Medium",
-              marginTop:6
-            }}
-          >
-            اعادةالطلب
-          </Text>
-        </TouchableOpacity>
-
-
-    </View>
-  )
-}
-
+              <TouchableOpacity
+                style={[styles.button, { margin: "2.5%", zIndex: 2 }]}
+                onPress={() =>
+                  this.props.navigation.navigate("RerequestForm", {
+                    obj: this.state.object,
+                  })
+                }
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 25,
+                    fontFamily: "Tajawal-Medium",
+                    marginTop: 6,
+                  }}
+                >
+                  اعادةالطلب
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
           {/*------------------------------------اذا الطلب منتهي----------------------------------------- */}
 
@@ -345,7 +373,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 width: "87%",
                 height: "12%",
                 fontSize: 15,
-                borderWidth: .5,
+                borderWidth: 0.5,
                 borderColor: "#4F3C75",
                 borderRadius: 25,
                 padding: "7%",
@@ -354,7 +382,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 paddingTop: 15,
                 paddingBottom: 5,
                 fontFamily: "Tajawal-Medium",
-                            },
+              },
             ]}
           >
             {this.state.description}
@@ -390,7 +418,7 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
                 width: "87%",
                 height: "6%",
                 fontSize: 15,
-                borderWidth: .5,
+                borderWidth: 0.5,
                 borderColor: "#4F3C75",
                 borderRadius: 25,
                 fontWeight: "400",
@@ -400,201 +428,207 @@ if (this.state.reference != "https://firebasestorage.googleapis.com/v0/b/eftan20
               },
             ]}
           >
-            {this.state.deadLine == ""?"مفتوح":this.state.deadLine}
+            {this.state.deadLine == "" ? "مفتوح" : this.state.deadLine}
           </Text>
           {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
-{this.state.status != "d" && this.state.status != "f" && <View
-style={{
-  height:"100%",
-  position:"absolute",
-  top:"79%",
-  width:"100%",
-  left:"35%",
-  fontFamily: "Tajawal-Medium",
-}}
-
->
-  
-  <Text
-            style={[
-              styles.inputStyle2,
-              {
-                color: "#FEB518",
-                top: "1%",
-                right: "-24%",
-                fontWeight: "700",
-                backgroundColor: "#fff",
-                height: "2%",
-                width: "27%",
-                zIndex: 2,
-                fontFamily: "Tajawal-Bold",
-              },
-            ]}
-          >
-            ألوان التصميم{" "}
-          </Text>
-          <Text
-            style={[
-              {
-                color: "#4F3C75",
-                top: "١%",
-                right: "23%",
-                textAlign: "center",
-                fontWeight: "700",
-                width: "21%",
-                height: "5%",
-                fontSize: 13,
-                borderWidth: .5,
-                borderColor: "#4F3C75",
-                borderRadius: 20,
-                paddingTop: 15,
-                paddingRight: 9,
-                backgroundColor: this.state.color1,
-                overflow: "hidden",
+          {this.state.status != "d" && this.state.status != "f" && (
+            <View
+              style={{
+                height: "100%",
+                position: "absolute",
+                top: "79%",
+                width: "100%",
+                left: "35%",
                 fontFamily: "Tajawal-Medium",
-              },
-            ]}
-          >
-            {this.state.color1 == ""?"لايوجد":this.state.color1}
-          </Text>
-          <Text
-            style={[
-              {
-                color: "#4F3C75",
-                top: "-4%",
-                right: "-7%",
-                textAlign: "center",
-                fontWeight: "700",
-                width: "21%",
-                height: "5%",
-                fontSize: 13,
-                borderWidth: .5,
-                borderColor: "#4F3C75",
-                borderRadius: 20,
-                paddingTop: 15,
-                paddingRight: 9,
-                backgroundColor: this.state.color2,
-                overflow: "hidden",
-                fontFamily: "Tajawal-Medium",
-              },
-            ]}
-          >
-            {this.state.color2 == ""?"لايوجد":this.state.color2}
-          </Text>
-          <Text
-            style={[
-              {
-                color: "#4F3C75",
-                top: "-8.8%",
-                right: "-35%",
-                textAlign: "center",
-                fontWeight: "700",
-                width: "21%",
-                height: "5%",
-                fontSize: 13,
-                borderWidth: .5,
-                borderColor: "#4F3C75",
-                borderRadius: 20,
-                paddingTop: 10,
-                paddingRight: 9,
-                backgroundColor: this.state.color3,
-                overflow: "hidden",
-                fontFamily: "Tajawal-Medium",
-              },
-            ]}
-          >
-            {this.state.color3 == ""?"لايوجد":this.state.color3}
-          </Text>
-  </View>}
-          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
-
-          {this.state.status == "d" && <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("Payment",{obj: this.state.object})}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 25,
-              fontFamily: "Tajawal-Medium",
-              marginTop:5
-            }}
-          >
-            انتقل للدفع
-          </Text>
-        </TouchableOpacity>}
-
-        {(this.state.status == "d" || this.state.status == "f") &&<View style={{
-          position:"absolute",
-          flexWrap:"wrap",
-          top:"79%",
-          height:"100%",
-          width:"100%",
-          left:"6.5%"
-        }}>
-          <Text
-            style={
-              {
-                color: "#FEB518",
-                top: "1%",
-                fontWeight: "700",
-                fontSize: 15,
-                backgroundColor: "#fff",
-                height: "2.5%",
-                width: "10.5%",
-                zIndex: 2,
-                fontFamily: "Tajawal-Bold",
-                left:"67.5%",
-                position:"absolute"
               }}
-          >
-            المبلغ{" "}
-          </Text>
-          
-          <Text
-            style={[
-              {
-                fontFamily: "Tajawal-Medium",
-                color: "#4F3C75",
-                top: "2%",
-                textAlign: "right",
-                fontWeight: "700",
-                width: "87%",
-                height: "6%",
-                fontSize: 15,
-                borderWidth: .5,
-                borderColor: "#4F3C75",
-                borderRadius: 25,
-                fontWeight: "400",
-                paddingRight: 25,
-                paddingTop: 20
-              },
-            ]}
-          >
-             {this.state.price} ريال سعودي 
-          </Text>
-          </View>}
+            >
+              <Text
+                style={[
+                  styles.inputStyle2,
+                  {
+                    color: "#FEB518",
+                    top: "1%",
+                    right: "-24%",
+                    fontWeight: "700",
+                    backgroundColor: "#fff",
+                    height: "2%",
+                    width: "27%",
+                    zIndex: 2,
+                    fontFamily: "Tajawal-Bold",
+                  },
+                ]}
+              >
+                ألوان التصميم{" "}
+              </Text>
+              <Text
+                style={[
+                  {
+                    color: "#4F3C75",
+                    top: "١%",
+                    right: "23%",
+                    textAlign: "center",
+                    fontWeight: "700",
+                    width: "21%",
+                    height: "5%",
+                    fontSize: 13,
+                    borderWidth: 0.5,
+                    borderColor: "#4F3C75",
+                    borderRadius: 20,
+                    paddingTop: 15,
+                    paddingRight: 9,
+                    backgroundColor: this.state.color1,
+                    overflow: "hidden",
+                    fontFamily: "Tajawal-Medium",
+                  },
+                ]}
+              >
+                {this.state.color1 == "" ? "لايوجد" : this.state.color1}
+              </Text>
+              <Text
+                style={[
+                  {
+                    color: "#4F3C75",
+                    top: "-4%",
+                    right: "-7%",
+                    textAlign: "center",
+                    fontWeight: "700",
+                    width: "21%",
+                    height: "5%",
+                    fontSize: 13,
+                    borderWidth: 0.5,
+                    borderColor: "#4F3C75",
+                    borderRadius: 20,
+                    paddingTop: 15,
+                    paddingRight: 9,
+                    backgroundColor: this.state.color2,
+                    overflow: "hidden",
+                    fontFamily: "Tajawal-Medium",
+                  },
+                ]}
+              >
+                {this.state.color2 == "" ? "لايوجد" : this.state.color2}
+              </Text>
+              <Text
+                style={[
+                  {
+                    color: "#4F3C75",
+                    top: "-8.8%",
+                    right: "-35%",
+                    textAlign: "center",
+                    fontWeight: "700",
+                    width: "21%",
+                    height: "5%",
+                    fontSize: 13,
+                    borderWidth: 0.5,
+                    borderColor: "#4F3C75",
+                    borderRadius: 20,
+                    paddingTop: 10,
+                    paddingRight: 9,
+                    backgroundColor: this.state.color3,
+                    overflow: "hidden",
+                    fontFamily: "Tajawal-Medium",
+                  },
+                ]}
+              >
+                {this.state.color3 == "" ? "لايوجد" : this.state.color3}
+              </Text>
+            </View>
+          )}
+          {/*----------- ----------- ----------- ----------- ----------- ----------- ----------- -----------  */}
 
+          {this.state.status == "d" && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                this.props.navigation.navigate("Payment", {
+                  obj: this.state.object,
+                })
+              }
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 25,
+                  fontFamily: "Tajawal-Medium",
+                  marginTop: 5,
+                }}
+              >
+                انتقل للدفع
+              </Text>
+            </TouchableOpacity>
+          )}
 
+          {(this.state.status == "d" || this.state.status == "f") && (
+            <View
+              style={{
+                position: "absolute",
+                flexWrap: "wrap",
+                top: "79%",
+                height: "100%",
+                width: "100%",
+                left: "6.5%",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#FEB518",
+                  top: "1%",
+                  fontWeight: "700",
+                  fontSize: 15,
+                  backgroundColor: "#fff",
+                  height: "2.5%",
+                  width: "10.5%",
+                  zIndex: 2,
+                  fontFamily: "Tajawal-Bold",
+                  left: "67.5%",
+                  position: "absolute",
+                }}
+              >
+                المبلغ{" "}
+              </Text>
 
-        {this.state.status == "f" && <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onShare()}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 25,
-              fontFamily: "Tajawal-Medium",
-              marginTop:5
-            }}
-          >
-            مشاركة العمل
-          </Text>
-        </TouchableOpacity>
-        
-        }
+              <Text
+                style={[
+                  {
+                    fontFamily: "Tajawal-Medium",
+                    color: "#4F3C75",
+                    top: "2%",
+                    textAlign: "right",
+                    fontWeight: "700",
+                    width: "87%",
+                    height: "6%",
+                    fontSize: 15,
+                    borderWidth: 0.5,
+                    borderColor: "#4F3C75",
+                    borderRadius: 25,
+                    fontWeight: "400",
+                    paddingRight: 25,
+                    paddingTop: 20,
+                  },
+                ]}
+              >
+                {this.state.price} ريال سعودي
+              </Text>
+            </View>
+          )}
 
+          {this.state.status == "f" && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.onShare()}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 25,
+                  fontFamily: "Tajawal-Medium",
+                  marginTop: 5,
+                }}
+              >
+                مشاركة العمل
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     );
@@ -611,12 +645,12 @@ const styles = StyleSheet.create({
   preview: {
     width: 300,
     height: 235,
-
+    resizeMode: "contain",
     top: "3%",
     borderRadius: 35,
     alignSelf: "center",
   },
- 
+
   inputStyle2: {
     fontSize: 16,
     marginTop: "4%",
@@ -651,8 +685,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFEEFF",
     width: "96%",
     borderRadius: 25,
-    borderColor:"#4F3C75",
-    borderWidth:2,
+    borderColor: "#4F3C75",
+    borderWidth: 2,
     top: "14%",
     height: "9%",
     shadowColor: "#000",
@@ -664,7 +698,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.95,
 
     elevation: 24,
-  }, 
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#4F3C75",
@@ -672,8 +706,8 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "6%",
     alignSelf: "center",
-    justifyContent:"center",
-    bottom:"-10%",
-    zIndex:3,
+    justifyContent: "center",
+    bottom: "-10%",
+    zIndex: 3,
   },
 });

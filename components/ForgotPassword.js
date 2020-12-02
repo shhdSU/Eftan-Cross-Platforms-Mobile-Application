@@ -30,7 +30,7 @@ export default class ForgotPassword extends Component {
       .sendPasswordResetEmail(this.state.email)
       .then(function () {
         Alert.alert(
-          "تنبيه",
+          "لطفاً",
           "الرجاء تفقد بريدك الالكتروني",
           [{ text: "حسنًا" }],
           { cancelable: false }
@@ -42,21 +42,21 @@ export default class ForgotPassword extends Component {
         var errorMessage = error.message;
         if (this.state.email === "") {
           Alert.alert(
-            "تنبيه",
-            "فضلًا تأكد من إدخال البريد الالكتروني",
+            "لطفاً",
+            "الرجاء التأكد من إدخال البريد الالكتروني",
             [{ text: "حسنًا" }],
             { cancelable: false }
           );
         } else if (errorCode == "auth/user-not-found") {
           Alert.alert(
-            "تنبيه",
+            "للأسف",
             "البريد الالكتروني غير مسجل !",
             [{ text: "حسنًا" }],
             { cancelable: false }
           );
         } else if (errorCode == "auth/invalid-email") {
           Alert.alert(
-            "تنبيه",
+            "لطفاً",
             "نرجو إعادة كتابة البريد الالكتروني بشكل صحيح",
             [{ text: "حسنًا" }],
             { cancelable: false }

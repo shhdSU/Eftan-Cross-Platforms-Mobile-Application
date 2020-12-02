@@ -535,12 +535,17 @@ function Retrive(props) {
             backgroundColor: '#4f3c75'
           },
           left: {
-            backgroundColor: '#EFEEFF'
+            backgroundColor: '#EFEEFF',
+            left:-45
           },
         }}
         textStyle={{
           right: {
             color: '#fff',
+            fontFamily: "Tajawal-Medium",
+
+          }, left: {
+            color: '#4f3c75',
             fontFamily: "Tajawal-Medium",
 
           }
@@ -577,11 +582,8 @@ function Retrive(props) {
       
     );
   }
-  // function renderAvatar (props) {
-  //   return (
-  //     <SvgUri width="60" height="60" source={{ uri: reciverAvatar }} />
-  //   )
-  // }
+
+
 
   return (
     <View style={{flex: 1,backgroundColor:"#fff"}}>
@@ -647,7 +649,6 @@ function Retrive(props) {
            
             </View>
         <GiftedChat 
-        st
       messages={messages}
       onSend={(newMessage) => handleSend(newMessage)}
       placeholder="...اكتب رسالتك هنا"
@@ -701,20 +702,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     flex: 1,
-},
-listTitle: {
-    fontSize: 22,
-    textAlign: "right",
-    paddingRight: "5%",
-    fontFamily: "Tajawal-Medium",
-
-},
-listDescription: {
-    fontSize: 16,
-    textAlign: "right",
-    paddingRight: "5%",
-    fontFamily: "Tajawal-Medium",
-
 },
 });
 

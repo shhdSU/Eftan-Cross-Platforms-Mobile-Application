@@ -102,7 +102,7 @@ export default class UploadNewDesign extends Component {
     } catch (e) {
       console.log(e);
       Alert.alert(
-        "تنبيه",
+        "للأسف",
         "فشل في رفع التصميم ، حاول مرة أخرى ",
         [{ text: "حسنًا" }],
         {
@@ -141,7 +141,7 @@ export default class UploadNewDesign extends Component {
       this.state.designDescription === ""
     ) {
       Alert.alert(
-        "تنبيه",
+        "لطفاً",
         "الرجاء التأكد من إدخال جميع البيانات المطلوبة",
         [{ text: "حسنًا" }],
         { cancelable: false }
@@ -154,7 +154,7 @@ export default class UploadNewDesign extends Component {
       this.state.designDescription.trim() == ""
     ) {
       Alert.alert(
-        "تنبيه",
+        "لطفاً",
         "الرجاء التأكد من إدخال جميع البيانات المطلوبة",
         [{ text: "حسنًا" }],
         { cancelable: false }
@@ -163,7 +163,7 @@ export default class UploadNewDesign extends Component {
     }
 
     if (this.state.localpath === "") {
-      Alert.alert("تنبيه", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
+      Alert.alert("لطفاً", "الرجاء اختيار ملف التصميم", [{ text: "حسنًا" }], {
         cancelable: false,
       });
       return;
@@ -178,7 +178,7 @@ export default class UploadNewDesign extends Component {
         tags = tags.filter(function(elem) {  return elem; })
       if (specialCheck.test(element)) {
         Alert.alert(
-          "تنبيه",
+          "لطفاً",
           "يجب ان تحتوي الكلمات المفتاحية على أحرف وأرقام فقط",
           [{ text: "حسنًا" }],
           { cancelable: false }
@@ -195,7 +195,7 @@ export default class UploadNewDesign extends Component {
     console.log(tags);
     if (specialCheck.test(this.state.designTitle)) {
       Alert.alert(
-        "تنبيه",
+        "لطفاً",
         "يجب ان يحتوي العنوان على أحرف وأرقام فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }

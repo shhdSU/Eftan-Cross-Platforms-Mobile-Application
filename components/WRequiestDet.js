@@ -248,7 +248,7 @@ export default class WRequiestDet extends React.Component {
 
                 onPress={() =>
                   Alert.alert(
-                    "تنبيه",
+                    "تهانينا",
                     "تم قبول الطلب بنجاح، سيتم تحويلك مباشرة لمحادثة العميل",
                     [
                       {
@@ -276,7 +276,7 @@ export default class WRequiestDet extends React.Component {
               <TouchableOpacity
                 onPress={() =>
                   Alert.alert(
-                    "تنبيه",
+                    "لطفاً",
                     "هل انت متأكد من رفض الطلب ؟",
                     [
                       {

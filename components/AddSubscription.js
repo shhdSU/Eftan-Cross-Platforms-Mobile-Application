@@ -89,7 +89,7 @@ export default class AddSubscription extends React.Component {
         // Set submitted to false to let the user subscribe again
         this.setState({ submitted: false, error: STRIPE_ERROR }),
         Alert.alert(
-          "تنبيه",
+          "لطفاً",
           "تأكد من إدخال رقم البطاقة بشكل صحيح",
           [{ text: "حسنًا" ,
          

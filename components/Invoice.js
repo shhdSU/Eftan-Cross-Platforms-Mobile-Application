@@ -116,7 +116,7 @@ export default class Invoice extends React.Component {
          
       } else
         Alert.alert(
-          "تنبيه",
+          "للأسف",
           "لم تتم عملية الدفع بشكل صحيح، يرجى المحاولة مرة أخرى",
           [{ text: "حسنًا" }],
           { cancelable: false }

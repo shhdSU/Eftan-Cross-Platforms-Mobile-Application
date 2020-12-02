@@ -302,6 +302,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     top: hp("15%"),
     fontFamily: "Tajawal-Medium",
+    color:'#4f3c75'
   },
   loginText: {
     fontSize: 18,

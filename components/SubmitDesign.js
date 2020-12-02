@@ -122,7 +122,7 @@ closePopUp = () => {
     } catch (e) {
       console.log(e);
       Alert.alert(
-        "تنبيه",
+        "للأسف",
         "فشل في رفع التصميم ، حاول مرة أخرى ",
         [{ text: "حسنًا" }],
         {
@@ -157,7 +157,7 @@ closePopUp = () => {
     //upload info to realtime DB
 
     if (this.state.localpath === "" || this.state.price === "") {
-      Alert.alert("تنبيه", "الرجاء ادخال جميع البيانات المطلوبة", [{ text: "حسنًا" }], {
+      Alert.alert("لطفاً", "الرجاء ادخال جميع البيانات المطلوبة", [{ text: "حسنًا" }], {
         cancelable: false,
       });
 
@@ -320,8 +320,8 @@ closePopUp = () => {
           style={styles.button}
           onPress={() =>
             Alert.alert(
-              "تأكيد رفع العمل",
-              "هل أنت متأكد من رغبتك في رفع هذا العمل؟",
+              "تأكيد تسليم الطلب",
+              "هل أنت متأكد من رغبتك في تسليم هذا الطلب",
               [
                
                  {

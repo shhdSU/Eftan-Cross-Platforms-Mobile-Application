@@ -86,8 +86,8 @@ export default class clientedit extends React.Component {
     var numCheck = /\d/; //check whether string contains numbers
     if (this.state.firstName === "" || this.state.lastName === "") {
       Alert.alert(
-        "تنبيه",
-        "فضلًا تأكد من إدخال جميع بياناتك",
+        "لطفاً",
+        "الرجاء التأكد من إدخال جميع بياناتك",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
@@ -96,8 +96,8 @@ export default class clientedit extends React.Component {
       specialCheck.test(this.state.lastName)
     ) {
       Alert.alert(
-        "تنبيه",
-        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        "لطفاً",
+        "الرجاد التأكد من إدخال اسمك الأول والأخير بشكل صحيح",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
@@ -106,14 +106,14 @@ export default class clientedit extends React.Component {
       numCheck.test(this.state.lastName)
     ) {
       Alert.alert(
-        "تنبيه",
-        "فضلًا تأكد من إدخال اسمك الأول والأخير بشكل صحيح",
+        "لطفاً",
+        "الرجاء التأكد من إدخال اسمك الأول والأخير بشكل صحيح",
         [{ text: "حسنًا" }],
         { cancelable: false }
       );
     } else if(!arabicCheck.test(this.state.firstName) || !arabicCheck.test(this.state.lastName)){
       Alert.alert(
-        "تنبيه",
+        "لطفاً",
         "يجب أن يحتوي الاسم الأول والأخير على حروف عربية فقط",
         [{ text: "حسنًا" }],
         { cancelable: false }
@@ -121,7 +121,7 @@ export default class clientedit extends React.Component {
     }
     else {
       Alert.alert(
-        "تنبيه",
+        "لطفاً",
         "هل ترغب في حفظ تغييراتك؟",
         [{ text: "نعم", onPress: () => this.saveChanges() }, {text: "لا"}],
         { cancelable: false }
@@ -171,7 +171,7 @@ export default class clientedit extends React.Component {
       .sendPasswordResetEmail(this.state.email)
       .then(function () {
         Alert.alert(
-          "تنبيه",
+          "لطفاً",
           "الرجاء تفقد بريدك الالكتروني",
           [{ text: "حسنًا" }],
           { cancelable: false }

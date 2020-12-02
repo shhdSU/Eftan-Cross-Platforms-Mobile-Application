@@ -59,6 +59,7 @@ class privacyPolicy extends Component {
           shadowOffset: {
             width: 0,
             height: 4,
+            
           },
           shadowOpacity: 0.32,
           shadowRadius: 5.46,
@@ -144,9 +145,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   textStyle: {
+    paddingTop:"1%",
     top: wp("35%"),
     alignSelf: "center",
-    textAlign: "right",
+    textAlign: "center",
     backgroundColor: "#fff",
     fontSize: 19,
     color: "#4F3C75",
@@ -155,6 +157,7 @@ const styles = StyleSheet.create({
     marginLeft: wp("15%"),
     fontFamily: "Tajawal-Medium",
   },textStyle2: {
+    paddingTop:"1%",
     top: wp("80%"),
     alignSelf: "center",
     textAlign: "right",
@@ -166,6 +169,7 @@ const styles = StyleSheet.create({
     fontFamily: "Tajawal-Medium",
   },
   textStyle3: {
+    paddingTop:"3%",
     top:  wp("105%"),
     alignSelf: "center",
     textAlign: "right",

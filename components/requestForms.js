@@ -71,7 +71,7 @@ export default class RequestForm extends Component {
     this.props.navigation.navigate("معرض التصاميم من منظور العميل");
   };
   finish=()=>{
-    this.updateInputVal("تم رفع الطلب بنجاح", "doneText"), 
+    this.updateInputVal("تم إرسال الطلب بنجاح", "doneText"), 
     setTimeout(() => {
       this.closePopUp2()
     }, 2000)

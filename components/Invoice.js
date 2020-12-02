@@ -177,7 +177,7 @@ export default class Invoice extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
+        <Animatable.View animation="fadeInUp" style={styles.container}>
           <Svg
             width={416}
             height={144}
@@ -226,7 +226,7 @@ export default class Invoice extends React.Component {
 
           <View style={{ top: "-3%" }}>
             {this.state.submitted && (
-              <View style={styles.done}>
+              <Animatable.View animation="fadeInUp" style={styles.done}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -237,9 +237,9 @@ export default class Invoice extends React.Component {
                 >
                   تمت عملية الدفع بنجاح !
                 </Text>
-              </View>
+              </Animatable.View>
             )}
-            <View style={styles.border}>
+            <Animatable.View animation="fadeInUp" style={styles.border}>
               <Text
                 style={{
                   fontSize: 20,
@@ -263,8 +263,8 @@ export default class Invoice extends React.Component {
               >
                 {this.state.reqTitle}
               </Text>
-            </View>
-            <View style={styles.border}>
+            </Animatable.View>
+            <Animatable.View animation="fadeInUp" style={styles.border}>
               <Text
                 style={{
                   fontSize: 20,
@@ -288,9 +288,9 @@ export default class Invoice extends React.Component {
               >
                 {price} ريال سعودي
               </Text>
-            </View>
+            </Animatable.View>
 
-            <View style={styles.border}>
+            <Animatable.View animation="fadeInUp"  style={styles.border}>
               <Text
                 style={{
                   fontSize: 20,
@@ -314,9 +314,9 @@ export default class Invoice extends React.Component {
               >
                 {this.state.cardNumber}
               </Text>
-            </View>
+            </Animatable.View>
 
-            <View style={styles.border}>
+            <Animatable.View animation="fadeInUp" style={styles.border}>
               <Text
                 style={{
                   fontSize: 20,
@@ -340,7 +340,7 @@ export default class Invoice extends React.Component {
               >
                 {designerName}
               </Text>
-            </View>
+            </Animatable.View>
           </View>
 
           {this.state.submitted && (
@@ -435,7 +435,7 @@ export default class Invoice extends React.Component {
           </Text>
          
           </Animatable.View>}
-        </View>
+        </Animatable.View >
       </TouchableWithoutFeedback>
     );
   }

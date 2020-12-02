@@ -514,7 +514,6 @@ export default class DisplayRequest extends React.Component {
                 اسم المصمم:{" "}
               </Text>
               <Text style={styles.orderText}>{ClientName}</Text>
-              {console.log("LOOP")}
             </View>
           </TouchableOpacity>
         </Animatable.View>

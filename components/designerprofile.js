@@ -222,7 +222,7 @@ export default class designerprofile extends React.Component {
           height={144}
           style={{
             alignSelf: "center",
-            top: "-8%",
+            top: "-3%",
             position: "absolute",
             shadowColor: "#000",
             shadowOffset: {
@@ -236,13 +236,13 @@ export default class designerprofile extends React.Component {
           }}
         >
           <G data-name="Group 7">
-            <G filter="url(#prefix__a)">
+            {/* <G filter="url(#prefix__a)">
               <Path
                 data-name="Path 117"
                 d="M47 6h322a38 38 0 0138 38v50a38 38 0 01-38 38H47A38 38 0 019 94V44A38 38 0 0147 6z"
                 fill="#ffeed6"
               />
-            </G>
+            </G> */}
             {/* <Path
               data-name="Icon ionic-ios-arrow-back"
               d="M53.706 96.783l8.135-8.912a1.793 1.793 0 000-2.379 1.449 1.449 0 00-2.176 0L50.45 95.59a1.8 1.8 0 00-.045 2.323l9.256 10.169a1.451 1.451 0 002.176 0 1.793 1.793 0 000-2.379z"
@@ -252,7 +252,7 @@ export default class designerprofile extends React.Component {
               data-name="Icon material-menu"
               onPress={() => this.props.navigation.toggleDrawer()}
               d="M336.676 109.883H377V105.4h-40.324zm0-11.2H377V94.2h-40.324zm0-15.683v4.48H377V83z"
-              fill="#4f3c75"
+              fill="#FEB518"
             />
           </G>
         </Svg>
@@ -290,7 +290,7 @@ style={{
           <Text style={styles.rated}>({this.raters()})</Text>
           <Text style={styles.avg}> 5/{this.AVG_Rate()} نجوم</Text>
 
-          <Text style={styles.emailStyle}>البريد الالكتروني</Text>
+          <Text style={styles.emailStyle}>البريد الالكتروني:</Text>
           <Text style={styles.gemailStyle}>{this.state.email}</Text>
           <Text style={styles.aboutStyle}>نبذتي الشخصية</Text>
           <Text style={styles.bioStyle}>{this.state.bio}</Text>
@@ -301,11 +301,11 @@ style={{
             <AntDesign
               name="edit"
               size={35}
-              color="#ffeed6"
+              color="#FEB518"
               style={{
                 position: "absolute",
                 left: "5%",
-                marginTop: "155%",
+                marginTop: "130%",
                 zIndex: 50,
               }}
             />
@@ -324,118 +324,117 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#fff",
-    top: "5%",
-    padding: "1%",
+
   },
   avg: {
     top: "40%",
     left: "40%",
     fontSize: 15,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
-    fontWeight: "200",
-  },
+    fontFamily: "Tajawal-Medium",
+    },
   rated: {
-    top: "33.5%",
+    top: "34%",
     left: "70%",
     fontSize: 15,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
-    fontWeight: "200",
-  },
+    fontFamily: "Tajawal-Medium",
+    },
   image: {
     flex: 1,
-    width: 120,
-    height: 120,
+    width: 250,
+    height: 250,
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-    borderRadius: 150 / 2,
-    top: "5%",
-    borderColor: "#ffeed6",
+    borderRadius: 150,
+    top: "-25%",
+    borderColor: "#FEB518",
     borderWidth: 3,
   },
   forText: {
     position: "absolute",
-    top: "-12.5%",
+    top: "-33%",
     color: "#4F3C75",
     fontSize: 25,
     alignSelf: "center",
     fontWeight: "700",
     zIndex: 5,
+    fontFamily: "Tajawal-Medium",
+
   },
   infoContainer: {
     backgroundColor: "#4F3C75",
-    height: "75%",
+    height: "65%",
     width: "90%",
     borderRadius: 35,
-    top: "-2%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1.48,
-    shadowRadius: 15.95,
-    elevation: 19,
+    top: "13%",
+    
   },
   nameStyle: {
     top: "25%",
     alignSelf: "center",
     fontSize: 30,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     justifyContent: "center",
     fontWeight: "400",
+    fontFamily: "Tajawal-Medium",
   },
   gemailStyle: {
-    top: "86%",
+    top: "76%",
     fontSize: 20,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
     justifyContent: "center",
     fontWeight: "200",
+    fontFamily: "Tajawal-Medium",
   },
   emailStyle: {
-    top: "80%",
+    top: "70%",
     fontSize: 20,
-    color: "#ffeed6",
+    color: "#FEB518",
     position: "absolute",
     justifyContent: "center",
     textAlign: "center",
     fontWeight: "200",
     alignSelf: "center",
+    fontFamily: "Tajawal-Bold",
   },
   bioStyle: {
     top: "47%",
     fontSize: 20,
-    color: "#ffeed6",
+    color: "#fff",
     position: "absolute",
     alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "#ffeed6",
+    borderWidth: 0.5,
+    borderColor: "#fff",
     fontWeight: "200",
-    height: "30%",
+    height: "20%",
     width: "95%",
     alignItems: "center",
     textAlign: "center",
     padding: "5%",
     borderRadius: 15,
+    fontFamily: "Tajawal-Medium",
   },
   aboutStyle: {
-    top: "44.5%",
+    top: "45%",
     alignSelf: "center",
     fontSize: 20,
-    color: "#ffeed6",
+    color: "#FEB518",
     position: "absolute",
     fontWeight: "200",
     backgroundColor: "#4F3C75",
     zIndex: 2,
+    fontFamily: "Tajawal-Bold",
   },
 });

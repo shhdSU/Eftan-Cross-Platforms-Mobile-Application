@@ -412,6 +412,7 @@ const styles = StyleSheet.create({
     top: "8%",
     borderRadius: 35,
     alignSelf: "center",
+    resizeMode: "contain",
   },
   button: {
     alignItems: "center",

@@ -451,12 +451,11 @@ const styles = StyleSheet.create({
 
   inputStyle2: {
     fontSize: 18,
-    marginTop: "4%",
+    marginTop: "13.5%",
     width: "80%",
-    marginBottom: "2%",
     paddingBottom: "2%",
     textAlign: "right",
-    top: "0%",
+    top: "-8%",
     left: "10%",
     fontFamily: "Tajawal-Regular"
   },

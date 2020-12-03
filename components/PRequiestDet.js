@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
+import { Entypo } from '@expo/vector-icons';
 
 export default class PRequiestDet extends React.Component {
   constructor(props) {
@@ -145,11 +146,11 @@ export default class PRequiestDet extends React.Component {
               style={[
                 {
                   color: "#fff",
-                  top: "-40%",
-                  left: "42%",
+                  top: "-50%",
+                  left: "38%",
                   fontWeight: "300",
                   fontSize: 20,
-                  fontFamily: "Tajawal-Light",
+                  fontFamily: "Tajawal-Bold",
                 },
               ]}
             >
@@ -171,10 +172,8 @@ export default class PRequiestDet extends React.Component {
                 // اذا ضغط المصمم زر تسليم الطلب يصل للعميل اشعار >> تم تسليم الطلب
                 onPress={() => this.navigateToSubmit()}
               >
-                <Image
-                  style={styles.accject}
-                  source={require("../assets/sent.png")}
-                />
+                <Entypo name="images" size={30} color="white" style={styles.accject} />
+               
                 <Text
                   style={{
                     color: "#fff",
@@ -183,6 +182,7 @@ export default class PRequiestDet extends React.Component {
                     left: -10,
                     top: -83,
                     fontSize: 10,
+                    fontFamily: "Tajawal-Bold",
                   }}
                 >
                   تسليم الطلب
@@ -205,7 +205,7 @@ export default class PRequiestDet extends React.Component {
               styles.inputStyle2,
               {
                 color: "#FEB518",
-                top: "13%",
+                top: "13.5%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -441,11 +441,11 @@ const styles = StyleSheet.create({
   preview: {
     width: 300,
     height: 235,
-    borderColor: "#ccc",
-    borderWidth: 2,
     top: "15%",
     borderRadius: 35,
     alignSelf: "center",
+    resizeMode: "contain",
+
   },
   button: {
     alignItems: "center",
@@ -485,7 +485,6 @@ const styles = StyleSheet.create({
     right: 5,
     top: -85,
     paddingRight: 35,
-    backgroundColor: "#fff",
     fontFamily: "Tajawal-Medium",
   },
   infoCont: {

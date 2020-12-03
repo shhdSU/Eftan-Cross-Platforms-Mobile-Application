@@ -166,7 +166,7 @@ export default class designerPersonalPortfolio extends Component {
 
               elevation: 4,
               // backgroundColor: "white",
-              marginBottom: 30,
+              marginBottom: 43,
               width: 150,
               height: 150,
               // borderRadius: 15,

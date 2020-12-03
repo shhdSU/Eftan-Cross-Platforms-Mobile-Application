@@ -163,11 +163,11 @@ export default class ERequestDet extends React.Component {
               style={[
                 {
                   color: "#fff",
-                  top: "-40%",
-                  left: "42%",
+                  top: "-50%",
+                  left: "38%",
                   fontWeight: "300",
                   fontSize: 20,
-                  fontFamily: "Tajawal-Light",
+                  fontFamily: "Tajawal-Bold",
                 },
               ]}
             >
@@ -201,7 +201,7 @@ export default class ERequestDet extends React.Component {
               styles.inputStyle2,
               {
                 color: "#FEB518",
-                top: "13%",
+                top: "13.5%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -437,11 +437,11 @@ const styles = StyleSheet.create({
   preview: {
     width: 300,
     height: 235,
-    borderColor: "#ccc",
-    borderWidth: 2,
     top: "15%",
     borderRadius: 35,
     alignSelf: "center",
+    resizeMode: "contain",
+
   },
   button: {
     alignItems: "center",

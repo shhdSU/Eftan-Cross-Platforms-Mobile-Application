@@ -10,6 +10,7 @@ import * as React from "react";
 import Svg, { Path, G, Circle } from "react-native-svg";
 import firebase from "../database/firebase";
 import Notify from "./sendNotification";
+import { Foundation ,AntDesign  } from "@expo/vector-icons";
 export default class WRequiestDet extends React.Component {
   constructor(props) {
     super();
@@ -251,11 +252,11 @@ export default class WRequiestDet extends React.Component {
               style={[
                 {
                   color: "#fff",
-                  top: "-40%",
-                  left: "42%",
+                  top: "-50%",
+                  left: "38%",
                   fontWeight: "300",
                   fontSize: 20,
-                  fontFamily: "Tajawal-Light",
+                  fontFamily: "Tajawal-Bold",
                 },
               ]}
             >
@@ -296,10 +297,8 @@ export default class WRequiestDet extends React.Component {
                   )
                 }
               >
-                <Image
-                  style={styles.accject}
-                  source={require("../assets/accept.png")}
-                />
+                <AntDesign name="check" size={40} color="#5aa469"  style={styles.accject}/>
+                
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -326,10 +325,10 @@ export default class WRequiestDet extends React.Component {
                   )
                 }
               >
-                <Image
-                  style={(styles.accject, { left: -240, top: -76 })}
-                  source={require("../assets/reject.png")}
-                />
+
+<AntDesign name="close" size={40} color="#f05454"style={(styles.accject, { left: -233, top: -80 })} />
+             
+                
               </TouchableOpacity>
             </View>
           </View>
@@ -348,7 +347,7 @@ export default class WRequiestDet extends React.Component {
               styles.inputStyle2,
               {
                 color: "#FEB518",
-                top: "13%",
+                top: "13.5%",
                 right: "-23.5%",
                 fontWeight: "700",
                 backgroundColor: "#fff",
@@ -584,11 +583,11 @@ const styles = StyleSheet.create({
   preview: {
     width: 300,
     height: 235,
-    borderColor: "#ccc",
-    borderWidth: 2,
     top: "15%",
     borderRadius: 35,
     alignSelf: "center",
+    resizeMode: "contain",
+
   },
   button: {
     alignItems: "center",
@@ -625,10 +624,8 @@ const styles = StyleSheet.create({
   accject: {
     width: 34,
     height: 35,
-    right: 20,
-    top: -75,
-    paddingRight: 35,
-    backgroundColor: "#fff",
+    top: -80,
+    right: 15,
   },
   infoCont: {
     backgroundColor: "#4F3C75",
